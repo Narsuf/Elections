@@ -1,0 +1,42 @@
+{
+  "institution": {
+    "name": "Parlamento",
+    "electName": "Escaños",
+    "totalElects": 59,
+    "place": "Islas Baleares",
+    "year": 2007
+  },
+  "votes": {
+    "counted": 420941,
+    "abstentions": 273708,
+    "null": 2497,
+    "blank": 8613,
+    "scrutinized": 100
+  },
+  "parties": [
+    {
+      "name": "PP",
+      "elects": 29,
+      "nVotes": 194372,
+      "color": "#006EC7"
+    },
+    {
+      "name": "PSOE",
+      "elects": 23,
+      "nVotes": 137863,
+      "color": "#E20025"
+    },
+    {
+      "name": "BPM",
+      "elects": 4,
+      "nVotes": 37572,
+      "color": "#C9D301"
+    },
+    {
+      "name": "UM",
+      "elects": 3,
+      "nVotes": 28178,
+      "color": "#F87E00"
+    }
+  ]
+}

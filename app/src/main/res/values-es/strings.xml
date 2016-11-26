@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Elecciones</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="congress">Congreso</string>
+    <string name="senate">Senado</string>
+    <string name="change_year">Cambiar año</string>
+    <string name="show_historical">Mostrar histórico</string>
+    <string name="general">Generales</string>
+    <string name="regional">Autonómicas</string>
+    <string name="local">Municipales</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="party">Partido</string>
+    <string name="votes">Votos</string>
+    <string name="votesP">Votos (%)</string>
+    <string name="elects">Escaños</string>
+    <string name="close">Cerrar</string>
+    <string name="scrutinized">Esctrutado: </string>
+    <string name="electGenerales">Escaños totales: </string>
+    <string name="countedVotes">Votos contabilizados: </string>
+    <string name="abstentions">Abstenciones: </string>
+    <string name="nullVotes">Votos nulos: </string>
+    <string name="blankVotes">Votos en blanco: </string>
+</resources>

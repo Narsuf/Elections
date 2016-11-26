@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/menu/menu_change_year.xml",
+        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/menu/menu_change_year.xml"
+    },
+    {
+        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/menu/menu_congress_senate.xml",
+        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/menu/menu_congress_senate.xml"
+    },
+    {
+        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/menu/menu_show_historical.xml",
+        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/menu/menu_show_historical.xml"
+    }
+]

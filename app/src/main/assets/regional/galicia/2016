@@ -1,0 +1,42 @@
+{
+  "institution": {
+    "electName":"Escaños",
+    "year":2016,
+    "totalElects":75,
+    "name":"Parlamento",
+    "place":"Galicia"
+  },
+  "votes": {
+    "blank":13960,
+    "scrutinized":100,
+    "null":14486,
+    "counted":1438054,
+    "abstentions":817702
+  },
+  "parties": [
+    {
+      "color":"#006EC7",
+      "name":"PP",
+      "elects":41,
+      "nVotes":676676
+    },
+    {
+      "color":"#26398f",
+      "name":"EN MAREA",
+      "elects":14,
+      "nVotes":271418
+    },
+    {
+      "color":"#E20025",
+      "name":"PSdeG-PSOE",
+      "elects":14,
+      "nVotes":254552
+    },
+    {
+      "color":"#6F9AD1",
+      "name":"BNG",
+      "elects":6,
+      "nVotes":118982
+    }
+  ]
+}

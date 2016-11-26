@@ -1,0 +1,138 @@
+{
+    "institution": {
+        "electName": "Escaños",
+        "year": 1977,
+        "totalElects": 248,
+        "name": "Senado",
+        "place": "España"
+    },
+    "parties": [
+        {
+            "color": "#FF6815",
+            "name": "UCD",
+            "elects": 106,
+            "nVotes": 0
+        },
+        {
+            "color": "#E20025",
+            "name": "PSOE",
+            "elects": 47,
+            "nVotes": 0
+        },
+        {
+            "color": "#C8C8C5",
+            "name": "Sen. por designación real",
+            "elects": 41,
+            "nVotes": 0
+        },
+        {
+            "color": "#C8C8C6",
+            "name": "Independ.",
+            "elects": 19,
+            "nVotes": 0
+        },
+        {
+            "color": "#DC0C00",
+            "name": "ID",
+            "elects": 5,
+            "nVotes": 0
+        },
+        {
+            "color": "#C91B18",
+            "name": "PSUC",
+            "elects": 4,
+            "nVotes": 0
+        },
+        {
+            "color": "#E73B39",
+            "name": "Socialistas catalanes",
+            "elects": 4,
+            "nVotes": 0
+        },
+        {
+            "color": "#8b0000",
+            "name": "PSP",
+            "elects": 4,
+            "nVotes": 0
+        },
+        {
+            "color": "#123E30",
+            "name": "PNV",
+            "elects": 4,
+            "nVotes": 0
+        },
+        {
+            "color": "#FF0000",
+            "name": "PSC-C",
+            "elects": 3,
+            "nVotes": 0
+        },
+        {
+            "color": "#00447B",
+            "name": "CDC",
+            "elects": 2,
+            "nVotes": 0
+        },
+        {
+            "color": "#FFCC00",
+            "name": "AP",
+            "elects": 2,
+            "nVotes": 0
+        },
+        {
+            "color": "#99FF00",
+            "name": "AL",
+            "elects": 2,
+            "nVotes": 0
+        },
+        {
+          "color": "#BF1623",
+          "name": "PCE",
+          "elects": 1,
+          "nVotes": 0  
+        },
+        {
+          "color": "#FFB319",
+          "name": "ERC",
+          "elects": 1,
+          "nVotes": 0  
+        },
+        {
+            "color": "#FF0000",
+            "name": "ESEI",
+            "elects": 1,
+            "nVotes": 0
+        },
+        {
+            "color": "#000000",
+            "name": "EE",
+            "elects": 1,
+            "nVotes": 0
+        },
+        {
+            "color": "#FFA500",
+            "name": "CAIC",
+            "elects": 1,
+            "nVotes": 0
+        },
+        {
+            "color": "#DDDDDD",
+            "name": "AM",
+            "elects": 1,
+            "nVotes": 0
+        },
+        {
+            "color": "#C8C8C6",
+            "name": "CIC",
+            "elects": 1,
+            "nVotes": 0
+        }
+    ],
+    "votes": {
+        "blank": 259613,
+        "scrutinized": 100,
+        "null": 507434,
+        "counted": 18096422,
+        "abstentions": 8740068
+    }
+}

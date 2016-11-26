@@ -1,0 +1,36 @@
+{
+    "institution": {
+        "electName": "Escaños",
+        "year": 2000,
+        "totalElects": 350,
+        "name": "Congreso",
+        "place": "España"
+    },
+    "parties": [
+        {
+            "color": "#006EC7",
+            "name": "PP",
+            "elects": 183,
+            "nVotes": 10321178
+        },
+        {
+            "color": "#E20025",
+            "name": "PSOE-PROGR.",
+            "elects": 125,
+            "nVotes": 7918752
+        },
+        {
+            "color": "#00B37C",
+            "name": "IU",
+            "elects": 8,
+            "nVotes": 1263043
+        }
+    ],
+    "votes": {
+        "blank": 366823,
+        "scrutinized": 100,
+        "null": 158200,
+        "counted": 23339490,
+        "abstentions": 10630150
+    }
+}

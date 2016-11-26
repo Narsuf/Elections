@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="region_flags">
+        <item>@mipmap/ic_andalucia</item>
+        <item>@mipmap/ic_aragon</item>
+        <item>@mipmap/ic_asturias</item>
+        <item>@mipmap/ic_baleares</item>
+        <item>@mipmap/ic_canarias</item>
+        <item>@mipmap/ic_cantabria</item>
+        <item>@mipmap/ic_castilla_la_mancha</item>
+        <item>@mipmap/ic_castilla_leon</item>
+        <item>@mipmap/ic_catalonia</item>
+        <item>@mipmap/ic_extremadura</item>
+        <item>@mipmap/ic_galicia</item>
+        <item>@mipmap/ic_rioja</item>
+        <item>@mipmap/ic_mmadrid</item>
+        <item>@mipmap/ic_mmurcia</item>
+        <item>@mipmap/ic_navarra</item>
+        <item>@mipmap/ic_valencia</item>
+        <item>@mipmap/ic_euskadi</item>
+        <item>@mipmap/ic_ceuta</item>
+        <item>@mipmap/ic_melilla</item>
+    </array>
+    <array name="local_flags">
+        <item>@mipmap/ic_madrid</item>
+        <item>@mipmap/ic_barcelona</item>
+        <item>@mipmap/ic_valencia</item>
+        <item>@mipmap/ic_sevilla</item>
+        <item>@mipmap/ic_zaragoza</item>
+        <item>@mipmap/ic_malaga</item>
+        <item>@mipmap/ic_murcia</item>
+        <item>@mipmap/ic_mallorca</item>
+        <item>@mipmap/ic_palmas</item>
+        <item>@mipmap/ic_bilbao</item>
+        <item>@mipmap/ic_alicante</item>
+        <item>@mipmap/ic_cordoba</item>
+        <item>@mipmap/ic_valladolid</item>
+        <item>@mipmap/ic_vigo</item>
+        <item>@mipmap/ic_gijon</item>
+    </array>
+    <string-array name="region_names">
+        <item>Andalucía</item>
+        <item>Aragón</item>
+        <item>Principado de Asturias</item>
+        <item>Islas Baleares</item>
+        <item>Canarias</item>
+        <item>Cantabria</item>
+        <item>Castilla-La Mancha</item>
+        <item>Castilla y León</item>
+        <item>Cataluña</item>
+        <item>Extremadura</item>
+        <item>Galicia</item>
+        <item>La Rioja</item>
+        <item>Comunidad de Madrid</item>
+        <item>Región de Murcia</item>
+        <item>Comunidad Foral de Navarra</item>
+        <item>Comunidad Valenciana</item>
+        <item>País Vasco</item>
+        <item>Ceuta</item>
+        <item>Melilla</item>
+    </string-array>
+    <string-array name="local_names">
+        <item>Madrid</item>
+        <item>Barcelona</item>
+        <item>Valencia</item>
+        <item>Sevilla</item>
+        <item>Zaragoza</item>
+        <item>Málaga</item>
+        <item>Murcia</item>
+        <item>Palma de Mallorca</item>
+        <item>Las Palmas de Gran Canaria</item>
+        <item>Bilbao</item>
+        <item>Alicante</item>
+        <item>Córdoba</item>
+        <item>Valladolid</item>
+        <item>Vigo</item>
+        <item>Gijón</item>
+    </string-array>
+    <string-array name="region_paths">
+        <item>andalucia</item>
+        <item>aragon</item>
+        <item>asturias</item>
+        <item>baleares</item>
+        <item>canarias</item>
+        <item>cantabria</item>
+        <item>castilla_Mancha</item>
+        <item>castilla_leon</item>
+        <item>catalunya</item>
+        <item>extremadura</item>
+        <item>galicia</item>
+        <item>rioja</item>
+        <item>madrid</item>
+        <item>murcia</item>
+        <item>navarra</item>
+        <item>valencia</item>
+        <item>euskadi</item>
+        <item>ceuta</item>
+        <item>melilla</item>
+    </string-array>
+    <string-array name="local_paths">
+        <item>madrid</item>
+        <item>barcelona</item>
+        <item>valencia</item>
+        <item>sevilla</item>
+        <item>zaragoza</item>
+        <item>malaga</item>
+        <item>murcia</item>
+        <item>mallorca</item>
+        <item>palmas</item>
+        <item>bilbao</item>
+        <item>alicante</item>
+        <item>cordoba</item>
+        <item>valladolid</item>
+        <item>vigo</item>
+        <item>gijon</item>
+    </string-array>
+    <string-array name="general_paths">
+        <item>2016</item>
+        <item>2015</item>
+        <item>2011</item>
+        <item>2008</item>
+        <item>2004</item>
+        <item>2000</item>
+        <item>1996</item>
+        <item>1993</item>
+        <item>1989</item>
+        <item>1986</item>
+        <item>1982</item>
+        <item>1979</item>
+        <item>1977</item>
+    </string-array>
+    <string-array name="item_list_general">
+        <item>General 2016</item>
+        <item>General 2015</item>
+        <item>General 2011</item>
+        <item>General 2008</item>
+        <item>General 2004</item>
+        <item>General 2000</item>
+        <item>General 1996</item>
+        <item>General 1993</item>
+        <item>General 1989</item>
+        <item>General 1986</item>
+        <item>General 1982</item>
+        <item>General 1979</item>
+        <item>General 1977</item>
+    </string-array>
+</resources>

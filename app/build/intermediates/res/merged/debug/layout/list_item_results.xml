@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="@dimen/width_textview_party_color"
+        android:layout_height="@dimen/height_textview_party_color"
+        android:text=""
+        android:layout_marginTop="@dimen/margintop_textview_party_color"
+        android:id="@+id/tvPartyColor" />
+
+    <TextView
+        android:layout_width="@dimen/width_textview_party_name"
+        android:layout_height="@dimen/height_list_item"
+        android:text=""
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:gravity="center|start"
+        android:layout_toRightOf="@id/tvPartyColor"
+        android:id="@+id/tvPartyName" />
+
+    <TextView
+        android:layout_width="@dimen/width_textview_number_votes"
+        android:layout_height="@dimen/height_list_item"
+        android:text=""
+        android:gravity="center|end"
+        android:layout_toRightOf="@id/tvPartyName"
+        android:id="@+id/tvNumberVotes" />
+
+    <TextView
+        android:layout_width="@dimen/width_textview_number_votesp"
+        android:layout_height="@dimen/height_list_item"
+        android:layout_marginLeft="@dimen/marginleft_textview_number_votesp"
+        android:text=""
+        android:gravity="center|end"
+        android:layout_toRightOf="@id/tvNumberVotes"
+        android:id="@+id/tvVotesP" />
+
+    <TextView
+        android:layout_width="@dimen/width_textview_number_elects"
+        android:layout_height="@dimen/height_list_item"
+        android:text=""
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tvElects" />
+
+</RelativeLayout>

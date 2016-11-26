@@ -1,0 +1,42 @@
+{
+  "institution": {
+    "name": "Congreso",
+    "electName": "Escaños",
+    "totalElects": 350,
+    "place": "España",
+    "year": 2016
+  },
+  "votes": {
+    "counted": 24161083,
+    "abstentions": 10435955,
+    "null": 225888,
+    "blank": 178521,
+    "scrutinized": 100
+  },
+  "parties": [
+    {
+      "name": "PP",
+      "elects": 137,
+      "nVotes": 7906185,
+      "color": "#006EC7"
+    },
+    {
+      "name": "PSOE",
+      "elects": 85,
+      "nVotes": 5424709,
+      "color": "#E20025"
+    },
+    {
+      "name": "UNIDOS PODEMOS",
+      "elects": 71,
+      "nVotes": 5049734,
+      "color": "#672f6c"
+    },
+    {
+      "name": "C's",
+      "elects": 32,
+      "nVotes": 3123769,
+      "color": "#EB6109"
+    }
+  ]
+}

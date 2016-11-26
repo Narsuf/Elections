@@ -1,0 +1,37 @@
+{
+  "institution": {
+    "name": "Parlamento",
+    "electName": "Escaños",
+    "totalElects": 109,
+    "place": "Andalucía",
+    "year": 2012
+  },
+  "votes": {
+    "counted": 3876780,
+    "abstentions": 2352973,
+    "null": 22369,
+    "blank": 35048,
+    "scrutinized": 100
+  },
+  "parties": [
+    {
+      "name": "PP",
+      "elects": 50,
+      "nVotes": 1567207,
+      "color": "#006EC7"
+    },
+    {
+      "name": "PSOE-A",
+      "elects": 47,
+      "nVotes": 1523465,
+      "color": "#E20025"
+    },
+
+    {
+      "name": "IULV-CA",
+      "elects": 12,
+      "nVotes": 437445,
+      "color": "#00B37C"
+    }
+  ]
+}

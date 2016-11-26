@@ -1,0 +1,48 @@
+{
+  "institution": {
+    "electName": "Escaños",
+    "year": 2007,
+    "totalElects": 50,
+    "name": "Parlamento",
+    "place": "Navarra"
+  },
+  "parties": [
+    {
+      "color": "#0065A6",
+      "name": "UPN",
+      "elects": 22,
+      "nVotes": 139122
+    },
+    {
+      "color": "#D42D11",
+      "name": "NA-BAI",
+      "elects": 12,
+      "nVotes": 77893
+    },
+    {
+      "color": "#E20025",
+      "name": "PSN-PSOE",
+      "elects": 12,
+      "nVotes": 74157
+    },
+    {
+      "color": "#842536",
+      "name": "CDN",
+      "elects": 2,
+      "nVotes": 14418
+    },
+    {
+      "color": "#AF274F",
+      "name": "IUN-NEB",
+      "elects": 2,
+      "nVotes": 14337
+    }
+  ],
+  "votes": {
+    "blank": 4580,
+    "scrutinized": 100,
+    "null": 18096,
+    "counted": 347851,
+    "abstentions": 123796
+  }
+}

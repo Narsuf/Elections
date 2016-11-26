@@ -1,0 +1,54 @@
+{
+  "institution": {
+    "electName": "Escaños",
+    "year": 2011,
+    "totalElects": 50,
+    "name": "Parlamento",
+    "place": "Navarra"
+  },
+  "parties": [
+    {
+      "color": "#0065A6",
+      "name": "UPN",
+      "elects": 19,
+      "nVotes": 111278
+    },
+    {
+      "color": "#E20025",
+      "name": "PSN-PSOE",
+      "elects": 9,
+      "nVotes": 51054
+    },
+    {
+      "color": "#D42D11",
+      "name": "NA-BAI2011",
+      "elects": 8,
+      "nVotes": 49768
+    },
+    {
+      "color": "#468B07",
+      "name": "BILDU",
+      "elects": 7,
+      "nVotes": 42839
+    },
+    {
+      "color": "#006EC7",
+      "name": "PP",
+      "elects": 4,
+      "nVotes": 23449
+    },
+    {
+      "color": "#AF274F",
+      "name": "IZQ-EZK",
+      "elects": 3,
+      "nVotes": 18409
+    }
+  ],
+  "votes": {
+    "blank": 8151,
+    "scrutinized": 100,
+    "null": 4039,
+    "counted": 326561,
+    "abstentions": 141655
+  }
+}

@@ -1,0 +1,7 @@
+#Sat Nov 26 17:18:44 CET 2016
+base.0=/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_2ac4f820361cf648f7fd4d70fba319761e908ea9
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_da54398259d50919bbd63add6c4d91b92e913b11/classes.dex
+base.1=/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_da54398259d50919bbd63add6c4d91b92e913b11
+file.0=/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_2ac4f820361cf648f7fd4d70fba319761e908ea9/classes.dex

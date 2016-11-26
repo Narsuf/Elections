@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="@dimen/colored_square_size"
+            android:layout_height="@dimen/colored_square_size"
+            android:text=""
+            android:layout_centerVertical="true"
+            android:id="@+id/tvPartyColorHistoric" />
+
+        <TextView
+            android:layout_width="@dimen/width_textview_historic"
+            android:layout_height="@dimen/height_textview_historic"
+            android:text=""
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:gravity="center|start"
+            android:layout_toRightOf="@id/tvPartyColorHistoric"
+            android:id="@+id/tvPartyNameHistoric" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
