@@ -52,12 +52,12 @@
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-hdpi/ic_navarra.png"
     },
     {
-        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-hdpi/ic_mallorca.png",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-hdpi/ic_mallorca.png"
-    },
-    {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-hdpi/ic_galicia.png",
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-hdpi/ic_galicia.png"
+    },
+    {
+        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-hdpi/ic_mallorca.png",
+        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-hdpi/ic_mallorca.png"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-hdpi/ic_launcher.png",

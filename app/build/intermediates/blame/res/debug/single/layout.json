@@ -276,12 +276,12 @@
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/layout/abc_search_view.xml"
     },
     {
-        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/layout/abc_screen_toolbar.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/layout/abc_screen_toolbar.xml"
-    },
-    {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/layout/fragment_regional.xml",
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/layout/fragment_regional.xml"
+    },
+    {
+        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/layout/abc_screen_toolbar.xml",
+        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/layout/abc_screen_toolbar.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/layout/notification_template_icon_group.xml",
