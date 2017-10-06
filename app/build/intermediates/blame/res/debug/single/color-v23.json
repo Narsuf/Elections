@@ -1,42 +1,42 @@
 [
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/abc_tint_btn_checkable.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color-v23/abc_tint_btn_checkable.xml"
+        "source": "/home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/res/color-v23/abc_tint_btn_checkable.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/abc_tint_edittext.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color-v23/abc_tint_edittext.xml"
+        "source": "/home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/res/color-v23/abc_tint_edittext.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_track.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color-v23/abc_tint_switch_track.xml"
+        "source": "/home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/res/color-v23/abc_tint_switch_track.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/abc_tint_default.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color-v23/abc_tint_default.xml"
+        "source": "/home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/res/color-v23/abc_tint_default.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_borderless_text_material.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color-v23/abc_btn_colored_borderless_text_material.xml"
+        "source": "/home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/res/color-v23/abc_btn_colored_borderless_text_material.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_thumb.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color-v23/abc_tint_switch_thumb.xml"
+        "source": "/home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/res/color-v23/abc_tint_switch_thumb.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/abc_tint_seek_thumb.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color-v23/abc_tint_seek_thumb.xml"
+        "source": "/home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/res/color-v23/abc_tint_seek_thumb.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/design_tint_password_toggle.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/res/color-v23/design_tint_password_toggle.xml"
+        "source": "/home/jorge/.android/build-cache/069b2f870f7bdab52c06f262d313958d3a6970ac/output/res/color-v23/design_tint_password_toggle.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/abc_tint_spinner.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color-v23/abc_tint_spinner.xml"
+        "source": "/home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/res/color-v23/abc_tint_spinner.xml"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/color-v23/abc_color_highlight_material.xml",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color-v23/abc_color_highlight_material.xml"
+        "source": "/home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/res/color-v23/abc_color_highlight_material.xml"
     }
 ]

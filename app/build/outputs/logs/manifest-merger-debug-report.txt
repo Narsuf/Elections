@@ -15,17 +15,17 @@ ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManif
 		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
 application
 ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:5:5-26:19
-MERGED from [com.android.support:design:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:appcompat-v7:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:transition:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.0/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.0/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-fragment:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-compat:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:design:25.0.0] /home/jorge/.android/build-cache/069b2f870f7bdab52c06f262d313958d3a6970ac/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:25.0.0] /home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.0.0] /home/jorge/.android/build-cache/6bea89ba06fd30c72820128414e04307140324d8/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.0.0] /home/jorge/.android/build-cache/934817b62833e674bc78a2b27956286bbf0059b8/output/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:transition:25.0.0] /home/jorge/.android/build-cache/ed33c805b7088b18caf454a97664258d562e840f/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:25.0.0] /home/jorge/.android/build-cache/48281324e2655f3aed0f838f64f4818fc7001ad1/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.0.0] /home/jorge/.android/build-cache/2330769589ebad000948712bfa85447f1dff5453/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.0.0] /home/jorge/.android/build-cache/47f3dece6d5176eb7e6906b8ebc6029ce7ae3667/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.0.0] /home/jorge/.android/build-cache/69f8e8ea6628db5fd98983611c97fe08a02b6a31/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.0.0] /home/jorge/.android/build-cache/af07c967d01ac3e27e31cd521d11517dc6e0e922/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:25.0.0] /home/jorge/.android/build-cache/0f4287f917a04ab8b4f5ad8d4e2d15970c47315b/output/AndroidManifest.xml:25:5-20
 	android:label
 		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:8:9-41
 	android:supportsRtl
@@ -64,20 +64,20 @@ ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManif
 		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:22:13-41
 uses-sdk
 INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-MERGED from [com.android.support:design:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/AndroidManifest.xml:21:5-23:62
-MERGED from [com.android.support:appcompat-v7:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:animated-vector-drawable:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:recyclerview-v7:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.0/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:transition:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.0/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.0/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-fragment:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-media-compat:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-ui:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-core-utils:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-compat:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:design:25.0.0] /home/jorge/.android/build-cache/069b2f870f7bdab52c06f262d313958d3a6970ac/output/AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:appcompat-v7:25.0.0] /home/jorge/.android/build-cache/600dd200ac4166d2afb6934b58c3b928446ce4c5/output/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:25.0.0] /home/jorge/.android/build-cache/6bea89ba06fd30c72820128414e04307140324d8/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.0.0] /home/jorge/.android/build-cache/934817b62833e674bc78a2b27956286bbf0059b8/output/AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:recyclerview-v7:25.0.0] /home/jorge/.android/build-cache/228c3e72ce21a3019d38df2518ac95126ddd0d83/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:transition:25.0.0] /home/jorge/.android/build-cache/ed33c805b7088b18caf454a97664258d562e840f/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:25.0.0] /home/jorge/.android/build-cache/48281324e2655f3aed0f838f64f4818fc7001ad1/output/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.0.0] /home/jorge/.android/build-cache/2330769589ebad000948712bfa85447f1dff5453/output/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.0.0] /home/jorge/.android/build-cache/47f3dece6d5176eb7e6906b8ebc6029ce7ae3667/output/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.0.0] /home/jorge/.android/build-cache/69f8e8ea6628db5fd98983611c97fe08a02b6a31/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.0.0] /home/jorge/.android/build-cache/af07c967d01ac3e27e31cd521d11517dc6e0e922/output/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:25.0.0] /home/jorge/.android/build-cache/0f4287f917a04ab8b4f5ad8d4e2d15970c47315b/output/AndroidManifest.xml:21:5-23:58
 	tools:overrideLibrary
-		ADDED from [com.android.support:design:25.0.0] /home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/AndroidManifest.xml:23:9-59
+		ADDED from [com.android.support:design:25.0.0] /home/jorge/.android/build-cache/069b2f870f7bdab52c06f262d313958d3a6970ac/output/AndroidManifest.xml:23:9-59
 	android:targetSdkVersion
 		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
 		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml

@@ -112,24 +112,24 @@
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xxxhdpi/ic_bilbao.png"
     },
     {
-        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_castilla_la_mancha.png",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xxxhdpi/ic_castilla_la_mancha.png"
-    },
-    {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_baleares.png",
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xxxhdpi/ic_baleares.png"
+    },
+    {
+        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_castilla_la_mancha.png",
+        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xxxhdpi/ic_castilla_la_mancha.png"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_gijon.png",
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xxxhdpi/ic_gijon.png"
     },
     {
-        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_galicia.png",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xxxhdpi/ic_galicia.png"
-    },
-    {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_castilla_leon.png",
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xxxhdpi/ic_castilla_leon.png"
+    },
+    {
+        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_galicia.png",
+        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xxxhdpi/ic_galicia.png"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_navarra.png",

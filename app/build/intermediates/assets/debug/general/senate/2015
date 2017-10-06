@@ -1,0 +1,90 @@
+{
+  "institution": {
+    "name": "Senado",
+    "electName": "Escaños",
+    "totalElects": 208,
+    "place": "España",
+    "year": 2015
+  },
+  "votes": {
+    "counted": 24867744,
+    "abstentions": 9730667,
+    "null": 800853,
+    "blank": 978313,
+    "scrutinized": 99.9
+  },
+  "parties": [
+    {
+      "name": "PP",
+      "elects": 124,
+      "nVotes": 0,
+      "color": "#006EC7"
+    },
+    {
+      "name": "PSOE",
+      "elects": 47,
+      "nVotes": 0,
+      "color": "#E20025"
+    },
+    {
+      "name": "PODEMOS",
+      "elects": 9,
+      "nVotes": 0,
+      "color": "#672f6c"
+    },
+    {
+      "name": "EN COMÚ",
+      "elects": 4,
+      "nVotes": 0,
+      "color": "#A54290"
+    },
+    {
+      "name": "PODEMOS-COMPROMÍS",
+      "elects": 1,
+      "nVotes": 0,
+      "color": "#874E77"
+    },
+    {
+      "name": "PODEMOS-En Marea-ANOVA-EU",
+      "elects": 2,
+      "nVotes": 0,
+      "color": "#785DC1"
+    },
+    {
+      "name": "CAMBIO-ALDAKETA",
+      "elects": 1,
+      "nVotes": 0,
+      "color": "#F0497E"
+    },
+    {
+      "name": "ERC-CATSI",
+      "elects": 6,
+      "nVotes": 0,
+      "color": "#FFB319"
+    },
+    {
+      "name": "DL",
+      "elects": 6,
+      "nVotes": 0,
+      "color": "#2F1E6D"
+    },
+    {
+      "name": "EAJ-PNV",
+      "elects": 6,
+      "nVotes": 0,
+      "color": "#123E30"
+    },
+    {
+      "name": "CCa-PNC",
+      "elects": 1,
+      "nVotes": 0,
+      "color": "#FEE940"
+    },
+    {
+      "name": "ASG",
+      "elects": 1,
+      "nVotes": 0,
+      "color": "#D11816"
+    }
+  ]
+}

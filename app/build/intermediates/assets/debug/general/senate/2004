@@ -1,0 +1,54 @@
+{
+  "institution": {
+    "name": "Senado",
+    "electName": "Escaños",
+    "totalElects": 208,
+    "place": "España",
+    "year": 2004
+  },
+  "votes": {
+    "counted": 26187162,
+    "abstentions": 8384669,
+    "null": 761055,
+    "blank": 679816,
+    "scrutinized": 100
+  },
+  "parties": [
+    {
+      "name": "PP",
+      "elects": 102,
+      "nVotes": 0,
+      "color": "#006EC7"
+    },
+    {
+      "name": "PSOE",
+      "elects": 81,
+      "nVotes": 0,
+      "color": "#E20025"
+    },
+    {
+      "name": "PSC-ERC-ICV",
+      "elects": 12,
+      "nVotes": 0,
+      "color": "#E73B39"
+    },
+    {
+      "name": "EAJ-PNV",
+      "elects": 6,
+      "nVotes": 0,
+      "color": "#123E30"
+    },
+    {
+      "name": "CIU",
+      "elects": 4,
+      "nVotes": 0,
+      "color": "#2F1E6D"
+    },
+    {
+      "name": "CC",
+      "elects": 3,
+      "nVotes": 0,
+      "color": "#FEE940"
+    }
+  ]
+}

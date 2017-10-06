@@ -1,0 +1,37 @@
+{
+  "institution": {
+    "name": "Parlamento",
+    "electName": "Escaños",
+    "totalElects": 60,
+    "place": "Canarias",
+    "year": 2007
+  },
+  "votes": {
+    "counted": 940852,
+    "abstentions": 594851,
+    "null": 5392,
+    "blank": 13237,
+    "scrutinized": 100
+  },
+  "parties": [
+    {
+      "name": "PSOE",
+      "elects": 26,
+      "nVotes": 322833,
+      "color": "#E20025"
+    },
+    {
+      "name": "CC",
+      "elects": 19,
+      "nVotes": 225878,
+      "color": "#FEE940"
+
+    },
+    {
+      "name": "PP",
+      "elects": 15,
+      "nVotes": 224883 ,
+      "color": "#006EC7"
+    }
+  ]
+}

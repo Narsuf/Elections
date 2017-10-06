@@ -1,0 +1,84 @@
+{
+  "institution": {
+    "name": "Senado",
+    "electName": "Escaños",
+    "totalElects": 208,
+    "place": "España",
+    "year": 2016
+  },
+  "votes": {
+    "counted": 23799958,
+    "abstentions": 10676844,
+    "null": 603536,
+    "blank": 562688,
+    "scrutinized": 99.65
+  },
+  "parties": [
+    {
+      "name": "PP",
+      "elects": 130,
+      "nVotes": 0,
+      "color": "#006EC7"
+    },
+    {
+      "name": "PSOE",
+      "elects": 43,
+      "nVotes": 0,
+      "color": "#E20025"
+    },
+    {
+      "name": "UNIDOS PODEMOS",
+      "elects": 8,
+      "nVotes": 0,
+      "color": "#672f6c"
+    },
+    {
+      "name": "EN COMÚ",
+      "elects": 4,
+      "nVotes": 0,
+      "color": "#A54290"
+    },
+    {
+      "name": "PODEMOS-COMPROMÍS-EUPV",
+      "elects": 3,
+      "nVotes": 0,
+      "color": "#874E77"
+    },
+    {
+      "name": "PODEMOS-En Marea-ANOVA-EU",
+      "elects": 1,
+      "nVotes": 0,
+      "color": "#785DC1"
+    },
+    {
+      "name": "ERC-CATSI",
+      "elects": 10,
+      "nVotes": 0,
+      "color": "#FFB319"
+    },
+    {
+      "name": "CDC",
+      "elects": 2,
+      "nVotes": 0,
+      "color": "#2F1E6D"
+    },
+    {
+      "name": "EAJ-PNV",
+      "elects": 5,
+      "nVotes": 0,
+      "color": "#123E30"
+    },
+    {
+      "name": "CCa-PNC",
+      "elects": 1,
+      "nVotes": 0,
+      "color": "#FEE940"
+    },
+    {
+      "name": "ASG",
+      "elects": 1,
+      "nVotes": 0,
+      "color": "#D11816"
+    }
+  ]
+}

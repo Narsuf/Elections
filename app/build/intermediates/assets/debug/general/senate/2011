@@ -1,0 +1,60 @@
+{
+  "institution": {
+    "name": "Senado",
+    "electName": "Escaños",
+    "totalElects": 208,
+    "place": "España",
+    "year": 2011
+  },
+  "votes": {
+    "counted": 24411187,
+    "abstentions": 9889354,
+    "null": 904675,
+    "blank": 1263120,
+    "scrutinized": 100
+  },
+  "parties": [
+    {
+      "name": "PP",
+      "elects": 136,
+      "nVotes": 0,
+      "color": "#006EC7"
+    },
+    {
+      "name": "PSOE",
+      "elects": 48,
+      "nVotes": 0,
+      "color": "#E20025"
+    },
+    {
+      "name": "CiU",
+      "elects": 9,
+      "nVotes": 0,
+      "color": "#2F1E6D"
+    },
+    {
+      "name": "PSC (PSC-PSOE)-ICV-EUA",
+      "elects": 7,
+      "nVotes": 0,
+      "color": "#ed0a00"
+    },
+    {
+      "name": "EAJ-PNV",
+      "elects": 4,
+      "nVotes": 0,
+      "color": "#123E30"
+    },
+    {
+      "name": "AMAIUR",
+      "elects": 3,
+      "nVotes": 0,
+      "color": "#118F9E"
+    },
+    {
+      "name": "CC-NC-PNC",
+      "elects": 1,
+      "nVotes": 0,
+      "color": "#FEE940"
+    }
+  ]
+}

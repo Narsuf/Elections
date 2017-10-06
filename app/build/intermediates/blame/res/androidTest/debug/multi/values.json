@@ -11,7 +11,7 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/exploded-aar/com.android.support.test/rules/0.5/res/values/values.xml",
+                    "file": "/home/jorge/.android/build-cache/5a2c42e78d07bbec51a227a6985837458c9c2d65/output/res/values/values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

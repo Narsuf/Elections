@@ -1,0 +1,43 @@
+{
+  "institution": {
+    "electName":"Escaños",
+    "year":2008,
+    "totalElects":350,
+    "name":"Congreso",
+    "place":"Total España"
+  },
+  "parties": [
+    {
+      "color":"#E20025",
+      "name":"PSOE",
+      "elects":169,
+      "nVotes":11289335
+    },
+    {
+      "color":"#006EC7",
+      "name":"PP",
+      "elects":154,
+      "nVotes":10278010
+    },
+    {
+      "color":"#00B37C",
+      "name":"IU",
+      "elects":2,
+      "nVotes":969946
+    },
+    {
+      "color":"#C4017B",
+      "name":"UPyD",
+      "elects":1,
+      "nVotes":306079
+    }
+
+  ],
+  "votes": {
+    "blank":286182,
+    "scrutinized":100,
+    "null":165576,
+    "counted":25900439,
+    "abstentions":9172740
+  }
+}

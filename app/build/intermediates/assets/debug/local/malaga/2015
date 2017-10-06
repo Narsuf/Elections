@@ -1,0 +1,48 @@
+{
+  "institution": {
+    "electName": "Concejales",
+    "year": 2015,
+    "totalElects": 31,
+    "name": "Ayuntamiento",
+    "place": "Málaga"
+  },
+  "parties": [
+    {
+      "color": "#006EC7",
+      "name": "PP",
+      "elects": 13,
+      "nVotes": 83353
+    },
+    {
+      "color": "#E20025",
+      "name": "PSOE-A",
+      "elects": 9,
+      "nVotes": 60048
+    },
+    {
+      "color": "#2C9897",
+      "name": "MalagaAhora",
+      "elects": 4,
+      "nVotes": 30464
+    },
+    {
+      "color": "#EB6109",
+      "name": "C's",
+      "elects": 3,
+      "nVotes": 23708
+    },
+    {
+      "color": "#00B37C",
+      "name": "IULV",
+      "elects": 2,
+      "nVotes": 17050
+    }
+  ],
+  "votes": {
+    "blank": 2368,
+    "scrutinized": 99.47,
+    "null": 1311,
+    "counted": 229872,
+    "abstentions": 193190
+  }
+}

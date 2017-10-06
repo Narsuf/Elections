@@ -16,12 +16,12 @@
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xhdpi/ic_baleares.png"
     },
     {
-        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_sevilla.png",
-        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xhdpi/ic_sevilla.png"
-    },
-    {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_murcia.png",
         "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xhdpi/ic_murcia.png"
+    },
+    {
+        "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_sevilla.png",
+        "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/mipmap-xhdpi/ic_sevilla.png"
     },
     {
         "merged": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/res/merged/debug/mipmap-xhdpi/ic_extremadura.png",
