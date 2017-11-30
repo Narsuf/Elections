@@ -24,7 +24,7 @@ public class FragmentListGeneral extends Fragment {
 
         ListView listOptions = (ListView) v.findViewById(R.id.listView);
         listOptions.setAdapter(adapter);
-        listOptions.setDivider(getResources().getDrawable(R.drawable.general_divider));
+        listOptions.setDivider(null);
 
         listOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
