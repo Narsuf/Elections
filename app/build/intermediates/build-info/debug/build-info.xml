@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
     abi="arm64-v8a,armeabi-v7a,armeabi"
-    api-level="26"
+    api-level="27"
     build-mode="FULL"
     density="560dpi"
     format="10"
     plugin-version="3.0.1"
-    timestamp="1512141915903"
+    timestamp="1518359606603"
     token="-6285342316665850780"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="2175" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="24" />
+        duration="764" />
     <task
         name="verifier"
-        duration="80" />
+        duration="0" />
 
-    <artifact
-        location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
-        type="SPLIT" />
     <artifact
         location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
         type="SPLIT" />
@@ -54,6 +48,12 @@
         location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
         type="SPLIT" />
     <artifact
+        location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
+        type="SPLIT" />
+    <artifact
         location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
         type="SPLIT" />
     <artifact
@@ -62,14 +62,8 @@
 
     <build
         build-mode="FULL"
-        timestamp="1512141915903"
+        timestamp="1518359606603"
         verifier="FULL_BUILD_REQUESTED" >
-        <artifact
-            location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
-            type="SPLIT" />
         <artifact
             location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
             type="SPLIT" />
@@ -93,6 +87,12 @@
             type="SPLIT" />
         <artifact
             location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
         <artifact
             location="/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
