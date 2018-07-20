@@ -69,11 +69,9 @@
                 {
                     "source": "/Users/jorge/Workspace/StudioProjects/Elections/app/src/main/res/values/ic_launcher_background.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "56",
-                        "endOffsets": "107"
+                        "startLines": "-1",
+                        "startColumns": "-1",
+                        "startOffsets": "-1"
                     },
                     "to": {
                         "startLines": "174",
@@ -86,9 +84,11 @@
                 {
                     "source": "/Users/jorge/Workspace/StudioProjects/Elections/app/src/main/res/values/colors.xml",
                     "from": {
-                        "startLines": "-1,-1,-1",
-                        "startColumns": "-1,-1,-1",
-                        "startOffsets": "-1,-1,-1"
+                        "startLines": "-1,2,3",
+                        "startColumns": "-1,4,4",
+                        "startOffsets": "-1,55,102",
+                        "endColumns": "-1,46,50",
+                        "endOffsets": "-1,97,148"
                     },
                     "to": {
                         "startLines": "153,154,155",
