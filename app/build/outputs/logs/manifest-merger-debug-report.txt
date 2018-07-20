@@ -1,137 +1,169 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-29:12
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-29:12
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-29:12
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-29:12
-MERGED from [com.android.support:design:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/design-25.0.0.aar/aa5270bcfec748a4e3f2542a6ec21ac6/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:appcompat-v7:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.0.aar/96e0555b99b1cf6dd6fbf1ea157e72a9/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:transition:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/transition-25.0.0.aar/b4a1262245b8ddfe4315563f37bc2c1e/AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:support-v4:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.0.aar/67b37a02d9178abe806ecd4506752995/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:animated-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.0.aar/f08350822afc8bfb97c61eaacf4071e1/AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:support-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.0.aar/fff47c977a833871c535ba2307f793f8/AndroidManifest.xml:17:1-25:12
-MERGED from [com.android.support:recyclerview-v7:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-25.0.0.aar/5ed40645cc96a427393cbde8b6525ea9/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-fragment:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.0.aar/4825d95c1869a1db9d068b3d433aadaf/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:support-media-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.0.aar/73daabda0e0e92f49e97d701c33a0a55/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:support-core-utils:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.0.aar/3d995aaa15bbd925052f5c4a7482da2d/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:support-core-ui:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.0.aar/13521c55edaa9ddd0141d7ca931536b5/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:support-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.0.aar/db58717fe5bd0981e1788ec4eaec81fe/AndroidManifest.xml:17:1-27:12
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-29:12
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-29:12
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-29:12
+ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-24:12
+MERGED from [com.android.support:design:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/design-28.0.0-alpha3.aar/0e8566e7876889e7d038d6055b1be574/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:appcompat-v7:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-alpha3.aar/10a5dbe2f1c00613056c2b7558fbf839/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/jorge/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/46e6311101e89a418a945ecbde7a8025/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-fragment:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-alpha3.aar/bcfb40761cbfad7466e90888d76a3385/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0-alpha3.aar/8d5aff335780461520c642d846f2361e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-28.0.0-alpha3.aar/cc9a38aba58c4555122ca51d048599c0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0-alpha3.aar/16cad92af6bfa87e4d9386469d06ef7e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0-alpha3.aar/929a079a47cb2ae9d2921aa6675aca2a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0-alpha3.aar/369689b196c5c86f23dd2970a3d4461a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/transition-28.0.0-alpha3.aar/fb65bfde730ea9730fec89a40688c33d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/loader-28.0.0-alpha3.aar/083a5f4ae4312e677687a85bc875eb29/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0-alpha3.aar/85bb1e744241fa41cff84c894d529f0f/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0-alpha3.aar/1afa0d217ebac64b51d4a559c7839492/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0-alpha3.aar/096b4999037e900221713d4eed0b2a6a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0-alpha3.aar/e68395a884b3c5ccf5d5c275ddb7701d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/customview-28.0.0-alpha3.aar/5314e68aed5a98c87bbe7dbb698ce8c5/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0-alpha3.aar/c5015c21be3a10c580e5888b833e6eb3/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0-alpha3.aar/0de4eb95fe637c7ef21676ef17db01f8/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/1b3fb76f39e988a99c033f9072c51232/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:cursoradapter:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0-alpha3.aar/4958346e3ccef2302692f179afe0c8aa/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0-alpha3.aar/1b3ac0dcf97abd0fa6b6de47376fdfe2/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/10b74bf8bc02d1f48d72ce7ce5319bcb/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/40cf5d33e622553b555029ce889c5790/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:documentfile:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0-alpha3.aar/712234bfcf440fdf0b036fc01668ae42/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0-alpha3.aar/dcc88cdd0dd4f7ac659dc2a261e5838f/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/print-28.0.0-alpha3.aar/c8cc6843d4e9ff0ca0025aa57833f739/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/53a2e88497e0f3747e521863e041516c/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0-alpha3.aar/67dc96d14afcb433b09071b9d856bcc1/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/24451308b30ab536d655da3620b593f6/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/50e3271dd276decb06a392557e964f86/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-24:12
 	package
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:3:5-40
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:3:5-40
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-29:12
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-24:12
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-29:12
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:1-24:12
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:2:11-69
 application
-ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:5:5-27:19
-MERGED from [com.android.support:design:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/design-25.0.0.aar/aa5270bcfec748a4e3f2542a6ec21ac6/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:design:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/design-25.0.0.aar/aa5270bcfec748a4e3f2542a6ec21ac6/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:appcompat-v7:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.0.aar/96e0555b99b1cf6dd6fbf1ea157e72a9/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:appcompat-v7:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.0.aar/96e0555b99b1cf6dd6fbf1ea157e72a9/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:transition:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/transition-25.0.0.aar/b4a1262245b8ddfe4315563f37bc2c1e/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:transition:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/transition-25.0.0.aar/b4a1262245b8ddfe4315563f37bc2c1e/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.0.aar/67b37a02d9178abe806ecd4506752995/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.0.aar/67b37a02d9178abe806ecd4506752995/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.0.aar/f08350822afc8bfb97c61eaacf4071e1/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:animated-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.0.aar/f08350822afc8bfb97c61eaacf4071e1/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.0.aar/fff47c977a833871c535ba2307f793f8/AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.0.aar/fff47c977a833871c535ba2307f793f8/AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-fragment:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.0.aar/4825d95c1869a1db9d068b3d433aadaf/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-fragment:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.0.aar/4825d95c1869a1db9d068b3d433aadaf/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.0.aar/73daabda0e0e92f49e97d701c33a0a55/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.0.aar/73daabda0e0e92f49e97d701c33a0a55/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.0.aar/3d995aaa15bbd925052f5c4a7482da2d/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.0.aar/3d995aaa15bbd925052f5c4a7482da2d/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.0.aar/13521c55edaa9ddd0141d7ca931536b5/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.0.aar/13521c55edaa9ddd0141d7ca931536b5/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.0.aar/db58717fe5bd0981e1788ec4eaec81fe/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.0.aar/db58717fe5bd0981e1788ec4eaec81fe/AndroidManifest.xml:25:5-20
+ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:5:5-22:19
+MERGED from [com.android.support:design:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/design-28.0.0-alpha3.aar/0e8566e7876889e7d038d6055b1be574/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/design-28.0.0-alpha3.aar/0e8566e7876889e7d038d6055b1be574/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/jorge/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/46e6311101e89a418a945ecbde7a8025/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/jorge/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/46e6311101e89a418a945ecbde7a8025/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/1b3fb76f39e988a99c033f9072c51232/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/1b3fb76f39e988a99c033f9072c51232/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/40cf5d33e622553b555029ce889c5790/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/40cf5d33e622553b555029ce889c5790/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/1b3fb76f39e988a99c033f9072c51232/AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:9:9-35
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:10:9-35
 	android:label
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:8:9-41
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:8:9-41
+	android:roundIcon
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:9:9-54
 	android:icon
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:7:9-43
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:7:9-43
 	android:allowBackup
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:6:9-35
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:6:9-35
 	android:theme
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:10:9-40
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:11:9-40
 activity#com.jorgedguezm.elections.MainActivity
-ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:11:9-21:20
-	android:screenOrientation
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:15:13-49
+ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:12:9-21:20
 	android:label
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:13:13-45
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:14:13-45
 	android:theme
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:14:13-56
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:15:13-56
 	android:name
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:12:13-41
-intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:16:13-20:29
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:13:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:16:13-20:29
 action#android.intent.action.MAIN
-ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:17:17-69
+ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:17:17-69
 	android:name
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:17:25-66
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:17:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:19:17-77
+ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:19:17-77
 	android:name
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:19:27-74
-activity#com.jorgedguezm.elections.ActivityShow
-ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:22:9-26:20
-	android:screenOrientation
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:25:13-49
-	android:theme
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:24:13-44
-	android:name
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml:23:13-41
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml:19:27-74
 uses-sdk
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-MERGED from [com.android.support:design:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/design-25.0.0.aar/aa5270bcfec748a4e3f2542a6ec21ac6/AndroidManifest.xml:21:5-23:62
-MERGED from [com.android.support:design:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/design-25.0.0.aar/aa5270bcfec748a4e3f2542a6ec21ac6/AndroidManifest.xml:21:5-23:62
-MERGED from [com.android.support:appcompat-v7:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.0.aar/96e0555b99b1cf6dd6fbf1ea157e72a9/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:appcompat-v7:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.0.aar/96e0555b99b1cf6dd6fbf1ea157e72a9/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:transition:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/transition-25.0.0.aar/b4a1262245b8ddfe4315563f37bc2c1e/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:transition:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/transition-25.0.0.aar/b4a1262245b8ddfe4315563f37bc2c1e/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.0.aar/67b37a02d9178abe806ecd4506752995/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-v4:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.0.aar/67b37a02d9178abe806ecd4506752995/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:animated-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.0.aar/f08350822afc8bfb97c61eaacf4071e1/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.0.aar/f08350822afc8bfb97c61eaacf4071e1/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.0.aar/fff47c977a833871c535ba2307f793f8/AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:support-vector-drawable:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.0.aar/fff47c977a833871c535ba2307f793f8/AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:recyclerview-v7:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-25.0.0.aar/5ed40645cc96a427393cbde8b6525ea9/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:recyclerview-v7:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-25.0.0.aar/5ed40645cc96a427393cbde8b6525ea9/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-fragment:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.0.aar/4825d95c1869a1db9d068b3d433aadaf/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-fragment:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.0.aar/4825d95c1869a1db9d068b3d433aadaf/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-media-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.0.aar/73daabda0e0e92f49e97d701c33a0a55/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-media-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.0.aar/73daabda0e0e92f49e97d701c33a0a55/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-utils:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.0.aar/3d995aaa15bbd925052f5c4a7482da2d/AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-core-utils:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.0.aar/3d995aaa15bbd925052f5c4a7482da2d/AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-core-ui:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.0.aar/13521c55edaa9ddd0141d7ca931536b5/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-core-ui:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.0.aar/13521c55edaa9ddd0141d7ca931536b5/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.0.aar/db58717fe5bd0981e1788ec4eaec81fe/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-compat:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.0.aar/db58717fe5bd0981e1788ec4eaec81fe/AndroidManifest.xml:21:5-23:58
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-	tools:overrideLibrary
-		ADDED from [com.android.support:design:25.0.0] /home/jorge/.gradle/caches/transforms-1/files-1.1/design-25.0.0.aar/aa5270bcfec748a4e3f2542a6ec21ac6/AndroidManifest.xml:23:9-59
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support:design:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/design-28.0.0-alpha3.aar/0e8566e7876889e7d038d6055b1be574/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/design-28.0.0-alpha3.aar/0e8566e7876889e7d038d6055b1be574/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-alpha3.aar/10a5dbe2f1c00613056c2b7558fbf839/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-alpha3.aar/10a5dbe2f1c00613056c2b7558fbf839/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/jorge/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/46e6311101e89a418a945ecbde7a8025/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/jorge/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/46e6311101e89a418a945ecbde7a8025/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-fragment:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-alpha3.aar/bcfb40761cbfad7466e90888d76a3385/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-alpha3.aar/bcfb40761cbfad7466e90888d76a3385/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0-alpha3.aar/8d5aff335780461520c642d846f2361e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0-alpha3.aar/8d5aff335780461520c642d846f2361e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-28.0.0-alpha3.aar/cc9a38aba58c4555122ca51d048599c0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-28.0.0-alpha3.aar/cc9a38aba58c4555122ca51d048599c0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0-alpha3.aar/16cad92af6bfa87e4d9386469d06ef7e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0-alpha3.aar/16cad92af6bfa87e4d9386469d06ef7e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0-alpha3.aar/929a079a47cb2ae9d2921aa6675aca2a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0-alpha3.aar/929a079a47cb2ae9d2921aa6675aca2a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0-alpha3.aar/369689b196c5c86f23dd2970a3d4461a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0-alpha3.aar/369689b196c5c86f23dd2970a3d4461a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/transition-28.0.0-alpha3.aar/fb65bfde730ea9730fec89a40688c33d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/transition-28.0.0-alpha3.aar/fb65bfde730ea9730fec89a40688c33d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/loader-28.0.0-alpha3.aar/083a5f4ae4312e677687a85bc875eb29/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/loader-28.0.0-alpha3.aar/083a5f4ae4312e677687a85bc875eb29/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0-alpha3.aar/85bb1e744241fa41cff84c894d529f0f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0-alpha3.aar/85bb1e744241fa41cff84c894d529f0f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0-alpha3.aar/1afa0d217ebac64b51d4a559c7839492/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0-alpha3.aar/1afa0d217ebac64b51d4a559c7839492/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0-alpha3.aar/096b4999037e900221713d4eed0b2a6a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0-alpha3.aar/096b4999037e900221713d4eed0b2a6a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0-alpha3.aar/e68395a884b3c5ccf5d5c275ddb7701d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0-alpha3.aar/e68395a884b3c5ccf5d5c275ddb7701d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/customview-28.0.0-alpha3.aar/5314e68aed5a98c87bbe7dbb698ce8c5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/customview-28.0.0-alpha3.aar/5314e68aed5a98c87bbe7dbb698ce8c5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0-alpha3.aar/c5015c21be3a10c580e5888b833e6eb3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0-alpha3.aar/c5015c21be3a10c580e5888b833e6eb3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0-alpha3.aar/0de4eb95fe637c7ef21676ef17db01f8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0-alpha3.aar/0de4eb95fe637c7ef21676ef17db01f8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/1b3fb76f39e988a99c033f9072c51232/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/1b3fb76f39e988a99c033f9072c51232/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0-alpha3.aar/4958346e3ccef2302692f179afe0c8aa/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0-alpha3.aar/4958346e3ccef2302692f179afe0c8aa/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0-alpha3.aar/1b3ac0dcf97abd0fa6b6de47376fdfe2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0-alpha3.aar/1b3ac0dcf97abd0fa6b6de47376fdfe2/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/10b74bf8bc02d1f48d72ce7ce5319bcb/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/10b74bf8bc02d1f48d72ce7ce5319bcb/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/40cf5d33e622553b555029ce889c5790/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/40cf5d33e622553b555029ce889c5790/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0-alpha3.aar/712234bfcf440fdf0b036fc01668ae42/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0-alpha3.aar/712234bfcf440fdf0b036fc01668ae42/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0-alpha3.aar/dcc88cdd0dd4f7ac659dc2a261e5838f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0-alpha3.aar/dcc88cdd0dd4f7ac659dc2a261e5838f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/print-28.0.0-alpha3.aar/c8cc6843d4e9ff0ca0025aa57833f739/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/print-28.0.0-alpha3.aar/c8cc6843d4e9ff0ca0025aa57833f739/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/53a2e88497e0f3747e521863e041516c/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/53a2e88497e0f3747e521863e041516c/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0-alpha3.aar/67dc96d14afcb433b09071b9d856bcc1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0-alpha3] /Users/jorge/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0-alpha3.aar/67dc96d14afcb433b09071b9d856bcc1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/24451308b30ab536d655da3620b593f6/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/24451308b30ab536d655da3620b593f6/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/50e3271dd276decb06a392557e964f86/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/jorge/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/50e3271dd276decb06a392557e964f86/AndroidManifest.xml:20:5-44
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-		ADDED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
-		INJECTED from /home/jorge/AndroidStudioProjects/Elections/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jorge/Workspace/StudioProjects/Elections/app/src/main/AndroidManifest.xml

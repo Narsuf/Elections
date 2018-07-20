@@ -1,4 +1,0 @@
-#Thu Nov 30 21:06:07 CET 2017
-base.0=/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/transforms/dexMerger/debug/2
-path.0=classes.dex
-renamed.0=classes.dex

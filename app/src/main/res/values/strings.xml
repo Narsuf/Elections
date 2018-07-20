@@ -1,24 +1,8 @@
 <resources>
     <string name="app_name">Elections</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
     <string name="action_settings">Settings</string>
-    <string name="congress">Congress</string>
-    <string name="senate">Senate</string>
-    <string name="change_year">Change year</string>
-    <string name="show_historical">Show historical</string>
-    <string name="general">General</string>
-    <string name="regional">Regional</string>
-    <string name="local">Local</string>
-    <string name="accept">Accept</string>
-    <string name="cancel">Cancel</string>
-    <string name="party">Party</string>
-    <string name="votes">Votes</string>
-    <string name="votesP">Votes (%)</string>
-    <string name="elects">Elects</string>
-    <string name="close">Close</string>
-    <string name="scrutinized">Scrutinized: </string>
-    <string name="electGenerales">Total elects: </string>
-    <string name="countedVotes">Counted votes: </string>
-    <string name="abstentions">Abstentions: </string>
-    <string name="nullVotes">Null votes: </string>
-    <string name="blankVotes">Blank votes: </string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
