@@ -4,7 +4,12 @@
     tools:context="com.jorgedguezm.elections.MainActivity">
     <item
         android:id="@+id/action_show_historical"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:title="@string/show_historical"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="2"
+        android:title="@string/action_settings"
         app:showAsAction="never" />
 </menu>

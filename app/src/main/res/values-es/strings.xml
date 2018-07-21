@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Elecciones</string>
+    <string name="action_settings">Ajustes</string>
 
     <string name="general">Generales</string>
     <string name="regional">Autonómicas</string>

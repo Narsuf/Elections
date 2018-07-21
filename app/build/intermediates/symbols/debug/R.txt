@@ -814,7 +814,7 @@ int id action_menu_presenter 0x7f080013
 int id action_mode_bar 0x7f080014
 int id action_mode_bar_stub 0x7f080015
 int id action_mode_close_button 0x7f080016
-int id action_settings 0x7f080017
+int id action_show_historical 0x7f080017
 int id action_text 0x7f080018
 int id actions 0x7f080019
 int id activity_chooser_view_content 0x7f08001a
@@ -1109,7 +1109,8 @@ int string path_password_strike_through 0x7f0d0028
 int string regional 0x7f0d0029
 int string search_menu_title 0x7f0d002a
 int string section_format 0x7f0d002b
-int string status_bar_notification_info_overflow 0x7f0d002c
+int string show_historical 0x7f0d002c
+int string status_bar_notification_info_overflow 0x7f0d002d
 int style AlertDialog_AppCompat 0x7f0e0000
 int style AlertDialog_AppCompat_Light 0x7f0e0001
 int style Animation_AppCompat_Dialog 0x7f0e0002

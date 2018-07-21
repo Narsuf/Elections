@@ -3656,7 +3656,7 @@ public final class R {
     public static final int action_mode_bar=0x7f080014;
     public static final int action_mode_bar_stub=0x7f080015;
     public static final int action_mode_close_button=0x7f080016;
-    public static final int action_settings=0x7f080017;
+    public static final int action_show_historical=0x7f080017;
     public static final int action_text=0x7f080018;
     public static final int actions=0x7f080019;
     public static final int activity_chooser_view_content=0x7f08001a;
@@ -3961,7 +3961,8 @@ public final class R {
     public static final int regional=0x7f0d0029;
     public static final int search_menu_title=0x7f0d002a;
     public static final int section_format=0x7f0d002b;
-    public static final int status_bar_notification_info_overflow=0x7f0d002c;
+    public static final int show_historical=0x7f0d002c;
+    public static final int status_bar_notification_info_overflow=0x7f0d002d;
   }
   public static final class style {
     public static final int AlertDialog_AppCompat=0x7f0e0000;
