@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Elecciones</string>
+
+    <string name="general">Generales</string>
+    <string name="regional">Autonómicas</string>
+    <string name="local">Municipales</string>
+
+    <string name="show_historical">Mostrar histórico</string>
 </resources>
