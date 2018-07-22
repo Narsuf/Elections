@@ -8,4 +8,8 @@
     <string name="local">Local</string>
 
     <string name="show_historical">Show historical</string>
+
+    <string name="content_needs_to_be_downloaded">Content needs to be downloaded</string>
+    <string name="download">Download</string>
+    <string name="not_now">Not now</string>
 </resources>

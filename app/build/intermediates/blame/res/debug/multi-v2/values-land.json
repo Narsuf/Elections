@@ -4,17 +4,7 @@
             "outputFile": "/Users/jorge/Workspace/StudioProjects/Elections/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
             "map": [
                 {
-                    "source": "/Users/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/52b709e7f68d3c6bb1392196a9ac5b89/res/values-land/values-land.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,125,189,260",
-                        "endColumns": "69,63,70,67",
-                        "endOffsets": "120,184,255,323"
-                    }
-                },
-                {
-                    "source": "/Users/jorge/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/d2376bd39775573cef08562771a9f8ba/res/values-land/values-land.xml",
+                    "source": "/Users/jorge/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/5a9832f05c5f9cfe9f876cf0557b8022/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -30,6 +20,16 @@
                         "endLines": "9",
                         "endColumns": "12",
                         "endOffsets": "505"
+                    }
+                },
+                {
+                    "source": "/Users/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c0cebe24b6d2822d607d46d9b8f35252/res/values-land/values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,125,189,260",
+                        "endColumns": "69,63,70,67",
+                        "endOffsets": "120,184,255,323"
                     }
                 }
             ]

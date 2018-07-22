@@ -4,7 +4,7 @@
             "outputFile": "/Users/jorge/Workspace/StudioProjects/Elections/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v17/values-v17.xml",
             "map": [
                 {
-                    "source": "/Users/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/52b709e7f68d3c6bb1392196a9ac5b89/res/values-v17/values-v17.xml",
+                    "source": "/Users/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c0cebe24b6d2822d607d46d9b8f35252/res/values-v17/values-v17.xml",
                     "from": {
                         "startLines": "2,5,9,12,15,18,22,26,29,32,35,39,42,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",

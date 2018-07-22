@@ -2,10 +2,15 @@
 <resources>
     <string name="app_name">Elecciones</string>
     <string name="action_settings">Ajustes</string>
+    <string name="section_format">Hola mundo desde la sección: %1$d</string>
 
     <string name="general">Generales</string>
     <string name="regional">Autonómicas</string>
     <string name="local">Municipales</string>
 
     <string name="show_historical">Mostrar histórico</string>
+
+    <string name="content_needs_to_be_downloaded">Es necesario descargar contenido</string>
+    <string name="download">Descargar</string>
+    <string name="not_now">Ahora no</string>
 </resources>
