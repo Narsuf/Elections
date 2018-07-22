@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Elecciones</string>
-    <string name="action_settings">Ajustes</string>
     <string name="section_format">Hola mundo desde la sección: %1$d</string>
 
     <string name="general">Generales</string>
@@ -13,4 +12,5 @@
     <string name="content_needs_to_be_downloaded">Es necesario descargar contenido</string>
     <string name="download">Descargar</string>
     <string name="not_now">Ahora no</string>
+    <string name="loading_screen">Pantalla de carga</string>
 </resources>
