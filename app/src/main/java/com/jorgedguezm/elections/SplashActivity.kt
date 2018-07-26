@@ -29,7 +29,7 @@ class SplashActivity : AppCompatActivity() {
         Glide.with(this).load(R.drawable.loading).into(viewGif)
     }
 
-    fun callDialog() {
+    private fun callDialog() {
         val dialog = AlertDialog.Builder(this)
         dialog.setMessage(resources.getString(R.string.content_needs_to_be_downloaded))
         dialog.setPositiveButton(resources.getString(R.string.download),
@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
         dialog.create().show()
     }
 
-    fun downloadContent() {
+    private fun downloadContent() {
         getPreferences(Context.MODE_PRIVATE)
                 .edit().putBoolean(isFirstLaunch, false).apply()
     }
