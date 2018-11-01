@@ -6,9 +6,8 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+
 import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 
@@ -23,14 +22,14 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_main)
 
-        //Set fullscreen UI
+        // Set fullscreen UI
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         supportActionBar?.hide()
 
         if (getPreferences(Context.MODE_PRIVATE).getBoolean(isFirstLaunch, true))
             callDialog()
 
-        //Load GIF
+        // Load GIF
         Glide.with(this).load(R.drawable.loading).into(viewGif)
     }
 
@@ -53,9 +52,11 @@ class SplashActivity : AppCompatActivity() {
     private fun downloadContent() {
         val url = "http://90.171.38.91:8000/general_information/"
 
-        var request = StringRequest(Request.Method.GET, url,
-                { response -> Log.d("Response", response)},
-                { error -> Log.e("Error", error.message)})
+        val request = StringRequest(Request.Method.GET, url,
+                { response ->
+                    // TODO
+                },
+                { error -> Log.e("Request failed", error.message)})
 
         Volley.newRequestQueue(this).add(request)
 
