@@ -8,8 +8,7 @@
 
     <string name="show_historical">Show historical</string>
 
-    <string name="content_needs_to_be_downloaded">Content needs to be downloaded</string>
-    <string name="download">Download</string>
-    <string name="not_now">Not now</string>
-    <string name="loading_screen">Loading screen</string>
+    <string name="no_internet_connection">No Internet connection</string>
+    <string name="ok">OK</string>
+    <string name="application_will_be_closed">The application will be closed.</string>
 </resources>

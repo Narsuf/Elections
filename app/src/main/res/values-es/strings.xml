@@ -9,8 +9,7 @@
 
     <string name="show_historical">Mostrar histórico</string>
 
-    <string name="content_needs_to_be_downloaded">Es necesario descargar contenido</string>
-    <string name="download">Descargar</string>
-    <string name="not_now">Ahora no</string>
-    <string name="loading_screen">Pantalla de carga</string>
+    <string name="no_internet_connection">Sin conexión a Internet</string>
+    <string name="ok">Aceptar</string>
+    <string name="application_will_be_closed">La aplicación se cerrará.</string>
 </resources>
