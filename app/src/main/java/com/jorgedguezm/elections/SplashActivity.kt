@@ -18,25 +18,35 @@ class SplashActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
         // TODO Check if there is connection to the Internet
-        if (false) {
-            val myIntent = Intent(this, MainActivity::class.java)
-            startActivity(myIntent)
-            finish()
-        } else {
+        if (false)
+            callIntent()
+        else
             noInternetConnection()
-        }
+    }
+
+    private fun callIntent() {
+        val myIntent = Intent(this, MainActivity::class.java)
+        startActivity(myIntent)
+        finish()
     }
 
     private fun noInternetConnection() {
         val handler = Handler()
-        val runnable = Runnable {
-            Snackbar.make(findViewById(R.id.splash_main),
-                    resources.getString(R.string.no_internet_connection),
-                    Snackbar.LENGTH_LONG).show()
-            if (true)
-                handler.postDelayed({
-                    // TODO Check if there is connection to the Internet
-                }, 10000)
+        val delay = 1000L
+        lateinit var runnable : Runnable
+
+        Snackbar.make(findViewById(R.id.splash_main),
+                resources.getString(R.string.no_internet_connection),
+                Snackbar.LENGTH_LONG).show()
+
+        runnable = Runnable {
+            // TODO Check if there is connection to the Internet
+            if (false)
+                callIntent()
+
+            handler.postDelayed(runnable, delay)
         }
+
+        handler.post(runnable)
     }
 }
