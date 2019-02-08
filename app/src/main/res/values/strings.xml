@@ -9,6 +9,4 @@
     <string name="show_historical">Show historical</string>
 
     <string name="no_internet_connection">No Internet connection</string>
-    <string name="ok">OK</string>
-    <string name="application_will_be_closed">The application will be closed.</string>
 </resources>
