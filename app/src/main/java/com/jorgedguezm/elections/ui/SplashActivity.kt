@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 
 import com.google.android.material.snackbar.Snackbar
+
 import com.jorgedguezm.elections.R
 
 class SplashActivity : AppCompatActivity() {
