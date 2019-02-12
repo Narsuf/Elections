@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections
+package com.jorgedguezm.elections.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,17 +8,27 @@ import androidx.appcompat.app.AppCompatActivity
 
 import com.google.android.material.snackbar.Snackbar
 
+import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.utils.Utils
+
+import dagger.android.AndroidInjection
+
+import javax.inject.Inject
+
 class SplashActivity : AppCompatActivity() {
+
+    @Inject lateinit var utils: Utils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_main)
 
+        AndroidInjection.inject(this)
+
         // Set fullscreen UI
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
-        // TODO Check if there is connection to the Internet
-        if (false)
+        if (utils.isConnectedToInternet())
             callIntent()
         else
             noInternetConnection()
@@ -40,11 +50,10 @@ class SplashActivity : AppCompatActivity() {
                 Snackbar.LENGTH_LONG).show()
 
         runnable = Runnable {
-            // TODO Check if there is connection to the Internet
-            if (false)
+            if (utils.isConnectedToInternet())
                 callIntent()
-
-            handler.postDelayed(runnable, delay)
+            else
+                handler.postDelayed(runnable, delay)
         }
 
         handler.post(runnable)

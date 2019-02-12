@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections
+package com.jorgedguezm.elections.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
 import com.google.android.material.tabs.TabLayout
+
+import com.jorgedguezm.elections.R
 
 import kotlinx.android.synthetic.main.activity_main.*
 
