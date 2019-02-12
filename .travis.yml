@@ -6,6 +6,6 @@ android:
   - platform-tools
 
 jdk:
-  -oraclejdk8
+  - oraclejdk8
 
 script: ./gradlew clean build
