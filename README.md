@@ -1,4 +1,4 @@
-# Elections #
+# Elections
 
 <a href='https://travis-ci.org/Narsuf/Elections/builds'>
     <img src='https://travis-ci.org/Narsuf/Elections.svg?branch=master'>
