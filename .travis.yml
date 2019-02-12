@@ -1,8 +1,9 @@
 language: android
 
 android:
-  # The SDK version used to compile your project
-  -android-28
+  components:
+  - tools
+  - platform-tools
 
 jdk:
   -oraclejdk8
