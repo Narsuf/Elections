@@ -1,10 +1,13 @@
-package com.jorgedguezm.elections
+package com.jorgedguezm.elections.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.jorgedguezm.elections.R
+
+import dagger.android.support.AndroidSupportInjection
 
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
@@ -28,6 +31,12 @@ class MainFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
