@@ -12,8 +12,8 @@ data class Party(
 
         @Json(name = "name")
         @PrimaryKey
-        val id: String,
+        val name: String,
 
         @Json(name = "color")
-        val name: String?
+        val color: String
 ) : Serializable
