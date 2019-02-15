@@ -7,7 +7,7 @@ import com.squareup.moshi.Json
 
 import java.io.Serializable
 
-@Entity(tableName = "Election")
+@Entity(tableName = "election")
 data class Election(
 
         @Json(name = "name")
