@@ -2,6 +2,7 @@ package com.jorgedguezm.elections.data
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 
 import com.squareup.moshi.Json
 
@@ -20,6 +21,8 @@ data class Results(
         @Json(name = "votes")
         val votes: Int
 ) : Serializable {
-    lateinit var partyId: String
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0
     var electionId: Long = 0
+    lateinit var partyId: String
 }
