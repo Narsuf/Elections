@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 
 import com.jorgedguezm.elections.injection.DaggerAppComponent
 import com.jorgedguezm.elections.injection.modules.AppModule
+import com.jorgedguezm.elections.injection.modules.NetModule
 
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -24,6 +25,7 @@ class ElectionsApplication: Application(), HasActivityInjector, HasSupportFragme
 
         DaggerAppComponent.builder()
                 .appModule(AppModule(this))
+                .netModule(NetModule(BuildConfig.URL))
                 .build().inject(this)
     }
 
