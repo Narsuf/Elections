@@ -1,18 +1,28 @@
 package com.jorgedguezm.elections.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.data.Election
 
 import dagger.android.support.AndroidSupportInjection
 
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
+import javax.inject.Inject
+
 class MainFragment : Fragment() {
+
+    @Inject
+    lateinit var electionsViewModelFactory: ElectionsViewModelFactory
+    lateinit var electionsViewModel: ElectionsViewModel
 
     companion object {
         /**
@@ -38,6 +48,20 @@ class MainFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         AndroidSupportInjection.inject(this)
+
+        electionsViewModel = ViewModelProviders.of(this, electionsViewModelFactory).get(
+                ElectionsViewModel::class.java)
+
+        electionsViewModel.loadElections()
+        electionsViewModel.electionsResult().observe(this,
+                Observer<List<Election>> {
+                    Log.d("Elections", it.toString())
+                })
+
+        electionsViewModel.electionsError().observe(this,
+                Observer<String> {
+                    Log.d("Error", it)
+                })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

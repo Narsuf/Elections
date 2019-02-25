@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 
 import javax.inject.Inject
 
-class ElectionViewModelFactory @Inject constructor(
-        private val electionViewModel: ElectionViewModel) : ViewModelProvider.Factory {
+class ElectionsViewModelFactory @Inject constructor(
+        private val electionsViewModel: ElectionsViewModel) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ElectionViewModel::class.java!!))
-            return electionViewModel as T
+        if (modelClass.isAssignableFrom(ElectionsViewModel::class.java!!))
+            return electionsViewModel as T
 
         throw IllegalArgumentException("Unknown class name")
     }

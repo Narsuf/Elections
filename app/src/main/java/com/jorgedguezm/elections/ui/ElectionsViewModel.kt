@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 import javax.inject.Inject
 
-class ElectionViewModel @Inject constructor(
+class ElectionsViewModel @Inject constructor(
         private val electionRepository: ElectionRepository) : ViewModel() {
 
     var electionsResult: MutableLiveData<List<Election>> = MutableLiveData()
