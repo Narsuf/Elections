@@ -12,6 +12,9 @@ import io.reactivex.Single
 @Dao
 interface ElectionsDao {
 
+    @Query("SELECT * FROM election")
+    fun queryElections(): Single<List<Election>>
+
     @Query("SELECT * FROM election WHERE id = :id LIMIT 1")
     fun getElection(id: Long): Single<Election>
 
