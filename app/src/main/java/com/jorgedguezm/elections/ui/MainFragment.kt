@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.data.Election
+import com.jorgedguezm.elections.data.Party
 
 import dagger.android.support.AndroidSupportInjection
 
@@ -21,8 +21,9 @@ import javax.inject.Inject
 
 class MainFragment : Fragment() {
 
-    var dataset = ArrayList<Election>()
-    var viewAdapter = GeneralCardAdapter(dataset.toTypedArray())
+    lateinit var elections: List<Election>
+
+    var viewAdapter = GeneralCardAdapter(ArrayList<Election>().toTypedArray())
 
     @Inject
     lateinit var electionsViewModelFactory: ElectionsViewModelFactory
@@ -59,9 +60,8 @@ class MainFragment : Fragment() {
         electionsViewModel.loadElections()
         electionsViewModel.electionsResult().observe(this,
                 Observer<List<Election>> {
-                    when (arguments?.getInt(ARG_SECTION_NUMBER)) {
-                        1 -> createCards(it)
-                    }
+                    elections = it
+                    loadParties()
                 })
     }
 
@@ -91,11 +91,28 @@ class MainFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun createCards(elections: List<Election>) {
-        for (e in elections)
-            if (e.name == "Generales") dataset.add(e)
+    private fun loadParties() {
+        electionsViewModel.loadParties()
+        electionsViewModel.partiesResult().observe(this,
+                Observer<List<Party>> {
+                    for (p in it)
+                        viewAdapter.parties[p.name] = p.color
 
-        viewAdapter.dataset = dataset
+                    when (arguments?.getInt(ARG_SECTION_NUMBER)) {
+                        1 -> {
+                            createGeneralCards()
+                        }
+                    }
+                })
+    }
+
+    private fun createGeneralCards() {
+        val generalElections = ArrayList<Election>()
+
+        for (e in elections)
+            if (e.name == "Generales") generalElections.add(e)
+
+        viewAdapter.elections = generalElections
                 .sortedWith(compareByDescending<Election> {it.year}.thenBy {it.chamberName})
                 .toTypedArray()
 
