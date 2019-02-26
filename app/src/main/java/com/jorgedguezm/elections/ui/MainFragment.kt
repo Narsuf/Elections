@@ -21,7 +21,8 @@ import javax.inject.Inject
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    var dataset = ArrayList<Election>()
+    var viewAdapter = GeneralCardAdapter(dataset.toTypedArray())
 
     @Inject
     lateinit var electionsViewModelFactory: ElectionsViewModelFactory
@@ -69,18 +70,8 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
-    override fun onDestroy() {
-        electionsViewModel.disposeElements()
-        super.onDestroy()
-    }
-
-    private fun createCards(elections: List<Election>) {
-        val generalElections = ArrayList<Election>()
-
-        for (e in elections)
-            if (e.name.equals("Generales")) generalElections.add(e)
-
-        viewAdapter = GeneralCardAdapter(generalElections.toTypedArray())
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         recyclerView.apply {
             // use this setting to improve performance if you know that changes
@@ -93,5 +84,21 @@ class MainFragment : Fragment() {
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
         }
+    }
+
+    override fun onDestroy() {
+        electionsViewModel.disposeElements()
+        super.onDestroy()
+    }
+
+    private fun createCards(elections: List<Election>) {
+        for (e in elections)
+            if (e.name == "Generales") dataset.add(e)
+
+        viewAdapter.dataset = dataset
+                .sortedWith(compareByDescending<Election> {it.year}.thenBy {it.chamberName})
+                .toTypedArray()
+
+        recyclerView.adapter = viewAdapter
     }
 }

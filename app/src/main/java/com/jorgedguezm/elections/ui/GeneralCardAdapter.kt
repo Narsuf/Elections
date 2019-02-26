@@ -10,7 +10,7 @@ import com.jorgedguezm.elections.data.Election
 
 import kotlinx.android.synthetic.main.general_elections_card.view.*
 
-class GeneralCardAdapter(private val elections: Array<Election>) :
+class GeneralCardAdapter(var dataset: Array<Election>) :
         RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     // Provide a reference to the views for each data item
@@ -33,9 +33,13 @@ class GeneralCardAdapter(private val elections: Array<Election>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.card.section_label.text = elections[position].year.toString()
+        val chamberName = dataset[position].chamberName
+        val year = dataset[position].year
+        val concatenatedText = "$chamberName $year"
+
+        holder.card.section_label.text = concatenatedText
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = elections.size
+    override fun getItemCount() = dataset.size
 }

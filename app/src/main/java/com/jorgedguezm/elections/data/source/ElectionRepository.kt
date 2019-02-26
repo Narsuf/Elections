@@ -13,13 +13,8 @@ class ElectionRepository @Inject constructor(val apiInterface: ApiInterface,
                                              val electionsDao: ElectionsDao, val utils: Utils) {
 
     fun getElections(): Observable<List<Election>> {
-        val observableFromDb = getElectionsFromDb()
-        var returnValue = observableFromDb
-
-        if (utils.isConnectedToInternet())
-            returnValue = Observable.concatArrayEager(getElectionsFromApi(), observableFromDb)
-
-        return returnValue
+        return if (utils.isConnectedToInternet()) getElectionsFromApi()
+        else getElectionsFromDb()
     }
 
     fun getElectionsFromApi(): Observable<List<Election>> {
