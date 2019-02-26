@@ -7,6 +7,7 @@ import androidx.room.Room
 import com.jorgedguezm.elections.data.source.local.Database
 import com.jorgedguezm.elections.data.source.local.ElectionsDao
 import com.jorgedguezm.elections.data.source.local.PartiesDao
+import com.jorgedguezm.elections.data.source.local.ResultsDao
 import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.ui.ElectionsViewModelFactory
 
@@ -46,6 +47,10 @@ class AppModule(val app: Application) {
     @Provides
     @Singleton
     fun providePartiesDao(database: Database): PartiesDao = database.partiesDao()
+
+    @Provides
+    @Singleton
+    fun provideResultsDao(database: Database): ResultsDao = database.resultsDao()
 
     @Provides
     fun provideElectionsViewModelFactory(

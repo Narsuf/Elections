@@ -22,8 +22,7 @@ import javax.inject.Inject
 class MainFragment : Fragment() {
 
     lateinit var elections: List<Election>
-
-    var viewAdapter = GeneralCardAdapter(ArrayList<Election>().toTypedArray())
+    lateinit var viewAdapter: GeneralCardAdapter
 
     @Inject
     lateinit var electionsViewModelFactory: ElectionsViewModelFactory
@@ -53,6 +52,8 @@ class MainFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         AndroidSupportInjection.inject(this)
+
+        viewAdapter = GeneralCardAdapter(context!!, ArrayList<Election>().toTypedArray())
 
         electionsViewModel = ViewModelProviders.of(this, electionsViewModelFactory).get(
                 ElectionsViewModel::class.java)
@@ -110,10 +111,10 @@ class MainFragment : Fragment() {
         val generalElections = ArrayList<Election>()
 
         for (e in elections)
-            if (e.name == "Generales") generalElections.add(e)
+            if (e.name == "Generales" && e.chamberName == "Congreso") generalElections.add(e)
 
         viewAdapter.elections = generalElections
-                .sortedWith(compareByDescending<Election> {it.year}.thenBy {it.chamberName})
+                .sortedWith(compareByDescending {it.year})
                 .toTypedArray()
 
         recyclerView.adapter = viewAdapter

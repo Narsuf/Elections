@@ -1,5 +1,6 @@
 package com.jorgedguezm.elections.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
@@ -10,7 +11,7 @@ import com.jorgedguezm.elections.data.Election
 
 import kotlinx.android.synthetic.main.general_elections_card.view.*
 
-class GeneralCardAdapter(var elections: Array<Election>) :
+class GeneralCardAdapter(private val context: Context, var elections: Array<Election>) :
         RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     var parties = HashMap<String, String>()
@@ -35,9 +36,8 @@ class GeneralCardAdapter(var elections: Array<Election>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        val chamberName = elections[position].chamberName
-        val year = elections[position].year
-        val concatenatedText = "$chamberName $year"
+        val concatenatedText = context.resources.getString(R.string.app_name) + " " +
+                elections[position].year
 
         holder.card.section_label.text = concatenatedText
     }
