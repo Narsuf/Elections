@@ -25,7 +25,8 @@ class PartyRepository @Inject constructor(val apiInterface: ApiInterface,
     fun getPartiesFromApi(): Observable<List<Party>> {
         return apiInterface.getParties()
                 .doOnNext {
-                    for (item in it) partiesDao.insertParty(item)
+                    for (item in it)
+                        partiesDao.insertParty(item)
                 }
     }
 

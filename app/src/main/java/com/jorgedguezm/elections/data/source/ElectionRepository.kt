@@ -22,7 +22,8 @@ class ElectionRepository @Inject constructor(val apiInterface: ApiInterface,
                 .doOnNext {
                     electionsDao.deleteAll()
 
-                    for (item in it) electionsDao.insertElection(item)
+                    for (item in it)
+                        electionsDao.insertElection(item)
                 }
     }
 

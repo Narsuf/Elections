@@ -19,10 +19,14 @@ data class Results(
         val elects: Int?,
 
         @Json(name = "votes")
-        val votes: Int
+        val votes: Int,
+
+        @Json(name = "party")
+        val partyId: String,
+
+        @Json(name="election")
+        val electionId: Long
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
-    var electionId: Long = 0
-    lateinit var partyId: String
 }
