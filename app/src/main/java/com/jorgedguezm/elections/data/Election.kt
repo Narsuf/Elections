@@ -10,6 +10,10 @@ import java.io.Serializable
 @Entity(tableName = "election")
 data class Election(
 
+        @Json(name = "id")
+        @PrimaryKey
+        val id: Long,
+
         @Json(name = "name")
         val name: String,
 
@@ -39,7 +43,4 @@ data class Election(
 
         @Json(name = "null_votes")
         val nullVotes: Int?
-) : Serializable {
-    @PrimaryKey(autoGenerate = true)
-    var id: Long = 0
-}
+) : Serializable

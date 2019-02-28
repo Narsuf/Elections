@@ -132,17 +132,12 @@ class MainFragment : Fragment() {
                         viewAdapter.results.add(it)
                         index++
 
-                        if (index > sortedList.size) {
+                        if (index < sortedList.size) {
+                            handler.post(runnable)
+                        } else {
                             viewAdapter.elections = sortedList.toTypedArray()
                             recyclerView.adapter = viewAdapter
-                        } else {
-                            handler.post(runnable)
                         }
-                    })
-
-            electionsViewModel.resultsError().observe(this,
-                    Observer<String> {
-                        Log.d("ASDF", it)
                     })
         }
 

@@ -49,17 +49,12 @@ class ElectionsViewModel @Inject constructor(
     fun resultsError(): LiveData<String> { return resultsError }
 
     fun loadElections() {
-
         electionsDisposableObserver = object : DisposableObserver<List<Election>>() {
             override fun onComplete() { }
 
-            override fun onNext(elections: List<Election>) {
-                electionsResult.postValue(elections)
-            }
+            override fun onNext(elections: List<Election>) { electionsResult.postValue(elections) }
 
-            override fun onError(e: Throwable) {
-                electionsError.postValue(e.message)
-            }
+            override fun onError(e: Throwable) { electionsError.postValue(e.message) }
         }
 
         electionRepository.getElections()
@@ -70,17 +65,12 @@ class ElectionsViewModel @Inject constructor(
     }
 
     fun loadParties() {
-
         partiesDisposableObserver = object : DisposableObserver<List<Party>>() {
             override fun onComplete() { }
 
-            override fun onNext(parties: List<Party>) {
-                partiesResult.postValue(parties)
-            }
+            override fun onNext(parties: List<Party>) { partiesResult.postValue(parties) }
 
-            override fun onError(e: Throwable) {
-                partiesError.postValue(e.message)
-            }
+            override fun onError(e: Throwable) { partiesError.postValue(e.message) }
         }
 
         partiesRepository.getParties()
@@ -91,17 +81,14 @@ class ElectionsViewModel @Inject constructor(
     }
 
     fun loadResults(year: Int, place: String, chamberName: String) {
+        resultsResult = MutableLiveData()
 
         resultsDisposableObserver = object : DisposableObserver<List<Results>>() {
             override fun onComplete() { }
 
-            override fun onNext(results: List<Results>) {
-                resultsResult.postValue(results)
-            }
+            override fun onNext(results: List<Results>) { resultsResult.postValue(results) }
 
-            override fun onError(e: Throwable) {
-                resultsError.postValue(e.message)
-            }
+            override fun onError(e: Throwable) { resultsError.postValue(e.message) }
         }
 
         resultsRepository.getResults(year, place, chamberName)
