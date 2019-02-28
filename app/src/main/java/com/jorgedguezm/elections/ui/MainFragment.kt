@@ -1,6 +1,8 @@
 package com.jorgedguezm.elections.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Party
+import com.jorgedguezm.elections.data.Results
 
 import dagger.android.support.AndroidSupportInjection
 
@@ -22,6 +25,8 @@ import javax.inject.Inject
 class MainFragment : Fragment() {
 
     lateinit var elections: List<Election>
+
+    @Inject
     lateinit var viewAdapter: GeneralCardAdapter
 
     @Inject
@@ -52,8 +57,6 @@ class MainFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         AndroidSupportInjection.inject(this)
-
-        viewAdapter = GeneralCardAdapter(context!!, ArrayList<Election>().toTypedArray())
 
         electionsViewModel = ViewModelProviders.of(this, electionsViewModelFactory).get(
                 ElectionsViewModel::class.java)
@@ -113,10 +116,36 @@ class MainFragment : Fragment() {
         for (e in elections)
             if (e.name == "Generales" && e.chamberName == "Congreso") generalElections.add(e)
 
-        viewAdapter.elections = generalElections
-                .sortedWith(compareByDescending {it.year})
-                .toTypedArray()
+        val sortedList = generalElections.sortedWith(compareByDescending {it.year})
 
-        recyclerView.adapter = viewAdapter
+        // These calls need to be made synchronously
+        val handler = Handler()
+        var index = 0
+        lateinit var runnable: Runnable
+
+        runnable = Runnable {
+            electionsViewModel.loadResults(sortedList[index].year, sortedList[index].place,
+                    sortedList[index].chamberName!!)
+
+            electionsViewModel.resultsResult().observe(this,
+                    Observer<List<Results>> {
+                        viewAdapter.results.add(it)
+                        index++
+
+                        if (index > sortedList.size) {
+                            viewAdapter.elections = sortedList.toTypedArray()
+                            recyclerView.adapter = viewAdapter
+                        } else {
+                            handler.post(runnable)
+                        }
+                    })
+
+            electionsViewModel.resultsError().observe(this,
+                    Observer<String> {
+                        Log.d("ASDF", it)
+                    })
+        }
+
+        handler.post(runnable)
     }
 }

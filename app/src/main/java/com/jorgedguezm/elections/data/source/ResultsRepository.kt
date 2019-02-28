@@ -23,7 +23,8 @@ class ResultsRepository @Inject constructor(val apiInterface: ApiInterface,
                 .doOnNext {
                     resultsDao.deleteAll()
 
-                    for (item in it) resultsDao.insertResults(item)
+                    for (item in it)
+                        resultsDao.insertResults(item)
                 }
     }
 

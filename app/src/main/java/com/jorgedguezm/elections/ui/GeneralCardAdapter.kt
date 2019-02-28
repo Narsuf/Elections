@@ -8,13 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.data.Election
+import com.jorgedguezm.elections.data.Results
+import com.jorgedguezm.elections.utils.Utils
 
 import kotlinx.android.synthetic.main.general_elections_card.view.*
 
-class GeneralCardAdapter(private val context: Context, var elections: Array<Election>) :
+import javax.inject.Inject
+
+class GeneralCardAdapter @Inject constructor(private val context: Context,
+                                             var elections: Array<Election>, val utils: Utils):
         RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     var parties = HashMap<String, String>()
+    var results = ArrayList<List<Results>>()
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
