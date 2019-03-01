@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS_BUNDLE
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Party
 import com.jorgedguezm.elections.data.Results
@@ -23,7 +26,7 @@ import javax.inject.Inject
 
 class MainFragment : Fragment() {
 
-    lateinit var elections: List<Election>
+    lateinit var electionsBundle: Bundle
 
     @Inject
     lateinit var viewAdapter: GeneralCardAdapter
@@ -60,12 +63,11 @@ class MainFragment : Fragment() {
         electionsViewModel = ViewModelProviders.of(this, electionsViewModelFactory).get(
                 ElectionsViewModel::class.java)
 
-        electionsViewModel.loadElections()
-        electionsViewModel.electionsResult().observe(this,
-                Observer<List<Election>> {
-                    elections = it
-                    loadParties()
-                })
+        electionsBundle = arguments?.getBundle(KEY_ELECTIONS_BUNDLE)!!
+
+        when (arguments?.getInt(ARG_SECTION_NUMBER)) {
+            1 -> createGeneralElectionsCards()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -94,23 +96,13 @@ class MainFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun loadParties() {
-        electionsViewModel.loadParties()
-        electionsViewModel.partiesResult().observe(this,
-                Observer<List<Party>> {
-                    for (p in it)
-                        viewAdapter.parties[p.name] = p.color
-
-                    when (arguments?.getInt(ARG_SECTION_NUMBER)) {
-                        1 -> {
-                            createGeneralCards()
-                        }
-                    }
-                })
-    }
-
-    private fun createGeneralCards() {
+    private fun createGeneralElectionsCards() {
+        val parties = electionsBundle.getSerializable(KEY_PARTIES) as ArrayList<Party>
+        val elections = electionsBundle.getSerializable(KEY_ELECTIONS) as ArrayList<Election>
         val generalElections = ArrayList<Election>()
+
+        for (p in parties)
+            viewAdapter.parties[p.name] = p.color
 
         for (e in elections)
             if (e.name == "Generales" && e.chamberName == "Congreso") generalElections.add(e)

@@ -5,10 +5,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 
 import com.google.android.material.snackbar.Snackbar
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
+import com.jorgedguezm.elections.data.Election
+import com.jorgedguezm.elections.data.Party
 import com.jorgedguezm.elections.utils.Utils
 
 import dagger.android.AndroidInjection
@@ -17,7 +23,14 @@ import javax.inject.Inject
 
 class SplashActivity : AppCompatActivity() {
 
-    @Inject lateinit var utils: Utils
+    private val electionsParams = Bundle()
+
+    @Inject
+    lateinit var utils: Utils
+
+    @Inject
+    lateinit var electionsViewModelFactory: ElectionsViewModelFactory
+    lateinit var electionsViewModel: ElectionsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,17 +38,41 @@ class SplashActivity : AppCompatActivity() {
 
         AndroidInjection.inject(this)
 
+        electionsViewModel = ViewModelProviders.of(this, electionsViewModelFactory).get(
+                ElectionsViewModel::class.java)
+
         // Set fullscreen UI
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
         if (utils.isConnectedToInternet())
-            callIntent()
+            loadElections()
         else
             noInternetConnection()
     }
 
+    private fun loadElections() {
+        electionsViewModel.loadElections()
+        electionsViewModel.electionsResult().observe(this,
+                Observer<List<Election>> {
+                    electionsParams.putSerializable(KEY_ELECTIONS, ArrayList<Election>(it))
+                    loadParties()
+                })
+
+
+    }
+
+    private fun loadParties() {
+        electionsViewModel.loadParties()
+        electionsViewModel.partiesResult().observe(this,
+                Observer<List<Party>> {
+                    electionsParams.putSerializable(KEY_PARTIES, ArrayList<Party>(it))
+                    callIntent()
+                })
+    }
+
     private fun callIntent() {
         val myIntent = Intent(this, MainActivity::class.java)
+        myIntent.putExtras(electionsParams)
         startActivity(myIntent)
         finish()
     }
@@ -51,7 +88,7 @@ class SplashActivity : AppCompatActivity() {
 
         runnable = Runnable {
             if (utils.isConnectedToInternet())
-                callIntent()
+                loadElections()
             else
                 handler.postDelayed(runnable, delay)
         }
