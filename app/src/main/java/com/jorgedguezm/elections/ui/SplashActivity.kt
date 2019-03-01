@@ -57,8 +57,6 @@ class SplashActivity : AppCompatActivity() {
                     electionsParams.putSerializable(KEY_ELECTIONS, ArrayList<Election>(it))
                     loadParties()
                 })
-
-
     }
 
     private fun loadParties() {

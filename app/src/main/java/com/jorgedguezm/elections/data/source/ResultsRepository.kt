@@ -21,8 +21,6 @@ class ResultsRepository @Inject constructor(val apiInterface: ApiInterface,
                           chamberName: String): Observable<List<Results>> {
         return apiInterface.getResults(year.toString(), place, chamberName)
                 .doOnNext {
-                    resultsDao.deleteAll()
-
                     for (item in it)
                         resultsDao.insertResults(item)
                 }

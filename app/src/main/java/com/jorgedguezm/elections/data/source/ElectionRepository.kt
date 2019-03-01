@@ -20,8 +20,6 @@ class ElectionRepository @Inject constructor(val apiInterface: ApiInterface,
     fun getElectionsFromApi(): Observable<List<Election>> {
         return apiInterface.getElections()
                 .doOnNext {
-                    electionsDao.deleteAll()
-
                     for (item in it)
                         electionsDao.insertElection(item)
                 }
