@@ -7,6 +7,7 @@
 
     <dimen name="card_margin">8dp</dimen>
     <dimen name="card_radius">4dp</dimen>
+    <dimen name="card_chart_margin">64dp</dimen>
 
     <dimen name="text_size_year_general_elections">20sp</dimen>
 
