@@ -46,8 +46,30 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
                 elections[position].year
 
         holder.card.section_label.text = concatenatedText
+
+        if (results.size > 0)
+            utils.drawPieChart(holder.card.pie_chart, getElects(position), getColors(position))
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = elections.size
+
+    private fun getElects(position: Int): Array<Int> {
+        val elects = ArrayList<Int>()
+
+        for (r in results[position])
+            elects.add(r.elects!!)
+
+        return elects.toTypedArray()
+    }
+
+    private fun getColors(position: Int): Array<String> {
+        val colors = ArrayList<String>()
+
+        for (r in results[position]) {
+            colors.add("#" + parties[r.partyId]!!)
+        }
+
+        return colors.toTypedArray()
+    }
 }

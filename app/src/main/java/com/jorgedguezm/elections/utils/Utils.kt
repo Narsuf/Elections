@@ -49,7 +49,8 @@ class Utils @Inject constructor(private val context: Context) {
 
         val colorsArray = ArrayList<Int>()
 
-        for (one in colors) colorsArray.add(Color.parseColor(one))
+        for (one in colors)
+            colorsArray.add(Color.parseColor(one))
 
         dataSet.colors = colorsArray
 
