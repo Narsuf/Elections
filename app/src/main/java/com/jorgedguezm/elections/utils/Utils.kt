@@ -36,15 +36,14 @@ class Utils @Inject constructor(private val context: Context) {
         chart.legend.isEnabled = false
 
         chart.isDrawHoleEnabled = true
-        //chart.setHoleColor(Color.WHITE)
         chart.holeRadius = 60F
 
-        val yVals1 = ArrayList<PieEntry>()
+        val yVals = ArrayList<PieEntry>()
 
         for (i in elects.indices)
-            yVals1.add(PieEntry(elects[i].toFloat(), i.toFloat()))
+            yVals.add(PieEntry(elects[i].toFloat(), i.toFloat()))
 
-        val dataSet = PieDataSet(yVals1, null)
+        val dataSet = PieDataSet(yVals, null)
         dataSet.sliceSpace = 0.8F
 
         val colorsArray = ArrayList<Int>()
