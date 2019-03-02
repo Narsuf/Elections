@@ -13,8 +13,15 @@ class ResultsRepository @Inject constructor(val apiInterface: ApiInterface,
                                             val resultsDao: ResultsDao, val utils: Utils) {
 
     fun getResults(year: Int, place: String, chamberName: String): Observable<List<Results>> {
-        return if (utils.isConnectedToInternet()) getResultsFromApi(year, place, chamberName)
-        else getResultsFromDb(year, place, chamberName)
+        val observableFromDb = getResultsFromDb(year, place, chamberName)
+        var returnValue = observableFromDb
+
+        if (utils.isConnectedToInternet()) {
+            returnValue = Observable.concatArrayEager(
+                    getResultsFromApi(year, place, chamberName), observableFromDb)
+        }
+
+        return returnValue
     }
 
     fun getResultsFromApi(year: Int, place: String,
