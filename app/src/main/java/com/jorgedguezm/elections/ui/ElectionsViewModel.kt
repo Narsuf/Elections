@@ -32,20 +32,17 @@ class ElectionsViewModel @Inject constructor(
     var partiesError: MutableLiveData<String> = MutableLiveData()
     lateinit var partiesDisposableObserver: DisposableObserver<List<Party>>
 
-    var resultsResult: MutableLiveData<List<Results>> = MutableLiveData()
-    var resultsError: MutableLiveData<String> = MutableLiveData()
+    lateinit var resultsResult: MutableLiveData<List<Results>>
+    lateinit var resultsError: MutableLiveData<String>
     lateinit var resultsDisposableObserver: DisposableObserver<List<Results>>
 
     fun electionsResult(): LiveData<List<Election>> { return electionsResult }
-
     fun electionsError(): LiveData<String> { return electionsError }
 
     fun partiesResult(): LiveData<List<Party>> { return partiesResult }
-
     fun partiesError(): LiveData<String> { return partiesError }
 
     fun resultsResult(): LiveData<List<Results>> { return resultsResult }
-
     fun resultsError(): LiveData<String> { return resultsError }
 
     fun loadElections() {
@@ -82,6 +79,7 @@ class ElectionsViewModel @Inject constructor(
 
     fun loadResults(year: Int, place: String, chamberName: String) {
         resultsResult = MutableLiveData()
+        resultsError = MutableLiveData()
 
         resultsDisposableObserver = object : DisposableObserver<List<Results>>() {
             override fun onComplete() { }
