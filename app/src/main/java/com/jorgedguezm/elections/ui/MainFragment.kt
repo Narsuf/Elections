@@ -102,10 +102,11 @@ class MainFragment : Fragment() {
         val generalElections = ArrayList<Election>()
 
         for (p in parties)
-            viewAdapter.parties[p.name] = p.color
+            viewAdapter.partiesColor[p.name] = p.color
 
-        for (e in elections)
+        for (e in elections) {
             if (e.name == "Generales" && e.chamberName == "Congreso") generalElections.add(e)
+        }
 
         val sortedList = generalElections.sortedWith(compareByDescending {it.year})
 

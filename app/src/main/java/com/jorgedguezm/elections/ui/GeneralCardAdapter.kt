@@ -19,7 +19,7 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
                                              var elections: Array<Election>, val utils: Utils):
         RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
-    var parties = HashMap<String, String>()
+    var partiesColor = HashMap<String, String>()
     var results = ArrayList<List<Results>>()
 
     // Provide a reference to the views for each data item
@@ -66,9 +66,8 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
     private fun getColors(position: Int): Array<String> {
         val colors = ArrayList<String>()
 
-        for (r in results[position]) {
-            colors.add("#" + parties[r.partyId]!!)
-        }
+        for (r in results[position])
+            colors.add("#" + partiesColor[r.partyId]!!)
 
         return colors.toTypedArray()
     }
