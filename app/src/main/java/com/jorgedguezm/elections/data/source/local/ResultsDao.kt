@@ -16,9 +16,6 @@ interface ResultsDao {
             "WHERE e.year = :year AND e.place = :place AND e.chamberName = :chamberName")
     fun getElectionResults(year: Int, place: String, chamberName: String): Single<List<Results>>
 
-    @Query("DELETE FROM results")
-    fun deleteAll()
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertResults(results: Results)
 }
