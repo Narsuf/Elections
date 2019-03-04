@@ -12,9 +12,9 @@ import io.reactivex.Single
 @Dao
 interface ResultsDao {
 
-    @Query("SELECT * FROM results WHERE partyId = :partyId AND electionId = :electionId " +
-            "LIMIT 1")
-    fun getResults(partyId: String, electionId: Long): Single<Results>
+    @Query("SELECT * FROM results r INNER JOIN election e ON e.id = r.electionId " +
+            "WHERE e.year = :year AND e.place = :place AND e.chamberName = :chamberName")
+    fun getElectionResults(year: Int, place: String, chamberName: String): Single<List<Results>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertResults(results: Results)

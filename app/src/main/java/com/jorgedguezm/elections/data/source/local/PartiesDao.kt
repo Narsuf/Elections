@@ -12,8 +12,8 @@ import io.reactivex.Single
 @Dao
 interface PartiesDao {
 
-    @Query("SELECT * FROM party WHERE name = :name LIMIT 1")
-    fun getParty(name: String): Single<Party>
+    @Query("SELECT * FROM party")
+    fun queryParties(): Single<List<Party>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertParty(party: Party)
