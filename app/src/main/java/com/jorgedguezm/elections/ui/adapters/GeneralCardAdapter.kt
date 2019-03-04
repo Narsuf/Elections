@@ -13,7 +13,6 @@ import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_RESULTS
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Results
-import com.jorgedguezm.elections.ui.MainActivity
 import com.jorgedguezm.elections.ui.MainFragment
 import com.jorgedguezm.elections.ui.detail.DetailActivity
 import com.jorgedguezm.elections.utils.Utils
@@ -44,14 +43,6 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
         val card = LayoutInflater.from(parent.context)
                 .inflate(R.layout.general_elections_card, parent, false) as CardView
 
-        card.setOnClickListener {
-            val myIntent = Intent(fragment.context, DetailActivity::class.java)
-            myIntent.putExtra(KEY_ELECTIONS_BUNDLE, elections)
-            myIntent.putExtra(KEY_PARTIES, partiesColor)
-            myIntent.putExtra(KEY_RESULTS, results)
-            fragment.startActivity(myIntent)
-        }
-
         return MyViewHolder(card)
     }
 
@@ -63,6 +54,13 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
                 elections[position].year
 
         holder.card.section_label.text = concatenatedText
+        holder.card.setOnClickListener {
+            val myIntent = Intent(fragment.context, DetailActivity::class.java)
+            myIntent.putExtra(KEY_ELECTIONS_BUNDLE, elections[position])
+            myIntent.putExtra(KEY_PARTIES, partiesColor)
+            myIntent.putExtra(KEY_RESULTS, ArrayList<Results>(results[position]))
+            fragment.startActivity(myIntent)
+        }
 
         if (results.size > 0)
             utils.drawPieChart(holder.card.pie_chart, getElects(position), getColors(position))
