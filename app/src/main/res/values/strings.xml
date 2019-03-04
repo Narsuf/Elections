@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Elections</string>
-    <string name="section_format">Hello World from section: %1$d</string>
 
     <string name="general">General</string>
     <string name="regional">Regional</string>

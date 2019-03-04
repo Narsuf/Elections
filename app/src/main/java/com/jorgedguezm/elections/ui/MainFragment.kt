@@ -2,9 +2,7 @@ package com.jorgedguezm.elections.ui
 
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,6 +15,7 @@ import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Party
 import com.jorgedguezm.elections.data.Results
+import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
 
 import dagger.android.support.AndroidSupportInjection
 
@@ -66,7 +65,10 @@ class MainFragment : Fragment() {
         electionsBundle = arguments?.getBundle(KEY_ELECTIONS_BUNDLE)!!
 
         when (arguments?.getInt(ARG_SECTION_NUMBER)) {
-            1 -> createGeneralElectionsCards()
+            1 -> {
+                createGeneralElectionsCards()
+                setHasOptionsMenu(true)
+            }
         }
     }
 
@@ -94,6 +96,21 @@ class MainFragment : Fragment() {
     override fun onDestroy() {
         electionsViewModel.disposeElements()
         super.onDestroy()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_main, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        val id = item.itemId
+
+        if (id == R.id.action_show_historical) return true
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun createGeneralElectionsCards() {

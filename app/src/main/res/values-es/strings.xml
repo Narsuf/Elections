@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Elecciones</string>
-    <string name="section_format">Hola mundo desde la sección: %1$d</string>
 
     <string name="general">Generales</string>
     <string name="regional">Autonómicas</string>

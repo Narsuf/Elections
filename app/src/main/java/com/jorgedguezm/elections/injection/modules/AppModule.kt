@@ -11,7 +11,7 @@ import com.jorgedguezm.elections.data.source.local.PartiesDao
 import com.jorgedguezm.elections.data.source.local.ResultsDao
 import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.ui.ElectionsViewModelFactory
-import com.jorgedguezm.elections.ui.GeneralCardAdapter
+import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
 
 import dagger.Module
 import dagger.Provides

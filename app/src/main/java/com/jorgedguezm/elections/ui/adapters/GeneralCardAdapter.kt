@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui
+package com.jorgedguezm.elections.ui.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -30,11 +30,15 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): GeneralCardAdapter.MyViewHolder {
+                                    viewType: Int): MyViewHolder {
         // create a new view
         val card = LayoutInflater.from(parent.context)
                 .inflate(R.layout.general_elections_card, parent, false) as CardView
-        // set the view's size, margins, paddings and layout parameters
+
+        card.setOnClickListener {
+
+        }
+
         return MyViewHolder(card)
     }
 
