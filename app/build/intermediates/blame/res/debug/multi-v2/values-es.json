@@ -1,27 +1,38 @@
 {
     "logs": [
         {
-            "outputFile": "/home/jorge/AndroidStudioProjects/Elections/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es/values-es.xml",
+            "outputFile": "/Users/jorge/Workspace/Elections/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es/values-es.xml",
             "map": [
                 {
-                    "source": "/home/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.0.aar/96e0555b99b1cf6dd6fbf1ea157e72a9/res/values-es/values-es.xml",
+                    "source": "/Users/jorge/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/59d80568a6dfbb5248ebf5e249ea7998/res/values-es/values-es.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,172,280,403,516,624,709,810,938,1014,1090,1172,1279,1379,1478,1586,1693,1800,1922,2022,2104",
-                        "endColumns": "116,107,122,112,107,84,100,127,75,75,81,106,99,98,107,106,106,121,99,81,100",
-                        "endOffsets": "167,275,398,511,619,704,805,933,1009,1085,1167,1274,1374,1473,1581,1688,1795,1917,2017,2099,2200"
+                        "startOffsets": "55,172,280,403,516,624,709,810,938,1023,1105,1187,1294,1394,1493,1601,1708,1815,1937,2037,2119",
+                        "endColumns": "116,107,122,112,107,84,100,127,84,81,81,106,99,98,107,106,106,121,99,81,100",
+                        "endOffsets": "167,275,398,511,619,704,805,933,1018,1100,1182,1289,1389,1488,1596,1703,1810,1932,2032,2114,2215"
                     },
                     "to": {
                         "startLines": "17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,54,57",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "587,704,812,935,1048,1156,1241,1342,1470,1546,1622,1704,1811,1911,2010,2118,2225,2332,2454,3448,3634",
-                        "endColumns": "116,107,122,112,107,84,100,127,75,75,81,106,99,98,107,106,106,121,99,81,100",
-                        "endOffsets": "699,807,930,1043,1151,1236,1337,1465,1541,1617,1699,1806,1906,2005,2113,2220,2327,2449,2549,3525,3730"
+                        "startOffsets": "587,704,812,935,1048,1156,1241,1342,1470,1555,1637,1719,1826,1926,2025,2133,2240,2347,2469,3463,3649",
+                        "endColumns": "116,107,122,112,107,84,100,127,84,81,81,106,99,98,107,106,106,121,99,81,100",
+                        "endOffsets": "699,807,930,1043,1151,1236,1337,1465,1550,1632,1714,1821,1921,2020,2128,2235,2342,2464,2564,3540,3745"
                     }
                 },
                 {
-                    "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/values-es/strings.xml",
+                    "source": "/Users/jorge/Workspace/Elections/app/src/main/res/values-es/arrays.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "16",
+                        "endColumns": "19",
+                        "endOffsets": "582"
+                    }
+                },
+                {
+                    "source": "/Users/jorge/Workspace/Elections/app/src/main/res/values-es/strings.xml",
                     "from": {
                         "startLines": "21,11,3,2,23,12,6,17,4,20,19,16,8,10,22,13,9,18,5,7,14,15",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -32,20 +43,9 @@
                     "to": {
                         "startLines": "36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,55,56,58,59",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "2554,2609,2652,2704,2752,2809,2853,2905,2946,2992,3056,3117,3160,3206,3252,3304,3346,3395,3530,3572,3735,3775",
+                        "startOffsets": "2569,2624,2667,2719,2767,2824,2868,2920,2961,3007,3071,3132,3175,3221,3267,3319,3361,3410,3545,3587,3750,3790",
                         "endColumns": "54,42,51,47,56,43,51,40,45,63,60,42,45,45,51,41,48,52,41,61,39,44",
-                        "endOffsets": "2604,2647,2699,2747,2804,2848,2900,2941,2987,3051,3112,3155,3201,3247,3299,3341,3390,3443,3567,3629,3770,3815"
-                    }
-                },
-                {
-                    "source": "/home/jorge/AndroidStudioProjects/Elections/app/src/main/res/values-es/arrays.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "16",
-                        "endColumns": "19",
-                        "endOffsets": "582"
+                        "endOffsets": "2619,2662,2714,2762,2819,2863,2915,2956,3002,3066,3127,3170,3216,3262,3314,3356,3405,3458,3582,3644,3785,3830"
                     }
                 }
             ]
