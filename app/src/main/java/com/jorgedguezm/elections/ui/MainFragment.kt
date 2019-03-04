@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
     lateinit var electionsBundle: Bundle
 
     @Inject
-    lateinit var viewAdapter: GeneralCardAdapter
+    lateinit var generalCardAdapter: GeneralCardAdapter
 
     @Inject
     lateinit var electionsViewModelFactory: ElectionsViewModelFactory
@@ -66,8 +66,9 @@ class MainFragment : Fragment() {
 
         when (arguments?.getInt(ARG_SECTION_NUMBER)) {
             1 -> {
-                createGeneralElectionsCards()
                 setHasOptionsMenu(true)
+                generalCardAdapter.fragment = this
+                createGeneralElectionsCards()
             }
         }
     }
@@ -89,7 +90,7 @@ class MainFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
 
             // specify an viewAdapter (see also next example)
-            adapter = viewAdapter
+            adapter = generalCardAdapter
         }
     }
 
@@ -119,7 +120,7 @@ class MainFragment : Fragment() {
         val generalElections = ArrayList<Election>()
 
         for (p in parties)
-            viewAdapter.partiesColor[p.name] = p.color
+            generalCardAdapter.partiesColor[p.name] = p.color
 
         for (e in elections) {
             if (e.name == "Generales" && e.chamberName == "Congreso") generalElections.add(e)
@@ -138,14 +139,14 @@ class MainFragment : Fragment() {
 
             electionsViewModel.resultsResult().observe(this,
                     Observer<List<Results>> {
-                        viewAdapter.results.add(it)
+                        generalCardAdapter.results.add(it)
                         index++
 
                         if (index < sortedList.size) {
                             handler.post(runnable)
                         } else {
-                            viewAdapter.elections = sortedList.toTypedArray()
-                            recyclerView.adapter = viewAdapter
+                            generalCardAdapter.elections = sortedList.toTypedArray()
+                            recyclerView.adapter = generalCardAdapter
                         }
                     })
         }

@@ -2,6 +2,7 @@ package com.jorgedguezm.elections.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+
 import com.jorgedguezm.elections.R
 
 class DetailActivity : AppCompatActivity() {

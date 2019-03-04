@@ -1,14 +1,21 @@
 package com.jorgedguezm.elections.ui.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS_BUNDLE
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_RESULTS
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Results
+import com.jorgedguezm.elections.ui.MainActivity
+import com.jorgedguezm.elections.ui.MainFragment
+import com.jorgedguezm.elections.ui.detail.DetailActivity
 import com.jorgedguezm.elections.utils.Utils
 
 import kotlinx.android.synthetic.main.general_elections_card.view.*
@@ -18,6 +25,8 @@ import javax.inject.Inject
 class GeneralCardAdapter @Inject constructor(private val context: Context,
                                              var elections: Array<Election>, val utils: Utils):
         RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
+
+    lateinit var fragment: MainFragment
 
     var partiesColor = HashMap<String, String>()
     var results = ArrayList<List<Results>>()
@@ -36,7 +45,11 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
                 .inflate(R.layout.general_elections_card, parent, false) as CardView
 
         card.setOnClickListener {
-
+            val myIntent = Intent(fragment.context, DetailActivity::class.java)
+            myIntent.putExtra(KEY_ELECTIONS_BUNDLE, elections)
+            myIntent.putExtra(KEY_PARTIES, partiesColor)
+            myIntent.putExtra(KEY_RESULTS, results)
+            fragment.startActivity(myIntent)
         }
 
         return MyViewHolder(card)
