@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.graphics.Color
+import android.graphics.Color.TRANSPARENT
 
 import javax.inject.Inject
 
@@ -11,6 +12,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
+import com.jorgedguezm.elections.data.Results
 
 class Utils @Inject constructor(private val context: Context) {
 
@@ -36,6 +38,7 @@ class Utils @Inject constructor(private val context: Context) {
         chart.legend.isEnabled = false
 
         chart.isDrawHoleEnabled = true
+        chart.setHoleColor(TRANSPARENT)
         chart.holeRadius = 60F
 
         val yVals = ArrayList<PieEntry>()
@@ -61,5 +64,25 @@ class Utils @Inject constructor(private val context: Context) {
         chart.rotationAngle = 180F
         chart.setTouchEnabled(false)
         chart.animateXY(1500, 1500)
+    }
+
+    fun getElectsFromResults(results: List<Results>): Array<Int> {
+        val elects = ArrayList<Int>()
+
+        for (r in results)
+            elects.add(r.elects!!)
+
+        return elects.toTypedArray()
+    }
+
+    fun getColorsFromResults(results: List<Results>,
+                                     partiesColor: Map<String, String>): Array<String> {
+
+        val colors = ArrayList<String>()
+
+        for (r in results)
+            colors.add("#" + partiesColor[r.partyId])
+
+        return colors.toTypedArray()
     }
 }

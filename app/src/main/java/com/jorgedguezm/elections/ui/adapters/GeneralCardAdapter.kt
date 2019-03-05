@@ -8,7 +8,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS_BUNDLE
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_RESULTS
 import com.jorgedguezm.elections.data.Election
@@ -50,40 +50,23 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        val positionResults = results[position]
         val concatenatedText = context.resources.getString(R.string.app_name) + " " +
                 elections[position].year
 
         holder.card.section_label.text = concatenatedText
         holder.card.setOnClickListener {
             val myIntent = Intent(fragment.context, DetailActivity::class.java)
-            myIntent.putExtra(KEY_ELECTIONS_BUNDLE, elections[position])
+            myIntent.putExtra(KEY_ELECTIONS, elections[position])
             myIntent.putExtra(KEY_PARTIES, partiesColor)
-            myIntent.putExtra(KEY_RESULTS, ArrayList<Results>(results[position]))
+            myIntent.putExtra(KEY_RESULTS, ArrayList<Results>(positionResults))
             fragment.startActivity(myIntent)
         }
 
-        if (results.size > 0)
-            utils.drawPieChart(holder.card.pie_chart, getElects(position), getColors(position))
+        utils.drawPieChart(holder.card.pie_chart, utils.getElectsFromResults(positionResults),
+                utils.getColorsFromResults(positionResults, partiesColor))
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = elections.size
-
-    private fun getElects(position: Int): Array<Int> {
-        val elects = ArrayList<Int>()
-
-        for (r in results[position])
-            elects.add(r.elects!!)
-
-        return elects.toTypedArray()
-    }
-
-    private fun getColors(position: Int): Array<String> {
-        val colors = ArrayList<String>()
-
-        for (r in results[position])
-            colors.add("#" + partiesColor[r.partyId]!!)
-
-        return colors.toTypedArray()
-    }
 }
