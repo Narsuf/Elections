@@ -83,7 +83,7 @@
         android:id="@+id/votesFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/detail_activity_margin_top_floating_button"
+        android:layout_marginTop="@dimen/detail_activity_floating_button_margin_top"
         android:src="@android:drawable/ic_dialog_email"
         app:layout_constraintTop_toBottomOf="@+id/appbar"
         app:layout_constraintLeft_toLeftOf="parent"

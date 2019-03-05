@@ -1,6 +1,10 @@
 package com.jorgedguezm.elections.ui.detail
 
 import android.os.Bundle
+import android.graphics.Color
+import android.view.View
+import android.widget.SimpleAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
@@ -14,16 +18,10 @@ import com.jorgedguezm.elections.utils.Utils
 import dagger.android.AndroidInjection
 
 import kotlinx.android.synthetic.main.detail_activity.*
+
 import java.math.RoundingMode
 
 import javax.inject.Inject
-import android.R.id
-import android.R.layout
-import android.graphics.Color
-import android.view.View
-import android.widget.SimpleAdapter
-import android.widget.TextView
-
 
 class DetailActivity : AppCompatActivity() {
 
@@ -77,8 +75,8 @@ class DetailActivity : AppCompatActivity() {
                 from, to)
 
         adapter.viewBinder = PartyColorBinder()
-        val listOptions = list_view
-        listOptions.adapter = adapter
+
+        list_view.adapter = adapter
     }
 
     private fun getPercentageOfVotes(partyVotes: Int): Float {
@@ -87,6 +85,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     inner class PartyColorBinder: SimpleAdapter.ViewBinder {
+
         override fun setViewValue(view: View?, data: Any?, textRepresentation: String?): Boolean {
             if (view is TextView && data.toString().matches(Regex("[#].*"))) {
                 view.setBackgroundColor(Color.parseColor(data.toString()))

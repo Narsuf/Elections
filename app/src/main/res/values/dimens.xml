@@ -18,7 +18,7 @@
     <dimen name="detail_activity_votes_text_view_width">65dp</dimen>
     <dimen name="detail_activity_votes_percentage_text_view_width">110dp</dimen>
     <dimen name="detail_activity_elects_text_view_width">60dp</dimen>
-    <dimen name="detail_activity_margin_top_floating_button">120dp</dimen>
+    <dimen name="detail_activity_floating_button_margin_top">120dp</dimen>
 
     <dimen name="list_item_detail_activity_height">60dp</dimen>
     <dimen name="list_item_detail_activity_party_color_height">50dp</dimen>
