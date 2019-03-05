@@ -12,4 +12,7 @@
     <dimen name="text_size_year_general_elections">20sp</dimen>
 
     <dimen name="pie_chart_height">300dp</dimen>
+
+    <dimen name="detail_activity_list_height">400dp</dimen>
+    <dimen name="margin_top_floating_button">120dp</dimen>
 </resources>
