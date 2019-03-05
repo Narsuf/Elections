@@ -45,25 +45,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/party_text_view_height"
+                android:layout_width="@dimen/detail_activity_party_text_view_height"
                 android:layout_height="wrap_content"
                 android:text="@string/party"
                 android:gravity="center" />
 
             <TextView
-                android:layout_width="@dimen/votes_text_view_width"
+                android:layout_width="@dimen/detail_activity_votes_text_view_width"
                 android:layout_height="wrap_content"
                 android:text="@string/votes"
                 android:gravity="center" />
 
             <TextView
-                android:layout_width="@dimen/votes_percentage_text_view_width"
+                android:layout_width="@dimen/detail_activity_votes_percentage_text_view_width"
                 android:layout_height="wrap_content"
                 android:text="@string/votes_percentage"
                 android:gravity="center" />
 
             <TextView
-                android:layout_width="@dimen/elects_text_view_width"
+                android:layout_width="@dimen/detail_activity_elects_text_view_width"
                 android:layout_height="wrap_content"
                 android:text="@string/elects"
                 android:gravity="center" />
@@ -83,7 +83,7 @@
         android:id="@+id/votesFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top_floating_button"
+        android:layout_marginTop="@dimen/detail_activity_margin_top_floating_button"
         android:src="@android:drawable/ic_dialog_email"
         app:layout_constraintTop_toBottomOf="@+id/appbar"
         app:layout_constraintLeft_toLeftOf="parent"
