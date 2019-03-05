@@ -15,10 +15,8 @@
 
     <dimen name="detail_activity_list_height">400dp</dimen>
     <dimen name="margin_top_floating_button">120dp</dimen>
-    <dimen name="party_text_view_height">142dp</dimen>
+    <dimen name="party_text_view_height">140dp</dimen>
     <dimen name="votes_text_view_width">65dp</dimen>
-    <dimen name="votes_percentage_text_view_width">61dp</dimen>
-    <dimen name="votes_percentage_text_view_margin_start">20dp</dimen>
-    <dimen name="elects_text_view_width">55dp</dimen>
-    <dimen name="elects_text_view_margin_start">40dp</dimen>
+    <dimen name="votes_percentage_text_view_width">80dp</dimen>
+    <dimen name="elects_text_view_width">100dp</dimen>
 </resources>
