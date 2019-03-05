@@ -23,9 +23,6 @@ import kotlinx.android.synthetic.main.detail_activity.*
 import java.math.RoundingMode
 
 import javax.inject.Inject
-import android.widget.AdapterView
-
-
 
 class DetailActivity : AppCompatActivity() {
 
@@ -94,7 +91,7 @@ class DetailActivity : AppCompatActivity() {
         list_view.setOnItemClickListener { _, _, position, _ ->
             pie_chart.highlightValue(position.toFloat(), 0)
 
-            object: CountDownTimer(1500, 1) {
+            object: CountDownTimer(1000, 1) {
 
                 override fun onTick(millisUntilFinished: Long) { }
 
