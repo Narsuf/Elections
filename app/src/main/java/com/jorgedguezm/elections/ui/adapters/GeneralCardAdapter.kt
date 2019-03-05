@@ -51,13 +51,13 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         val positionResults = results[position]
-        val concatenatedText = context.resources.getString(R.string.app_name) + " " +
-                elections[position].year
+        val election = elections[position]
+        val concatenatedText = context.resources.getString(R.string.app_name) + " " + election.year
 
         holder.card.section_label.text = concatenatedText
         holder.card.setOnClickListener {
             val myIntent = Intent(fragment.context, DetailActivity::class.java)
-            myIntent.putExtra(KEY_ELECTIONS, elections[position])
+            myIntent.putExtra(KEY_ELECTIONS, election)
             myIntent.putExtra(KEY_PARTIES, partiesColor)
             myIntent.putExtra(KEY_RESULTS, ArrayList<Results>(positionResults))
             fragment.startActivity(myIntent)
