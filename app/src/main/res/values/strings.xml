@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Elections</string>
-    <string name="section_format">Hello World from section: %1$d</string>
 
     <string name="general">General</string>
     <string name="regional">Regional</string>
     <string name="local">Local</string>
+
+    <string name="party">Party</string>
+    <string name="votes">Votes</string>
+    <string name="votes_percentage">Votes (%)</string>
+    <string name="elects">Elects</string>
 
     <string name="show_historical">Show historical</string>
 
