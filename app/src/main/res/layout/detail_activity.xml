@@ -36,7 +36,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/detail_activity_list_height"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableRow">
+
+            <TextView
+                android:layout_width="@dimen/party_text_view_height"
+                android:layout_height="wrap_content"
+                android:text="@string/party"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="@dimen/votes_text_view_width"
+                android:layout_height="wrap_content"
+                android:text="@string/votes"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="@dimen/votes_percentage_text_view_width"
+                android:layout_height="wrap_content"
+                android:text="@string/votes_percentage"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/votes_percentage_text_view_margin_start"/>
+
+            <TextView
+                android:layout_width="@dimen/elects_text_view_width"
+                android:layout_height="wrap_content"
+                android:text="@string/elects"
+                android:layout_marginStart="@dimen/elects_text_view_margin_start"/>
+        </TableRow>
 
         <ListView
             android:layout_width="match_parent"

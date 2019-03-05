@@ -5,6 +5,11 @@
     <string name="regional">Regional</string>
     <string name="local">Local</string>
 
+    <string name="party">Party</string>
+    <string name="votes">Votes</string>
+    <string name="votes_percentage">Votes (%)</string>
+    <string name="elects">Elects</string>
+
     <string name="show_historical">Show historical</string>
 
     <string name="no_internet_connection">No Internet connection</string>
