@@ -2,6 +2,7 @@ package com.jorgedguezm.elections.ui.detail
 
 import android.os.Bundle
 import android.graphics.Color
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.SimpleAdapter
 import android.widget.TextView
@@ -22,6 +23,9 @@ import kotlinx.android.synthetic.main.detail_activity.*
 import java.math.RoundingMode
 
 import javax.inject.Inject
+import android.widget.AdapterView
+
+
 
 class DetailActivity : AppCompatActivity() {
 
@@ -77,11 +81,26 @@ class DetailActivity : AppCompatActivity() {
         adapter.viewBinder = PartyColorBinder()
 
         list_view.adapter = adapter
+
+        setClickListener()
     }
 
     private fun getPercentageOfVotes(partyVotes: Int): Float {
         val percentage = (partyVotes.toFloat() / election.validVotes.toFloat()) * 100
         return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toFloat()
+    }
+
+    private fun setClickListener() {
+        list_view.setOnItemClickListener { _, _, position, _ ->
+            pie_chart.highlightValue(position.toFloat(), 0)
+
+            object: CountDownTimer(1500, 1) {
+
+                override fun onTick(millisUntilFinished: Long) { }
+
+                override fun onFinish() { pie_chart.highlightValue(-1F, -1) }
+            }.start()
+        }
     }
 
     inner class PartyColorBinder: SimpleAdapter.ViewBinder {
