@@ -34,8 +34,9 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
     var congressResults = ArrayList<List<Results>>()
 
     lateinit var senateElections: Array<Election>
-    lateinit var electionsViewModel: ElectionsViewModel
+
     lateinit var fragment: MainFragment
+    lateinit var electionsViewModel: ElectionsViewModel
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
