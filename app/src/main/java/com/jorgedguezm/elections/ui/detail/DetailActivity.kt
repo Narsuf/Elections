@@ -12,6 +12,8 @@ import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_ELECTIONS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_RESULTS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_ELECTIONS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_RESULTS
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Results
 import com.jorgedguezm.elections.utils.Utils
@@ -29,6 +31,8 @@ class DetailActivity : AppCompatActivity() {
     lateinit var partiesColor: HashMap<String, String>
     lateinit var congressElection: Election
     lateinit var congressResults: ArrayList<Results>
+    lateinit var senateElection: Election
+    lateinit var senateResults: ArrayList<Results>
 
     lateinit var countDownTimer: CountDownTimer
 
@@ -47,6 +51,8 @@ class DetailActivity : AppCompatActivity() {
         partiesColor = bundle?.getSerializable(KEY_PARTIES) as HashMap<String, String>
         congressElection = bundle.getSerializable(KEY_CONGRESS_ELECTIONS) as Election
         congressResults = bundle.getSerializable(KEY_CONGRESS_RESULTS) as ArrayList<Results>
+        senateElection = bundle.getSerializable(KEY_SENATE_ELECTIONS) as Election
+        senateResults = bundle.getSerializable(KEY_SENATE_RESULTS) as ArrayList<Results>
 
         utils.drawPieChart(pie_chart, utils.getElectsFromResults(congressResults),
                 utils.getColorsFromResults(congressResults, partiesColor))

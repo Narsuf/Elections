@@ -63,8 +63,8 @@ class MainFragment : Fragment() {
         electionsViewModel = ViewModelProviders.of(this, electionsViewModelFactory).get(
                 ElectionsViewModel::class.java)
 
-        val electionsBundle = arguments?.getBundle(KEY_ELECTIONS_BUNDLE)!!
-        parties = electionsBundle.getSerializable(KEY_PARTIES) as ArrayList<Party>
+        val electionsBundle = arguments!!.getBundle(KEY_ELECTIONS_BUNDLE)
+        parties = electionsBundle?.getSerializable(KEY_PARTIES) as ArrayList<Party>
         elections = electionsBundle.getSerializable(KEY_ELECTIONS) as ArrayList<Election>
 
         when (arguments?.getInt(ARG_SECTION_NUMBER)) {
@@ -152,6 +152,7 @@ class MainFragment : Fragment() {
                         } else {
                             generalCardAdapter.congressElections = sortedList.toTypedArray()
                             generalCardAdapter.senateElections = senateElections.toTypedArray()
+                            generalCardAdapter.electionsViewModel = electionsViewModel
                             recyclerView.adapter = generalCardAdapter
                         }
                     })
