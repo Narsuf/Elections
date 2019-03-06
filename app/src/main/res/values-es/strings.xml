@@ -6,6 +6,9 @@
     <string name="regional">Autonómicas</string>
     <string name="local">Municipales</string>
 
+    <string name="congress">Congreso</string>
+    <string name="senate">Senado</string>
+
     <string name="party">Partido</string>
     <string name="votes">Votos</string>
     <string name="votes_percentage">Votos (%)</string>

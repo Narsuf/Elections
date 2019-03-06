@@ -1,6 +1,8 @@
 package com.jorgedguezm.elections.ui.detail
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
@@ -10,6 +12,7 @@ import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_RESU
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTION
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_RESULTS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_ELECTIONS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_RESULTS
 import com.jorgedguezm.elections.data.Election
@@ -19,13 +22,14 @@ import kotlinx.android.synthetic.main.detail_activity.*
 
 class DetailActivity : AppCompatActivity() {
 
-    var electionName = KEY_CONGRESS
+    private val bundle = Bundle()
+    private var electionName = KEY_CONGRESS
 
-    lateinit var partiesColor: HashMap<String, String>
-    lateinit var congressElection: Election
-    lateinit var congressResults: ArrayList<Results>
-    lateinit var senateElection: Election
-    lateinit var senateResults: ArrayList<Results>
+    private lateinit var partiesColor: HashMap<String, String>
+    private lateinit var congressElection: Election
+    private lateinit var congressResults: ArrayList<Results>
+    private lateinit var senateElection: Election
+    private lateinit var senateResults: ArrayList<Results>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,17 +44,53 @@ class DetailActivity : AppCompatActivity() {
         senateElection = extras.getSerializable(KEY_SENATE_ELECTIONS) as Election
         senateResults = extras.getSerializable(KEY_SENATE_RESULTS) as ArrayList<Results>
 
-        val bundle = Bundle()
         bundle.putSerializable(KEY_PARTIES, partiesColor)
+        bundle.putSerializable(KEY_ELECTION, congressElection)
+        bundle.putSerializable(KEY_RESULTS, congressResults)
 
-        if (electionName == KEY_CONGRESS) {
-            bundle.putSerializable(KEY_ELECTION, congressElection)
-            bundle.putSerializable(KEY_RESULTS, congressResults)
-            beginTransaction(bundle)
-        }
+        beginTransaction()
     }
 
-    private fun beginTransaction(bundle: Bundle) {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_detail_activity, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        val id = item.itemId
+
+        when (id) {
+            R.id.action_congress -> {
+                if (electionName == KEY_SENATE) {
+                    bundle.putSerializable(KEY_ELECTION, congressElection)
+                    bundle.putSerializable(KEY_RESULTS, congressResults)
+                    beginTransaction()
+                    electionName = KEY_CONGRESS
+                }
+
+                return true
+            }
+
+            R.id.action_senate -> {
+                if (electionName == KEY_CONGRESS) {
+                    bundle.putSerializable(KEY_ELECTION, senateElection)
+                    bundle.putSerializable(KEY_RESULTS, senateResults)
+                    beginTransaction()
+                    electionName = KEY_SENATE
+                }
+
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun beginTransaction() {
         val detailFragment = DetailFragment()
         val transaction = supportFragmentManager.beginTransaction()
 

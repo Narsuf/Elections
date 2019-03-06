@@ -5,6 +5,9 @@
     <string name="regional">Regional</string>
     <string name="local">Local</string>
 
+    <string name="congress">Congress</string>
+    <string name="senate">Senate</string>
+
     <string name="party">Party</string>
     <string name="votes">Votes</string>
     <string name="votes_percentage">Votes (%)</string>
