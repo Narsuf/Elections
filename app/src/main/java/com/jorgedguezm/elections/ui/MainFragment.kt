@@ -25,7 +25,8 @@ import javax.inject.Inject
 
 class MainFragment : Fragment() {
 
-    lateinit var electionsBundle: Bundle
+    lateinit var parties: ArrayList<Party>
+    lateinit var elections: ArrayList<Election>
 
     @Inject
     lateinit var generalCardAdapter: GeneralCardAdapter
@@ -62,7 +63,9 @@ class MainFragment : Fragment() {
         electionsViewModel = ViewModelProviders.of(this, electionsViewModelFactory).get(
                 ElectionsViewModel::class.java)
 
-        electionsBundle = arguments?.getBundle(KEY_ELECTIONS_BUNDLE)!!
+        val electionsBundle = arguments?.getBundle(KEY_ELECTIONS_BUNDLE)!!
+        parties = electionsBundle.getSerializable(KEY_PARTIES) as ArrayList<Party>
+        elections = electionsBundle.getSerializable(KEY_ELECTIONS) as ArrayList<Election>
 
         when (arguments?.getInt(ARG_SECTION_NUMBER)) {
             1 -> {
@@ -115,18 +118,20 @@ class MainFragment : Fragment() {
     }
 
     private fun createGeneralElectionsCards() {
-        val parties = electionsBundle.getSerializable(KEY_PARTIES) as ArrayList<Party>
-        val elections = electionsBundle.getSerializable(KEY_ELECTIONS) as ArrayList<Election>
-        val generalElections = ArrayList<Election>()
+        val congressElections = ArrayList<Election>()
+        val senateElections = ArrayList<Election>()
 
         for (p in parties)
             generalCardAdapter.partiesColor[p.name] = p.color
 
         for (e in elections) {
-            if (e.name == "Generales" && e.chamberName == "Congreso") generalElections.add(e)
+            if (e.name == "Generales" && e.chamberName == "Congreso")
+                congressElections.add(e)
+            else
+                senateElections.add(e)
         }
 
-        val sortedList = generalElections.sortedWith(compareByDescending {it.year})
+        val sortedList = congressElections.sortedWith(compareByDescending {it.year})
 
         // These calls need to be made synchronously
         val handler = Handler()
@@ -139,13 +144,14 @@ class MainFragment : Fragment() {
 
             electionsViewModel.resultsResult().observe(this,
                     Observer<List<Results>> {
-                        generalCardAdapter.results.add(it)
+                        generalCardAdapter.congressResults.add(it)
                         index++
 
                         if (index < sortedList.size) {
                             handler.post(runnable)
                         } else {
-                            generalCardAdapter.elections = sortedList.toTypedArray()
+                            generalCardAdapter.congressElections = sortedList.toTypedArray()
+                            generalCardAdapter.senateElections = senateElections.toTypedArray()
                             recyclerView.adapter = generalCardAdapter
                         }
                     })

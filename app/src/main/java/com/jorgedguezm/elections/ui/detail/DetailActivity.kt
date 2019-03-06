@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_ELECTIONS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_RESULTS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_RESULTS
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Results
 import com.jorgedguezm.elections.utils.Utils
@@ -26,9 +26,11 @@ import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
-    lateinit var election: Election
     lateinit var partiesColor: HashMap<String, String>
-    lateinit var results: ArrayList<Results>
+    lateinit var congressElection: Election
+    lateinit var congressResults: ArrayList<Results>
+
+    lateinit var countDownTimer: CountDownTimer
 
     @Inject
     lateinit var utils: Utils
@@ -42,14 +44,24 @@ class DetailActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
 
         val bundle = intent.extras
-        election = bundle?.getSerializable(KEY_ELECTIONS) as Election
-        partiesColor = bundle.getSerializable(KEY_PARTIES) as HashMap<String, String>
-        results = bundle.getSerializable(KEY_RESULTS) as ArrayList<Results>
+        partiesColor = bundle?.getSerializable(KEY_PARTIES) as HashMap<String, String>
+        congressElection = bundle.getSerializable(KEY_CONGRESS_ELECTIONS) as Election
+        congressResults = bundle.getSerializable(KEY_CONGRESS_RESULTS) as ArrayList<Results>
 
-        utils.drawPieChart(pie_chart, utils.getElectsFromResults(results),
-                utils.getColorsFromResults(results, partiesColor))
+        utils.drawPieChart(pie_chart, utils.getElectsFromResults(congressResults),
+                utils.getColorsFromResults(congressResults, partiesColor))
 
+        initializeCountDownTimer()
         setSimpleAdapter()
+    }
+
+    private fun initializeCountDownTimer() {
+        countDownTimer = object: CountDownTimer(1000, 1) {
+
+            override fun onTick(millisUntilFinished: Long) { }
+
+            override fun onFinish() { pie_chart.highlightValue(-1F, -1) }
+        }
     }
 
     private fun setSimpleAdapter() {
@@ -59,9 +71,9 @@ class DetailActivity : AppCompatActivity() {
 
         val arrayList = ArrayList<Map<String, Any>>()
 
-        for (i in results.indices) {
+        for (i in congressResults.indices) {
             val map = HashMap<String, Any>()
-            val result = results[i]
+            val result = congressResults[i]
 
             map[from[0]] = "#" + partiesColor[result.partyId]
             map[from[1]] = result.partyId
@@ -79,25 +91,15 @@ class DetailActivity : AppCompatActivity() {
 
         list_view.adapter = adapter
 
-        setClickListener()
+        list_view.setOnItemClickListener { _, _, position, _ ->
+            pie_chart.highlightValue(position.toFloat(), 0)
+            countDownTimer.start()
+        }
     }
 
     private fun getPercentageOfVotes(partyVotes: Int): Float {
-        val percentage = (partyVotes.toFloat() / election.validVotes.toFloat()) * 100
+        val percentage = (partyVotes.toFloat() / congressElection.validVotes.toFloat()) * 100
         return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toFloat()
-    }
-
-    private fun setClickListener() {
-        list_view.setOnItemClickListener { _, _, position, _ ->
-            pie_chart.highlightValue(position.toFloat(), 0)
-
-            object: CountDownTimer(1000, 1) {
-
-                override fun onTick(millisUntilFinished: Long) { }
-
-                override fun onFinish() { pie_chart.highlightValue(-1F, -1) }
-            }.start()
-        }
     }
 
     inner class PartyColorBinder: SimpleAdapter.ViewBinder {

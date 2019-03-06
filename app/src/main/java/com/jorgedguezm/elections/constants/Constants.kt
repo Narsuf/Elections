@@ -5,6 +5,7 @@ class Constants {
         const val KEY_ELECTIONS_BUNDLE = "elections.bundle"
         const val KEY_ELECTIONS = "elections"
         const val KEY_PARTIES = "parties"
-        const val KEY_RESULTS = "results"
+        const val KEY_CONGRESS_ELECTIONS = "congress.elections"
+        const val KEY_CONGRESS_RESULTS = "congress.results"
     }
 }
