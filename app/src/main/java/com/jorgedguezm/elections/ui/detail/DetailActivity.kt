@@ -6,10 +6,12 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CALLED_FROM
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_ELECTIONS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_RESULTS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTION
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_GENERAL
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_RESULTS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE
@@ -31,6 +33,8 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var senateElection: Election
     private lateinit var senateResults: ArrayList<Results>
 
+    private lateinit var calledFrom: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.detail_activity)
@@ -38,7 +42,8 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val extras = intent.extras
-        partiesColor = extras?.getSerializable(KEY_PARTIES) as HashMap<String, String>
+        calledFrom = extras?.getSerializable(KEY_CALLED_FROM) as String
+        partiesColor = extras.getSerializable(KEY_PARTIES) as HashMap<String, String>
         congressElection = extras.getSerializable(KEY_CONGRESS_ELECTIONS) as Election
         congressResults = extras.getSerializable(KEY_CONGRESS_RESULTS) as ArrayList<Results>
         senateElection = extras.getSerializable(KEY_SENATE_ELECTIONS) as Election
@@ -53,8 +58,12 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_detail_activity, menu)
-        return true
+        if (calledFrom == KEY_GENERAL) {
+            menuInflater.inflate(R.menu.menu_detail_activity, menu)
+            return true
+        }
+
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -13,5 +13,7 @@ class Constants {
         const val KEY_SENATE_ELECTIONS = "senate.elections"
         const val KEY_SENATE_RESULTS = "senate.results"
         const val KEY_SENATE = "senate"
+        const val KEY_CALLED_FROM = "called.from"
+        const val KEY_GENERAL = "general"
     }
 }

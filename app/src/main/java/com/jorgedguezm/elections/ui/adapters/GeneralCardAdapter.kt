@@ -9,8 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CALLED_FROM
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_ELECTIONS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_RESULTS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_GENERAL
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_ELECTIONS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_RESULTS
@@ -67,6 +69,7 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
         holder.card.section_label.text = concatenatedText
         holder.card.setOnClickListener {
             val myIntent = Intent(fragment.context, DetailActivity::class.java)
+            myIntent.putExtra(KEY_CALLED_FROM, KEY_GENERAL)
             myIntent.putExtra(KEY_PARTIES, partiesColor)
             myIntent.putExtra(KEY_CONGRESS_ELECTIONS, congressElection)
             myIntent.putExtra(KEY_CONGRESS_RESULTS, ArrayList<Results>(congressResult))
