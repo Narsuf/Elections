@@ -78,15 +78,14 @@ class DetailFragment : Fragment() {
 
         val arrayList = ArrayList<Map<String, Any>>()
 
-        for (i in results.indices) {
+        for (r in results) {
             val map = HashMap<String, Any>()
-            val result = results[i]
 
-            map[from[0]] = "#" + parties[result.partyId]
-            map[from[1]] = result.partyId
-            map[from[2]] = result.votes
-            map[from[3]] = getPercentageOfVotes(result.votes)
-            map[from[4]] = result.elects!!
+            map[from[0]] = "#" + parties[r.partyId]
+            map[from[1]] = r.partyId
+            map[from[2]] = r.votes
+            map[from[3]] = getPercentageOfVotes(r.votes)
+            map[from[4]] = r.elects!!
 
             arrayList.add(map)
         }
