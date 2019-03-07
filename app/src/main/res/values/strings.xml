@@ -16,4 +16,6 @@
     <string name="show_historical">Show historical</string>
 
     <string name="no_internet_connection">No Internet connection</string>
+
+    <string name="close">Close</string>
 </resources>

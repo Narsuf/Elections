@@ -21,6 +21,7 @@ import com.jorgedguezm.elections.utils.Utils
 import dagger.android.support.AndroidSupportInjection
 
 import kotlinx.android.synthetic.main.detail_fragment.*
+import java.math.BigDecimal
 
 import java.math.RoundingMode
 
@@ -28,11 +29,11 @@ import javax.inject.Inject
 
 class DetailFragment : Fragment() {
 
-    lateinit var parties: HashMap<String, String>
-    lateinit var election: Election
-    lateinit var results: ArrayList<Results>
+    private lateinit var parties: HashMap<String, String>
+    private lateinit var election: Election
+    private lateinit var results: ArrayList<Results>
 
-    lateinit var countDownTimer: CountDownTimer
+    private lateinit var countDownTimer: CountDownTimer
 
     @Inject
     lateinit var utils: Utils
@@ -54,6 +55,16 @@ class DetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        floating_button_more_info.setOnClickListener {
+            val bundle = Bundle()
+            val dialog = DetailDialog()
+
+            bundle.putSerializable(KEY_ELECTION, election)
+            dialog.arguments = bundle
+            dialog.utils = utils
+            dialog.show(activity?.supportFragmentManager, "DetailDialog")
+        }
 
         utils.drawPieChart(pie_chart, utils.getElectsFromResults(results),
                 utils.getColorsFromResults(results, parties))
@@ -84,7 +95,9 @@ class DetailFragment : Fragment() {
             map[from[0]] = "#" + parties[r.partyId]
             map[from[1]] = r.partyId
             map[from[2]] = r.votes
-            map[from[3]] = getPercentageOfVotes(r.votes)
+            map[from[3]] = utils.getPercentageWithTwoDecimals(r.votes, election.validVotes)
+                    .toString() + " %"
+
             map[from[4]] = r.elects!!
 
             arrayList.add(map)
@@ -101,11 +114,6 @@ class DetailFragment : Fragment() {
             pie_chart.highlightValue(position.toFloat(), 0)
             countDownTimer.start()
         }
-    }
-
-    private fun getPercentageOfVotes(partyVotes: Int): Float {
-        val percentage = (partyVotes.toFloat() / election.validVotes.toFloat()) * 100
-        return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toFloat()
     }
 
     inner class PartyColorBinder: SimpleAdapter.ViewBinder {

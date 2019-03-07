@@ -14,6 +14,8 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
 
 import com.jorgedguezm.elections.data.Results
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class Utils @Inject constructor(private val context: Context) {
 
@@ -85,5 +87,10 @@ class Utils @Inject constructor(private val context: Context) {
             colors.add("#" + partiesColor[r.partyId])
 
         return colors.toTypedArray()
+    }
+
+    fun getPercentageWithTwoDecimals(dividend: Int, divisor: Int): BigDecimal {
+        val percentage = (dividend.toDouble() / divisor) * 100
+        return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP)
     }
 }

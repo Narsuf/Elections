@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_detail_dialog_height">
+
+    <TextView
+        android:layout_width="@dimen/list_item_detail_dialog_text_width"
+        android:layout_height="match_parent"
+        android:id="@+id/text_view_text"
+        android:gravity="center|start" />
+
+    <TextView
+        android:layout_width="@dimen/list_item_detail_dialog_number_width"
+        android:layout_height="match_parent"
+        android:gravity="center|end"
+        android:id="@+id/text_view_number"
+        android:layout_toStartOf="@id/text_view_percentage" />
+
+    <TextView
+        android:layout_width="@dimen/list_item_detail_dialog_percentage_width"
+        android:layout_height="match_parent"
+        android:gravity="center|end"
+        android:id="@+id/text_view_percentage"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

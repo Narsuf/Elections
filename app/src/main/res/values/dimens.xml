@@ -17,7 +17,7 @@
     <dimen name="detail_activity_party_text_view_height">150dp</dimen>
     <dimen name="detail_activity_votes_text_view_width">65dp</dimen>
     <dimen name="detail_activity_votes_percentage_text_view_width">110dp</dimen>
-    <dimen name="detail_activity_elects_text_view_width">60dp</dimen>
+    <dimen name="detail_activity_elects_text_view_width">65dp</dimen>
     <dimen name="detail_activity_floating_button_margin_top">120dp</dimen>
 
     <dimen name="list_item_detail_activity_height">60dp</dimen>
@@ -27,6 +27,11 @@
     <dimen name="list_item_detail_activity_party_name_width">100dp</dimen>
     <dimen name="list_item_detail_activity_party_name_margin_start">10dp</dimen>
     <dimen name="list_item_detail_activity_party_votes_width">65dp</dimen>
-    <dimen name="list_item_detail_activity_party_percentage_votes_width">80dp</dimen>
-    <dimen name="list_item_detail_activity_elects_width">130dp</dimen>
+    <dimen name="list_item_detail_activity_party_percentage_votes_width">85dp</dimen>
+    <dimen name="list_item_detail_activity_elects_width">125dp</dimen>
+    
+    <dimen name="list_item_detail_dialog_height">45dp</dimen>
+    <dimen name="list_item_detail_dialog_text_width">100dp</dimen>
+    <dimen name="list_item_detail_dialog_number_width">80dp</dimen>
+    <dimen name="list_item_detail_dialog_percentage_width">80dp</dimen>
 </resources>
