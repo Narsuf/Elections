@@ -1,36 +1,39 @@
 package com.jorgedguezm.elections.ui.detail
 
 import android.os.Bundle
-import android.graphics.Color
-import android.view.View
-import android.widget.SimpleAdapter
-import android.widget.TextView
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CALLED_FROM
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_ELECTIONS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_RESULTS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTION
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_GENERAL
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_RESULTS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_ELECTIONS
+import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_RESULTS
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Results
-import com.jorgedguezm.elections.utils.Utils
-
-import dagger.android.AndroidInjection
 
 import kotlinx.android.synthetic.main.detail_activity.*
 
-import java.math.RoundingMode
-
-import javax.inject.Inject
-
 class DetailActivity : AppCompatActivity() {
 
-    lateinit var election: Election
-    lateinit var partiesColor: HashMap<String, String>
-    lateinit var results: ArrayList<Results>
+    private val bundle = Bundle()
+    private var electionName = KEY_CONGRESS
 
-    @Inject
-    lateinit var utils: Utils
+    private lateinit var partiesColor: HashMap<String, String>
+    private lateinit var congressElection: Election
+    private lateinit var congressResults: ArrayList<Results>
+    private lateinit var senateElection: Election
+    private lateinit var senateResults: ArrayList<Results>
+
+    private lateinit var calledFrom: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,61 +41,70 @@ class DetailActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        AndroidInjection.inject(this)
+        val extras = intent.extras
+        calledFrom = extras?.getSerializable(KEY_CALLED_FROM) as String
+        partiesColor = extras.getSerializable(KEY_PARTIES) as HashMap<String, String>
+        congressElection = extras.getSerializable(KEY_CONGRESS_ELECTIONS) as Election
+        congressResults = extras.getSerializable(KEY_CONGRESS_RESULTS) as ArrayList<Results>
+        senateElection = extras.getSerializable(KEY_SENATE_ELECTIONS) as Election
+        senateResults = extras.getSerializable(KEY_SENATE_RESULTS) as ArrayList<Results>
 
-        val bundle = intent.extras
-        election = bundle?.getSerializable(KEY_ELECTIONS) as Election
-        partiesColor = bundle.getSerializable(KEY_PARTIES) as HashMap<String, String>
-        results = bundle.getSerializable(KEY_RESULTS) as ArrayList<Results>
+        bundle.putSerializable(KEY_PARTIES, partiesColor)
+        bundle.putSerializable(KEY_ELECTION, congressElection)
+        bundle.putSerializable(KEY_RESULTS, congressResults)
 
-        utils.drawPieChart(pie_chart, utils.getElectsFromResults(results),
-                utils.getColorsFromResults(results, partiesColor))
-
-        setSimpleAdapter()
+        beginTransaction()
     }
 
-    private fun setSimpleAdapter() {
-        val from = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
-        val to = intArrayOf(R.id.tvPartyColor, R.id.tvPartyName, R.id.tvNumberVotes,
-                R.id.tvVotesPercentage, R.id.tvElects)
-
-        val arrayList = ArrayList<Map<String, Any>>()
-
-        for (i in results.indices) {
-            val map = HashMap<String, Any>()
-            val result = results[i]
-
-            map[from[0]] = "#" + partiesColor[result.partyId]
-            map[from[1]] = result.partyId
-            map[from[2]] = result.votes
-            map[from[3]] = getPercentageOfVotes(result.votes)
-            map[from[4]] = result.elects!!
-
-            arrayList.add(map)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        if (calledFrom == KEY_GENERAL) {
+            menuInflater.inflate(R.menu.menu_detail_activity, menu)
+            return true
         }
 
-        val adapter = SimpleAdapter(this, arrayList, R.layout.list_item_detail_activity,
-                from, to)
-
-        adapter.viewBinder = PartyColorBinder()
-
-        list_view.adapter = adapter
+        return super.onCreateOptionsMenu(menu)
     }
 
-    private fun getPercentageOfVotes(partyVotes: Int): Float {
-        val percentage = (partyVotes.toFloat() / election.validVotes.toFloat()) * 100
-        return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toFloat()
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        val id = item.itemId
 
-    inner class PartyColorBinder: SimpleAdapter.ViewBinder {
+        when (id) {
+            R.id.action_congress -> {
+                if (electionName == KEY_SENATE) {
+                    bundle.putSerializable(KEY_ELECTION, congressElection)
+                    bundle.putSerializable(KEY_RESULTS, congressResults)
+                    beginTransaction()
+                    electionName = KEY_CONGRESS
+                }
 
-        override fun setViewValue(view: View?, data: Any?, textRepresentation: String?): Boolean {
-            if (view is TextView && data.toString().matches(Regex("[#].*"))) {
-                view.setBackgroundColor(Color.parseColor(data.toString()))
                 return true
             }
 
-            return false
+            R.id.action_senate -> {
+                if (electionName == KEY_CONGRESS) {
+                    bundle.putSerializable(KEY_ELECTION, senateElection)
+                    bundle.putSerializable(KEY_RESULTS, senateResults)
+                    beginTransaction()
+                    electionName = KEY_SENATE
+                }
+
+                return true
+            }
         }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun beginTransaction() {
+        val detailFragment = DetailFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+
+        detailFragment.arguments = bundle
+        transaction.replace(R.id.detail_frame, detailFragment)
+        transaction.commit()
     }
 }
