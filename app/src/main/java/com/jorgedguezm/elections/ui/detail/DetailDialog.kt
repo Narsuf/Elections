@@ -18,9 +18,10 @@ import com.jorgedguezm.elections.utils.Utils
 
 class DetailDialog : DialogFragment() {
 
-    private lateinit var election: Election
     private var census = 0
     private var counted = 0
+
+    private lateinit var election: Election
 
     lateinit var utils: Utils
 
@@ -76,8 +77,6 @@ class DetailDialog : DialogFragment() {
 
         val listView = inflatedLayout.findViewById(R.id.list_view_general_information) as ListView
         listView.adapter = adapter
-
-
     }
 
     private fun getPercentageData(): Array<String> {

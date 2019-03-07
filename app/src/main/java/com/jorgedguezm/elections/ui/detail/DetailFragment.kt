@@ -21,9 +21,6 @@ import com.jorgedguezm.elections.utils.Utils
 import dagger.android.support.AndroidSupportInjection
 
 import kotlinx.android.synthetic.main.detail_fragment.*
-import java.math.BigDecimal
-
-import java.math.RoundingMode
 
 import javax.inject.Inject
 
