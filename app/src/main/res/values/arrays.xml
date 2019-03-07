@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="detail_dialog_list_view_text">
+        <item>Scrutinized:</item>
+        <item>Elects:</item>
+        <item>Counted votes:</item>
+        <item>Abstentions:</item>
+        <item>Null votes:</item>
+        <item>Blank votes:</item>
+    </string-array>
+</resources>
