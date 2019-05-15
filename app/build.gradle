@@ -13,7 +13,9 @@ tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport,
+        dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
     reports {
         xml.enabled = true
         html.enabled = true
@@ -52,6 +54,7 @@ android {
 
         debug {
             buildConfigField "String", "URL", '"http://narsuf.ddns.net:8000/"'
+            testCoverageEnabled true
         }
     }
 
