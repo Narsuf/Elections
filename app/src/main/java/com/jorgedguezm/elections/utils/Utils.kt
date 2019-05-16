@@ -2,7 +2,6 @@ package com.jorgedguezm.elections.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
 
@@ -24,17 +23,7 @@ class Utils @Inject constructor(private val context: Context) {
         val connectivity = context.getSystemService(
                 Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        if (connectivity != null) {
-            val info  = connectivity.allNetworkInfo
-
-            if (info != null) {
-                for (i in info.indices) {
-                    if (info[i].state == NetworkInfo.State.CONNECTED) return true
-                }
-            }
-        }
-
-        return false
+        return connectivity.activeNetworkInfo.isConnected
     }
 
     fun drawPieChart(chart: PieChart, elects: Array<Int>, colors: Array<String>) {

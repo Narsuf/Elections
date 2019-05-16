@@ -9,7 +9,7 @@ class ElectionsViewModelFactory @Inject constructor(
         private val electionsViewModel: ElectionsViewModel) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ElectionsViewModel::class.java!!))
+        if (modelClass.isAssignableFrom(ElectionsViewModel::class.java))
             return electionsViewModel as T
 
         throw IllegalArgumentException("Unknown class name")
