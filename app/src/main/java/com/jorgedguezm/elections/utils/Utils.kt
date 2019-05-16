@@ -20,10 +20,15 @@ import java.math.RoundingMode
 class Utils @Inject constructor(private val context: Context) {
 
     fun isConnectedToInternet(): Boolean {
+        var isConnected = false
         val connectivity = context.getSystemService(
                 Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        return connectivity.activeNetworkInfo.isConnected
+        connectivity.run {
+            if (activeNetworkInfo != null) isConnected = activeNetworkInfo.isConnected
+        }
+
+        return isConnected
     }
 
     fun drawPieChart(chart: PieChart, elects: Array<Int>, colors: Array<String>) {
