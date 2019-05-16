@@ -65,26 +65,6 @@ android {
             includeAndroidResources = true
         }
     }
-
-    //Instrumentation tests task
-    task waitForEmulator {
-        doLast {
-            def start = System.currentTimeMillis()
-
-            while (System.currentTimeMillis() - start < 60000) {
-                def out = new StringBuilder()
-                def process = '/opt/android-sdk/platform-tools/adb shell getprop init.svc.bootanim'.execute()
-                process.consumeProcessOutput(out, null)
-                process.waitForOrKill(1000)
-
-                if (out.toString().trim() == "stopped") return
-
-                Thread.sleep(2000)
-            }
-
-            throw new GradleException('Timed out while waiting for emulator to boot')
-        }
-    }
 }
 
 repositories {
