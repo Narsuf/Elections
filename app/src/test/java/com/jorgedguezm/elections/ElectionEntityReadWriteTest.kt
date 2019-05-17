@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 
 import com.jorgedguezm.elections.data.source.local.Database
+import com.jorgedguezm.elections.data.source.local.ElectionsDao
 import com.jorgedguezm.elections.data.source.local.PartiesDao
 
 import org.junit.After
@@ -25,6 +26,7 @@ class ElectionEntityReadWriteTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var partiesDao: PartiesDao
+    private lateinit var electionsDao: ElectionsDao
     private lateinit var db: Database
 
     @Before
@@ -34,6 +36,7 @@ class ElectionEntityReadWriteTest {
                 .allowMainThreadQueries()
                 .build()
         partiesDao = db.partiesDao()
+        electionsDao = db.electionsDao()
     }
 
     @After
@@ -49,6 +52,16 @@ class ElectionEntityReadWriteTest {
         partiesDao.insertParty(myParty)
         partiesDao.queryParties().test().assertValue { parties ->
             parties.contains(myParty)
+        }
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeElectionAndRead() {
+        val election = ElectionUtils.generateElection()
+        electionsDao.insertElection(election)
+        electionsDao.queryElections().test().assertValue { elections ->
+            elections.contains(election)
         }
     }
 }
