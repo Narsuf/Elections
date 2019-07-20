@@ -54,7 +54,7 @@ class SplashActivity : AppCompatActivity() {
         electionsViewModel.loadElections()
         electionsViewModel.electionsResult().observe(this,
                 Observer<List<Election>> {
-                    electionsParams.putSerializable(KEY_ELECTIONS, ArrayList<Election>(it))
+                    electionsParams.putSerializable(KEY_ELECTIONS, ArrayList(it))
                     loadParties()
                 })
     }
@@ -63,7 +63,7 @@ class SplashActivity : AppCompatActivity() {
         electionsViewModel.loadParties()
         electionsViewModel.partiesResult().observe(this,
                 Observer<List<Party>> {
-                    electionsParams.putSerializable(KEY_PARTIES, ArrayList<Party>(it))
+                    electionsParams.putSerializable(KEY_PARTIES, ArrayList(it))
                     callIntent()
                 })
     }
