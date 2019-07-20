@@ -37,7 +37,6 @@ task jacocoTestReport(type: JacocoReport,
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "com.jorgedguezm.elections"
@@ -120,8 +119,7 @@ dependencies {
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
+    testImplementation 'androidx.test:core:1.2.0'
     testImplementation "androidx.arch.core:core-testing:2.0.1"
     testImplementation 'org.robolectric:robolectric:4.3'
-
-    androidTestImplementation 'androidx.test:core:1.2.0'
 }
