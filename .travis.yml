@@ -15,6 +15,3 @@ script: ./gradlew clean build test jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-
-before_install:
-  - yes | sdkmanager --licenses
