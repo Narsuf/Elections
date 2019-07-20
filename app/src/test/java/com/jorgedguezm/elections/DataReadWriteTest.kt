@@ -3,6 +3,8 @@ package com.jorgedguezm.elections
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 
+import com.jorgedguezm.elections.data.Election
+import com.jorgedguezm.elections.data.Party
 import com.jorgedguezm.elections.data.source.local.Database
 import com.jorgedguezm.elections.data.source.local.ElectionsDao
 import com.jorgedguezm.elections.data.source.local.PartiesDao
@@ -19,7 +21,15 @@ import org.robolectric.RuntimeEnvironment
 import java.io.IOException
 
 @RunWith(RobolectricTestRunner::class)
-class ElectionEntityReadWriteTest {
+class DataReadWriteTest {
+
+    private fun generateParty() : Party { return Party("GroenLinks", "#39a935") }
+
+    private fun generateElection() : Election {
+        val rand = (0..288).random()
+        return Election(rand.toLong(), "Tweede Kamerverkiezingen", rand, "Nederland",
+                "Tweede Kamer", rand, rand.toFloat(), rand, rand, rand, rand)
+    }
 
     @Rule
     @JvmField
@@ -48,7 +58,7 @@ class ElectionEntityReadWriteTest {
     @Test
     @Throws(Exception::class)
     fun writePartyAndRead() {
-        val myParty = ElectionUtils.generateParty()
+        val myParty = generateParty()
         partiesDao.insertParty(myParty)
         partiesDao.queryParties().test().assertValue { parties ->
             parties.contains(myParty)
@@ -58,7 +68,7 @@ class ElectionEntityReadWriteTest {
     @Test
     @Throws(Exception::class)
     fun writeElectionAndRead() {
-        val election = ElectionUtils.generateElection()
+        val election = generateElection()
         electionsDao.insertElection(election)
         electionsDao.queryElections().test().assertValue { elections ->
             elections.contains(election)
