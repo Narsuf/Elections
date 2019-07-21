@@ -9,9 +9,7 @@ android:
     - android-28
 
   licenses:
-    - 'android-sdk-preview-license-52d11cd2'
     - 'android-sdk-license-.+'
-    - 'google-gdk-license-.+'
 
 script: ./gradlew clean build test jacocoTestReport
 
