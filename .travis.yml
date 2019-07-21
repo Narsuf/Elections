@@ -1,5 +1,8 @@
 language: android
 
+before_install:
+  - yes | sdkmanager --licenses && yes | sdkmanager --update
+
 android:
   components:
     # The BuildTools version used by your project
