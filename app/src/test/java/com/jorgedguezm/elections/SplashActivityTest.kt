@@ -14,7 +14,7 @@ import org.junit.Assert.assertTrue
 class SplashActivityTest {
 
     @Test
-    fun splashActivityShouldStartMainActivity() {
+    fun isConnectedToInternet() {
         ActivityScenario.launch(SplashActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 assertTrue(activity.utils.isConnectedToInternet())
