@@ -11,6 +11,7 @@ android:
   components:
     - tools
     - platform-tools
+    - tools
 
   licenses:
     - 'android-sdk-license-.+'
