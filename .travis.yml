@@ -1,20 +1,24 @@
 language: android
 
-before_install:
-  - yes | sdkmanager --licenses && yes | sdkmanager --update
+jdk: oraclejdk8
+
+env:
+  global:
+    - ANDROID_API_LEVEL=28
+    - ANDROID_BUILD_TOOLS_VERSION=28.0.3
 
 android:
   components:
-    # The BuildTools version used by your project
-    - build-tools-28.0.3
+    - tools
+    - platform-tools
 
-    # The SDK version used to compile your project
-    - android-28
+  licenses:
+    - 'android-sdk-license-.+'
 
-jdk:
-  - oraclejdk8
+before_install:
+  - yes | sdkmanager "build-tools;28.0.3"
+  - yes | sdkmanager "platforms;android-28"
 
 script: ./gradlew clean build test jacocoTestReport
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+after_success: bash <(curl -s https://codecov.io/bash)
