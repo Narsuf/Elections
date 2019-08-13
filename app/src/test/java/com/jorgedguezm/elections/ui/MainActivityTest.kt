@@ -39,7 +39,6 @@ class MainActivityTest {
         }
     }
 
-
     @Test
     @LooperMode(LooperMode.Mode.PAUSED)
     fun launchMainActivity() {
