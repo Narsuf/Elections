@@ -57,7 +57,6 @@ class MainActivityTest {
                 myIntent.putExtras(electionsParams)
 
                 ActivityScenario.launch<Activity>(myIntent).use { scenario ->
-                    scenario.onActivity { sleep(1000) }
                     scenario.onActivity { activity ->
                         val fragmentPagerAdapter = activity.container.adapter as FragmentPagerAdapter
                         assertEquals(fragmentPagerAdapter.count, 3)
