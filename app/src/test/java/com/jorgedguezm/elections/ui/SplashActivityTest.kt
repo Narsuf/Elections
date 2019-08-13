@@ -1,14 +1,14 @@
-package com.jorgedguezm.elections
-
-import org.robolectric.RobolectricTestRunner
+package com.jorgedguezm.elections.ui
 
 import androidx.test.core.app.ActivityScenario
 
-import com.jorgedguezm.elections.ui.SplashActivity
+import org.robolectric.RobolectricTestRunner
 
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Assert.assertTrue
+
+import java.lang.Thread.sleep
 
 @RunWith(RobolectricTestRunner::class)
 class SplashActivityTest {
@@ -18,6 +18,7 @@ class SplashActivityTest {
         ActivityScenario.launch(SplashActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 assertTrue(activity.utils.isConnectedToInternet())
+                sleep(1000)
             }
         }
     }
