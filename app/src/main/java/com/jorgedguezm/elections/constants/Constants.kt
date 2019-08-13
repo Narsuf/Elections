@@ -1,6 +1,7 @@
 package com.jorgedguezm.elections.constants
 
 class Constants {
+
     companion object {
         const val KEY_ELECTIONS_BUNDLE = "elections.bundle"
         const val KEY_ELECTIONS = "elections"

@@ -8,7 +8,6 @@ import org.robolectric.shadows.ShadowNetworkInfo
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-
 import androidx.test.core.app.ActivityScenario
 
 import org.junit.Assert.*
@@ -29,6 +28,10 @@ class SplashActivityTest {
                 assertNotNull(activity.electionsViewModelFactory)
                 assertNotNull(activity.electionsViewModel.electionsResult().value)
                 sleep(1000)
+            }
+
+            scenario.onActivity { activity ->
+                assertNotNull(activity.electionsViewModel.partiesResult().value)
             }
         }
     }
