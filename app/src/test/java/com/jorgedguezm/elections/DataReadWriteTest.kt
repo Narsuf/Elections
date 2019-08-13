@@ -31,10 +31,6 @@ class DataReadWriteTest {
                 "Tweede Kamer", rand, rand.toFloat(), rand, rand, rand, rand)
     }
 
-    @Rule
-    @JvmField
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
-
     private lateinit var partiesDao: PartiesDao
     private lateinit var electionsDao: ElectionsDao
     private lateinit var db: Database
