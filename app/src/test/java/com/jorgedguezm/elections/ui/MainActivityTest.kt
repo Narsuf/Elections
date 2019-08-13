@@ -40,8 +40,6 @@ class MainActivityTest {
             scenario.onActivity { activity ->
                 parties = activity.electionsViewModel.partiesResult().value
             }
-
-            scenario.close()
         }
     }
 
