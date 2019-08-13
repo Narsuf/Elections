@@ -3,6 +3,7 @@ package com.jorgedguezm.elections.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.test.core.app.ActivityScenario
 
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
@@ -10,12 +11,17 @@ import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Party
 
+import kotlinx.android.synthetic.main.activity_main.*
+
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.LooperMode
+
+import java.lang.Thread.sleep
 
 @RunWith(RobolectricTestRunner::class)
 class MainActivityTest {
@@ -28,7 +34,7 @@ class MainActivityTest {
         ActivityScenario.launch(SplashActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 elections = activity.electionsViewModel.electionsResult().value
-                Thread.sleep(1000)
+                sleep(1000)
             }
 
             scenario.onActivity { activity ->
@@ -53,8 +59,10 @@ class MainActivityTest {
                 myIntent.putExtras(electionsParams)
 
                 ActivityScenario.launch<Activity>(myIntent).use { scenario ->
+                    scenario.onActivity { sleep(1000) }
                     scenario.onActivity { activity ->
-
+                        val fragmentPagerAdapter = activity.container.adapter as FragmentPagerAdapter
+                        assertEquals(fragmentPagerAdapter.count, 3)
                     }
                 }
             }
