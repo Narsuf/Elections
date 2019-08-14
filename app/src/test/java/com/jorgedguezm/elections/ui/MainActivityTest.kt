@@ -60,6 +60,7 @@ class MainActivityTest {
                     scenario.onActivity { activity ->
                         val fragmentPagerAdapter = activity.container.adapter as FragmentPagerAdapter
                         assertEquals(fragmentPagerAdapter.count, 3)
+                        fragmentPagerAdapter.getItem(0)
                     }
                 }
             }
