@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.constants.Constants.Companion.ARG_SECTION_NUMBER
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS_BUNDLE
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
@@ -36,12 +37,6 @@ class MainFragment : Fragment() {
     lateinit var electionsViewModel: ElectionsViewModel
 
     companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private val ARG_SECTION_NUMBER = "section_number"
-
         /**
          * Returns a new instance of this fragment for the given section
          * number.

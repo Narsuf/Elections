@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 class GeneralCardAdapter @Inject constructor(private val context: Context,
                                              var congressElections: Array<Election>,
-                                             val utils: Utils):
+                                             val utils: Utils) :
         RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     var partiesColor = HashMap<String, String>()
@@ -72,7 +72,7 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
             myIntent.putExtra(KEY_CALLED_FROM, KEY_GENERAL)
             myIntent.putExtra(KEY_PARTIES, partiesColor)
             myIntent.putExtra(KEY_CONGRESS_ELECTIONS, congressElection)
-            myIntent.putExtra(KEY_CONGRESS_RESULTS, ArrayList<Results>(congressResult))
+            myIntent.putExtra(KEY_CONGRESS_RESULTS, ArrayList(congressResult))
             myIntent.putExtra(KEY_SENATE_ELECTIONS, senateElection)
             loadSenateResultsAndCallIntent(myIntent, senateElection)
         }
@@ -85,15 +85,13 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
     override fun getItemCount() = congressElections.size
 
     private fun loadSenateResultsAndCallIntent(intent: Intent, election: Election) {
-
         electionsViewModel.loadResults(election.year, election.place,
                 election.chamberName!!)
 
         electionsViewModel.resultsResult().observe(fragment,
                 Observer<List<Results>> {
-                    intent.putExtra(KEY_SENATE_RESULTS, ArrayList<Results>(it))
+                    intent.putExtra(KEY_SENATE_RESULTS, ArrayList(it))
                     fragment.startActivity(intent)
                 })
-
     }
 }
