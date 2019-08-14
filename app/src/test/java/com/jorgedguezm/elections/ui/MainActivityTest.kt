@@ -75,10 +75,9 @@ class MainActivityTest {
                 val myIntent = Intent(activity, MainActivity::class.java)
                 val electionsParams = Bundle()
 
+                electionsParams.putSerializable(KEY_PARTIES, ArrayList(parties))
                 electionsParams.putSerializable(KEY_ELECTIONS, arrayListOf(
                         generateStoredCongressElection(), generateStoredSenateElection()))
-
-                electionsParams.putSerializable(KEY_PARTIES, ArrayList(parties))
 
                 myIntent.putExtras(electionsParams)
 

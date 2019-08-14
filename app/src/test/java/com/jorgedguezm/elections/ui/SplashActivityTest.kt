@@ -4,6 +4,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.shadows.ShadowNetworkInfo
+import org.robolectric.shadows.ShadowLooper
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -13,7 +14,6 @@ import androidx.test.core.app.ActivityScenario
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.shadows.ShadowLooper
 
 import java.lang.Thread.sleep
 
