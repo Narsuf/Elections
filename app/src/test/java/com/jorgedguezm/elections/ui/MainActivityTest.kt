@@ -8,6 +8,8 @@ import androidx.test.core.app.ActivityScenario
 
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
+import com.jorgedguezm.elections.data.DataUtils.Companion.generateStoredCongressElection
+import com.jorgedguezm.elections.data.DataUtils.Companion.generateStoredSenateElection
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Party
 
@@ -37,9 +39,7 @@ class MainActivityTest {
                 sleep(1000)
             }
 
-            scenario.onActivity { activity ->
-                parties = activity.electionsViewModel.partiesResult().value
-            }
+            scenario.onActivity { parties = it.electionsViewModel.partiesResult().value }
         }
     }
 
@@ -60,9 +60,29 @@ class MainActivityTest {
                     scenario.onActivity { activity ->
                         val fragmentPagerAdapter = activity.container.adapter as FragmentPagerAdapter
                         assertEquals(fragmentPagerAdapter.count, 3)
-                        fragmentPagerAdapter.getItem(0)
+                        sleep(1000)
                     }
                 }
+            }
+        }
+    }
+
+    @Test
+    @LooperMode(LooperMode.Mode.PAUSED)
+    fun launchMainFragmentWithJustOneElectionInArguments() {
+        ActivityScenario.launch(SplashActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                val myIntent = Intent(activity, MainActivity::class.java)
+                val electionsParams = Bundle()
+
+                electionsParams.putSerializable(KEY_ELECTIONS, arrayListOf(
+                        generateStoredCongressElection(), generateStoredSenateElection()))
+
+                electionsParams.putSerializable(KEY_PARTIES, ArrayList(parties))
+
+                myIntent.putExtras(electionsParams)
+
+                ActivityScenario.launch<Activity>(myIntent).use { it.onActivity { sleep(1000) } }
             }
         }
     }

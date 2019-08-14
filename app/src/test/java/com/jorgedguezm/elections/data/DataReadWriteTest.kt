@@ -1,17 +1,15 @@
-package com.jorgedguezm.elections
+package com.jorgedguezm.elections.data
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 
-import com.jorgedguezm.elections.data.Election
-import com.jorgedguezm.elections.data.Party
+import com.jorgedguezm.elections.data.DataUtils.Companion.generateElection
+import com.jorgedguezm.elections.data.DataUtils.Companion.generateParty
 import com.jorgedguezm.elections.data.source.local.Database
 import com.jorgedguezm.elections.data.source.local.ElectionsDao
 import com.jorgedguezm.elections.data.source.local.PartiesDao
 
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -22,14 +20,6 @@ import java.io.IOException
 
 @RunWith(RobolectricTestRunner::class)
 class DataReadWriteTest {
-
-    private fun generateParty() : Party { return Party("GroenLinks", "#39a935") }
-
-    private fun generateElection() : Election {
-        val rand = (0..288).random()
-        return Election(rand.toLong(), "Tweede Kamerverkiezingen", rand, "Nederland",
-                "Tweede Kamer", rand, rand.toFloat(), rand, rand, rand, rand)
-    }
 
     private lateinit var partiesDao: PartiesDao
     private lateinit var electionsDao: ElectionsDao
