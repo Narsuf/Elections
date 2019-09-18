@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui
+package com.jorgedguezm.elections.ui.main
 
 import android.os.Bundle
 import android.os.Handler
@@ -9,13 +9,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.constants.Constants.Companion.ARG_SECTION_NUMBER
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS_BUNDLE
 import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Party
 import com.jorgedguezm.elections.data.Results
+import com.jorgedguezm.elections.ui.ElectionsViewModel
+import com.jorgedguezm.elections.ui.ElectionsViewModelFactory
 import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
 
 import dagger.android.support.AndroidSupportInjection
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 import javax.inject.Inject
 
-class MainFragment : Fragment() {
+class PlaceholderFragment : Fragment() {
 
     lateinit var parties: ArrayList<Party>
     lateinit var elections: ArrayList<Election>
@@ -35,20 +36,6 @@ class MainFragment : Fragment() {
     @Inject
     lateinit var electionsViewModelFactory: ElectionsViewModelFactory
     lateinit var electionsViewModel: ElectionsViewModel
-
-    companion object {
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        fun newInstance(sectionNumber: Int): MainFragment {
-            val fragment = MainFragment()
-            val args = Bundle()
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber)
-            fragment.arguments = args
-            return fragment
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,5 +141,26 @@ class MainFragment : Fragment() {
         }
 
         handler.post(runnable)
+    }
+
+    companion object {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private const val ARG_SECTION_NUMBER = "section_number"
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        @JvmStatic
+        fun newInstance(sectionNumber: Int): PlaceholderFragment {
+            return PlaceholderFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_SECTION_NUMBER, sectionNumber)
+                }
+            }
+        }
     }
 }

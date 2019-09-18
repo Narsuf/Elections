@@ -16,6 +16,5 @@ class Constants {
         const val KEY_SENATE = "senate"
         const val KEY_CALLED_FROM = "called.from"
         const val KEY_GENERAL = "general"
-        const val ARG_SECTION_NUMBER = "section_number"
     }
 }

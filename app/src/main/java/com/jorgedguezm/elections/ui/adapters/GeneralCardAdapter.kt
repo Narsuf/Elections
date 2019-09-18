@@ -19,8 +19,8 @@ import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_RESULT
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Results
 import com.jorgedguezm.elections.ui.ElectionsViewModel
-import com.jorgedguezm.elections.ui.MainFragment
 import com.jorgedguezm.elections.ui.detail.DetailActivity
+import com.jorgedguezm.elections.ui.main.PlaceholderFragment
 import com.jorgedguezm.elections.utils.Utils
 
 import kotlinx.android.synthetic.main.general_elections_card.view.*
@@ -37,7 +37,7 @@ class GeneralCardAdapter @Inject constructor(private val context: Context,
 
     lateinit var senateElections: Array<Election>
 
-    lateinit var fragment: MainFragment
+    lateinit var fragment: PlaceholderFragment
     lateinit var electionsViewModel: ElectionsViewModel
 
     // Provide a reference to the views for each data item
