@@ -11,12 +11,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTION
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_RESULTS
+import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
+import com.jorgedguezm.elections.Constants.Companion.KEY_PARTIES
+import com.jorgedguezm.elections.Constants.Companion.KEY_RESULTS
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Results
-import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.Utils
 
 import dagger.android.support.AndroidSupportInjection
 

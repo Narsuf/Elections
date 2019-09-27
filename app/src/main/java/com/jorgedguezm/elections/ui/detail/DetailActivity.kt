@@ -6,17 +6,17 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CALLED_FROM
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_ELECTIONS
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_CONGRESS_RESULTS
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTION
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_GENERAL
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_RESULTS
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_ELECTIONS
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_SENATE_RESULTS
+import com.jorgedguezm.elections.Constants.Companion.KEY_CALLED_FROM
+import com.jorgedguezm.elections.Constants.Companion.KEY_CONGRESS
+import com.jorgedguezm.elections.Constants.Companion.KEY_CONGRESS_ELECTIONS
+import com.jorgedguezm.elections.Constants.Companion.KEY_CONGRESS_RESULTS
+import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
+import com.jorgedguezm.elections.Constants.Companion.KEY_GENERAL
+import com.jorgedguezm.elections.Constants.Companion.KEY_PARTIES
+import com.jorgedguezm.elections.Constants.Companion.KEY_RESULTS
+import com.jorgedguezm.elections.Constants.Companion.KEY_SENATE
+import com.jorgedguezm.elections.Constants.Companion.KEY_SENATE_ELECTIONS
+import com.jorgedguezm.elections.Constants.Companion.KEY_SENATE_RESULTS
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Results
 

@@ -9,7 +9,7 @@ import com.jorgedguezm.elections.data.source.local.Database
 import com.jorgedguezm.elections.data.source.local.ElectionsDao
 import com.jorgedguezm.elections.data.source.local.PartiesDao
 import com.jorgedguezm.elections.data.source.local.ResultsDao
-import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.Utils
 import com.jorgedguezm.elections.ui.ElectionsViewModelFactory
 import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
 
