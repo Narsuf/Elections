@@ -22,9 +22,9 @@ data class Results(
         val votes: Int,
 
         @Json(name = "party")
-        @ForeignKey(entity = Party::class, parentColumns = ["name"], childColumns = ["partyId"],
+        @ForeignKey(entity = Party::class, parentColumns = ["name"], childColumns = ["party.id"],
                 onDelete = ForeignKey.CASCADE)
-        val partyId: String,
+        val party: Party,
 
         @Json(name="election")
         @ForeignKey(entity = Election::class, parentColumns = ["id"], childColumns = ["electionId"],
