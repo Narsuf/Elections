@@ -3,24 +3,34 @@ package com.jorgedguezm.elections.data
 class DataUtils {
 
     companion object {
-        fun generateParty() : Party { return Party("GroenLinks", "#39a935") }
+        fun generateParty(): Party { return Party("GroenLinks", "#39a935") }
 
-        fun generateElection() : Election {
-            val rand = (0..288).random()
-            return Election(rand.toLong(), "Tweede Kamerverkiezingen", rand, "Nederland",
-                    "Tweede Kamer", rand, rand.toFloat(), rand, rand, rand, rand)
+        fun generateElection(): Election {
+            return Election(generateRand().toLong(), "Tweede Kamerverkiezingen",
+                    generateRand(), "Nederland", "Tweede Kamer", generateRand(),
+                    generateRand().toFloat(), generateRand(), generateRand(), generateRand(),
+                    generateRand())
         }
 
-        fun generateStoredCongressElection() : Election {
-            val rand = (0..288).random()
-            return Election(rand.toLong(), "Generales", 2016, "España",
-                    "Congreso", rand, rand.toFloat(), rand, rand, rand, rand)
+        fun generateResults(party: Party, election: Election): Results {
+            return Results(generateRand().toLong(), generateRand(), generateRand(), party,
+                    election.id)
         }
 
-        fun generateStoredSenateElection() : Election {
-            val rand = (0..288).random()
-            return Election(rand.toLong(), "Generales", 2016, "España",
-                    "Senado", rand, rand.toFloat(), rand, rand, rand, rand)
+        fun generateStoredCongressElection(): Election {
+            return Election(generateRand().toLong(), "Generales", 2016, "España",
+                    "Congreso", generateRand(), generateRand().toFloat(),
+                    generateRand(), generateRand(), generateRand(), generateRand())
+        }
+
+        fun generateStoredSenateElection(): Election {
+            return Election(generateRand().toLong(), "Generales", 2016, "España",
+                    "Senado", generateRand(), generateRand().toFloat(), generateRand(),
+                    generateRand(), generateRand(), generateRand())
+        }
+
+        fun generateRand(): Int {
+            return (0..288).random()
         }
     }
 }

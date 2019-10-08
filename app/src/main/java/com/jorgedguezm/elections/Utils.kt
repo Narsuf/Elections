@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.utils
+package com.jorgedguezm.elections
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -79,7 +79,7 @@ class Utils @Inject constructor(private val context: Context) {
         val colors = ArrayList<String>()
 
         for (r in results)
-            colors.add("#" + partiesColor[r.partyId])
+            colors.add("#" + partiesColor[r.party.name])
 
         return colors.toTypedArray()
     }
