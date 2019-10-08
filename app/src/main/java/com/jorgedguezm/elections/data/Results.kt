@@ -8,12 +8,15 @@ import com.squareup.moshi.Json
 
 import java.io.Serializable
 
-@Entity(tableName = "results")
+@Entity(tableName = "results",
+        foreignKeys = [
+                ForeignKey(entity = Election::class, parentColumns = ["id"],
+                        childColumns = ["electionId"], onDelete = ForeignKey.CASCADE)])
 data class Results(
 
         @Json(name = "id")
         @PrimaryKey
-        val id: Long,
+        var id: Long,
 
         @Json(name = "elects")
         val elects: Int?,
@@ -22,12 +25,8 @@ data class Results(
         val votes: Int,
 
         @Json(name = "party")
-        @ForeignKey(entity = Party::class, parentColumns = ["name"], childColumns = ["party.id"],
-                onDelete = ForeignKey.CASCADE)
         val party: Party,
 
         @Json(name="election")
-        @ForeignKey(entity = Election::class, parentColumns = ["id"], childColumns = ["electionId"],
-                onDelete = ForeignKey.CASCADE)
         val electionId: Long
 ) : Serializable

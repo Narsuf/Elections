@@ -24,7 +24,7 @@ data class Election(
         val place: String,
 
         @Json(name = "chamber_name")
-        val chamberName: String?,
+        val chamberName: String,
 
         @Json(name = "total_elects")
         val totalElects: Int?,
