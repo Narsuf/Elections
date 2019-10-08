@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.google.android.material.tabs.TabLayout
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS_BUNDLE
+import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTIONS_BUNDLE
 
 import kotlinx.android.synthetic.main.activity_main.*
 

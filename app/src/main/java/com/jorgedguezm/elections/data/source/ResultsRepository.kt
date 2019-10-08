@@ -3,7 +3,7 @@ package com.jorgedguezm.elections.data.source
 import com.jorgedguezm.elections.data.Results
 import com.jorgedguezm.elections.data.source.local.ResultsDao
 import com.jorgedguezm.elections.data.source.remote.ApiInterface
-import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.Utils
 
 import io.reactivex.Observable
 

@@ -9,10 +9,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.constants.Constants.Companion.ARG_SECTION_NUMBER
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS_BUNDLE
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
+import com.jorgedguezm.elections.Constants.Companion.ARG_SECTION_NUMBER
+import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTIONS
+import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTIONS_BUNDLE
+import com.jorgedguezm.elections.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Party
 import com.jorgedguezm.elections.data.Results

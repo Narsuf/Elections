@@ -12,9 +12,9 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTION
+import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
 import com.jorgedguezm.elections.data.Election
-import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.Utils
 
 class DetailDialog : DialogFragment() {
 

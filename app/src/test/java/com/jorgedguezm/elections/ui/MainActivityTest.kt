@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.test.core.app.ActivityScenario
 
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_ELECTIONS
-import com.jorgedguezm.elections.constants.Constants.Companion.KEY_PARTIES
+import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTIONS
+import com.jorgedguezm.elections.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.data.DataUtils.Companion.generateStoredCongressElection
 import com.jorgedguezm.elections.data.DataUtils.Companion.generateStoredSenateElection
 import com.jorgedguezm.elections.data.Election
