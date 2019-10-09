@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 
-import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.source.local.Database
 import com.jorgedguezm.elections.data.source.local.ElectionsDao
 import com.jorgedguezm.elections.data.source.local.PartiesDao
@@ -63,6 +62,5 @@ class AppModule(val app: Application) {
     fun provideUtils(): Utils = Utils(app)
 
     @Provides
-    fun provideGeneralCardAdapter(utils: Utils): GeneralCardAdapter = GeneralCardAdapter(app,
-            ArrayList<Election>().toTypedArray(), utils)
+    fun provideGeneralCardAdapter(utils: Utils): GeneralCardAdapter = GeneralCardAdapter(utils)
 }

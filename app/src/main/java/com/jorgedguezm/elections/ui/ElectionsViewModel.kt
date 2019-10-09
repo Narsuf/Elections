@@ -32,8 +32,8 @@ class ElectionsViewModel @Inject constructor(
     var partiesError: MutableLiveData<String> = MutableLiveData()
     lateinit var partiesDisposableObserver: DisposableObserver<List<Party>>
 
-    lateinit var resultsResult: MutableLiveData<List<Results>>
-    lateinit var resultsError: MutableLiveData<String>
+    var resultsResult: MutableLiveData<List<Results>> = MutableLiveData()
+    var resultsError: MutableLiveData<String> = MutableLiveData()
     lateinit var resultsDisposableObserver: DisposableObserver<List<Results>>
 
     fun electionsResult(): LiveData<List<Election>> { return electionsResult }

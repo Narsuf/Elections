@@ -11,8 +11,9 @@ import retrofit2.http.Path
 
 interface ApiInterface {
 
-    @GET("elections")
-    fun getElections(): Observable<List<Election>>
+    @GET("elections/{place}/{chamberName}")
+    fun getElections(@Path("place") place: String,
+                     @Path("chamberName") chamberName: String): Observable<List<Election>>
 
     @GET("parties")
     fun getParties(): Observable<List<Party>>

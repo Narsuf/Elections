@@ -12,25 +12,27 @@ import javax.inject.Inject
 class ElectionRepository @Inject constructor(val apiInterface: ApiInterface,
                                              val electionsDao: ElectionsDao, val utils: Utils) {
 
-    fun getElections(): Observable<List<Election>> {
-        val observableFromDb = getElectionsFromDb()
+    fun getElections(place: String, chamber: String): Observable<List<Election>> {
+        val observableFromDb = getElectionsFromDb(place, chamber)
         var returnValue = observableFromDb
 
-        if (utils.isConnectedToInternet())
-            returnValue = Observable.concatArrayEager(getElectionsFromApi(), observableFromDb)
+        if (utils.isConnectedToInternet()) {
+            returnValue = Observable.concatArrayEager(
+                    getElectionsFromApi(place, chamber), observableFromDb)
+        }
 
         return returnValue
     }
 
-    fun getElectionsFromApi(): Observable<List<Election>> {
-        return apiInterface.getElections()
+    private fun getElectionsFromApi(place: String, chamber: String): Observable<List<Election>> {
+        return apiInterface.getElections(place, chamber)
                 .doOnNext {
                     for (item in it)
                         electionsDao.insertElection(item)
                 }
     }
 
-    fun getElectionsFromDb(): Observable<List<Election>> {
-        return electionsDao.queryElections().toObservable()
+    private fun getElectionsFromDb(place: String, chamber: String): Observable<List<Election>> {
+        return electionsDao.queryElections(place, chamber).toObservable()
     }
 }
