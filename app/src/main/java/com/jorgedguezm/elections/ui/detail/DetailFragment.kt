@@ -89,8 +89,8 @@ class DetailFragment : Fragment() {
         for (r in results) {
             val map = HashMap<String, Any>()
 
-            map[from[0]] = "#" + parties[r.partyId]
-            map[from[1]] = r.partyId
+            map[from[0]] = "#" + parties[r.party.name]
+            map[from[1]] = r.party.name
             map[from[2]] = r.votes
             map[from[3]] = utils.getPercentageWithTwoDecimals(r.votes, election.validVotes)
                     .toString() + " %"
