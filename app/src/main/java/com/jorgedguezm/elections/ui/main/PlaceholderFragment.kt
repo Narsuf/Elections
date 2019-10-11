@@ -103,9 +103,7 @@ class PlaceholderFragment : Fragment() {
         @JvmStatic
         fun newInstance(sectionNumber: Int): PlaceholderFragment {
             return PlaceholderFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
+                arguments = Bundle().apply { putInt(ARG_SECTION_NUMBER, sectionNumber) }
             }
         }
     }

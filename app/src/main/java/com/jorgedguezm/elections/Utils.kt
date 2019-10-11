@@ -14,6 +14,7 @@ import com.jorgedguezm.elections.data.Results
 
 import java.math.BigDecimal
 import java.math.RoundingMode
+
 import javax.inject.Inject
 
 class Utils @Inject constructor(private val context: Context) {
