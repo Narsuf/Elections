@@ -1,6 +1,6 @@
 package com.jorgedguezm.elections.ui
 
-import org.robolectric.RobolectricTestRunner
+/*import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.shadows.ShadowNetworkInfo
@@ -57,4 +57,4 @@ class SplashActivityTest {
             }
         }
     }
-}
+}*/

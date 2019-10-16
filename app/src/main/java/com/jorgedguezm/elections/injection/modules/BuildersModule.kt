@@ -2,6 +2,7 @@ package com.jorgedguezm.elections.injection.modules
 
 import com.jorgedguezm.elections.ui.MainFragment
 import com.jorgedguezm.elections.ui.SplashActivity
+import com.jorgedguezm.elections.ui.detail.DetailActivity
 import com.jorgedguezm.elections.ui.detail.DetailFragment
 
 import dagger.Module
@@ -15,6 +16,9 @@ abstract class BuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeMainFragment(): MainFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeDetailActivity(): DetailActivity
 
     @ContributesAndroidInjector
     abstract fun contributeDetailFragment(): DetailFragment

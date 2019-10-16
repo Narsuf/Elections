@@ -1,7 +1,7 @@
 package com.jorgedguezm.elections.ui
 
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -10,12 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.Constants.Companion.ARG_SECTION_NUMBER
-import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTIONS
-import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTIONS_BUNDLE
-import com.jorgedguezm.elections.Constants.Companion.KEY_PARTIES
 import com.jorgedguezm.elections.data.Election
-import com.jorgedguezm.elections.data.Party
-import com.jorgedguezm.elections.data.Results
 import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
 
 import dagger.android.support.AndroidSupportInjection
@@ -25,9 +20,6 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
 class MainFragment : Fragment() {
-
-    lateinit var parties: ArrayList<Party>
-    lateinit var elections: ArrayList<Election>
 
     @Inject
     lateinit var generalCardAdapter: GeneralCardAdapter
@@ -58,10 +50,6 @@ class MainFragment : Fragment() {
         electionsViewModel = ViewModelProviders.of(this, electionsViewModelFactory).get(
                 ElectionsViewModel::class.java)
 
-        val electionsBundle = arguments!!.getBundle(KEY_ELECTIONS_BUNDLE)
-        parties = electionsBundle?.getSerializable(KEY_PARTIES) as ArrayList<Party>
-        elections = electionsBundle.getSerializable(KEY_ELECTIONS) as ArrayList<Election>
-
         when (arguments?.getInt(ARG_SECTION_NUMBER)) {
             1 -> {
                 setHasOptionsMenu(true)
@@ -71,25 +59,21 @@ class MainFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         recyclerView.apply {
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
-            setHasFixedSize(true)
-
             // use a linear layout manager
             layoutManager = LinearLayoutManager(context)
 
             // specify an viewAdapter (see also next example)
             adapter = generalCardAdapter
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onDestroy() {
@@ -113,46 +97,17 @@ class MainFragment : Fragment() {
     }
 
     private fun createGeneralElectionsCards() {
-        val congressElections = ArrayList<Election>()
-        val senateElections = ArrayList<Election>()
+        electionsViewModel.loadCongressElections()
+        electionsViewModel.electionsResult().observe(this,
+                Observer<List<Election>> { congressElections ->
+                    val sortedList = congressElections.sortedWith(compareByDescending {it.year})
+                    generalCardAdapter.congressElections = sortedList
+                    recyclerView.adapter = generalCardAdapter
+        })
 
-        for (p in parties)
-            generalCardAdapter.partiesColor[p.name] = p.color
-
-        for (e in elections) {
-            if (e.name == "Generales" && e.chamberName == "Congreso")
-                congressElections.add(e)
-            else
-                senateElections.add(e)
-        }
-
-        val sortedList = congressElections.sortedWith(compareByDescending {it.year})
-
-        // These calls need to be made synchronously
-        val handler = Handler()
-        var index = 0
-        lateinit var runnable: Runnable
-
-        runnable = Runnable {
-            electionsViewModel.loadResults(sortedList[index].year, sortedList[index].place,
-                    sortedList[index].chamberName!!)
-
-            electionsViewModel.resultsResult().observe(this,
-                    Observer<List<Results>> {
-                        generalCardAdapter.congressResults.add(it)
-                        index++
-
-                        if (index < sortedList.size) {
-                            handler.post(runnable)
-                        } else {
-                            generalCardAdapter.congressElections = sortedList.toTypedArray()
-                            generalCardAdapter.senateElections = senateElections.toTypedArray()
-                            generalCardAdapter.electionsViewModel = electionsViewModel
-                            recyclerView.adapter = generalCardAdapter
-                        }
-                    })
-        }
-
-        handler.post(runnable)
+        electionsViewModel.electionsError().observe(this,
+                Observer<String> {
+                    Log.e("ERROR", it)
+                })
     }
 }

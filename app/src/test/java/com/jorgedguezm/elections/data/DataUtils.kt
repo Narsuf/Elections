@@ -5,19 +5,18 @@ class DataUtils {
     companion object {
         fun generateParty(): Party { return Party("GroenLinks", "#39a935") }
 
-        fun generateElection(): Election {
+        fun generateElection(results: List<Results>): Election {
             return Election(generateRand().toLong(), "Tweede Kamerverkiezingen",
                     generateRand(), "Nederland", "Tweede Kamer", generateRand(),
                     generateRand().toFloat(), generateRand(), generateRand(), generateRand(),
-                    generateRand())
+                    generateRand(), results)
         }
 
-        fun generateResults(party: Party, election: Election): Results {
-            return Results(generateRand().toLong(), generateRand(), generateRand(), party,
-                    election.id)
+        fun generateResults(party: Party): Results {
+            return Results(generateRand().toLong(), generateRand(), generateRand(), party)
         }
 
-        fun generateStoredCongressElection(): Election {
+        /*fun generateStoredCongressElection(): Election {
             return Election(generateRand().toLong(), "Generales", 2016, "España",
                     "Congreso", generateRand(), generateRand().toFloat(),
                     generateRand(), generateRand(), generateRand(), generateRand())
@@ -27,7 +26,7 @@ class DataUtils {
             return Election(generateRand().toLong(), "Generales", 2016, "España",
                     "Senado", generateRand(), generateRand().toFloat(), generateRand(),
                     generateRand(), generateRand(), generateRand())
-        }
+        }*/
 
         fun generateRand(): Int {
             return (0..288).random()

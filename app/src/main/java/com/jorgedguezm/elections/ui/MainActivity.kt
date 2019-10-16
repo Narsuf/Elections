@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.google.android.material.tabs.TabLayout
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTIONS_BUNDLE
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, intent.extras!!)
+        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
         container.adapter = mSectionsPagerAdapter
@@ -45,16 +44,12 @@ class MainActivity : AppCompatActivity() {
      * A [FragmentPagerAdapter] that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    inner class SectionsPagerAdapter(fm: FragmentManager, args: Bundle) : FragmentPagerAdapter(fm) {
-
-        private val electionsBundle = args
+    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            val fragment = MainFragment.newInstance(position + 1)
-            fragment.arguments?.putBundle(KEY_ELECTIONS_BUNDLE, electionsBundle)
-            return fragment
+            return  MainFragment.newInstance(position + 1)
         }
 
         override fun getCount(): Int {

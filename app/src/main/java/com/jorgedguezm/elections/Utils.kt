@@ -31,7 +31,10 @@ class Utils @Inject constructor(private val context: Context) {
         return isConnected
     }
 
-    fun drawPieChart(chart: PieChart, elects: Array<Int>, colors: Array<String>) {
+    fun drawPieChart(chart: PieChart, results: List<Results>) {
+        val elects = getElectsFromResults(results)
+        val colors = getColorsFromResults(results)
+
         chart.description = null
         chart.legend.isEnabled = false
 
@@ -64,22 +67,18 @@ class Utils @Inject constructor(private val context: Context) {
         chart.animateXY(1500, 1500)
     }
 
-    fun getElectsFromResults(results: List<Results>): Array<Int> {
+    private fun getElectsFromResults(results: List<Results>): Array<Int> {
         val elects = ArrayList<Int>()
 
-        for (r in results)
-            elects.add(r.elects!!)
+        for (r in results) elects.add(r.elects)
 
         return elects.toTypedArray()
     }
 
-    fun getColorsFromResults(results: List<Results>,
-                                     partiesColor: Map<String, String>): Array<String> {
-
+    private fun getColorsFromResults(results: List<Results>): Array<String> {
         val colors = ArrayList<String>()
 
-        for (r in results)
-            colors.add("#" + partiesColor[r.party.name])
+        for (r in results) colors.add("#" + r.party.color)
 
         return colors.toTypedArray()
     }
