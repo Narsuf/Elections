@@ -27,23 +27,4 @@ class MainActivityTest {
             }
         }
     }
-
-    /*@Test
-    @LooperMode(LooperMode.Mode.PAUSED)
-    fun launchMainFragmentWithJustOneElectionInArguments() {
-        ActivityScenario.launch(SplashActivity::class.java).use { scenario ->
-            scenario.onActivity { activity ->
-                val myIntent = Intent(activity, MainActivity::class.java)
-                val electionsParams = Bundle()
-
-                electionsParams.putSerializable(KEY_PARTIES, ArrayList(parties))
-                electionsParams.putSerializable(KEY_ELECTIONS, arrayListOf(
-                        generateStoredCongressElection(), generateStoredSenateElection()))
-
-                myIntent.putExtras(electionsParams)
-
-                ActivityScenario.launch<Activity>(myIntent).use { it.onActivity { sleep(1000) } }
-            }
-        }
-    }*/
 }
