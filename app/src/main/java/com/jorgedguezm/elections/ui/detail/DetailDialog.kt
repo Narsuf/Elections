@@ -16,6 +16,8 @@ import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.Utils
 
+import kotlinx.android.synthetic.main.detail_fragment.*
+
 class DetailDialog : DialogFragment() {
 
     private var census = 0
@@ -30,7 +32,7 @@ class DetailDialog : DialogFragment() {
         val layoutInflater = activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val inflatedLayout = layoutInflater.inflate(R.layout.detail_dialog, null)
+        val inflatedLayout = layoutInflater.inflate(R.layout.detail_dialog, root)
         val window = AlertDialog.Builder(activity)
 
         election = arguments?.getSerializable(KEY_ELECTION) as Election
