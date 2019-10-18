@@ -28,7 +28,7 @@ class MainActivityTest {
             scenario.onActivity { activity ->
                 val sectionsPagerAdapter = activity.view_pager.adapter as SectionsPagerAdapter
                 assertEquals(sectionsPagerAdapter.count, 3)
-                sleep(1000)
+                sleep(3000)
             }
 
             scenario.onActivity { activity ->
