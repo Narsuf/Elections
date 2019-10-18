@@ -80,7 +80,7 @@ class DetailActivity : AppCompatActivity() {
 
             R.id.action_senate -> {
                 if (electionName == KEY_CONGRESS) {
-                    detailActivityViewModel.loadElection(election.year, election.place, KEY_SENATE)
+                    detailActivityViewModel.loadSenateElection(election.year, election.place)
                     detailActivityViewModel.electionResult().observe(this,
                             Observer<Election> {
                                 beginTransaction(it)
