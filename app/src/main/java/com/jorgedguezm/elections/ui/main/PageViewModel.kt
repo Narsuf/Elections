@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui
+package com.jorgedguezm.elections.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,8 +15,12 @@ import java.util.concurrent.TimeUnit
 
 import javax.inject.Inject
 
-class ElectionsViewModel @Inject constructor(
+class PageViewModel @Inject constructor(
         private val electionRepository: ElectionRepository) : ViewModel() {
+
+    private val _index = MutableLiveData<Int>()
+
+    fun setIndex(index: Int) { _index.value = index }
 
     var electionsResult: MutableLiveData<List<Election>> = MutableLiveData()
     var electionsError: MutableLiveData<String> = MutableLiveData()

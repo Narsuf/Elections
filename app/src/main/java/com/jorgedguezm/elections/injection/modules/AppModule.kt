@@ -7,9 +7,9 @@ import androidx.room.Room
 import com.jorgedguezm.elections.data.source.local.Database
 import com.jorgedguezm.elections.data.source.local.ElectionsDao
 import com.jorgedguezm.elections.Utils
-import com.jorgedguezm.elections.ui.ElectionsViewModelFactory
 import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
 import com.jorgedguezm.elections.ui.detail.DetailActivityViewModelFactory
+import com.jorgedguezm.elections.ui.main.PageViewModelFactory
 
 import dagger.Module
 import dagger.Provides
@@ -45,8 +45,8 @@ class AppModule(val app: Application) {
     fun provideElectionsDao(database: Database): ElectionsDao = database.electionsDao()
 
     @Provides
-    fun provideElectionsViewModelFactory(
-            factory: ElectionsViewModelFactory): ViewModelProvider.Factory = factory
+    fun providePageViewModelFactory(
+            factory: PageViewModelFactory): ViewModelProvider.Factory = factory
 
     @Provides
     fun provideDetailActivityViewModelFactory(

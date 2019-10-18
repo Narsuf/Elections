@@ -11,9 +11,9 @@ import com.jorgedguezm.elections.Constants.Companion.KEY_CALLED_FROM
 import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
 import com.jorgedguezm.elections.Constants.Companion.KEY_GENERAL
 import com.jorgedguezm.elections.data.Election
-import com.jorgedguezm.elections.ui.MainFragment
 import com.jorgedguezm.elections.ui.detail.DetailActivity
 import com.jorgedguezm.elections.Utils
+import com.jorgedguezm.elections.ui.main.PlaceholderFragment
 
 import kotlinx.android.synthetic.main.general_elections_card.view.*
 
@@ -24,7 +24,7 @@ class GeneralCardAdapter @Inject constructor(
 
     var congressElections: List<Election> = ArrayList()
 
-    lateinit var fragment: MainFragment
+    lateinit var fragment: PlaceholderFragment
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
