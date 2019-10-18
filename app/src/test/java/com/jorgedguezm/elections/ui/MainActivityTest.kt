@@ -6,15 +6,15 @@ import com.jorgedguezm.elections.ui.main.MainActivity
 import com.jorgedguezm.elections.ui.main.PlaceholderFragment
 import com.jorgedguezm.elections.ui.main.SectionsPagerAdapter
 
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_main.*
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.LooperMode
+
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_main.*
 
 import java.lang.Thread.sleep
 
