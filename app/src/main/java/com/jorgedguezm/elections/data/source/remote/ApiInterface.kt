@@ -15,11 +15,8 @@ interface ApiInterface {
     fun getElections(@Path("place") place: String,
                      @Path("chamberName") chamberName: String): Observable<List<Election>>
 
-    @GET("parties")
-    fun getParties(): Observable<List<Party>>
-
-    @GET("results/{year}/{place}/{chamberName}")
-    fun getResults(@Path("year") year: String,
-                   @Path("place") place: String,
-                   @Path("chamberName") chamberName: String): Observable<List<Results>>
+    @GET("election/{year}/{place}/{chamberName}")
+    fun getElection(@Path("year") year: String,
+                    @Path("place") place: String,
+                    @Path("chamberName") chamberName: String): Observable<Election>
 }

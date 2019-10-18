@@ -27,20 +27,26 @@ data class Election(
         val chamberName: String,
 
         @Json(name = "total_elects")
-        val totalElects: Int?,
+        val totalElects: Int,
 
         @Json(name = "scrutinized")
-        val scrutinized: Float?,
+        val scrutinized: Float,
 
         @Json(name = "valid_votes")
         val validVotes: Int,
 
         @Json(name = "abstentions")
-        val abstentions: Int?,
+        val abstentions: Int,
 
         @Json(name = "blank_votes")
-        val blankVotes: Int?,
+        val blankVotes: Int,
 
         @Json(name = "null_votes")
-        val nullVotes: Int?
+        val nullVotes: Int,
+
+        @Json(name = "results")
+        val results: List<Results>
 ) : Serializable
+
+data class Party(val name: String, val color: String) : Serializable
+data class Results(val id: Long, val elects: Int, val votes: Int, val party: Party) : Serializable

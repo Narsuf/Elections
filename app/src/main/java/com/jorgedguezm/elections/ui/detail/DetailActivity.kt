@@ -4,36 +4,34 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.Constants.Companion.KEY_CALLED_FROM
 import com.jorgedguezm.elections.Constants.Companion.KEY_CONGRESS
-import com.jorgedguezm.elections.Constants.Companion.KEY_CONGRESS_ELECTIONS
-import com.jorgedguezm.elections.Constants.Companion.KEY_CONGRESS_RESULTS
 import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
 import com.jorgedguezm.elections.Constants.Companion.KEY_GENERAL
-import com.jorgedguezm.elections.Constants.Companion.KEY_PARTIES
-import com.jorgedguezm.elections.Constants.Companion.KEY_RESULTS
 import com.jorgedguezm.elections.Constants.Companion.KEY_SENATE
-import com.jorgedguezm.elections.Constants.Companion.KEY_SENATE_ELECTIONS
-import com.jorgedguezm.elections.Constants.Companion.KEY_SENATE_RESULTS
 import com.jorgedguezm.elections.data.Election
-import com.jorgedguezm.elections.data.Results
+
+import dagger.android.AndroidInjection
 
 import kotlinx.android.synthetic.main.detail_activity.*
+
+import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
     private val bundle = Bundle()
     private var electionName = KEY_CONGRESS
 
-    private lateinit var partiesColor: HashMap<String, String>
-    private lateinit var congressElection: Election
-    private lateinit var congressResults: ArrayList<Results>
-    private lateinit var senateElection: Election
-    private lateinit var senateResults: ArrayList<Results>
-
+    private lateinit var election: Election
     private lateinit var calledFrom: String
+
+    @Inject
+    lateinit var detailActivityViewModelFactory: DetailActivityViewModelFactory
+    lateinit var detailActivityViewModel: DetailActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,19 +39,16 @@ class DetailActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
+        AndroidInjection.inject(this)
+
+        detailActivityViewModel = ViewModelProviders.of(this,
+                detailActivityViewModelFactory).get(DetailActivityViewModel::class.java)
+
         val extras = intent.extras
         calledFrom = extras?.getSerializable(KEY_CALLED_FROM) as String
-        partiesColor = extras.getSerializable(KEY_PARTIES) as HashMap<String, String>
-        congressElection = extras.getSerializable(KEY_CONGRESS_ELECTIONS) as Election
-        congressResults = extras.getSerializable(KEY_CONGRESS_RESULTS) as ArrayList<Results>
-        senateElection = extras.getSerializable(KEY_SENATE_ELECTIONS) as Election
-        senateResults = extras.getSerializable(KEY_SENATE_RESULTS) as ArrayList<Results>
+        election = extras.getSerializable(KEY_ELECTION) as Election
 
-        bundle.putSerializable(KEY_PARTIES, partiesColor)
-        bundle.putSerializable(KEY_ELECTION, congressElection)
-        bundle.putSerializable(KEY_RESULTS, congressResults)
-
-        beginTransaction()
+        beginTransaction(election)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -70,14 +65,10 @@ class DetailActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-
-        when (id) {
+        when (item.itemId) {
             R.id.action_congress -> {
                 if (electionName == KEY_SENATE) {
-                    bundle.putSerializable(KEY_ELECTION, congressElection)
-                    bundle.putSerializable(KEY_RESULTS, congressResults)
-                    beginTransaction()
+                    beginTransaction(election)
                     electionName = KEY_CONGRESS
                 }
 
@@ -86,10 +77,13 @@ class DetailActivity : AppCompatActivity() {
 
             R.id.action_senate -> {
                 if (electionName == KEY_CONGRESS) {
-                    bundle.putSerializable(KEY_ELECTION, senateElection)
-                    bundle.putSerializable(KEY_RESULTS, senateResults)
-                    beginTransaction()
-                    electionName = KEY_SENATE
+                    detailActivityViewModel.loadElection(election.year, election.place,
+                            election.chamberName)
+                    detailActivityViewModel.electionResult().observe(this,
+                            Observer<Election> {
+                                beginTransaction(it)
+                                electionName = KEY_SENATE
+                    })
                 }
 
                 return true
@@ -99,12 +93,18 @@ class DetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun beginTransaction() {
+    private fun beginTransaction(election: Election) {
         val detailFragment = DetailFragment()
         val transaction = supportFragmentManager.beginTransaction()
 
+        bundle.putSerializable(KEY_ELECTION, election)
         detailFragment.arguments = bundle
         transaction.replace(R.id.detail_frame, detailFragment)
         transaction.commit()
+    }
+
+    override fun onDestroy() {
+        detailActivityViewModel.disposeElements()
+        super.onDestroy()
     }
 }
