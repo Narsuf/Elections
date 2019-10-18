@@ -48,6 +48,8 @@ class DetailActivity : AppCompatActivity() {
         calledFrom = extras?.getSerializable(KEY_CALLED_FROM) as String
         election = extras.getSerializable(KEY_ELECTION) as Election
 
+        toolbar.title = election.chamberName
+
         beginTransaction(election)
     }
 
@@ -69,6 +71,7 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_congress -> {
                 if (electionName == KEY_SENATE) {
                     beginTransaction(election)
+                    toolbar.title = election.chamberName
                     electionName = KEY_CONGRESS
                 }
 
@@ -77,11 +80,11 @@ class DetailActivity : AppCompatActivity() {
 
             R.id.action_senate -> {
                 if (electionName == KEY_CONGRESS) {
-                    detailActivityViewModel.loadElection(election.year, election.place,
-                            election.chamberName)
+                    detailActivityViewModel.loadElection(election.year, election.place, KEY_SENATE)
                     detailActivityViewModel.electionResult().observe(this,
                             Observer<Election> {
                                 beginTransaction(it)
+                                toolbar.title = it.chamberName
                                 electionName = KEY_SENATE
                     })
                 }
