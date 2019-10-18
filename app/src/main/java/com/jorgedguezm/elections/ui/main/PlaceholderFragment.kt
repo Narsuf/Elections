@@ -53,6 +53,8 @@ class PlaceholderFragment : Fragment() {
             if (arguments?.getInt(ARG_SECTION_NUMBER) == 1) {
                 setHasOptionsMenu(true)
 
+                recyclerView.adapter = generalCardAdapter
+
                 pageViewModel.loadCongressElections()
                 pageViewModel.electionsResult().observe(this@PlaceholderFragment,
                         Observer<List<Election>> { congressElections ->
@@ -61,7 +63,7 @@ class PlaceholderFragment : Fragment() {
 
                             generalCardAdapter.congressElections = sortedList
                             generalCardAdapter.fragment = this@PlaceholderFragment
-                            recyclerView.adapter = generalCardAdapter
+                            generalCardAdapter.notifyDataSetChanged()
                         })
             }
         }

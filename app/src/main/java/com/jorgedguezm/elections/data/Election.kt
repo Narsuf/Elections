@@ -49,4 +49,4 @@ data class Election(
 ) : Serializable
 
 data class Party(val name: String, val color: String) : Serializable
-data class Results(val id: Long, val elects: Int, val votes: Int, val party: Party) : Serializable
+data class Results(val elects: Int, val votes: Int, val party: Party) : Serializable
