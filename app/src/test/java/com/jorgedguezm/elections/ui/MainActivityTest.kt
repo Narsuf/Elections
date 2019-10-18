@@ -23,7 +23,7 @@ class MainActivityTest {
 
     @Test
     @LooperMode(LooperMode.Mode.PAUSED)
-    fun launchMainActivity() {
+    fun launchMainActivityAndPerformClickOnFirstCard() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 val sectionsPagerAdapter = activity.view_pager.adapter as SectionsPagerAdapter
@@ -38,6 +38,8 @@ class MainActivityTest {
                         .electionsResult().value!!.size
 
                 assertEquals(adapterSize, responseSize)
+
+                firstFragment.recyclerView.layoutManager?.getChildAt(0)?.performClick()
             }
         }
     }
