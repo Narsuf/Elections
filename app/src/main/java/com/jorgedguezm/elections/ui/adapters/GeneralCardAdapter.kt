@@ -1,6 +1,5 @@
 package com.jorgedguezm.elections.ui.adapters
 
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -20,8 +19,8 @@ import kotlinx.android.synthetic.main.general_elections_card.view.*
 
 import javax.inject.Inject
 
-class GeneralCardAdapter @Inject constructor(private val context: Context, val utils: Utils) :
-        RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
+class GeneralCardAdapter @Inject constructor(
+        val utils: Utils) : RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     var congressElections: List<Election> = ArrayList()
 
@@ -47,7 +46,7 @@ class GeneralCardAdapter @Inject constructor(private val context: Context, val u
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         val congressElection = congressElections[position]
-        val concatenatedText = context.resources.getString(R.string.app_name) + " " +
+        val concatenatedText = fragment.resources.getString(R.string.app_name) + " " +
                 congressElection.year
 
         holder.card.section_label.text = concatenatedText
