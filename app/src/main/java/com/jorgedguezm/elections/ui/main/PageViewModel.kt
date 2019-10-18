@@ -6,20 +6,17 @@ import androidx.lifecycle.ViewModel
 
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.source.ElectionRepository
-import com.jorgedguezm.elections.data.source.PartyRepository
-import com.jorgedguezm.elections.data.source.ResultsRepository
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 
 import java.util.concurrent.TimeUnit
+
 import javax.inject.Inject
 
 class PageViewModel @Inject constructor(
-        private val electionRepository: ElectionRepository,
-        private val partiesRepository: PartyRepository,
-        private val resultsRepository: ResultsRepository) : ViewModel() {
+        private val electionRepository: ElectionRepository) : ViewModel() {
 
     private val _index = MutableLiveData<Int>()
 
@@ -32,7 +29,7 @@ class PageViewModel @Inject constructor(
     fun electionsResult(): LiveData<List<Election>> { return electionsResult }
     fun electionsError(): LiveData<String> { return electionsError }
 
-    fun loadGeneralElections() {
+    fun loadCongressElections() {
         electionsDisposableObserver = object : DisposableObserver<List<Election>>() {
             override fun onComplete() { }
 

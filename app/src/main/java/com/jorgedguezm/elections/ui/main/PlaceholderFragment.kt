@@ -39,11 +39,7 @@ class PlaceholderFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_main, container, false)
-
-        if (arguments?.getInt(ARG_SECTION_NUMBER) == 1) setHasOptionsMenu(true)
-
-        return root
+        return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,16 +51,18 @@ class PlaceholderFragment : Fragment() {
 
             // specify an viewAdapter (see also next example)
             if (arguments?.getInt(ARG_SECTION_NUMBER) == 1) {
-                pageViewModel.loadGeneralElections()
+                setHasOptionsMenu(true)
+
+                pageViewModel.loadCongressElections()
                 pageViewModel.electionsResult().observe(this@PlaceholderFragment,
                         Observer<List<Election>> { congressElections ->
                             val sortedList = congressElections
-                                    .sortedWith(compareByDescending { it.year })
+                                    .sortedWith(compareByDescending {it.year})
 
-                            generalCardAdapter.congressElections = sortedList.toTypedArray()
+                            generalCardAdapter.congressElections = sortedList
                             generalCardAdapter.fragment = this@PlaceholderFragment
-                            adapter = generalCardAdapter
-                })
+                            recyclerView.adapter = generalCardAdapter
+                        })
             }
         }
     }
