@@ -13,7 +13,7 @@ class DataUtils {
         }
 
         fun generateResults(party: Party): Results {
-            return Results(generateRand().toLong(), generateRand(), generateRand(), party)
+            return Results(generateRand(), generateRand(), party)
         }
 
         /*fun generateStoredCongressElection(): Election {
