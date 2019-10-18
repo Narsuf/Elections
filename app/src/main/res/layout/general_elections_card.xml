@@ -9,10 +9,15 @@
     android:layout_marginBottom="@dimen/card_margin"
     card_view:cardCornerRadius="@dimen/card_radius">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="@dimen/pie_chart_height">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/card_chart_margin_top"/>
 
         <TextView
             android:id="@+id/section_label"
@@ -21,16 +26,13 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/card_chart_margin"
+            android:layout_marginBottom="@dimen/card_text_view_margin"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
             android:textSize="@dimen/text_size_year_general_elections"
             android:textStyle="bold" />
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/pie_chart_height"
-            android:layout_marginTop="@dimen/activity_vertical_margin" />
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
