@@ -17,16 +17,14 @@
         android:name=".ElectionsApplication"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="n">
-        <activity android:name=".ui.SplashActivity">
+        <activity
+            android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.MainActivity">
         </activity>
         <activity
             android:name=".ui.detail.DetailActivity"

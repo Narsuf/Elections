@@ -5,13 +5,9 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 apply from : '../constants.gradle'
 
-jacoco {
-    toolVersion = "$jacoco_version"
-}
+jacoco { toolVersion = "$jacoco_version" }
 
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-}
+tasks.withType(Test) { jacoco.includeNoLocationClasses = true }
 
 task jacocoTestReport(type: JacocoReport,
         dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
@@ -61,9 +57,7 @@ android {
     }
 
     testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
+        unitTests { includeAndroidResources = true }
     }
 }
 

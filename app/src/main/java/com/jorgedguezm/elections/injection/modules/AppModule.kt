@@ -4,14 +4,12 @@ import android.app.Application
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 
-import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.source.local.Database
 import com.jorgedguezm.elections.data.source.local.ElectionsDao
-import com.jorgedguezm.elections.data.source.local.PartiesDao
-import com.jorgedguezm.elections.data.source.local.ResultsDao
 import com.jorgedguezm.elections.Utils
-import com.jorgedguezm.elections.ui.ElectionsViewModelFactory
 import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
+import com.jorgedguezm.elections.ui.detail.DetailActivityViewModelFactory
+import com.jorgedguezm.elections.ui.main.PageViewModelFactory
 
 import dagger.Module
 import dagger.Provides
@@ -47,22 +45,17 @@ class AppModule(val app: Application) {
     fun provideElectionsDao(database: Database): ElectionsDao = database.electionsDao()
 
     @Provides
-    @Singleton
-    fun providePartiesDao(database: Database): PartiesDao = database.partiesDao()
+    fun providePageViewModelFactory(
+            factory: PageViewModelFactory): ViewModelProvider.Factory = factory
 
     @Provides
-    @Singleton
-    fun provideResultsDao(database: Database): ResultsDao = database.resultsDao()
-
-    @Provides
-    fun provideElectionsViewModelFactory(
-            factory: ElectionsViewModelFactory): ViewModelProvider.Factory = factory
+    fun provideDetailActivityViewModelFactory(
+            factory: DetailActivityViewModelFactory): ViewModelProvider.Factory = factory
 
     @Provides
     @Singleton
     fun provideUtils(): Utils = Utils(app)
 
     @Provides
-    fun provideGeneralCardAdapter(utils: Utils): GeneralCardAdapter = GeneralCardAdapter(app,
-            ArrayList<Election>().toTypedArray(), utils)
+    fun provideGeneralCardAdapter(utils: Utils): GeneralCardAdapter = GeneralCardAdapter(utils)
 }

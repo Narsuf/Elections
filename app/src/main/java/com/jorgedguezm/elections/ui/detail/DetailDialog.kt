@@ -16,6 +16,8 @@ import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.Utils
 
+import kotlinx.android.synthetic.main.detail_fragment.*
+
 class DetailDialog : DialogFragment() {
 
     private var census = 0
@@ -30,12 +32,12 @@ class DetailDialog : DialogFragment() {
         val layoutInflater = activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val inflatedLayout = layoutInflater.inflate(R.layout.detail_dialog, null)
+        val inflatedLayout = layoutInflater.inflate(R.layout.detail_dialog, root)
         val window = AlertDialog.Builder(activity)
 
         election = arguments?.getSerializable(KEY_ELECTION) as Election
-        counted = election.validVotes + election.nullVotes!! + election.blankVotes!!
-        census = counted + election.abstentions!!
+        counted = election.validVotes + election.nullVotes + election.blankVotes
+        census = counted + election.abstentions
 
         val textViewTitle = inflatedLayout.findViewById(R.id.text_view_title) as TextView
         val concatenatedText = election.chamberName + " " + election.place + " " + election.year
@@ -45,6 +47,7 @@ class DetailDialog : DialogFragment() {
 
         window.setView(inflatedLayout)
         window.setPositiveButton(resources.getString(R.string.close), null)
+
         return window.create()
     }
 
@@ -63,7 +66,7 @@ class DetailDialog : DialogFragment() {
             val map = HashMap<String, Any>()
 
             map[from[0]] = textData[i]
-            map[from[1]] = numberData[i]!!
+            map[from[1]] = numberData[i]
 
             if (i == 1)
                 map[from[2]] = percentageData[i]
@@ -82,10 +85,10 @@ class DetailDialog : DialogFragment() {
     private fun getPercentageData(): Array<String> {
         val percentageOfParticipation = utils.getPercentageWithTwoDecimals(counted, census)
         val percentageOfAbstentions = utils
-                .getPercentageWithTwoDecimals(election.abstentions!!, census)
+                .getPercentageWithTwoDecimals(election.abstentions, census)
 
-        val percentageOfNull = utils.getPercentageWithTwoDecimals(election.nullVotes!!, counted)
-        val percentageOfBlank = utils.getPercentageWithTwoDecimals(election.blankVotes!!, counted)
+        val percentageOfNull = utils.getPercentageWithTwoDecimals(election.nullVotes, counted)
+        val percentageOfBlank = utils.getPercentageWithTwoDecimals(election.blankVotes, counted)
 
         return arrayOf(election.scrutinized.toString(), "", percentageOfParticipation.toString(),
                 percentageOfAbstentions.toString(), percentageOfNull.toString(),

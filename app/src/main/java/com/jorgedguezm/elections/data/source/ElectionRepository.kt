@@ -12,25 +12,49 @@ import javax.inject.Inject
 class ElectionRepository @Inject constructor(val apiInterface: ApiInterface,
                                              val electionsDao: ElectionsDao, val utils: Utils) {
 
-    fun getElections(): Observable<List<Election>> {
-        val observableFromDb = getElectionsFromDb()
+    fun getElections(place: String, chamber: String): Observable<List<Election>> {
+        val observableFromDb = getElectionsFromDb(place, chamber)
         var returnValue = observableFromDb
 
-        if (utils.isConnectedToInternet())
-            returnValue = Observable.concatArrayEager(getElectionsFromApi(), observableFromDb)
+        if (utils.isConnectedToInternet()) {
+            returnValue = Observable.concatArrayEager(getElectionsFromApi(place, chamber),
+                    observableFromDb)
+        }
 
         return returnValue
     }
 
-    fun getElectionsFromApi(): Observable<List<Election>> {
-        return apiInterface.getElections()
+    fun getElectionsFromApi(place: String, chamber: String): Observable<List<Election>> {
+        return apiInterface.getElections(place, chamber)
                 .doOnNext {
-                    for (item in it)
-                        electionsDao.insertElection(item)
+                    for (item in it) electionsDao.insertElection(item)
                 }
     }
 
-    fun getElectionsFromDb(): Observable<List<Election>> {
-        return electionsDao.queryElections().toObservable()
+    fun getElectionsFromDb(place: String, chamber: String): Observable<List<Election>> {
+        return electionsDao.queryElections(place, chamber).toObservable()
+    }
+
+    fun getElection(year: Int, place: String, chamber: String): Observable<Election> {
+        val observableFromDb = getElectionFromDb(year, place, chamber)
+        var returnValue = observableFromDb
+
+        if (utils.isConnectedToInternet()) {
+            returnValue = Observable.concatArrayEager(getElectionFromApi(year, place, chamber),
+                    observableFromDb)
+        }
+
+        return returnValue
+    }
+
+    fun getElectionFromApi(year: Int, place: String, chamber: String): Observable<Election> {
+        return apiInterface.getElection(year.toString(), place, chamber)
+                .doOnNext {
+                    electionsDao.insertElection(it)
+                }
+    }
+
+    fun getElectionFromDb(year: Int, place: String, chamber: String): Observable<Election> {
+        return electionsDao.getElection(year, place, chamber).toObservable()
     }
 }

@@ -3,16 +3,18 @@ package com.jorgedguezm.elections.data
 import androidx.room.TypeConverter
 
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class ResultsConverter {
 
     @TypeConverter
-    fun fromParty(value: String): Party? {
-        return Gson().fromJson(value, Party::class.java)
+    fun fromResults(value: String): List<Results> {
+        val type = object : TypeToken<List<Results>>() {}.type
+        return Gson().fromJson(value, type)
     }
 
     @TypeConverter
-    fun partyToString(p: Party): String {
-        return Gson().toJson(p)
+    fun resultsToString(results: List<Results>): String {
+        return Gson().toJson(results)
     }
 }

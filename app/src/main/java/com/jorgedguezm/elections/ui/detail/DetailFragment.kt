@@ -1,22 +1,18 @@
 package com.jorgedguezm.elections.ui.detail
 
-import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SimpleAdapter
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
-import com.jorgedguezm.elections.Constants.Companion.KEY_PARTIES
-import com.jorgedguezm.elections.Constants.Companion.KEY_RESULTS
 import com.jorgedguezm.elections.data.Election
-import com.jorgedguezm.elections.data.Results
 import com.jorgedguezm.elections.Utils
+import com.jorgedguezm.elections.ui.binders.PartyColorBinder
 
 import dagger.android.support.AndroidSupportInjection
 
@@ -26,9 +22,7 @@ import javax.inject.Inject
 
 class DetailFragment : Fragment() {
 
-    private lateinit var parties: HashMap<String, String>
     private lateinit var election: Election
-    private lateinit var results: ArrayList<Results>
 
     private lateinit var countDownTimer: CountDownTimer
 
@@ -40,9 +34,7 @@ class DetailFragment : Fragment() {
 
         AndroidSupportInjection.inject(this)
 
-        parties = arguments?.getSerializable(KEY_PARTIES) as HashMap<String, String>
         election = arguments?.getSerializable(KEY_ELECTION) as Election
-        results = arguments?.getSerializable(KEY_RESULTS) as ArrayList<Results>
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -63,8 +55,7 @@ class DetailFragment : Fragment() {
             dialog.show(activity?.supportFragmentManager, "DetailDialog")
         }
 
-        utils.drawPieChart(pie_chart, utils.getElectsFromResults(results),
-                utils.getColorsFromResults(results, parties))
+        utils.drawPieChart(pie_chart, election.results)
 
         initializeCountDownTimer()
         setSimpleAdapter()
@@ -86,16 +77,16 @@ class DetailFragment : Fragment() {
 
         val arrayList = ArrayList<Map<String, Any>>()
 
-        for (r in results) {
+        for (r in election.results) {
             val map = HashMap<String, Any>()
 
-            map[from[0]] = "#" + parties[r.party.name]
+            map[from[0]] = "#" + r.party.color
             map[from[1]] = r.party.name
             map[from[2]] = r.votes
             map[from[3]] = utils.getPercentageWithTwoDecimals(r.votes, election.validVotes)
                     .toString() + " %"
 
-            map[from[4]] = r.elects!!
+            map[from[4]] = r.elects
 
             arrayList.add(map)
         }
@@ -110,18 +101,6 @@ class DetailFragment : Fragment() {
         list_view.setOnItemClickListener { _, _, position, _ ->
             pie_chart.highlightValue(position.toFloat(), 0)
             countDownTimer.start()
-        }
-    }
-
-    inner class PartyColorBinder: SimpleAdapter.ViewBinder {
-
-        override fun setViewValue(view: View?, data: Any?, textRepresentation: String?): Boolean {
-            if (view is TextView && data.toString().matches(Regex("[#].*"))) {
-                view.setBackgroundColor(Color.parseColor(data.toString()))
-                return true
-            }
-
-            return false
         }
     }
 }
