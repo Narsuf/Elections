@@ -57,5 +57,5 @@ class AppModule(val app: Application) {
     fun provideUtils(): Utils = Utils(app)
 
     @Provides
-    fun provideGeneralCardAdapter(utils: Utils): GeneralCardAdapter = GeneralCardAdapter(app, utils)
+    fun provideGeneralCardAdapter(utils: Utils): GeneralCardAdapter = GeneralCardAdapter(utils)
 }

@@ -5,8 +5,6 @@ import android.net.ConnectivityManager
 import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
 
-import javax.inject.Inject
-
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.charts.PieChart
@@ -16,6 +14,8 @@ import com.jorgedguezm.elections.data.Results
 
 import java.math.BigDecimal
 import java.math.RoundingMode
+
+import javax.inject.Inject
 
 class Utils @Inject constructor(private val context: Context) {
 
