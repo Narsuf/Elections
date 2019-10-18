@@ -48,7 +48,7 @@ class DetailActivity : AppCompatActivity() {
         calledFrom = extras?.getSerializable(KEY_CALLED_FROM) as String
         election = extras.getSerializable(KEY_ELECTION) as Election
 
-        toolbar.title = election.chamberName
+        toolbar.title = getToolbarTitle(election)
 
         beginTransaction(election)
     }
@@ -71,7 +71,6 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_congress -> {
                 if (electionName == KEY_SENATE) {
                     beginTransaction(election)
-                    toolbar.title = election.chamberName
                     electionName = KEY_CONGRESS
                 }
 
@@ -84,7 +83,6 @@ class DetailActivity : AppCompatActivity() {
                     detailActivityViewModel.electionResult().observe(this,
                             Observer<Election> {
                                 beginTransaction(it)
-                                toolbar.title = it.chamberName
                                 electionName = KEY_SENATE
                     })
                 }
@@ -104,6 +102,11 @@ class DetailActivity : AppCompatActivity() {
         detailFragment.arguments = bundle
         transaction.replace(R.id.detail_frame, detailFragment)
         transaction.commit()
+        toolbar.title = getToolbarTitle(election)
+    }
+
+    private fun getToolbarTitle(election: Election): String {
+        return election.chamberName + " (" + election.year + ")"
     }
 
     override fun onDestroy() {
