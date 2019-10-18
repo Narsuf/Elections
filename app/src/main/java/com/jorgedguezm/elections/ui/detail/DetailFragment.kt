@@ -1,19 +1,18 @@
 package com.jorgedguezm.elections.ui.detail
 
-import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SimpleAdapter
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.Utils
+import com.jorgedguezm.elections.ui.binders.PartyColorBinder
 
 import dagger.android.support.AndroidSupportInjection
 
@@ -102,18 +101,6 @@ class DetailFragment : Fragment() {
         list_view.setOnItemClickListener { _, _, position, _ ->
             pie_chart.highlightValue(position.toFloat(), 0)
             countDownTimer.start()
-        }
-    }
-
-    inner class PartyColorBinder: SimpleAdapter.ViewBinder {
-
-        override fun setViewValue(view: View?, data: Any?, textRepresentation: String?): Boolean {
-            if (view is TextView && data.toString().matches(Regex("[#].*"))) {
-                view.setBackgroundColor(Color.parseColor(data.toString()))
-                return true
-            }
-
-            return false
         }
     }
 }

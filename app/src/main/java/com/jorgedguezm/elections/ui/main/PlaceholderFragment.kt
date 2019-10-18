@@ -55,16 +55,18 @@ class PlaceholderFragment : Fragment() {
 
                 recyclerView.adapter = generalCardAdapter
 
-                pageViewModel.loadCongressElections()
-                pageViewModel.electionsResult().observe(this@PlaceholderFragment,
-                        Observer<List<Election>> { congressElections ->
-                            val sortedList = congressElections
-                                    .sortedWith(compareByDescending {it.year})
+                if (generalCardAdapter.congressElections.isEmpty()) {
+                    pageViewModel.loadCongressElections()
+                    pageViewModel.electionsResult().observe(this@PlaceholderFragment,
+                            Observer<List<Election>> { congressElections ->
+                                val sortedList = congressElections
+                                        .sortedWith(compareByDescending { it.year })
 
-                            generalCardAdapter.congressElections = sortedList
-                            generalCardAdapter.fragment = this@PlaceholderFragment
-                            generalCardAdapter.notifyDataSetChanged()
-                        })
+                                generalCardAdapter.congressElections = sortedList
+                                generalCardAdapter.fragment = this@PlaceholderFragment
+                                generalCardAdapter.notifyDataSetChanged()
+                            })
+                }
             }
         }
     }
