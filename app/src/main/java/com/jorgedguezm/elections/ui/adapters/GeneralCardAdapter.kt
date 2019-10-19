@@ -7,9 +7,9 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.Constants.Companion.KEY_CALLED_FROM
-import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
-import com.jorgedguezm.elections.Constants.Companion.KEY_GENERAL
+import com.jorgedguezm.elections.Constants.KEY_CALLED_FROM
+import com.jorgedguezm.elections.Constants.KEY_ELECTION
+import com.jorgedguezm.elections.Constants.KEY_GENERAL
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.ui.detail.DetailActivity
 import com.jorgedguezm.elections.Utils

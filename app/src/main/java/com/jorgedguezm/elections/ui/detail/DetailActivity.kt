@@ -8,11 +8,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.Constants.Companion.KEY_CALLED_FROM
-import com.jorgedguezm.elections.Constants.Companion.KEY_CONGRESS
-import com.jorgedguezm.elections.Constants.Companion.KEY_ELECTION
-import com.jorgedguezm.elections.Constants.Companion.KEY_GENERAL
-import com.jorgedguezm.elections.Constants.Companion.KEY_SENATE
+import com.jorgedguezm.elections.Constants.KEY_CALLED_FROM
+import com.jorgedguezm.elections.Constants.KEY_CONGRESS
+import com.jorgedguezm.elections.Constants.KEY_ELECTION
+import com.jorgedguezm.elections.Constants.KEY_GENERAL
+import com.jorgedguezm.elections.Constants.KEY_SENATE
 import com.jorgedguezm.elections.data.Election
 
 import dagger.android.AndroidInjection
