@@ -19,8 +19,6 @@ import kotlinx.android.synthetic.main.detail_activity.*
 
 class DetailActivity : AppCompatActivity() {
 
-    private val bundle = Bundle()
-
     private lateinit var currentElection: Election
     private lateinit var congressElection: Election
     private lateinit var senateElection: Election
@@ -84,8 +82,7 @@ class DetailActivity : AppCompatActivity() {
         val detailFragment = DetailFragment()
         val transaction = supportFragmentManager.beginTransaction()
 
-        bundle.putSerializable(KEY_ELECTION, currentElection)
-        detailFragment.arguments = bundle
+        detailFragment.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) }
         transaction.replace(R.id.detail_frame, detailFragment)
         transaction.commit()
         toolbar.title = getToolbarTitle()
