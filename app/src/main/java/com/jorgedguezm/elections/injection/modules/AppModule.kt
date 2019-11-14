@@ -8,7 +8,6 @@ import com.jorgedguezm.elections.data.source.local.Database
 import com.jorgedguezm.elections.data.source.local.ElectionsDao
 import com.jorgedguezm.elections.Utils
 import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
-import com.jorgedguezm.elections.ui.detail.DetailActivityViewModelFactory
 import com.jorgedguezm.elections.ui.main.PageViewModelFactory
 
 import dagger.Module
@@ -47,10 +46,6 @@ class AppModule(val app: Application) {
     @Provides
     fun providePageViewModelFactory(
             factory: PageViewModelFactory): ViewModelProvider.Factory = factory
-
-    @Provides
-    fun provideDetailActivityViewModelFactory(
-            factory: DetailActivityViewModelFactory): ViewModelProvider.Factory = factory
 
     @Provides
     @Singleton

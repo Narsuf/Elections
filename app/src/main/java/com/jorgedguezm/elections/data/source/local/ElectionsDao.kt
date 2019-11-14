@@ -12,12 +12,14 @@ import io.reactivex.Single
 @Dao
 interface ElectionsDao {
 
-    @Query("SELECT * FROM election WHERE place = :place AND chamberName = :chamber")
-    fun queryElections(place: String, chamber: String): Single<List<Election>>
+    @Query("SELECT * FROM election WHERE place = :place")
+    fun queryElections(place: String): Single<List<Election>>
 
-    @Query("SELECT * FROM election WHERE year = :year AND place = :place " +
-            "AND chamberName = :chamber")
-    fun getElection(year: Int, place: String, chamber: String): Single<Election>
+    @Query("SELECT * FROM election WHERE place = :place AND chamberName = :chamber")
+    fun queryChamberElections(place: String, chamber: String): Single<List<Election>>
+
+    @Query("SELECT * FROM election WHERE id = :id")
+    fun getElection(id: Long): Single<Election>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertElection(election: Election)
