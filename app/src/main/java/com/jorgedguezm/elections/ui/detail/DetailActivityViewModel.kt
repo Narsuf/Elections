@@ -25,7 +25,7 @@ class DetailActivityViewModel @Inject constructor(
     fun electionResult(): LiveData<Election> { return electionResult }
     fun electionError(): LiveData<String> { return electionError }
 
-    fun loadSenateElection(year: Int, place: String) {
+    /*fun loadSenateElection(year: Int, place: String) {
         electionDisposableObserver = object : DisposableObserver<Election>() {
             override fun onComplete() { }
 
@@ -39,7 +39,7 @@ class DetailActivityViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .debounce(400, TimeUnit.MILLISECONDS)
                 .subscribe(electionDisposableObserver)
-    }
+    }*/
 
     fun disposeElements() {
         if (::electionDisposableObserver.isInitialized && !electionDisposableObserver.isDisposed)

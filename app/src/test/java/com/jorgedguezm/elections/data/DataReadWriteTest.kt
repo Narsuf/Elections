@@ -47,14 +47,12 @@ class DataReadWriteTest {
         val election = generateElection(arrayListOf(result))
 
         electionsDao.insertElection(election)
-        electionsDao.queryElections(election.place, election.chamberName).test()
+        electionsDao.queryElections(election.place).test()
                 .assertValue { elections ->
                     elections.contains(election)
                 }
 
-        electionsDao.getElection(election.year, election.place, election.chamberName).test()
-                .assertValue {
-                    election == it
-                }
+        electionsDao.getElection(election.id).test()
+                .assertValue { election == it }
     }
 }

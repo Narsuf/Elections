@@ -78,14 +78,14 @@ class DetailActivity : AppCompatActivity() {
             }
 
             R.id.action_senate -> {
-                if (electionName == KEY_CONGRESS) {
-                    detailActivityViewModel.loadSenateElection(election.year, election.place)
+                /*if (electionName == KEY_CONGRESS) {
+                    detailActivityViewModel.loadSenateElection(election., election.place)
                     detailActivityViewModel.electionResult().observe(this,
                             Observer<Election> {
                                 beginTransaction(it)
                                 electionName = KEY_SENATE
                     })
-                }
+                }*/
 
                 return true
             }
@@ -106,7 +106,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun getToolbarTitle(election: Election): String {
-        return election.chamberName + " (" + election.year + ")"
+        return election.chamberName + " (" + election.date + ")"
     }
 
     override fun onDestroy() {

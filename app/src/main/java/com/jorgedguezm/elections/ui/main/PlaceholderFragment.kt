@@ -60,7 +60,7 @@ class PlaceholderFragment : Fragment() {
                     pageViewModel.electionsResult().observe(this@PlaceholderFragment,
                             Observer<List<Election>> { congressElections ->
                                 val sortedList = congressElections
-                                        .sortedWith(compareByDescending { it.year })
+                                        .sortedWith(compareByDescending { it.date })
 
                                 generalCardAdapter.congressElections = sortedList
                                 generalCardAdapter.fragment = this@PlaceholderFragment

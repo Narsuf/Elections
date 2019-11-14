@@ -47,7 +47,7 @@ class GeneralCardAdapter @Inject constructor(
         // - replace the contents of the view with that element
         val congressElection = congressElections[position]
         val concatenatedText = fragment.resources.getString(R.string.app_name) + " " +
-                congressElection.year
+                congressElection.date
 
         holder.card.section_label.text = concatenatedText
         holder.card.setOnClickListener {

@@ -40,7 +40,9 @@ class DetailDialog : DialogFragment() {
         census = counted + election.abstentions
 
         val textViewTitle = inflatedLayout.findViewById(R.id.text_view_title) as TextView
-        val concatenatedText = election.chamberName + " " + election.place + " " + election.year
+        val concatenatedText = election.chamberName + " " + election.place + " " +
+                election.date
+
         textViewTitle.text = concatenatedText
 
         setSimpleAdapter(inflatedLayout)
