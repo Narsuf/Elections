@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.Constants.KEY_CALLED_FROM
@@ -16,11 +15,7 @@ import com.jorgedguezm.elections.Constants.KEY_SENATE
 import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.data.Election
 
-import dagger.android.AndroidInjection
-
 import kotlinx.android.synthetic.main.detail_activity.*
-
-import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
@@ -31,20 +26,11 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var senateElection: Election
     private lateinit var calledFrom: String
 
-    @Inject
-    lateinit var detailActivityViewModelFactory: DetailActivityViewModelFactory
-    lateinit var detailActivityViewModel: DetailActivityViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.detail_activity)
 
         setSupportActionBar(toolbar)
-
-        AndroidInjection.inject(this)
-
-        detailActivityViewModel = ViewModelProviders.of(this,
-                detailActivityViewModelFactory).get(DetailActivityViewModel::class.java)
 
         val extras = intent.extras
         calledFrom = extras?.getSerializable(KEY_CALLED_FROM) as String
@@ -107,10 +93,5 @@ class DetailActivity : AppCompatActivity() {
 
     private fun getToolbarTitle(): String {
         return currentElection.chamberName + " (" + currentElection.date + ")"
-    }
-
-    override fun onDestroy() {
-        detailActivityViewModel.disposeElements()
-        super.onDestroy()
     }
 }
