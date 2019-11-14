@@ -38,7 +38,7 @@ class PageViewModel @Inject constructor(
             override fun onError(e: Throwable) { electionsError.postValue(e.message) }
         }
 
-        electionRepository.getElections("España")
+        electionRepository.getElections("España", "Congreso")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .debounce(400, TimeUnit.MILLISECONDS)

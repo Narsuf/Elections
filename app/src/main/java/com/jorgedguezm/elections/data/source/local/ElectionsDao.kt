@@ -12,8 +12,8 @@ import io.reactivex.Single
 @Dao
 interface ElectionsDao {
 
-    @Query("SELECT * FROM election WHERE place = :place")
-    fun queryElections(place: String): Single<List<Election>>
+    @Query("SELECT * FROM election WHERE place = :place AND chamberName = :chamber")
+    fun queryElections(place: String, chamber: String): Single<List<Election>>
 
     @Query("SELECT * FROM election WHERE id = :id")
     fun getElection(id: Long): Single<Election>
