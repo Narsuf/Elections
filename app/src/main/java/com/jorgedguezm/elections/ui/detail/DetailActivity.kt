@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.Constants.KEY_CALLED_FROM
 import com.jorgedguezm.elections.Constants.KEY_CONGRESS
+import com.jorgedguezm.elections.Constants.KEY_CONGRESS_ELECTION
 import com.jorgedguezm.elections.Constants.KEY_ELECTION
 import com.jorgedguezm.elections.Constants.KEY_GENERAL
 import com.jorgedguezm.elections.Constants.KEY_SENATE
+import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.data.Election
 
 import dagger.android.AndroidInjection
@@ -24,9 +25,10 @@ import javax.inject.Inject
 class DetailActivity : AppCompatActivity() {
 
     private val bundle = Bundle()
-    private var electionName = KEY_CONGRESS
 
-    private lateinit var election: Election
+    private lateinit var currentElection: Election
+    private lateinit var congressElection: Election
+    private lateinit var senateElection: Election
     private lateinit var calledFrom: String
 
     @Inject
@@ -46,11 +48,13 @@ class DetailActivity : AppCompatActivity() {
 
         val extras = intent.extras
         calledFrom = extras?.getSerializable(KEY_CALLED_FROM) as String
-        election = extras.getSerializable(KEY_ELECTION) as Election
+        congressElection = extras.getSerializable(KEY_CONGRESS_ELECTION) as Election
+        currentElection = congressElection
+        senateElection = extras.getSerializable(KEY_SENATE_ELECTION) as Election
 
-        toolbar.title = getToolbarTitle(election)
+        toolbar.title = getToolbarTitle()
 
-        beginTransaction(election)
+        beginTransaction()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,23 +73,19 @@ class DetailActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_congress -> {
-                if (electionName == KEY_SENATE) {
-                    beginTransaction(election)
-                    electionName = KEY_CONGRESS
+                if (currentElection.chamberName == KEY_SENATE) {
+                    currentElection = congressElection
+                    beginTransaction()
                 }
 
                 return true
             }
 
             R.id.action_senate -> {
-                /*if (electionName == KEY_CONGRESS) {
-                    detailActivityViewModel.loadSenateElection(election., election.place)
-                    detailActivityViewModel.electionResult().observe(this,
-                            Observer<Election> {
-                                beginTransaction(it)
-                                electionName = KEY_SENATE
-                    })
-                }*/
+                if (currentElection.chamberName == KEY_CONGRESS) {
+                    currentElection = senateElection
+                    beginTransaction()
+                }
 
                 return true
             }
@@ -94,19 +94,19 @@ class DetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun beginTransaction(election: Election) {
+    private fun beginTransaction() {
         val detailFragment = DetailFragment()
         val transaction = supportFragmentManager.beginTransaction()
 
-        bundle.putSerializable(KEY_ELECTION, election)
+        bundle.putSerializable(KEY_ELECTION, currentElection)
         detailFragment.arguments = bundle
         transaction.replace(R.id.detail_frame, detailFragment)
         transaction.commit()
-        toolbar.title = getToolbarTitle(election)
+        toolbar.title = getToolbarTitle()
     }
 
-    private fun getToolbarTitle(election: Election): String {
-        return election.chamberName + " (" + election.date + ")"
+    private fun getToolbarTitle(): String {
+        return currentElection.chamberName + " (" + currentElection.date + ")"
     }
 
     override fun onDestroy() {

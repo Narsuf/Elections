@@ -11,8 +11,11 @@ import retrofit2.http.Query
 interface ApiInterface {
 
     @GET("elections")
-    fun getElections(@Query("place") place: String,
-                     @Query("chamberName") chamberName: String): Observable<List<Election>>
+    fun getElections(@Query("place") place: String): Observable<List<Election>>
+
+    @GET("elections")
+    fun getChamberElections(@Query("place") place: String,
+                            @Query("chamberName") chamberName: String): Observable<List<Election>>
 
     @GET("elections/{id}")
     fun getElection(@Path("id") id: Long): Observable<Election>

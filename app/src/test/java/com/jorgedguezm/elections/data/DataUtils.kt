@@ -7,17 +7,15 @@ class DataUtils {
 
         fun generateElection(results: List<Results>): Election {
             return Election(generateRand().toLong(), "Tweede Kamerverkiezingen",
-                    "2016", "Nederland", "Tweede Kamer", generateRand(),
-                    generateRand().toFloat(), generateRand(), generateRand(), generateRand(),
-                    generateRand(), results)
+                    generateRand().toString(), "Nederland", "Tweede Kamer",
+                    generateRand(), generateRand().toFloat(), generateRand(), generateRand(),
+                    generateRand(), generateRand(), results)
         }
 
         fun generateResults(party: Party): Results {
             return Results(generateRand(), generateRand(), party)
         }
 
-        fun generateRand(): Int {
-            return (0..288).random()
-        }
+        fun generateRand(): Int { return (0..288).random() }
     }
 }

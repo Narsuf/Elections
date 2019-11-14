@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.Constants.KEY_CALLED_FROM
-import com.jorgedguezm.elections.Constants.KEY_ELECTION
+import com.jorgedguezm.elections.Constants.KEY_CONGRESS_ELECTION
 import com.jorgedguezm.elections.Constants.KEY_GENERAL
+import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.ui.detail.DetailActivity
 import com.jorgedguezm.elections.Utils
@@ -23,6 +24,7 @@ class GeneralCardAdapter @Inject constructor(
         val utils: Utils) : RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     var congressElections: List<Election> = ArrayList()
+    var senateElections: List<Election> = ArrayList()
 
     lateinit var fragment: PlaceholderFragment
 
@@ -46,6 +48,7 @@ class GeneralCardAdapter @Inject constructor(
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         val congressElection = congressElections[position]
+        val senateElection = senateElections[position]
         val concatenatedText = fragment.resources.getString(R.string.app_name) + " " +
                 congressElection.date
 
@@ -53,7 +56,8 @@ class GeneralCardAdapter @Inject constructor(
         holder.card.setOnClickListener {
             val myIntent = Intent(fragment.context, DetailActivity::class.java)
             myIntent.putExtra(KEY_CALLED_FROM, KEY_GENERAL)
-            myIntent.putExtra(KEY_ELECTION, congressElection)
+            myIntent.putExtra(KEY_CONGRESS_ELECTION, congressElection)
+            myIntent.putExtra(KEY_SENATE_ELECTION, senateElection)
             fragment.startActivity(myIntent)
         }
 

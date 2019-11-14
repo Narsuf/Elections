@@ -58,11 +58,16 @@ class PlaceholderFragment : Fragment() {
                 if (generalCardAdapter.congressElections.isEmpty()) {
                     pageViewModel.loadCongressElections()
                     pageViewModel.electionsResult().observe(this@PlaceholderFragment,
-                            Observer<List<Election>> { congressElections ->
-                                val sortedList = congressElections
+                            Observer<List<Election>> { elections ->
+                                val sortedElections = elections
                                         .sortedWith(compareByDescending { it.date })
 
-                                generalCardAdapter.congressElections = sortedList
+                                generalCardAdapter.congressElections = sortedElections
+                                        .filter { it.chamberName == "Congreso" }
+
+                                generalCardAdapter.senateElections = sortedElections
+                                        .filter { it.chamberName == "Senado" }
+
                                 generalCardAdapter.fragment = this@PlaceholderFragment
                                 generalCardAdapter.notifyDataSetChanged()
                             })

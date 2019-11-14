@@ -12,7 +12,7 @@ import javax.inject.Inject
 class ElectionRepository @Inject constructor(val apiInterface: ApiInterface,
                                              val electionsDao: ElectionsDao, val utils: Utils) {
 
-    fun getElections(place: String, chamber: String): Observable<List<Election>> {
+    fun getElections(place: String, chamber: String?): Observable<List<Election>> {
         val observableFromDb = getElectionsFromDb(place, chamber)
         var returnValue = observableFromDb
 
@@ -24,14 +24,23 @@ class ElectionRepository @Inject constructor(val apiInterface: ApiInterface,
         return returnValue
     }
 
-    fun getElectionsFromApi(place: String, chamber: String): Observable<List<Election>> {
-        return apiInterface.getElections(place, chamber)
-                .doOnNext {
-                    for (item in it) electionsDao.insertElection(item)
-                }
+    fun getElectionsFromApi(place: String, chamber: String?): Observable<List<Election>> {
+        val observableElections = if (chamber != null)
+            apiInterface.getChamberElections(place, chamber)
+        else
+            apiInterface.getElections(place)
+
+        return observableElections.doOnNext {
+            for (item in it) electionsDao.insertElection(item)
+        }
     }
 
-    fun getElectionsFromDb(place: String, chamber: String): Observable<List<Election>> {
-        return electionsDao.queryElections(place, chamber).toObservable()
+    fun getElectionsFromDb(place: String, chamber: String?): Observable<List<Election>> {
+        val singleElections = if (chamber != null)
+            electionsDao.queryChamberElections(place, chamber)
+        else
+            electionsDao.queryElections(place)
+
+        return singleElections.toObservable()
     }
 }
