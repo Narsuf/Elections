@@ -39,6 +39,9 @@ class DetailActivityTest {
         ActivityScenario.launch<DetailActivity>(intent).use { scenario ->
             scenario.onActivity { activity ->
                 assertEquals(activity.toolbar.title, utils.generateToolbarTitle(congressElection))
+
+                activity.onOptionsItemSelected(activity.toolbar.menu.getItem(0))
+                activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
             }
         }
     }
