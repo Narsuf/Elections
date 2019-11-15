@@ -4,7 +4,6 @@ import androidx.test.core.app.ActivityScenario
 
 import com.jorgedguezm.elections.ui.main.MainActivity
 import com.jorgedguezm.elections.ui.main.PlaceholderFragment
-import com.jorgedguezm.elections.ui.main.SectionsPagerAdapter
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -13,7 +12,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.LooperMode
 
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 
 import java.lang.Thread.sleep
@@ -25,12 +23,7 @@ class MainActivityTest {
     @LooperMode(LooperMode.Mode.PAUSED)
     fun launchMainActivityAndPerformClickOnFirstCard() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
-            scenario.onActivity { activity ->
-                val sectionsPagerAdapter = activity.view_pager.adapter as SectionsPagerAdapter
-                assertEquals(sectionsPagerAdapter.count, 3)
-                sleep(3000)
-            }
-
+            scenario.onActivity { sleep(1000) }
             scenario.onActivity { activity ->
                 val firstFragment = activity.supportFragmentManager.fragments[0]
                 val adapterSize = firstFragment.recyclerView.adapter!!.itemCount
