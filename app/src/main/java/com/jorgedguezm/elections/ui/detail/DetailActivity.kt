@@ -6,23 +6,21 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.Constants.KEY_CALLED_FROM
 import com.jorgedguezm.elections.Constants.KEY_CONGRESS
 import com.jorgedguezm.elections.Constants.KEY_CONGRESS_ELECTION
-import com.jorgedguezm.elections.Constants.KEY_ELECTION
-import com.jorgedguezm.elections.Constants.KEY_GENERAL
 import com.jorgedguezm.elections.Constants.KEY_SENATE
 import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.Utils
 import com.jorgedguezm.elections.data.Election
+
 import dagger.android.AndroidInjection
 
 import kotlinx.android.synthetic.main.detail_activity.*
+
 import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var calledFrom: String
     private lateinit var currentElection: Election
     private lateinit var congressElection: Election
     private lateinit var senateElection: Election
