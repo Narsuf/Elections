@@ -64,7 +64,7 @@ class DetailActivityTest {
                 assertEquals(congressElection.id, activity.currentElection.id)
 
                 val fragment = activity.supportFragmentManager.fragments[0] as DetailFragment
-                fragment.list_view.getChildAt(0).performClick()
+                fragment.list_view.onItemClickListener?.onItemClick(null, null, 0, 0)
 
                 fragment.floating_button_more_info.performClick()
             }
