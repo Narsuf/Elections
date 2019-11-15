@@ -38,6 +38,7 @@ android {
         applicationId "com.jorgedguezm.elections"
         minSdkVersion 19
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -115,6 +116,9 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
