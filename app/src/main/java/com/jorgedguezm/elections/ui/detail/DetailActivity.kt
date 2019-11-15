@@ -6,49 +6,50 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.Constants.KEY_CALLED_FROM
 import com.jorgedguezm.elections.Constants.KEY_CONGRESS
 import com.jorgedguezm.elections.Constants.KEY_CONGRESS_ELECTION
-import com.jorgedguezm.elections.Constants.KEY_ELECTION
-import com.jorgedguezm.elections.Constants.KEY_GENERAL
 import com.jorgedguezm.elections.Constants.KEY_SENATE
 import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
+import com.jorgedguezm.elections.Utils
 import com.jorgedguezm.elections.data.Election
+
+import dagger.android.AndroidInjection
 
 import kotlinx.android.synthetic.main.detail_activity.*
 
+import javax.inject.Inject
+
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var currentElection: Election
+    internal lateinit var currentElection: Election
     private lateinit var congressElection: Election
     private lateinit var senateElection: Election
-    private lateinit var calledFrom: String
+
+    @Inject
+    lateinit var utils: Utils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.detail_activity)
 
+        AndroidInjection.inject(this)
+
         setSupportActionBar(toolbar)
 
         val extras = intent.extras
-        calledFrom = extras?.getSerializable(KEY_CALLED_FROM) as String
-        congressElection = extras.getSerializable(KEY_CONGRESS_ELECTION) as Election
+        congressElection = extras?.getSerializable(KEY_CONGRESS_ELECTION) as Election
         currentElection = congressElection
         senateElection = extras.getSerializable(KEY_SENATE_ELECTION) as Election
 
-        toolbar.title = getToolbarTitle()
+        toolbar.title = utils.generateToolbarTitle(currentElection)
 
-        beginTransaction()
+        utils.beginTransactionToDetailFragment(this, currentElection)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if (calledFrom == KEY_GENERAL) {
-            menuInflater.inflate(R.menu.menu_detail_activity, menu)
-            return true
-        }
-
-        return super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.menu_detail_activity, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -59,7 +60,7 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_congress -> {
                 if (currentElection.chamberName == KEY_SENATE) {
                     currentElection = congressElection
-                    beginTransaction()
+                    utils.beginTransactionToDetailFragment(this, currentElection)
                 }
 
                 return true
@@ -68,7 +69,7 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_senate -> {
                 if (currentElection.chamberName == KEY_CONGRESS) {
                     currentElection = senateElection
-                    beginTransaction()
+                    utils.beginTransactionToDetailFragment(this, currentElection)
                 }
 
                 return true
@@ -76,19 +77,5 @@ class DetailActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun beginTransaction() {
-        val detailFragment = DetailFragment()
-        val transaction = supportFragmentManager.beginTransaction()
-
-        detailFragment.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) }
-        transaction.replace(R.id.detail_frame, detailFragment)
-        transaction.commit()
-        toolbar.title = getToolbarTitle()
-    }
-
-    private fun getToolbarTitle(): String {
-        return currentElection.chamberName + " (" + currentElection.date + ")"
     }
 }
