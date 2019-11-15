@@ -25,8 +25,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.LooperMode
 
-import java.lang.Thread.sleep
-
 @RunWith(RobolectricTestRunner::class)
 class DetailActivityTest {
 
@@ -67,7 +65,6 @@ class DetailActivityTest {
 
                 val fragment = activity.supportFragmentManager.fragments[0] as DetailFragment
                 fragment.list_view.onItemClickListener?.onItemClick(null, null, 0, 0)
-                sleep(1000)
 
                 fragment.floating_button_more_info.performClick()
             }
