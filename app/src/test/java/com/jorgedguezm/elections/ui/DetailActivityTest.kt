@@ -65,6 +65,8 @@ class DetailActivityTest {
 
                 val fragment = activity.supportFragmentManager.fragments[0] as DetailFragment
                 fragment.list_view.onItemClickListener?.onItemClick(null, null, 0, 0)
+                fragment.countDownTimer.onTick(1)
+                fragment.countDownTimer.onFinish()
 
                 fragment.floating_button_more_info.performClick()
             }

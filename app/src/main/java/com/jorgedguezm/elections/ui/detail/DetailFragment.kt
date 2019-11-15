@@ -24,7 +24,7 @@ class DetailFragment : Fragment() {
 
     private lateinit var election: Election
 
-    private lateinit var countDownTimer: CountDownTimer
+    internal lateinit var countDownTimer: CountDownTimer
 
     @Inject
     lateinit var utils: Utils
