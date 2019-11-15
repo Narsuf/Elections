@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var currentElection: Election
+    internal lateinit var currentElection: Election
     private lateinit var congressElection: Election
     private lateinit var senateElection: Election
 

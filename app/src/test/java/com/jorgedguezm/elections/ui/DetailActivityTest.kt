@@ -42,9 +42,15 @@ class DetailActivityTest {
             scenario.onActivity { activity ->
                 assertEquals(activity.toolbar.title, utils.generateToolbarTitle(congressElection))
 
+                assertEquals(congressElection.id, activity.currentElection.id)
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(0))
+                assertEquals(congressElection.id, activity.currentElection.id)
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
+                assertEquals(senateElection.id, activity.currentElection.id)
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
+                assertEquals(senateElection.id, activity.currentElection.id)
+                activity.onOptionsItemSelected(activity.toolbar.menu.getItem(0))
+                assertEquals(congressElection.id, activity.currentElection.id)
             }
         }
     }
