@@ -3,19 +3,21 @@ package com.jorgedguezm.elections.data
 class DataUtils {
 
     companion object {
-        fun generateParty(): Party { return Party("GroenLinks", "#39a935") }
-
-        fun generateElection(results: List<Results>): Election {
-            return Election(generateRand().toLong(), "Tweede Kamerverkiezingen",
-                    generateRand().toString(), "Nederland", "Tweede Kamer",
-                    generateRand(), generateRand().toFloat(), generateRand(), generateRand(),
-                    generateRand(), generateRand(), results)
-        }
-
-        fun generateResults(party: Party): Results {
-            return Results(generateRand(), generateRand(), party)
-        }
-
         fun generateRand(): Int { return (0..288).random() }
+
+        fun generateParty(): Party {
+            return Party(generateRand().toString(), generateRand().toString())
+        }
+
+        fun generateResults(): Results {
+            return Results(generateRand(), generateRand(), generateParty())
+        }
+
+        fun generateElection(): Election {
+            return Election(generateRand().toLong(), generateRand().toString(),
+                    generateRand().toString(), generateRand().toString(), generateRand().toString(),
+                    generateRand(), generateRand().toFloat(), generateRand(), generateRand(),
+                    generateRand(), generateRand(), arrayListOf(generateResults()))
+        }
     }
 }

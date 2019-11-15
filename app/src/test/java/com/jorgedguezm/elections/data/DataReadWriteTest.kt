@@ -42,9 +42,7 @@ class DataReadWriteTest {
     @Test
     @Throws(Exception::class)
     fun writeElectionAndRead() {
-        val party = generateParty()
-        val result = generateResults(party)
-        val election = generateElection(arrayListOf(result))
+        val election = generateElection()
 
         electionsDao.insertElection(election)
         electionsDao.queryChamberElections(election.place, election.chamberName).test()

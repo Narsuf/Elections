@@ -4,13 +4,19 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
 
+import com.jorgedguezm.elections.data.Election
 import com.jorgedguezm.elections.data.Results
+import com.jorgedguezm.elections.ui.detail.DetailFragment
+
+import kotlinx.android.synthetic.main.detail_activity.*
 
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -86,5 +92,22 @@ class Utils @Inject constructor(private val context: Context) {
     fun getPercentageWithTwoDecimals(dividend: Int, divisor: Int): BigDecimal {
         val percentage = (dividend.toDouble() / divisor) * 100
         return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP)
+    }
+
+    fun beginTransactionToDetailFragment(activity: AppCompatActivity, election: Election) {
+        val detailFragment = DetailFragment()
+        val transaction = activity.supportFragmentManager.beginTransaction()
+
+        detailFragment.arguments = Bundle().apply {
+            putSerializable(Constants.KEY_ELECTION, election)
+        }
+
+        transaction.replace(R.id.detail_frame, detailFragment)
+        transaction.commit()
+        activity.toolbar.title = generateToolbarTitle(election)
+    }
+
+    fun generateToolbarTitle(election: Election): String {
+        return election.chamberName + " (" + election.date + ")"
     }
 }

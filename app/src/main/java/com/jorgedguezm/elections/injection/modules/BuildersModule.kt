@@ -1,5 +1,6 @@
 package com.jorgedguezm.elections.injection.modules
 
+import com.jorgedguezm.elections.ui.detail.DetailActivity
 import com.jorgedguezm.elections.ui.detail.DetailFragment
 import com.jorgedguezm.elections.ui.main.PlaceholderFragment
 
@@ -14,4 +15,7 @@ abstract class BuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeDetailFragment(): DetailFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeDetailActivity(): DetailActivity
 }

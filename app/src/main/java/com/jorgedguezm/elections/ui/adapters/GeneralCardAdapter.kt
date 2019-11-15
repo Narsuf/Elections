@@ -55,7 +55,6 @@ class GeneralCardAdapter @Inject constructor(
         holder.card.section_label.text = concatenatedText
         holder.card.setOnClickListener {
             val myIntent = Intent(fragment.context, DetailActivity::class.java)
-            myIntent.putExtra(KEY_CALLED_FROM, KEY_GENERAL)
             myIntent.putExtra(KEY_CONGRESS_ELECTION, congressElection)
             myIntent.putExtra(KEY_SENATE_ELECTION, senateElection)
             fragment.startActivity(myIntent)
