@@ -6,7 +6,7 @@ class DataUtils {
         fun generateRand(): Int { return (0..288).random() }
 
         fun generateParty(): Party {
-            return Party(generateRand().toString(), generateRand().toString())
+            return Party(generateRand().toString(), "672f6c")
         }
 
         fun generateResults(): Results {
