@@ -23,7 +23,7 @@ class MainActivityTest {
     @LooperMode(LooperMode.Mode.PAUSED)
     fun launchMainActivityAndPerformClickOnFirstCard() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
-            scenario.onActivity { sleep(1000) }
+            scenario.onActivity { sleep(2000) }
             scenario.onActivity { activity ->
                 val firstFragment = activity.supportFragmentManager.fragments[0]
                 val adapterSize = firstFragment.recyclerView.adapter!!.itemCount
