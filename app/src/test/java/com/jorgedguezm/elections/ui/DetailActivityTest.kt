@@ -5,7 +5,9 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 
+import com.jorgedguezm.elections.Constants.KEY_CONGRESS
 import com.jorgedguezm.elections.Constants.KEY_CONGRESS_ELECTION
+import com.jorgedguezm.elections.Constants.KEY_SENATE
 import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.Utils
 import com.jorgedguezm.elections.data.DataUtils
@@ -26,8 +28,8 @@ class DetailActivityTest {
 
     private val context = ApplicationProvider.getApplicationContext<Context>()
     private val utils = Utils(context)
-    private val congressElection = DataUtils.generateElection()
-    private val senateElection = DataUtils.generateElection()
+    private val congressElection = DataUtils.generateElection(KEY_CONGRESS)
+    private val senateElection = DataUtils.generateElection(KEY_SENATE)
     private val intent = Intent(context, DetailActivity::class.java).apply {
         putExtra(KEY_CONGRESS_ELECTION, congressElection)
         putExtra(KEY_SENATE_ELECTION, senateElection)
@@ -41,6 +43,7 @@ class DetailActivityTest {
                 assertEquals(activity.toolbar.title, utils.generateToolbarTitle(congressElection))
 
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(0))
+                activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
             }
         }
