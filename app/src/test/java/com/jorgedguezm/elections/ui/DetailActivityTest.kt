@@ -12,10 +12,12 @@ import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.Utils
 import com.jorgedguezm.elections.data.DataUtils
 import com.jorgedguezm.elections.ui.detail.DetailActivity
+import com.jorgedguezm.elections.ui.detail.DetailFragment
 
 import junit.framework.TestCase.assertEquals
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.detail_fragment.*
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,15 +44,29 @@ class DetailActivityTest {
             scenario.onActivity { activity ->
                 assertEquals(activity.toolbar.title, utils.generateToolbarTitle(congressElection))
 
+                // Congress results loaded
                 assertEquals(congressElection.id, activity.currentElection.id)
+
+                // Congress option clicked
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(0))
                 assertEquals(congressElection.id, activity.currentElection.id)
+
+                // Senate option clicked
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
                 assertEquals(senateElection.id, activity.currentElection.id)
+
+                // Senate option clicked again
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
                 assertEquals(senateElection.id, activity.currentElection.id)
+
+                // Congress option clicked
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(0))
                 assertEquals(congressElection.id, activity.currentElection.id)
+
+                val fragment = activity.supportFragmentManager.fragments[0] as DetailFragment
+                fragment.list_view.getChildAt(0).performClick()
+
+                fragment.floating_button_more_info.performClick()
             }
         }
     }
