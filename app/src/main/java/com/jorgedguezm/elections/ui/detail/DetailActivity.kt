@@ -42,6 +42,8 @@ class DetailActivity : AppCompatActivity() {
         senateElection = extras.getSerializable(KEY_SENATE_ELECTION) as Election
 
         toolbar.title = utils.generateToolbarTitle(currentElection)
+
+        utils.beginTransactionToDetailFragment(this, currentElection)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
