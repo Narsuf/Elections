@@ -32,12 +32,12 @@ task jacocoTestReport(type: JacocoReport,
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "com.jorgedguezm.elections"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         multiDexEnabled true
         versionCode 1
         versionName "1.0.0"
@@ -122,5 +122,5 @@ dependencies {
 
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
-    testImplementation 'org.robolectric:robolectric:4.3'
+    testImplementation 'org.robolectric:robolectric:4.3.1'
 }
