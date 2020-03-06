@@ -115,7 +115,7 @@ dependencies {
         // Lifecycle
         implementation "androidx.lifecycle:lifecycle-extensions:$project.ext.lifecycleVersion"
         implementation "androidx.lifecycle:lifecycle-reactivestreams:$project.ext.lifecycleVersion"
-        kapt "androidx.lifecycle:lifecycle-compiler:$project.ext.lifecycleVersion"
+        implementation "androidx.lifecycle:lifecycle-common-java8:$project.ext.lifecycleVersion"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$project.ext.retrofitVersion"
