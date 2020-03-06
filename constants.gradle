@@ -1,7 +1,8 @@
 project.ext {
-    daggerVersion = 2.21
+    daggerVersion = '2.23.2'
     moshiVersion = '1.8.0'
     retrofitVersion = '2.5.0'
-    roomVersion = '2.2.3'
-    lifecycleVersion = '2.1.0'
+    roomVersion = '2.2.4'
+    lifecycleVersion = '2.2.0'
+    androidFragment = '1.2.2'
 }

@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 import javax.inject.Inject
 
-class PageViewModel @Inject constructor(
+class PlaceholderViewModel @Inject constructor(
         private val electionRepository: ElectionRepository) : ViewModel() {
 
     private val _index = MutableLiveData<Int>()

@@ -27,7 +27,7 @@ class MainActivityTest {
             scenario.onActivity { activity ->
                 val firstFragment = activity.supportFragmentManager.fragments[0]
                 val adapterSize = firstFragment.recyclerView.adapter?.itemCount
-                val responseSize = (firstFragment as PlaceholderFragment).pageViewModel
+                val responseSize = (firstFragment as PlaceholderFragment).vm
                         .electionsResult().value?.filter { it.chamberName == "Congreso" }?.size
 
                 assertEquals(adapterSize, responseSize)

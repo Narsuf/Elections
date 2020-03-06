@@ -31,7 +31,7 @@ class Utils @Inject constructor(private val context: Context) {
                 Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         connectivity.run {
-            if (activeNetworkInfo != null) isConnected = activeNetworkInfo.isConnected
+            activeNetworkInfo?.let { isConnected = it.isConnected }
         }
 
         return isConnected
