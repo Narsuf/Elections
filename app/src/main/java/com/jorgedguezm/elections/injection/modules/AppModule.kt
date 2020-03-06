@@ -8,7 +8,6 @@ import com.jorgedguezm.elections.data.source.local.Database
 import com.jorgedguezm.elections.data.source.local.ElectionsDao
 import com.jorgedguezm.elections.Utils
 import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
-import com.jorgedguezm.elections.ui.main.PageViewModelFactory
 
 import dagger.Module
 import dagger.Provides
@@ -42,10 +41,6 @@ class AppModule(val app: Application) {
     @Provides
     @Singleton
     fun provideElectionsDao(database: Database): ElectionsDao = database.electionsDao()
-
-    @Provides
-    fun providePageViewModelFactory(
-            factory: PageViewModelFactory): ViewModelProvider.Factory = factory
 
     @Provides
     @Singleton

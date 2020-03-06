@@ -52,7 +52,7 @@ class DetailFragment : Fragment() {
             bundle.putSerializable(KEY_ELECTION, election)
             dialog.arguments = bundle
             dialog.utils = utils
-            dialog.show(activity?.supportFragmentManager, "DetailDialog")
+            activity?.supportFragmentManager?.let { dialog.show(it, "DetailDialog") }
         }
 
         utils.drawPieChart(pie_chart, election.results)

@@ -2,39 +2,29 @@ package com.jorgedguezm.elections.ui.main
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.data.Election
+import com.jorgedguezm.elections.compose.ViewModelFragment
 import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
-
-import dagger.android.support.AndroidSupportInjection
 
 import kotlinx.android.synthetic.main.fragment_main.*
 
 import javax.inject.Inject
 
-class PlaceholderFragment : Fragment() {
+class PlaceholderFragment : ViewModelFragment() {
+
+    internal val vm by viewModel<PlaceholderViewModel>()
 
     @Inject
     lateinit var generalCardAdapter: GeneralCardAdapter
 
-    @Inject
-    lateinit var pageViewModelFactory: PageViewModelFactory
-    lateinit var pageViewModel: PageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AndroidSupportInjection.inject(this)
-
-        pageViewModel = ViewModelProviders.of(this, pageViewModelFactory)
-                .get(PageViewModel::class.java).apply {
-                    setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
-                }
+        vm.setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -56,33 +46,31 @@ class PlaceholderFragment : Fragment() {
                 recyclerView.adapter = generalCardAdapter
 
                 if (generalCardAdapter.congressElections.isEmpty()) {
-                    pageViewModel.loadCongressElections()
-                    pageViewModel.electionsResult().observe(this@PlaceholderFragment,
-                            Observer<List<Election>> { elections ->
-                                val sortedElections = elections
-                                        .sortedWith(compareByDescending { it.date })
+                    vm.loadCongressElections()
+                    vm.electionsResult().observe(viewLifecycleOwner, Observer { elections ->
+                        val sortedElections = elections.sortedWith(compareByDescending { it.date })
 
-                                generalCardAdapter.congressElections = sortedElections
-                                        .filter { it.chamberName == "Congreso" }
+                        generalCardAdapter.congressElections = sortedElections
+                                .filter { it.chamberName == "Congreso" }
 
-                                generalCardAdapter.senateElections = sortedElections
-                                        .filter { it.chamberName == "Senado" }
+                        generalCardAdapter.senateElections = sortedElections
+                                .filter { it.chamberName == "Senado" }
 
-                                generalCardAdapter.fragment = this@PlaceholderFragment
-                                generalCardAdapter.notifyDataSetChanged()
-                            })
+                        generalCardAdapter.fragment = this@PlaceholderFragment
+                        generalCardAdapter.notifyDataSetChanged()
+                    })
                 }
             }
         }
     }
 
     override fun onDestroy() {
-        pageViewModel.disposeElements()
+        vm.disposeElements()
         super.onDestroy()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_main, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
