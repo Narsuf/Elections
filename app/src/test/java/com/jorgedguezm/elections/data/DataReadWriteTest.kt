@@ -7,6 +7,7 @@ import com.jorgedguezm.elections.room.Database
 import com.jorgedguezm.elections.room.ElectionsDao
 
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,12 +44,10 @@ class DataReadWriteTest {
         val election = generateElection()
 
         electionsDao.insertElection(election)
-        electionsDao.queryChamberElections(election.place, election.chamberName).test()
-                .assertValue { elections ->
-                    elections.contains(election)
-                }
 
-        electionsDao.getElection(election.id).test()
-                .assertValue { election == it }
+        assertTrue(electionsDao.queryChamberElections(election.place, election.chamberName)
+                .contains(election))
+
+        assertTrue(electionsDao.getElection(election.id) == election)
     }
 }
