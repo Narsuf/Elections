@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections
+package com.jorgedguezm.elections.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -11,9 +11,10 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
+import com.jorgedguezm.elections.R
 
-import com.jorgedguezm.elections.data.Election
-import com.jorgedguezm.elections.data.Results
+import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.models.Results
 import com.jorgedguezm.elections.ui.detail.DetailFragment
 
 import kotlinx.android.synthetic.main.detail_activity.*

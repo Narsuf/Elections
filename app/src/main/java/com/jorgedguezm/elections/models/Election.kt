@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.data
+package com.jorgedguezm.elections.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

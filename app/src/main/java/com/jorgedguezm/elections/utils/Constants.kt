@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections
+package com.jorgedguezm.elections.utils
 
 object Constants {
 

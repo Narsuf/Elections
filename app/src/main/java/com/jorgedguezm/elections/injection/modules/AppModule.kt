@@ -1,12 +1,11 @@
 package com.jorgedguezm.elections.injection.modules
 
 import android.app.Application
-import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 
-import com.jorgedguezm.elections.data.source.local.Database
-import com.jorgedguezm.elections.data.source.local.ElectionsDao
-import com.jorgedguezm.elections.Utils
+import com.jorgedguezm.elections.room.Database
+import com.jorgedguezm.elections.room.ElectionsDao
+import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
 
 import dagger.Module

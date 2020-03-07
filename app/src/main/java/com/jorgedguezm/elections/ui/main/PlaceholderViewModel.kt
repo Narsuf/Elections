@@ -3,15 +3,12 @@ package com.jorgedguezm.elections.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 
-import com.jorgedguezm.elections.data.Election
-import com.jorgedguezm.elections.data.source.ElectionRepository
-
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.observers.DisposableObserver
-import io.reactivex.schedulers.Schedulers
-
-import java.util.concurrent.TimeUnit
+import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.models.Resource
+import com.jorgedguezm.elections.repository.ElectionRepository
+import com.jorgedguezm.elections.utils.AbsentLiveData
 
 import javax.inject.Inject
 
@@ -22,31 +19,17 @@ class PlaceholderViewModel @Inject constructor(
 
     fun setIndex(index: Int) { _index.value = index }
 
-    var electionsResult: MutableLiveData<List<Election>> = MutableLiveData()
-    var electionsError: MutableLiveData<String> = MutableLiveData()
-    lateinit var electionsDisposableObserver: DisposableObserver<List<Election>>
+    val electionsResult: LiveData<Resource<List<Election>>>
 
-    fun electionsResult(): LiveData<List<Election>> { return electionsResult }
-    fun electionsError(): LiveData<String> { return electionsError }
+    private val election: MutableLiveData<Pair<String, String?>> = MutableLiveData()
 
-    fun loadCongressElections() {
-        electionsDisposableObserver = object : DisposableObserver<List<Election>>() {
-            override fun onComplete() { }
-
-            override fun onNext(elections: List<Election>) { electionsResult.postValue(elections) }
-
-            override fun onError(e: Throwable) { electionsError.postValue(e.message) }
+    init {
+        electionsResult = election.switchMap {
+            election.value?.let {
+                electionRepository.loadElections(it.first, it.second)
+            } ?: AbsentLiveData.create()
         }
-
-        electionRepository.getElections("España", null)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .debounce(400, TimeUnit.MILLISECONDS)
-                .subscribe(electionsDisposableObserver)
     }
 
-    fun disposeElements() {
-        if (::electionsDisposableObserver.isInitialized && !electionsDisposableObserver.isDisposed)
-            electionsDisposableObserver.dispose()
-    }
+    fun postElection(placeAndChamber: Pair<String, String>) = election.postValue(placeAndChamber)
 }

@@ -35,6 +35,21 @@ class PlaceholderFragment : ViewModelFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        vm.electionsResult.observe(viewLifecycleOwner, Observer { result ->
+            result.data?.let { elections ->
+                val sortedElections = elections.sortedWith(compareByDescending { it.date })
+
+                generalCardAdapter.congressElections = sortedElections
+                        .filter { it.chamberName == "Congreso" }
+
+                generalCardAdapter.senateElections = sortedElections
+                        .filter { it.chamberName == "Senado" }
+
+                generalCardAdapter.fragment = this@PlaceholderFragment
+                generalCardAdapter.notifyDataSetChanged()
+            }
+        })
+
         recyclerView.apply {
             // use a linear layout manager
             layoutManager = LinearLayoutManager(context)
@@ -45,28 +60,10 @@ class PlaceholderFragment : ViewModelFragment() {
 
                 recyclerView.adapter = generalCardAdapter
 
-                if (generalCardAdapter.congressElections.isEmpty()) {
-                    vm.loadCongressElections()
-                    vm.electionsResult().observe(viewLifecycleOwner, Observer { elections ->
-                        val sortedElections = elections.sortedWith(compareByDescending { it.date })
-
-                        generalCardAdapter.congressElections = sortedElections
-                                .filter { it.chamberName == "Congreso" }
-
-                        generalCardAdapter.senateElections = sortedElections
-                                .filter { it.chamberName == "Senado" }
-
-                        generalCardAdapter.fragment = this@PlaceholderFragment
-                        generalCardAdapter.notifyDataSetChanged()
-                    })
-                }
+                if (generalCardAdapter.congressElections.isEmpty())
+                    vm.postElection(Pair("España", String()))
             }
         }
-    }
-
-    override fun onDestroy() {
-        vm.disposeElements()
-        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

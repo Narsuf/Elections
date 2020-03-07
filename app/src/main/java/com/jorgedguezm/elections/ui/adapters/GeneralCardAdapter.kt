@@ -7,11 +7,11 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.Constants.KEY_CONGRESS_ELECTION
-import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
-import com.jorgedguezm.elections.data.Election
+import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
+import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
+import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.ui.detail.DetailActivity
-import com.jorgedguezm.elections.Utils
+import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.ui.main.PlaceholderFragment
 
 import kotlinx.android.synthetic.main.general_elections_card.view.*

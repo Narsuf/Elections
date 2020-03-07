@@ -9,9 +9,9 @@ import android.widget.SimpleAdapter
 import androidx.fragment.app.Fragment
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.Constants.KEY_ELECTION
-import com.jorgedguezm.elections.data.Election
-import com.jorgedguezm.elections.Utils
+import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
+import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.ui.binders.PartyColorBinder
 
 import dagger.android.support.AndroidSupportInjection

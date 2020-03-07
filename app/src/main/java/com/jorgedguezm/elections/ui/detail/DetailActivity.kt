@@ -6,12 +6,12 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.Constants.KEY_CONGRESS
-import com.jorgedguezm.elections.Constants.KEY_CONGRESS_ELECTION
-import com.jorgedguezm.elections.Constants.KEY_SENATE
-import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
-import com.jorgedguezm.elections.Utils
-import com.jorgedguezm.elections.data.Election
+import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS
+import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
+import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
+import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
+import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.models.Election
 
 import dagger.android.AndroidInjection
 

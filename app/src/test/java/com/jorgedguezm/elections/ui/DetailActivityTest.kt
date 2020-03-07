@@ -5,11 +5,11 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 
-import com.jorgedguezm.elections.Constants.KEY_CONGRESS
-import com.jorgedguezm.elections.Constants.KEY_CONGRESS_ELECTION
-import com.jorgedguezm.elections.Constants.KEY_SENATE
-import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
-import com.jorgedguezm.elections.Utils
+import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS
+import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
+import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
+import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
+import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.data.DataUtils
 import com.jorgedguezm.elections.ui.detail.DetailActivity
 import com.jorgedguezm.elections.ui.detail.DetailFragment

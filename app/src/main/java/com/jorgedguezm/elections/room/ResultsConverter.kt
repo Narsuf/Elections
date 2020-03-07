@@ -1,9 +1,11 @@
-package com.jorgedguezm.elections.data
+package com.jorgedguezm.elections.room
 
 import androidx.room.TypeConverter
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+
+import com.jorgedguezm.elections.models.Results
 
 class ResultsConverter {
 

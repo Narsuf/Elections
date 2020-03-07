@@ -1,0 +1,3 @@
+package com.jorgedguezm.elections.models
+
+interface NetworkResponseModel

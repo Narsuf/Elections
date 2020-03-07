@@ -3,10 +3,8 @@ package com.jorgedguezm.elections.data
 import androidx.room.Room
 
 import com.jorgedguezm.elections.data.DataUtils.Companion.generateElection
-import com.jorgedguezm.elections.data.DataUtils.Companion.generateParty
-import com.jorgedguezm.elections.data.DataUtils.Companion.generateResults
-import com.jorgedguezm.elections.data.source.local.Database
-import com.jorgedguezm.elections.data.source.local.ElectionsDao
+import com.jorgedguezm.elections.room.Database
+import com.jorgedguezm.elections.room.ElectionsDao
 
 import org.junit.After
 import org.junit.Before
