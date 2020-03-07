@@ -53,6 +53,7 @@ class DetailActivityTest {
 
                 // Senate option clicked
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
+                assertEquals(activity.toolbar.title, utils.generateToolbarTitle(senateElection))
                 assertEquals(senateElection.id, activity.currentElection.id)
 
                 // Senate option clicked again

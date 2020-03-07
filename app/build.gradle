@@ -89,39 +89,39 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation "androidx.fragment:fragment:$project.ext.androidFragment"
-    implementation "androidx.fragment:fragment-ktx:$project.ext.androidFragment"
+    implementation "androidx.fragment:fragment:$androidFragment"
+    implementation "androidx.fragment:fragment-ktx:$androidFragment"
 
     // Lottie
     implementation 'com.airbnb.android:lottie:2.8.0'
 
     // Dagger 2
-    implementation "com.google.dagger:dagger-android:$project.ext.daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$project.ext.daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$project.ext.daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$project.ext.daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // Moshi
-    implementation "com.squareup.moshi:moshi-kotlin:$project.ext.moshiVersion"
-    implementation "com.squareup.moshi:moshi-adapters:$project.ext.moshiVersion"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
 
     // Android Jetpack
 
         // Room
-        implementation "androidx.room:room-runtime:$project.ext.roomVersion"
-        implementation "androidx.room:room-rxjava2:$project.ext.roomVersion"
-        kapt "androidx.room:room-compiler:$project.ext.roomVersion"
+        implementation "androidx.room:room-runtime:$roomVersion"
+        implementation "androidx.room:room-rxjava2:$roomVersion"
+        kapt "androidx.room:room-compiler:$roomVersion"
 
         // Lifecycle
-        implementation "androidx.lifecycle:lifecycle-extensions:$project.ext.lifecycleVersion"
-        implementation "androidx.lifecycle:lifecycle-reactivestreams:$project.ext.lifecycleVersion"
-        implementation "androidx.lifecycle:lifecycle-common-java8:$project.ext.lifecycleVersion"
-        implementation "androidx.lifecycle:lifecycle-livedata-ktx:$project.ext.lifecycleVersion"
+        implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+        implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycleVersion"
+        implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+        implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$project.ext.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-moshi:$project.ext.retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$project.ext.retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
