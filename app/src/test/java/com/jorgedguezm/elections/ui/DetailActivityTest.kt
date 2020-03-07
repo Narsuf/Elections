@@ -23,7 +23,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.LooperMode
 
 @RunWith(RobolectricTestRunner::class)
 class DetailActivityTest {
@@ -38,7 +37,6 @@ class DetailActivityTest {
     }
 
     @Test
-    @LooperMode(LooperMode.Mode.PAUSED)
     fun launchDetailActivity() {
         ActivityScenario.launch<DetailActivity>(intent).use { scenario ->
             scenario.onActivity { activity ->
