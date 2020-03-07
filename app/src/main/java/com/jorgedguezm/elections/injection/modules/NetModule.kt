@@ -1,6 +1,7 @@
 package com.jorgedguezm.elections.injection.modules
 
 import com.jorgedguezm.elections.api.ApiInterface
+import com.jorgedguezm.elections.api.LiveDataCallAdapterFactory
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -12,7 +13,6 @@ import okhttp3.OkHttpClient
 
 import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 import javax.inject.Singleton
@@ -33,7 +33,7 @@ class NetModule(private val baseUrl: String) {
     fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Builder().client(okHttpClient).baseUrl(baseUrl)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(LiveDataCallAdapterFactory())
                 .build()
     }
 

@@ -109,7 +109,6 @@ dependencies {
 
         // Room
         implementation "androidx.room:room-runtime:$roomVersion"
-        implementation "androidx.room:room-rxjava2:$roomVersion"
         kapt "androidx.room:room-compiler:$roomVersion"
 
         // Lifecycle
@@ -121,7 +120,6 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
