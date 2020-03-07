@@ -60,8 +60,10 @@ class PlaceholderFragment : ViewModelFragment() {
 
                 recyclerView.adapter = generalCardAdapter
 
-                if (generalCardAdapter.congressElections.isEmpty())
-                    vm.postElection(Pair("España", String()))
+                if (generalCardAdapter.congressElections.isEmpty()) {
+                    val nullString: String? = null
+                    vm.postElection(Pair("España", nullString))
+                }
             }
         }
     }

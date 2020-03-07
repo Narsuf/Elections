@@ -31,5 +31,5 @@ class PlaceholderViewModel @Inject constructor(
         }
     }
 
-    fun postElection(placeAndChamber: Pair<String, String>) = election.postValue(placeAndChamber)
+    fun postElection(placeAndChamber: Pair<String, String?>) = election.postValue(placeAndChamber)
 }
