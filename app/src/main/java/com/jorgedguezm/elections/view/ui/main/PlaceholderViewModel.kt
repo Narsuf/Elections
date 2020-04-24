@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 
-import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.models.Resource
 import com.jorgedguezm.elections.repository.ElectionRepository
 import com.jorgedguezm.elections.utils.AbsentLiveData

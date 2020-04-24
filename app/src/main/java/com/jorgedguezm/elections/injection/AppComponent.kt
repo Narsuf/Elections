@@ -1,10 +1,6 @@
 package com.jorgedguezm.elections.injection
 
 import com.jorgedguezm.elections.ElectionsApplication
-import com.jorgedguezm.elections.injection.modules.AppModule
-import com.jorgedguezm.elections.injection.modules.BuildersModule
-import com.jorgedguezm.elections.injection.modules.NetModule
-import com.jorgedguezm.elections.injection.modules.ViewModelModule
 
 import dagger.Component
 import dagger.android.AndroidInjectionModule

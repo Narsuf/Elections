@@ -1,13 +1,12 @@
 package com.jorgedguezm.elections
 
 import android.app.Activity
-import android.app.Application
 import androidx.fragment.app.Fragment
 import androidx.multidex.MultiDexApplication
 
 import com.jorgedguezm.elections.injection.DaggerAppComponent
-import com.jorgedguezm.elections.injection.modules.AppModule
-import com.jorgedguezm.elections.injection.modules.NetModule
+import com.jorgedguezm.elections.injection.AppModule
+import com.jorgedguezm.elections.injection.NetModule
 
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector

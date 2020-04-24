@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.injection.modules
+package com.jorgedguezm.elections.injection
 
 import android.app.Application
 import androidx.room.Room

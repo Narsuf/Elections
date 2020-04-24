@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.injection.modules
+package com.jorgedguezm.elections.injection
 
 import com.jorgedguezm.elections.api.ApiInterface
 import com.jorgedguezm.elections.api.LiveDataCallAdapterFactory

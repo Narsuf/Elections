@@ -13,8 +13,8 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
 import com.jorgedguezm.elections.R
 
-import com.jorgedguezm.elections.models.Election
-import com.jorgedguezm.elections.models.Results
+import com.jorgedguezm.elections.models.entities.Election
+import com.jorgedguezm.elections.models.entities.Results
 import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 
 import kotlinx.android.synthetic.main.detail_activity.*

@@ -2,7 +2,7 @@ package com.jorgedguezm.elections.api
 
 import androidx.lifecycle.LiveData
 
-import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.models.network.ElectionApiResponse
 
 import retrofit2.http.GET

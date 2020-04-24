@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
-import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.view.binders.PartyColorBinder
 

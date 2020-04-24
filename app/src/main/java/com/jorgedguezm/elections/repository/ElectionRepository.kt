@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 
 import com.jorgedguezm.elections.api.ApiInterface
 import com.jorgedguezm.elections.api.ApiResponse
-import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.room.ElectionsDao
 import com.jorgedguezm.elections.models.Resource
 import com.jorgedguezm.elections.models.network.ElectionApiResponse

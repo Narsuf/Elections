@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.injection.modules
+package com.jorgedguezm.elections.injection
 
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.view.ui.detail.DetailFragment

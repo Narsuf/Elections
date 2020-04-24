@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
-import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.utils.Utils
 
 import kotlinx.android.synthetic.main.detail_fragment.*
