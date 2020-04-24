@@ -11,8 +11,8 @@ import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.data.DataUtils
-import com.jorgedguezm.elections.ui.detail.DetailActivity
-import com.jorgedguezm.elections.ui.detail.DetailFragment
+import com.jorgedguezm.elections.view.ui.detail.DetailActivity
+import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 
 import junit.framework.TestCase.*
 

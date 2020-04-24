@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui.main
+package com.jorgedguezm.elections.view.adapters
 
 import android.content.Context
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.view.ui.main.PlaceholderFragment
 
 private val TAB_TITLES = arrayOf(
         R.string.general,

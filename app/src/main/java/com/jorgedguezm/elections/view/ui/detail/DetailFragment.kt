@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui.detail
+package com.jorgedguezm.elections.view.ui.detail
 
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -12,7 +12,7 @@ import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.utils.Utils
-import com.jorgedguezm.elections.ui.binders.PartyColorBinder
+import com.jorgedguezm.elections.view.binders.PartyColorBinder
 
 import dagger.android.support.AndroidSupportInjection
 

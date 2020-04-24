@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 import com.jorgedguezm.elections.factory.AppViewModelFactory
-import com.jorgedguezm.elections.ui.main.PlaceholderViewModel
+import com.jorgedguezm.elections.view.ui.main.PlaceholderViewModel
 
 import dagger.Binds
 import dagger.Module

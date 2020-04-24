@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui.detail
+package com.jorgedguezm.elections.view.ui.detail
 
 import android.app.AlertDialog
 import android.app.Dialog

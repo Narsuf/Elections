@@ -6,7 +6,7 @@ import androidx.room.Room
 import com.jorgedguezm.elections.room.Database
 import com.jorgedguezm.elections.room.ElectionsDao
 import com.jorgedguezm.elections.utils.Utils
-import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
+import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
 
 import dagger.Module
 import dagger.Provides

@@ -1,8 +1,8 @@
 package com.jorgedguezm.elections.injection.modules
 
-import com.jorgedguezm.elections.ui.detail.DetailActivity
-import com.jorgedguezm.elections.ui.detail.DetailFragment
-import com.jorgedguezm.elections.ui.main.PlaceholderFragment
+import com.jorgedguezm.elections.view.ui.detail.DetailActivity
+import com.jorgedguezm.elections.view.ui.detail.DetailFragment
+import com.jorgedguezm.elections.view.ui.main.PlaceholderFragment
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

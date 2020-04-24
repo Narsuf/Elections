@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui.binders
+package com.jorgedguezm.elections.view.binders
 
 import android.graphics.Color
 import android.view.View

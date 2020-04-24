@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui.main
+package com.jorgedguezm.elections.view.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui.adapters
+package com.jorgedguezm.elections.view.adapters
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.models.Election
-import com.jorgedguezm.elections.ui.detail.DetailActivity
+import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.utils.Utils
-import com.jorgedguezm.elections.ui.main.PlaceholderFragment
+import com.jorgedguezm.elections.view.ui.main.PlaceholderFragment
 
 import kotlinx.android.synthetic.main.general_elections_card.view.*
 

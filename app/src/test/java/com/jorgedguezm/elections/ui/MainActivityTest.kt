@@ -2,8 +2,8 @@ package com.jorgedguezm.elections.ui
 
 import androidx.test.core.app.ActivityScenario
 
-import com.jorgedguezm.elections.ui.main.MainActivity
-import com.jorgedguezm.elections.ui.main.PlaceholderFragment
+import com.jorgedguezm.elections.view.ui.main.MainActivity
+import com.jorgedguezm.elections.view.ui.main.PlaceholderFragment
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

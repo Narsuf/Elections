@@ -15,7 +15,7 @@ import com.jorgedguezm.elections.R
 
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.models.Results
-import com.jorgedguezm.elections.ui.detail.DetailFragment
+import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 
 import kotlinx.android.synthetic.main.detail_activity.*
 

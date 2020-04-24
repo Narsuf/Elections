@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.ui.main
+package com.jorgedguezm.elections.view.ui.main
 
 import android.os.Bundle
 import android.view.*
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.compose.ViewModelFragment
-import com.jorgedguezm.elections.ui.adapters.GeneralCardAdapter
+import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
 
 import kotlinx.android.synthetic.main.fragment_main.*
 

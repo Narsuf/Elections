@@ -1,9 +1,10 @@
-package com.jorgedguezm.elections.ui.main
+package com.jorgedguezm.elections.view.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.view.adapters.SectionsPagerAdapter
 
 import kotlinx.android.synthetic.main.activity_main.*
 
