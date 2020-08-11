@@ -26,9 +26,7 @@
             android:paddingBottom="@dimen/card_vertical_margin"
             android:paddingTop="@dimen/card_vertical_margin"
             app:adapter="@{adapter}"
-            app:adapterElections="@{viewModel.electionsResult}">
-
-        </androidx.recyclerview.widget.RecyclerView>
+            app:adapterElections="@{viewModel.electionsResult}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
