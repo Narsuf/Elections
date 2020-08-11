@@ -52,7 +52,7 @@ constructor(val service: ApiInterface, val dao: ElectionsDao) : Repository {
             }
 
             override fun saveFetchData(items: ElectionApiResponse) {
-                dao.insertElections(items.elections)
+                dao.insertElections(items.data)
             }
         }.asLiveData()
     }
