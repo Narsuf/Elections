@@ -1,5 +1,9 @@
 package com.jorgedguezm.elections.data
 
+import com.jorgedguezm.elections.models.entities.Election
+import com.jorgedguezm.elections.models.entities.Party
+import com.jorgedguezm.elections.models.entities.Results
+
 class DataUtils {
 
     companion object {

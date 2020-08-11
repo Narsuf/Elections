@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.jorgedguezm.elections.ui.main.MainActivity">
+    tools:context="com.jorgedguezm.elections.view.ui.main.MainActivity">
     <item
         android:id="@+id/action_show_historical"
         android:orderInCategory="1"

@@ -5,14 +5,14 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 
-import com.jorgedguezm.elections.Constants.KEY_CONGRESS
-import com.jorgedguezm.elections.Constants.KEY_CONGRESS_ELECTION
-import com.jorgedguezm.elections.Constants.KEY_SENATE
-import com.jorgedguezm.elections.Constants.KEY_SENATE_ELECTION
-import com.jorgedguezm.elections.Utils
+import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS
+import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
+import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
+import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
+import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.data.DataUtils
-import com.jorgedguezm.elections.ui.detail.DetailActivity
-import com.jorgedguezm.elections.ui.detail.DetailFragment
+import com.jorgedguezm.elections.view.ui.detail.DetailActivity
+import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 
 import junit.framework.TestCase.*
 
@@ -23,7 +23,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.LooperMode
 
 @RunWith(RobolectricTestRunner::class)
 class DetailActivityTest {
@@ -38,7 +37,6 @@ class DetailActivityTest {
     }
 
     @Test
-    @LooperMode(LooperMode.Mode.PAUSED)
     fun launchDetailActivity() {
         ActivityScenario.launch<DetailActivity>(intent).use { scenario ->
             scenario.onActivity { activity ->
@@ -53,6 +51,7 @@ class DetailActivityTest {
 
                 // Senate option clicked
                 activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
+                assertEquals(activity.toolbar.title, utils.generateToolbarTitle(senateElection))
                 assertEquals(senateElection.id, activity.currentElection.id)
 
                 // Senate option clicked again

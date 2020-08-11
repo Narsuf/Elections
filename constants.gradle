@@ -4,5 +4,4 @@ project.ext {
     retrofitVersion = '2.5.0'
     roomVersion = '2.2.4'
     lifecycleVersion = '2.2.0'
-    androidFragment = '1.2.2'
 }

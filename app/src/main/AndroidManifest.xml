@@ -18,7 +18,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="n">
         <activity
-            android:name=".ui.main.MainActivity">
+            android:name=".view.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.detail.DetailActivity"
+            android:name=".view.ui.detail.DetailActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
         </activity>

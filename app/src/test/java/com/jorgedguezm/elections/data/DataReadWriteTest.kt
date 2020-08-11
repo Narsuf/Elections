@@ -3,12 +3,11 @@ package com.jorgedguezm.elections.data
 import androidx.room.Room
 
 import com.jorgedguezm.elections.data.DataUtils.Companion.generateElection
-import com.jorgedguezm.elections.data.DataUtils.Companion.generateParty
-import com.jorgedguezm.elections.data.DataUtils.Companion.generateResults
-import com.jorgedguezm.elections.data.source.local.Database
-import com.jorgedguezm.elections.data.source.local.ElectionsDao
+import com.jorgedguezm.elections.room.Database
+import com.jorgedguezm.elections.room.ElectionsDao
 
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,12 +44,10 @@ class DataReadWriteTest {
         val election = generateElection()
 
         electionsDao.insertElection(election)
-        electionsDao.queryChamberElections(election.place, election.chamberName).test()
-                .assertValue { elections ->
-                    elections.contains(election)
-                }
 
-        electionsDao.getElection(election.id).test()
-                .assertValue { election == it }
+        assertTrue(electionsDao.queryChamberElections(election.place, election.chamberName)
+                .contains(election))
+
+        assertTrue(electionsDao.getElection(election.id) == election)
     }
 }
