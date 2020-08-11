@@ -46,8 +46,7 @@ class GeneralCardAdapter @Inject constructor(
         val context = holder.itemView.context
         val congressElection = congressElections[position]
         val senateElection = senateElections[position]
-        val concatenatedText = context.resources.getString(R.string.app_name) + " " +
-                congressElection.date
+        val concatenatedText = congressElection.date
 
         holder.card.section_label.text = concatenatedText
         holder.card.setOnClickListener {

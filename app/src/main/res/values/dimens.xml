@@ -9,7 +9,7 @@
     <dimen name="card_text_view_margin_bottom">50dp</dimen>
     <dimen name="card_chart_margin_top">30dp</dimen>
 
-    <dimen name="text_size_year_general_elections">20sp</dimen>
+    <dimen name="text_size_year_general_elections">32sp</dimen>
 
     <dimen name="pie_chart_height">300dp</dimen>
 
