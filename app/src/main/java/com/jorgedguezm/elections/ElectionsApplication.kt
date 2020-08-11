@@ -25,7 +25,7 @@ class ElectionsApplication: MultiDexApplication(), HasActivityInjector, HasSuppo
 
         DaggerAppComponent.builder()
                 .appModule(AppModule(this))
-                .netModule(NetModule(BuildConfig.URL))
+                .netModule(NetModule())
                 .build().inject(this)
     }
 

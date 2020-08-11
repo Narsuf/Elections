@@ -18,7 +18,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
-class NetModule(private val baseUrl: String) {
+class NetModule {
 
     @Provides
     @Singleton
@@ -31,7 +31,7 @@ class NetModule(private val baseUrl: String) {
     @Provides
     @Singleton
     fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
-        return Builder().client(okHttpClient).baseUrl(baseUrl)
+        return Builder().client(okHttpClient).baseUrl("http://narsuf.ddns.net:8000/")
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .addCallAdapterFactory(LiveDataCallAdapterFactory())
                 .build()
