@@ -23,7 +23,6 @@ class PlaceholderFragment : ViewModelFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         vm.setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
     }
 
@@ -45,7 +44,6 @@ class PlaceholderFragment : ViewModelFragment() {
                 generalCardAdapter.senateElections = sortedElections
                         .filter { it.chamberName == "Senado" }
 
-                generalCardAdapter.fragment = this@PlaceholderFragment
                 generalCardAdapter.notifyDataSetChanged()
             }
         })

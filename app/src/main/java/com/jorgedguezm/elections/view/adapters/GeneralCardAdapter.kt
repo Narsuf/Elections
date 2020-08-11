@@ -24,8 +24,6 @@ class GeneralCardAdapter @Inject constructor(
     var congressElections: List<Election> = ArrayList()
     var senateElections: List<Election> = ArrayList()
 
-    lateinit var fragment: PlaceholderFragment
-
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
@@ -45,17 +43,18 @@ class GeneralCardAdapter @Inject constructor(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        val context = holder.itemView.context
         val congressElection = congressElections[position]
         val senateElection = senateElections[position]
-        val concatenatedText = fragment.resources.getString(R.string.app_name) + " " +
+        val concatenatedText = context.resources.getString(R.string.app_name) + " " +
                 congressElection.date
 
         holder.card.section_label.text = concatenatedText
         holder.card.setOnClickListener {
-            val myIntent = Intent(fragment.context, DetailActivity::class.java)
+            val myIntent = Intent(context, DetailActivity::class.java)
             myIntent.putExtra(KEY_CONGRESS_ELECTION, congressElection)
             myIntent.putExtra(KEY_SENATE_ELECTION, senateElection)
-            fragment.startActivity(myIntent)
+            context.startActivity(myIntent)
         }
 
         utils.drawPieChart(holder.card.pie_chart, congressElection.results)
