@@ -19,4 +19,6 @@
     <string name="no_internet_connection">Sin conexión a Internet</string>
 
     <string name="close">Cerrar</string>
+
+    <string name="something_wrong">Oops! Algo ha ido mal.</string>
 </resources>
