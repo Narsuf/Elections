@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 
 import com.jorgedguezm.elections.api.ApiResponse
+import com.jorgedguezm.elections.compose.AppExecutors
 import com.jorgedguezm.elections.models.NetworkResponseModel
 import com.jorgedguezm.elections.models.Resource
 
@@ -18,15 +19,22 @@ internal constructor() {
 
     init {
         Timber.d("Injection NetworkBoundRepository")
-        val loadedFromDB = this.loadFromDb()
-        result.addSource(loadedFromDB) { data ->
-            result.removeSource(loadedFromDB)
-            if (shouldFetch(data)) {
-                result.postValue(Resource.loading(null))
-                fetchFromNetwork(loadedFromDB)
-            } else {
-                result.addSource<ResultType>(loadedFromDB) { newData ->
-                    setValue(Resource.success(newData))
+
+        AppExecutors.diskIO().execute {
+            val loadedFromDB = this.loadFromDb()
+
+            AppExecutors.mainThread().execute {
+                result.addSource(loadedFromDB) { data ->
+                    result.removeSource(loadedFromDB)
+
+                    if (shouldFetch(data)) {
+                        result.postValue(Resource.loading(null))
+                        fetchFromNetwork(loadedFromDB)
+                    } else {
+                        result.addSource<ResultType>(loadedFromDB) { newData ->
+                            setValue(Resource.success(newData))
+                        }
+                    }
                 }
             }
         }
@@ -34,26 +42,36 @@ internal constructor() {
 
     private fun fetchFromNetwork(loadedFromDB: LiveData<ResultType>) {
         val apiResponse = fetchService()
+
         result.addSource(apiResponse) { response ->
             response?.let {
                 when (response.isSuccessful) {
                     true -> {
-                        response.body?.let {
-                            saveFetchData(it)
-                            val loaded = loadFromDb()
-                            result.addSource(loaded) { newData ->
-                                newData?.let {
-                                    setValue(Resource.success(newData))
+                        AppExecutors.diskIO().execute {
+                            response.body?.let {
+                                saveFetchData(it)
+                                val loaded = loadFromDb()
+
+                                AppExecutors.mainThread().execute {
+                                    result.addSource(loaded) { newData ->
+                                        newData?.let {
+                                            setValue(Resource.success(newData))
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+
                     false -> {
-                        result.removeSource(loadedFromDB)
-                        onFetchFailed(response.message)
-                        response.message?.let {
-                            result.addSource<ResultType>(loadedFromDB) { newData ->
-                                setValue(Resource.error(it, newData))
+                        AppExecutors.mainThread().execute {
+                            result.removeSource(loadedFromDB)
+                            onFetchFailed(response.message)
+
+                            response.message?.let {
+                                result.addSource<ResultType>(loadedFromDB) { newData ->
+                                    setValue(Resource.error(it, newData))
+                                }
                             }
                         }
                     }
@@ -77,7 +95,7 @@ internal constructor() {
     @MainThread
     protected abstract fun shouldFetch(data: ResultType?): Boolean
 
-    @MainThread
+    @WorkerThread
     protected abstract fun loadFromDb(): LiveData<ResultType>
 
     @MainThread

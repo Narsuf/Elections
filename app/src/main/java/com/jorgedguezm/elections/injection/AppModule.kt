@@ -34,7 +34,7 @@ class AppModule(val app: Application) {
     fun provideElectionsDatabase(app: Application): Database = Room.databaseBuilder(app,
             Database::class.java, "elections_db")
             //.addMigrations(MIGRATION_1_2)
-            .allowMainThreadQueries()
+            //.allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .build()
 

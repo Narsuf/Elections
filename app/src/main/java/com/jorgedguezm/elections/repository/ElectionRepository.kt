@@ -32,7 +32,7 @@ constructor(val service: ApiInterface, val dao: ElectionsDao) : Repository {
                     dao.queryElections(place)
 
                 val data: MutableLiveData<List<Election>> = MutableLiveData()
-                data.value = elections
+                data.postValue(elections)
                 return data
             }
 
