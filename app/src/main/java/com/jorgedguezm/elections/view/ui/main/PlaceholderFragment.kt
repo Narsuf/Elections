@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.compose.ViewModelFragment
+import com.jorgedguezm.elections.databinding.FragmentMainBinding
 import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
 
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -16,10 +17,10 @@ import javax.inject.Inject
 class PlaceholderFragment : ViewModelFragment() {
 
     internal val vm by viewModel<PlaceholderViewModel>()
+    private lateinit var binding: FragmentMainBinding
 
     @Inject
     lateinit var generalCardAdapter: GeneralCardAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,25 +29,16 @@ class PlaceholderFragment : ViewModelFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        binding = binding(inflater, R.layout.fragment_main, container)
+        binding.lifecycleOwner = this
+        binding.viewModel = vm
+        binding.adapter = generalCardAdapter
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        vm.electionsResult.observe(viewLifecycleOwner, Observer { result ->
-            result.data?.let { elections ->
-                val sortedElections = elections.sortedWith(compareByDescending { it.date })
-
-                generalCardAdapter.congressElections = sortedElections
-                        .filter { it.chamberName == "Congreso" }
-
-                generalCardAdapter.senateElections = sortedElections
-                        .filter { it.chamberName == "Senado" }
-
-                generalCardAdapter.notifyDataSetChanged()
-            }
-        })
 
         recyclerView.apply {
             // use a linear layout manager
@@ -55,13 +47,7 @@ class PlaceholderFragment : ViewModelFragment() {
             // specify an viewAdapter (see also next example)
             if (arguments?.getInt(ARG_SECTION_NUMBER) == 1) {
                 setHasOptionsMenu(true)
-
-                recyclerView.adapter = generalCardAdapter
-
-                if (generalCardAdapter.congressElections.isEmpty()) {
-                    val nullString: String? = null
-                    vm.postElection(Pair("España", nullString))
-                }
+                vm.postElection(Pair("España", null))
             }
         }
     }

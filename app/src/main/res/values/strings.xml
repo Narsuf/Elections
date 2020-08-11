@@ -18,4 +18,6 @@
     <string name="no_internet_connection">No Internet connection</string>
 
     <string name="close">Close</string>
+
+    <string name="something_wrong">Oops! Something went wrong.</string>
 </resources>
