@@ -113,4 +113,17 @@ class Utils @Inject constructor(private val context: Context) {
     fun generateToolbarTitle(election: Election): String {
         return election.chamberName + " (" + election.date + ")"
     }
+
+    fun getPercentageData(election: Election): Array<String> {
+        val census = election.validVotes + election.abstentions
+
+        val percentageOfParticipation = getPercentageWithTwoDecimals(election.validVotes, census)
+        val percentageOfAbstentions = getPercentageWithTwoDecimals(election.abstentions, census)
+        val percentageOfNull = getPercentageWithTwoDecimals(election.nullVotes, election.validVotes)
+        val percentageOfBlank = getPercentageWithTwoDecimals(election.blankVotes, election.validVotes)
+
+        return arrayOf(election.scrutinized.toString(), "", percentageOfParticipation.toString(),
+                percentageOfAbstentions.toString(), percentageOfNull.toString(),
+                percentageOfBlank.toString())
+    }
 }

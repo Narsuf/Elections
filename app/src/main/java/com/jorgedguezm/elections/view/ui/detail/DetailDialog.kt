@@ -20,8 +20,6 @@ import kotlinx.android.synthetic.main.detail_fragment.*
 
 class DetailDialog : DialogFragment() {
 
-    private var census = 0
-
     private lateinit var election: Election
 
     lateinit var utils: Utils
@@ -35,7 +33,6 @@ class DetailDialog : DialogFragment() {
         val window = AlertDialog.Builder(activity)
 
         election = arguments?.getSerializable(KEY_ELECTION) as Election
-        census = election.validVotes + election.abstentions
 
         val textViewTitle = inflatedLayout.findViewById(R.id.text_view_title) as TextView
         val concatenatedText = election.chamberName + " " + election.place + " " +
@@ -58,7 +55,7 @@ class DetailDialog : DialogFragment() {
         val numberData = arrayOf("", election.totalElects, election.validVotes,
                 election.abstentions, election.nullVotes, election.blankVotes)
 
-        val percentageData = getPercentageData()
+        val percentageData = utils.getPercentageData(election)
 
         val arrayList = ArrayList<Map<String, Any>>()
 
@@ -80,23 +77,5 @@ class DetailDialog : DialogFragment() {
 
         val listView = inflatedLayout.findViewById(R.id.list_view_general_information) as ListView
         listView.adapter = adapter
-    }
-
-    private fun getPercentageData(): Array<String> {
-        val percentageOfParticipation = utils
-                .getPercentageWithTwoDecimals(election.validVotes, census)
-
-        val percentageOfAbstentions = utils
-                .getPercentageWithTwoDecimals(election.abstentions, census)
-
-        val percentageOfNull = utils
-                .getPercentageWithTwoDecimals(election.nullVotes, election.validVotes)
-
-        val percentageOfBlank = utils
-                .getPercentageWithTwoDecimals(election.blankVotes, election.validVotes)
-
-        return arrayOf(election.scrutinized.toString(), "", percentageOfParticipation.toString(),
-                percentageOfAbstentions.toString(), percentageOfNull.toString(),
-                percentageOfBlank.toString())
     }
 }

@@ -8,11 +8,6 @@ import com.jorgedguezm.elections.models.Resource
 import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
 
-@BindingAdapter("adapter")
-fun bindRecyclerViewAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
-    view.adapter = adapter
-}
-
 @BindingAdapter("adapterElections")
 fun bindAdapterElections(view: RecyclerView, resource: Resource<List<Election>>?) {
     view.bindResource(resource) { elections ->
