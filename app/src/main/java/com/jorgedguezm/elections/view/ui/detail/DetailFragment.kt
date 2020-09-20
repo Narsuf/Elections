@@ -85,8 +85,10 @@ class DetailFragment : Fragment() {
             map[from[0]] = "#" + r.party.color
             map[from[1]] = r.party.name
             map[from[2]] = r.votes
-            map[from[3]] = utils.getPercentageWithTwoDecimals(r.votes, election.validVotes)
-                    .toString() + " %"
+            map[from[3]] = if (election.chamberName == "Senado")
+                "- %"
+            else
+                utils.getPercentageWithTwoDecimals(r.votes, election.validVotes).toString() + " %"
 
             map[from[4]] = r.elects
 

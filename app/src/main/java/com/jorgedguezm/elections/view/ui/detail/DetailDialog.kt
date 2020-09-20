@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.detail_fragment.*
 class DetailDialog : DialogFragment() {
 
     private var census = 0
-    private var counted = 0
 
     private lateinit var election: Election
 
@@ -36,8 +35,7 @@ class DetailDialog : DialogFragment() {
         val window = AlertDialog.Builder(activity)
 
         election = arguments?.getSerializable(KEY_ELECTION) as Election
-        counted = election.validVotes + election.nullVotes + election.blankVotes
-        census = counted + election.abstentions
+        census = election.validVotes + election.abstentions
 
         val textViewTitle = inflatedLayout.findViewById(R.id.text_view_title) as TextView
         val concatenatedText = election.chamberName + " " + election.place + " " +
@@ -85,12 +83,17 @@ class DetailDialog : DialogFragment() {
     }
 
     private fun getPercentageData(): Array<String> {
-        val percentageOfParticipation = utils.getPercentageWithTwoDecimals(counted, census)
+        val percentageOfParticipation = utils
+                .getPercentageWithTwoDecimals(election.validVotes, census)
+
         val percentageOfAbstentions = utils
                 .getPercentageWithTwoDecimals(election.abstentions, census)
 
-        val percentageOfNull = utils.getPercentageWithTwoDecimals(election.nullVotes, counted)
-        val percentageOfBlank = utils.getPercentageWithTwoDecimals(election.blankVotes, counted)
+        val percentageOfNull = utils
+                .getPercentageWithTwoDecimals(election.nullVotes, election.validVotes)
+
+        val percentageOfBlank = utils
+                .getPercentageWithTwoDecimals(election.blankVotes, election.validVotes)
 
         return arrayOf(election.scrutinized.toString(), "", percentageOfParticipation.toString(),
                 percentageOfAbstentions.toString(), percentageOfNull.toString(),
