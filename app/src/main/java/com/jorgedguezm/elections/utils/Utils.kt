@@ -39,8 +39,10 @@ class Utils @Inject constructor(private val context: Context) {
     }
 
     fun drawPieChart(chart: PieChart, results: List<Results>) {
-        val elects = getElectsFromResults(results)
-        val colors = getColorsFromResults(results)
+        val sortedResults = results.sortedByDescending { it.elects }
+
+        val elects = getElectsFromResults(sortedResults)
+        val colors = getColorsFromResults(sortedResults)
 
         chart.description = null
         chart.legend.isEnabled = false

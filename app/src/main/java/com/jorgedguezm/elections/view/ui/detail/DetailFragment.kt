@@ -77,7 +77,9 @@ class DetailFragment : Fragment() {
 
         val arrayList = ArrayList<Map<String, Any>>()
 
-        for (r in election.results) {
+        val sortedResults = election.results.sortedByDescending { it.elects }
+
+        for (r in sortedResults) {
             val map = HashMap<String, Any>()
 
             map[from[0]] = "#" + r.party.color
