@@ -18,7 +18,7 @@ data class Election(
         val name: String,
 
         @Json(name = "date")
-        val date: String,
+        var date: String,
 
         @Json(name = "place")
         val place: String,

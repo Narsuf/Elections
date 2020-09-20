@@ -13,7 +13,22 @@ fun bindAdapterElections(view: RecyclerView, resource: Resource<List<Election>>?
     view.bindResource(resource) { elections ->
         val adapter = view.adapter as? GeneralCardAdapter
 
-        elections?.sortedWith(compareByDescending { it.date })?.let { sortedElections ->
+        elections?.sortedByDescending {
+            if (it.date.length > 4)
+                it.date.toDouble() / 10
+            else
+                it.date.toDouble()
+        }?.let { sortedElections ->
+            sortedElections.forEach {
+                if (it.date.length > 4) {
+                    it.date = when (it.date) {
+                        "20192" -> "2019-10N"
+                        "20191" -> "2019-28A"
+                        else -> it.date
+                    }
+                }
+            }
+
             adapter?.congressElections = sortedElections.filter { it.chamberName == "Congreso" }
             adapter?.senateElections = sortedElections.filter { it.chamberName == "Senado" }
             adapter?.notifyDataSetChanged()
