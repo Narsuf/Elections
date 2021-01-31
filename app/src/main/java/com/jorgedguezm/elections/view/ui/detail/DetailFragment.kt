@@ -5,10 +5,10 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SimpleAdapter
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.compose.ViewModelFragment
 import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
 import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.utils.Utils
@@ -20,7 +20,9 @@ import kotlinx.android.synthetic.main.detail_fragment.*
 
 import javax.inject.Inject
 
-class DetailFragment : Fragment() {
+class DetailFragment : ViewModelFragment() {
+
+    private val vm by viewModel<DetailViewModel>()
 
     private lateinit var election: Election
 
@@ -58,53 +60,25 @@ class DetailFragment : Fragment() {
         utils.drawPieChart(pie_chart, election.results)
 
         initializeCountDownTimer()
-        setSimpleAdapter()
+
+        vm.adapter.observe(viewLifecycleOwner, Observer {
+            it.viewBinder = PartyColorBinder()
+
+            list_view.adapter = it
+
+            list_view.setOnItemClickListener { _, _, position, _ ->
+                pie_chart.highlightValue(position.toFloat(), 0)
+                countDownTimer.start()
+            }
+        })
+
+        vm.postElection(election)
     }
 
     private fun initializeCountDownTimer() {
         countDownTimer = object: CountDownTimer(1000, 1) {
-
             override fun onTick(millisUntilFinished: Long) { }
-
             override fun onFinish() { pie_chart.highlightValue(-1F, -1) }
-        }
-    }
-
-    private fun setSimpleAdapter() {
-        val from = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
-        val to = intArrayOf(R.id.tvPartyColor, R.id.tvPartyName, R.id.tvNumberVotes,
-                R.id.tvVotesPercentage, R.id.tvElects)
-
-        val arrayList = ArrayList<Map<String, Any>>()
-
-        val sortedResults = election.results.sortedByDescending { it.elects }
-
-        for (r in sortedResults) {
-            val map = HashMap<String, Any>()
-
-            map[from[0]] = "#" + r.party.color
-            map[from[1]] = r.party.name
-            map[from[2]] = r.votes
-            map[from[3]] = if (election.chamberName == "Senado")
-                "- %"
-            else
-                utils.getPercentageWithTwoDecimals(r.votes, election.validVotes).toString() + " %"
-
-            map[from[4]] = r.elects
-
-            arrayList.add(map)
-        }
-
-        val adapter = SimpleAdapter(context, arrayList, R.layout.list_item_detail_activity,
-                from, to)
-
-        adapter.viewBinder = PartyColorBinder()
-
-        list_view.adapter = adapter
-
-        list_view.setOnItemClickListener { _, _, position, _ ->
-            pie_chart.highlightValue(position.toFloat(), 0)
-            countDownTimer.start()
         }
     }
 }
