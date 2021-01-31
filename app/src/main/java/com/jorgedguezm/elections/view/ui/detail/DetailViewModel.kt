@@ -9,6 +9,7 @@ import androidx.lifecycle.switchMap
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.models.entities.Election
+import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
 import com.jorgedguezm.elections.utils.Utils
 
 import javax.inject.Inject
@@ -35,7 +36,7 @@ class DetailViewModel @Inject constructor(context: Context, utils: Utils) : View
                 map[from[0]] = "#" + r.party.color
                 map[from[1]] = r.party.name
                 map[from[2]] = r.votes
-                map[from[3]] = if (it.chamberName == "Senado")
+                map[from[3]] = if (it.chamberName == KEY_SENATE)
                     "- %"
                 else
                     utils.getPercentageWithTwoDecimals(r.votes, it.validVotes).toString() + " %"
@@ -46,7 +47,8 @@ class DetailViewModel @Inject constructor(context: Context, utils: Utils) : View
             }
 
             MutableLiveData<SimpleAdapter>().apply {
-                postValue(SimpleAdapter(context, arrayList, R.layout.list_item_detail_activity, from, to))
+                postValue(SimpleAdapter(context, arrayList, R.layout.list_item_detail_activity,
+                        from, to))
             }
         }
     }
