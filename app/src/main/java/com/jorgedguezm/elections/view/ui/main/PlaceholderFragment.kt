@@ -2,7 +2,6 @@ package com.jorgedguezm.elections.view.ui.main
 
 import android.os.Bundle
 import android.view.*
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.jorgedguezm.elections.R

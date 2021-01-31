@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 import com.jorgedguezm.elections.factory.AppViewModelFactory
+import com.jorgedguezm.elections.view.ui.detail.DetailViewModel
 import com.jorgedguezm.elections.view.ui.main.PlaceholderViewModel
 
 import dagger.Binds
@@ -17,6 +18,11 @@ internal abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PlaceholderViewModel::class)
     internal abstract fun bindHomeViewModel(galleryViewModel: PlaceholderViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DetailViewModel::class)
+    internal abstract fun bindDetailViewModel(galleryViewModel: DetailViewModel): ViewModel
 
     @Binds
     internal abstract fun bindViewModelFactory(
