@@ -1,5 +1,5 @@
 project.ext {
-    daggerVersion = '2.23.2'
+    daggerVersion = '2.35.1'
     moshiVersion = '1.8.0'
     retrofitVersion = '2.5.0'
     roomVersion = '2.2.6'

@@ -1,7 +1,5 @@
 package com.jorgedguezm.elections
 
-import android.app.Activity
-import androidx.fragment.app.Fragment
 import androidx.multidex.MultiDexApplication
 
 import com.jorgedguezm.elections.injection.DaggerAppComponent
@@ -10,15 +8,13 @@ import com.jorgedguezm.elections.injection.NetModule
 
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 
 import javax.inject.Inject
 
-class ElectionsApplication: MultiDexApplication(), HasActivityInjector, HasSupportFragmentInjector {
+class ElectionsApplication: MultiDexApplication(), HasAndroidInjector {
 
-    @Inject lateinit var activityInjector: DispatchingAndroidInjector<Activity>
-    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
         super.onCreate()
@@ -29,7 +25,5 @@ class ElectionsApplication: MultiDexApplication(), HasActivityInjector, HasSuppo
                 .build().inject(this)
     }
 
-    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }
