@@ -12,9 +12,9 @@ import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
 fun bindAdapterElections(view: RecyclerView, resource: Resource<List<Election>>?) {
     view.bindResource(resource) { elections ->
         val adapter = view.adapter as? GeneralCardAdapter
-        val electionCopy = elections?.map { it.copy() }
+        val electionsCopy = elections?.map { it.copy() }
 
-        electionCopy?.sortedByDescending {
+        electionsCopy?.sortedByDescending {
             if (it.date.length > 4)
                 it.date.toDouble() / 10
             else
