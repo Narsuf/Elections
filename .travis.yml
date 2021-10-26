@@ -1,5 +1,9 @@
 language: android
 dist: trusty
+
+before_install:
+  - yes | sdkmanager "platforms;android-30"
+
 android:
   components:
     # The BuildTools version used by your project
