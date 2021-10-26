@@ -1,7 +1,7 @@
 project.ext {
     daggerVersion = '2.35.1'
-    moshiVersion = '1.8.0'
-    retrofitVersion = '2.5.0'
-    roomVersion = '2.2.6'
-    lifecycleVersion = '2.2.0'
+    moshiVersion = '1.11.0'
+    retrofitVersion = '2.7.1'
+    roomVersion = '2.3.0'
+    lifecycleVersion = '2.3.1'
 }
