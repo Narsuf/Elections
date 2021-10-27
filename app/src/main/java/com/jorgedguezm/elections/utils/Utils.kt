@@ -5,19 +5,17 @@ import android.net.ConnectivityManager
 import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
-import com.jorgedguezm.elections.R
 
+import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.models.entities.Results
+import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.view.ui.detail.DetailFragment
-
-import kotlinx.android.synthetic.main.detail_activity.*
 
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -97,7 +95,7 @@ class Utils @Inject constructor(private val context: Context) {
         return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP)
     }
 
-    fun beginTransactionToDetailFragment(activity: AppCompatActivity, election: Election) {
+    fun beginTransactionToDetailFragment(activity: DetailActivity, election: Election) {
         val detailFragment = DetailFragment()
         val transaction = activity.supportFragmentManager.beginTransaction()
 
@@ -107,7 +105,7 @@ class Utils @Inject constructor(private val context: Context) {
 
         transaction.replace(R.id.detail_frame, detailFragment)
         transaction.commit()
-        activity.toolbar.title = generateToolbarTitle(election)
+        activity.binding.toolbar.title = generateToolbarTitle(election)
     }
 
     fun generateToolbarTitle(election: Election): String {

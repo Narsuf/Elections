@@ -25,7 +25,7 @@ class PlaceholderFragment : ViewModelFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = binding(inflater, R.layout.fragment_main, container)
         binding.lifecycleOwner = this
         binding.viewModel = vm
