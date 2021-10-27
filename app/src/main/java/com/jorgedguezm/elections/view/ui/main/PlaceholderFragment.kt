@@ -9,8 +9,6 @@ import com.jorgedguezm.elections.compose.ViewModelFragment
 import com.jorgedguezm.elections.databinding.FragmentMainBinding
 import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
 
-import kotlinx.android.synthetic.main.fragment_main.*
-
 import javax.inject.Inject
 
 class PlaceholderFragment : ViewModelFragment() {
@@ -39,7 +37,7 @@ class PlaceholderFragment : ViewModelFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             // use a linear layout manager
             layoutManager = LinearLayoutManager(context)
 
