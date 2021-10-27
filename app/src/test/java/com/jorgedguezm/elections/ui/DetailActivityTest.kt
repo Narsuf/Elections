@@ -17,7 +17,6 @@ import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 import junit.framework.TestCase.*
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.detail_fragment.*
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -65,16 +64,16 @@ class DetailActivityTest {
                 val fragment = activity.supportFragmentManager.fragments[0] as DetailFragment
 
                 // Check highlight function
-                fragment.list_view.onItemClickListener?.onItemClick(null, null, 0, 0)
-                assertTrue(fragment.pie_chart.highlighted.isNotEmpty())
+                fragment.binding.listView.onItemClickListener?.onItemClick(null, null, 0, 0)
+                assertTrue(fragment.binding.pieChart.highlighted.isNotEmpty())
 
                 fragment.countDownTimer.onTick(1)
-                assertTrue(fragment.pie_chart.highlighted.isNotEmpty())
+                assertTrue(fragment.binding.pieChart.highlighted.isNotEmpty())
 
                 fragment.countDownTimer.onFinish()
-                assertNull(fragment.pie_chart.highlighted)
+                assertNull(fragment.binding.pieChart.highlighted)
 
-                fragment.floating_button_more_info.performClick()
+                fragment.binding.floatingButtonMoreInfo.performClick()
             }
         }
     }

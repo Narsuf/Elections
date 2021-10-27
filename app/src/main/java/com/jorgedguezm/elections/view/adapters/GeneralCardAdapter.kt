@@ -3,6 +3,7 @@ package com.jorgedguezm.elections.view.adapters
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -12,9 +13,6 @@ import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.utils.Utils
-import com.jorgedguezm.elections.view.ui.main.PlaceholderFragment
-
-import kotlinx.android.synthetic.main.general_elections_card.view.*
 
 import javax.inject.Inject
 
@@ -48,7 +46,7 @@ class GeneralCardAdapter @Inject constructor(
         val senateElection = senateElections[position]
         val concatenatedText = congressElection.date
 
-        holder.card.section_label.text = concatenatedText
+        holder.card.findViewById<TextView>(R.id.section_label).text = concatenatedText
         holder.card.setOnClickListener {
             val myIntent = Intent(context, DetailActivity::class.java)
             myIntent.putExtra(KEY_CONGRESS_ELECTION, congressElection)
@@ -56,7 +54,7 @@ class GeneralCardAdapter @Inject constructor(
             context.startActivity(myIntent)
         }
 
-        utils.drawPieChart(holder.card.pie_chart, congressElection.results)
+        utils.drawPieChart(holder.card.findViewById(R.id.pie_chart), congressElection.results)
     }
 
     // Return the size of your dataset (invoked by the layout manager)
