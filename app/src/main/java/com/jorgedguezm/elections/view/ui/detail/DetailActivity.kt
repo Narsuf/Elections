@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 class DetailActivity : ViewModelActivity() {
 
-    internal lateinit var binding: ActivityDetailBinding
+    internal val binding by binding<ActivityDetailBinding>(R.layout.activity_detail)
+
     internal lateinit var currentElection: Election
     private lateinit var congressElection: Election
     private lateinit var senateElection: Election
@@ -28,7 +29,6 @@ class DetailActivity : ViewModelActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = binding(R.layout.activity_detail)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)

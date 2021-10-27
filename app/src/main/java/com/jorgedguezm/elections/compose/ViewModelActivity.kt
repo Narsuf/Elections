@@ -25,6 +25,6 @@ open class ViewModelActivity : AppCompatActivity() {
     protected inline fun <reified VM : ViewModel>
             viewModel(): Lazy<VM> = viewModels { viewModelFactory }
 
-    protected inline fun <reified T : ViewDataBinding> binding(resId: Int): T =
-        DataBindingUtil.setContentView(this, resId)
+    protected inline fun <reified T : ViewDataBinding> binding(resId: Int): Lazy<T> =
+        lazy { DataBindingUtil.setContentView(this, resId) }
 }
