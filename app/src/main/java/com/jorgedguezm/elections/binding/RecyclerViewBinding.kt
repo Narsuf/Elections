@@ -32,7 +32,7 @@ fun bindAdapterElections(view: RecyclerView, resource: Resource<List<Election>>?
 
             adapter?.congressElections = sortedElections.filter { it.chamberName == "Congreso" }
             adapter?.senateElections = sortedElections.filter { it.chamberName == "Senado" }
-            adapter?.notifyDataSetChanged()
+            adapter?.notifyItemChanged(0)
         }
     }
 }

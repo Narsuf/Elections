@@ -59,7 +59,7 @@ class DetailFragment : ViewModelFragment() {
 
         initializeCountDownTimer()
 
-        vm.adapter.observe(viewLifecycleOwner, Observer {
+        vm.adapter.observe(viewLifecycleOwner, {
             it.viewBinder = PartyColorBinder()
 
             binding.listView.adapter = it

@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class PlaceholderFragment : ViewModelFragment() {
 
-    internal val vm by viewModel<PlaceholderViewModel>()
+    private val vm by viewModel<PlaceholderViewModel>()
     private lateinit var binding: FragmentMainBinding
 
     @Inject
@@ -34,8 +34,8 @@ class PlaceholderFragment : ViewModelFragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.apply {
             // use a linear layout manager

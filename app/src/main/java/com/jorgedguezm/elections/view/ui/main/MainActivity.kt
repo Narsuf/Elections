@@ -1,23 +1,24 @@
 package com.jorgedguezm.elections.view.ui.main
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.compose.ViewModelActivity
+import com.jorgedguezm.elections.databinding.ActivityMainBinding
 import com.jorgedguezm.elections.view.adapters.SectionsPagerAdapter
 
-import kotlinx.android.synthetic.main.activity_main.*
+class MainActivity : ViewModelActivity() {
 
-class MainActivity : AppCompatActivity() {
+    internal val binding by binding<ActivityMainBinding>(R.layout.activity_main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        view_pager.adapter = sectionsPagerAdapter
-        tabs.setupWithViewPager(view_pager)
+        binding.viewPager.adapter = sectionsPagerAdapter
+        binding.tabs.setupWithViewPager(binding.viewPager)
     }
 }

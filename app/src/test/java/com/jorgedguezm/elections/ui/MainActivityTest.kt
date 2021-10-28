@@ -9,8 +9,6 @@ import org.junit.runner.RunWith
 
 import org.robolectric.RobolectricTestRunner
 
-import kotlinx.android.synthetic.main.activity_main.*
-
 @RunWith(RobolectricTestRunner::class)
 class MainActivityTest {
 
@@ -19,7 +17,7 @@ class MainActivityTest {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 // Swipe
-                activity.view_pager.currentItem = 2
+                activity.binding.viewPager.currentItem = 2
             }
         }
     }
