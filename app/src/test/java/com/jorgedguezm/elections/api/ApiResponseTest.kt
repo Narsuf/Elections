@@ -1,5 +1,7 @@
 package com.jorgedguezm.elections.api
 
+import okhttp3.ResponseBody.Companion.toResponseBody
+
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
@@ -27,5 +29,15 @@ class ApiResponseTest {
         assertThat(apiResponse.code, `is`(200))
         assertThat<String>(apiResponse.body, `is`("foo"))
         assertThat(apiResponse.message, CoreMatchers.nullValue())
+    }
+
+    @Test
+    fun error() {
+        val nullString: String? = null
+        val apiResponse = ApiResponse<String>(Response.error(500, "".toResponseBody()))
+        assertThat(apiResponse.isSuccessful, `is`(false))
+        assertThat(apiResponse.code, `is`(500))
+        assertThat<String>(apiResponse.body, `is`(nullString))
+        assertThat(apiResponse.message, `is`("Response.error()"))
     }
 }
