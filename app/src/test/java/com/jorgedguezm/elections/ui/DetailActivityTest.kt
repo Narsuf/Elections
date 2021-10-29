@@ -16,9 +16,6 @@ import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 
 import junit.framework.TestCase.*
 
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.detail_fragment.*
-
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -40,41 +37,41 @@ class DetailActivityTest {
     fun launchDetailActivity() {
         ActivityScenario.launch<DetailActivity>(intent).use { scenario ->
             scenario.onActivity { activity ->
-                assertEquals(activity.toolbar.title, utils.generateToolbarTitle(congressElection))
+                assertEquals(activity.binding.toolbar.title, utils.generateToolbarTitle(congressElection))
 
                 // Congress results loaded
                 assertEquals(congressElection.id, activity.currentElection.id)
 
                 // Congress option clicked
-                activity.onOptionsItemSelected(activity.toolbar.menu.getItem(0))
+                activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(0))
                 assertEquals(congressElection.id, activity.currentElection.id)
 
                 // Senate option clicked
-                activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
-                assertEquals(activity.toolbar.title, utils.generateToolbarTitle(senateElection))
+                activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(1))
+                assertEquals(activity.binding.toolbar.title, utils.generateToolbarTitle(senateElection))
                 assertEquals(senateElection.id, activity.currentElection.id)
 
                 // Senate option clicked again
-                activity.onOptionsItemSelected(activity.toolbar.menu.getItem(1))
+                activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(1))
                 assertEquals(senateElection.id, activity.currentElection.id)
 
                 // Congress option clicked
-                activity.onOptionsItemSelected(activity.toolbar.menu.getItem(0))
+                activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(0))
                 assertEquals(congressElection.id, activity.currentElection.id)
 
                 val fragment = activity.supportFragmentManager.fragments[0] as DetailFragment
 
                 // Check highlight function
-                fragment.list_view.onItemClickListener?.onItemClick(null, null, 0, 0)
-                assertTrue(fragment.pie_chart.highlighted.isNotEmpty())
+                fragment.binding.listView.onItemClickListener?.onItemClick(null, null, 0, 0)
+                assertTrue(fragment.binding.pieChart.highlighted.isNotEmpty())
 
                 fragment.countDownTimer.onTick(1)
-                assertTrue(fragment.pie_chart.highlighted.isNotEmpty())
+                assertTrue(fragment.binding.pieChart.highlighted.isNotEmpty())
 
                 fragment.countDownTimer.onFinish()
-                assertNull(fragment.pie_chart.highlighted)
+                assertNull(fragment.binding.pieChart.highlighted)
 
-                fragment.floating_button_more_info.performClick()
+                fragment.binding.floatingButtonMoreInfo.performClick()
             }
         }
     }

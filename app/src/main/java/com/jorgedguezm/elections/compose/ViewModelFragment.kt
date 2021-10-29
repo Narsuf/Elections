@@ -27,9 +27,7 @@ open class ViewModelFragment : Fragment() {
     protected inline fun <reified VM : ViewModel>
             viewModel(): Lazy<VM> = viewModels { viewModelFactory }
 
-    protected inline fun <reified T : ViewDataBinding> binding(
-            inflater: LayoutInflater,
-            resId: Int,
-            container: ViewGroup?
-    ): T = DataBindingUtil.inflate<T>(inflater, resId, container, false)
+    protected inline fun <reified T : ViewDataBinding> binding(inflater: LayoutInflater, resId: Int,
+                                                               container: ViewGroup?): T =
+        DataBindingUtil.inflate(inflater, resId, container, false)
 }

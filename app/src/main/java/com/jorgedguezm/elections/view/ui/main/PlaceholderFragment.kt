@@ -9,13 +9,11 @@ import com.jorgedguezm.elections.compose.ViewModelFragment
 import com.jorgedguezm.elections.databinding.FragmentMainBinding
 import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
 
-import kotlinx.android.synthetic.main.fragment_main.*
-
 import javax.inject.Inject
 
 class PlaceholderFragment : ViewModelFragment() {
 
-    internal val vm by viewModel<PlaceholderViewModel>()
+    private val vm by viewModel<PlaceholderViewModel>()
     private lateinit var binding: FragmentMainBinding
 
     @Inject
@@ -27,7 +25,7 @@ class PlaceholderFragment : ViewModelFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = binding(inflater, R.layout.fragment_main, container)
         binding.lifecycleOwner = this
         binding.viewModel = vm
@@ -36,10 +34,10 @@ class PlaceholderFragment : ViewModelFragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             // use a linear layout manager
             layoutManager = LinearLayoutManager(context)
 

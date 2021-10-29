@@ -9,14 +9,11 @@ import androidx.lifecycle.Observer
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.compose.ViewModelFragment
+import com.jorgedguezm.elections.databinding.FragmentDetailBinding
 import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
 import com.jorgedguezm.elections.models.entities.Election
 import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.view.binders.PartyColorBinder
-
-import dagger.android.support.AndroidSupportInjection
-
-import kotlinx.android.synthetic.main.detail_fragment.*
 
 import javax.inject.Inject
 
@@ -26,6 +23,7 @@ class DetailFragment : ViewModelFragment() {
 
     private lateinit var election: Election
 
+    internal lateinit var binding: FragmentDetailBinding
     internal lateinit var countDownTimer: CountDownTimer
 
     @Inject
@@ -34,20 +32,20 @@ class DetailFragment : ViewModelFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AndroidSupportInjection.inject(this)
-
         election = arguments?.getSerializable(KEY_ELECTION) as Election
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.detail_fragment, container, false)
+                              savedInstanceState: Bundle?): View {
+        binding = binding(inflater, R.layout.fragment_detail, container)
+
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        floating_button_more_info.setOnClickListener {
+        binding.floatingButtonMoreInfo.setOnClickListener {
             val bundle = Bundle()
             val dialog = DetailDialog()
 
@@ -57,17 +55,17 @@ class DetailFragment : ViewModelFragment() {
             activity?.supportFragmentManager?.let { dialog.show(it, "DetailDialog") }
         }
 
-        utils.drawPieChart(pie_chart, election.results)
+        utils.drawPieChart(binding.pieChart, election.results)
 
         initializeCountDownTimer()
 
-        vm.adapter.observe(viewLifecycleOwner, Observer {
+        vm.adapter.observe(viewLifecycleOwner, {
             it.viewBinder = PartyColorBinder()
 
-            list_view.adapter = it
+            binding.listView.adapter = it
 
-            list_view.setOnItemClickListener { _, _, position, _ ->
-                pie_chart.highlightValue(position.toFloat(), 0)
+            binding.listView.setOnItemClickListener { _, _, position, _ ->
+                binding.pieChart.highlightValue(position.toFloat(), 0)
                 countDownTimer.start()
             }
         })
@@ -78,7 +76,7 @@ class DetailFragment : ViewModelFragment() {
     private fun initializeCountDownTimer() {
         countDownTimer = object: CountDownTimer(1000, 1) {
             override fun onTick(millisUntilFinished: Long) { }
-            override fun onFinish() { pie_chart.highlightValue(-1F, -1) }
+            override fun onFinish() { binding.pieChart.highlightValue(-1F, -1) }
         }
     }
 }
