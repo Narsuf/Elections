@@ -19,6 +19,7 @@ android:
     - android-$ANDROID_API_LEVEL
 
     # Specify at least one system image
+    - android-ANDROID_EMU_API_LEVEL
     - sys-img-${ANDROID_ABI}-android-${ANDROID_EMU_API_LEVEL}
 
   licenses:
