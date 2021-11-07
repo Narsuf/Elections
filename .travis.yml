@@ -19,7 +19,7 @@ android:
     - android-30
 
     # Specify at least one system image
-    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-17
 
   licenses:
     - 'android-sdk-license-.+'
