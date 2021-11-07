@@ -1,12 +1,11 @@
 language: android
 dist: trusty
-jdk: openjdk11
 
 env:
   global:
     - ANDROID_API_LEVEL=30
     - ANDROID_ABI=armeabi-v7a
-    - ANDROID_EMU_API_LEVEL=23
+    - ANDROID_EMU_API_LEVEL=25
 
 before_install: yes | sdkmanager "platforms;android-$ANDROID_API_LEVEL"
 
