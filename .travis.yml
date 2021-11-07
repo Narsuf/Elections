@@ -9,8 +9,6 @@ env:
 
 before_install: yes | sdkmanager "platforms;android-30"
 
-install: travis_wait 30 mvn install
-
 android:
   components:
     # The BuildTools version used by your project
@@ -30,7 +28,7 @@ android:
 before_script:
   - echo no | android create avd --force -n test -t android-26 --abi armeabi-v7a -c 100M
   - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
+  - travis_wait 30 android-wait-for-emulator
   - adb shell input keyevent 82 &
 
 script:
