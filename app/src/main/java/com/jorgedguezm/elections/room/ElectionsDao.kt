@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
-import com.jorgedguezm.elections.models.entities.Election
+import com.jorgedguezm.elections.models.Election
 
 @Dao
 interface ElectionsDao {

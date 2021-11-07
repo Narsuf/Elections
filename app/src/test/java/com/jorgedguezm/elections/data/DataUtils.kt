@@ -1,8 +1,8 @@
 package com.jorgedguezm.elections.data
 
-import com.jorgedguezm.elections.models.entities.Election
-import com.jorgedguezm.elections.models.entities.Party
-import com.jorgedguezm.elections.models.entities.Results
+import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.models.Party
+import com.jorgedguezm.elections.models.Results
 
 class DataUtils {
 

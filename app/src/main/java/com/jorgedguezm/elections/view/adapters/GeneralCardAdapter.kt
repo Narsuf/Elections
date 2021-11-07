@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
-import com.jorgedguezm.elections.models.entities.Election
+import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.utils.Utils
 
 import javax.inject.Inject
 
 class GeneralCardAdapter @Inject constructor(
-        val utils: Utils) : RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
+    val utils: Utils) : RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     var congressElections: List<Election> = ArrayList()
     var senateElections: List<Election> = ArrayList()

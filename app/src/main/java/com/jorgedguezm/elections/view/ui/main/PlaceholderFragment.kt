@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 
+import com.google.android.material.snackbar.Snackbar
+
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.compose.ViewModelFragment
 import com.jorgedguezm.elections.databinding.FragmentMainBinding
@@ -27,9 +29,8 @@ class PlaceholderFragment : ViewModelFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = binding(inflater, R.layout.fragment_main, container)
-        binding.lifecycleOwner = this
-        binding.viewModel = vm
-        binding.adapter = generalCardAdapter
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.recyclerView.adapter = generalCardAdapter
 
         return binding.root
     }
@@ -44,10 +45,50 @@ class PlaceholderFragment : ViewModelFragment() {
             // specify an viewAdapter (see also next example)
             if (arguments?.getInt(ARG_SECTION_NUMBER) == 1) {
                 setHasOptionsMenu(true)
-                vm.postElection(Pair("España", null))
+
+                vm.electionsResult.observe(viewLifecycleOwner, { state ->
+                    when (state) {
+                        MainViewState.Loading -> Unit
+                        is MainViewState.Error -> {
+                            Snackbar.make(this, context.getString(R.string.something_wrong),
+                                Snackbar.LENGTH_LONG).show()
+                        }
+
+                        is MainViewState.Success -> {
+                            val elections = state.elections.map { it.copy() }
+
+                            elections.sortedByDescending {
+                                if (it.date.length > 4)
+                                    it.date.toDouble() / 10
+                                else
+                                    it.date.toDouble()
+                            }.let { sortedElections ->
+                                sortedElections.forEach {
+                                    if (it.date.length > 4) {
+                                        it.date = when (it.date) {
+                                            "20192" -> "2019-10N"
+                                            "20191" -> "2019-28A"
+                                            else -> it.date
+                                        }
+                                    }
+                                }
+
+                                val generalCardAdapter = adapter as GeneralCardAdapter
+                                generalCardAdapter.congressElections =
+                                    sortedElections.filter { it.chamberName == "Congreso" }
+                                generalCardAdapter.senateElections =
+                                    sortedElections.filter { it.chamberName == "Senado" }
+                                adapter?.notifyItemChanged(0)
+                            }
+                        }
+                    }
+                })
+
+                vm.loadElections("España")
             }
         }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_main, menu)

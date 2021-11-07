@@ -12,7 +12,7 @@ import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.utils.Utils
-import com.jorgedguezm.elections.models.entities.Election
+import com.jorgedguezm.elections.models.Election
 
 import javax.inject.Inject
 
