@@ -12,10 +12,11 @@ before_install: yes | sdkmanager "platforms;android-$ANDROID_API_LEVEL"
 android:
   components:
     # The BuildTools version used by your project
-    - build-tools-29.0.2
+    - build-tools-30.0.2
 
     # The SDK version used to compile your project
     - android-$ANDROID_API_LEVEL
+    - android-$ANDROID_EMU_API_LEVEL
 
     # Specify at least one system image
     - sys-img-$ANDROID_ABI-android-$ANDROID_EMU_API_LEVEL
