@@ -30,14 +30,6 @@ class PlaceholderFragment : ViewModelFragment() {
                               savedInstanceState: Bundle?): View {
         binding = binding(inflater, R.layout.fragment_main, container)
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.recyclerView.adapter = generalCardAdapter
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         binding.recyclerView.apply {
             // use a linear layout manager
             layoutManager = LinearLayoutManager(context)
@@ -73,12 +65,12 @@ class PlaceholderFragment : ViewModelFragment() {
                                     }
                                 }
 
-                                val generalCardAdapter = adapter as GeneralCardAdapter
+                                val generalCardAdapter = this@PlaceholderFragment.generalCardAdapter
                                 generalCardAdapter.congressElections =
                                     sortedElections.filter { it.chamberName == "Congreso" }
                                 generalCardAdapter.senateElections =
                                     sortedElections.filter { it.chamberName == "Senado" }
-                                adapter?.notifyItemChanged(0)
+                                adapter = generalCardAdapter
                             }
                         }
                     }
@@ -87,8 +79,9 @@ class PlaceholderFragment : ViewModelFragment() {
                 vm.loadElections("España")
             }
         }
-    }
 
+        return binding.root
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_main, menu)

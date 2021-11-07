@@ -13,8 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ElectionRepository @Inject constructor(private val service: ApiInterface,
-                                             private val dao: ElectionsDao,
-                                             val utils: Utils) {
+                                             private val dao: ElectionsDao, val utils: Utils) {
 
     fun loadElections(place: String, chamber: String?): Observable<ApiResponse> {
         return Observable.concatArrayEager(

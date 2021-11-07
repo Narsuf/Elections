@@ -24,7 +24,5 @@ internal abstract class ViewModelModule {
     internal abstract fun bindDetailViewModel(galleryViewModel: DetailViewModel): ViewModel
 
     @Binds
-    internal abstract fun bindViewModelFactory(
-            factory: ViewModelFactory
-    ): ViewModelProvider.Factory
+    internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }
