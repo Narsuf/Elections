@@ -5,15 +5,13 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.compose.ViewModelFragment
 import com.jorgedguezm.elections.databinding.FragmentDetailBinding
-import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
 import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
 import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.view.binders.PartyColorBinder
-
 import javax.inject.Inject
 
 class DetailFragment : ViewModelFragment() {

@@ -3,17 +3,15 @@ package com.jorgedguezm.elections.view.ui.detail
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.compose.ViewModelActivity
 import com.jorgedguezm.elections.databinding.ActivityDetailBinding
+import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS
 import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.utils.Utils
-import com.jorgedguezm.elections.models.Election
-
 import javax.inject.Inject
 
 class DetailActivity : ViewModelActivity() {
