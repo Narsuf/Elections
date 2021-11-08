@@ -18,7 +18,7 @@ class ElectionRepository @Inject constructor(private val service: ApiInterface,
     fun loadElections(place: String, chamber: String?): Observable<ApiResponse> {
         return Observable.concatArrayEager(
             // get items from db first
-            getElectionsFromDb(place, chamber).subscribeOn(Schedulers.io()),
+            getElectionsFromDb(place, chamber),
             // get items from api if Network is Available
             Observable.defer {
                 if (utils.isConnectedToInternet()) {
@@ -30,7 +30,7 @@ class ElectionRepository @Inject constructor(private val service: ApiInterface,
                     // or return empty
                     Observable.empty()
                 }
-            }.subscribeOn(Schedulers.io())
+            }
         )
     }
 

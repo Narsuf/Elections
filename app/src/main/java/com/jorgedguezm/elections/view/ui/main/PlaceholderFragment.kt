@@ -11,6 +11,8 @@ import com.jorgedguezm.elections.compose.ViewModelFragment
 import com.jorgedguezm.elections.databinding.FragmentMainBinding
 import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
 
+import timber.log.Timber
+
 import javax.inject.Inject
 
 class PlaceholderFragment : ViewModelFragment() {
@@ -30,6 +32,7 @@ class PlaceholderFragment : ViewModelFragment() {
                               savedInstanceState: Bundle?): View {
         binding = binding(inflater, R.layout.fragment_main, container)
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.recyclerView.adapter = generalCardAdapter
         binding.recyclerView.apply {
             // use a linear layout manager
             layoutManager = LinearLayoutManager(context)
@@ -65,7 +68,7 @@ class PlaceholderFragment : ViewModelFragment() {
                                     }
                                 }
 
-                                val generalCardAdapter = this@PlaceholderFragment.generalCardAdapter
+                                val generalCardAdapter = adapter as GeneralCardAdapter
                                 generalCardAdapter.congressElections =
                                     sortedElections.filter { it.chamberName == "Congreso" }
                                 generalCardAdapter.senateElections =

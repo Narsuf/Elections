@@ -31,13 +31,11 @@ class PlaceholderViewModel @Inject constructor(
         _electionsResult.value = MainViewState.Loading
 
         electionsDisposableObserver += electionRepository.loadElections(place, chamber)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
+            //.observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onNext = { _electionsResult.value = MainViewState.Success(it.elections) },
-                onError = { _electionsResult.value = MainViewState.Error(it) }
+                onNext = { _electionsResult.postValue(MainViewState.Success(it.elections)) },
+                onError = { _electionsResult.postValue(MainViewState.Error(it)) }
             )
-
     }
 
     override fun onCleared() {
