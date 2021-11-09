@@ -38,9 +38,11 @@ class ElectionRepository @Inject constructor(private val service: ApiInterface,
     }
 
     private fun getElectionsFromApi(place: String, chamber: String?): Observable<ApiResponse> {
-        return if (chamber != null)
+        val apiResponse = if (chamber != null)
             service.getChamberElections(place, chamber)
         else
             service.getElections(place)
+
+        return apiResponse.toObservable()
     }
 }
