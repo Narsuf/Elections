@@ -32,6 +32,24 @@ class Utils @Inject constructor(private val context: Context) {
         return isConnected
     }
 
+    // UI related.
+    fun generateToolbarTitle(election: Election): String {
+        return election.chamberName + " (" + election.date + ")"
+    }
+
+    fun beginTransactionToDetailFragment(activity: DetailActivity, election: Election) {
+        val detailFragment = DetailFragment()
+        val transaction = activity.supportFragmentManager.beginTransaction()
+
+        detailFragment.arguments = Bundle().apply {
+            putSerializable(Constants.KEY_ELECTION, election)
+        }
+
+        transaction.replace(R.id.detail_frame, detailFragment)
+        transaction.commit()
+        activity.binding.toolbar.title = generateToolbarTitle(election)
+    }
+
     fun drawPieChart(chart: PieChart, results: List<Results>) {
         val sortedResults = results.sortedByDescending { it.elects }
 
@@ -40,7 +58,6 @@ class Utils @Inject constructor(private val context: Context) {
 
         chart.description = null
         chart.legend.isEnabled = false
-
         chart.isDrawHoleEnabled = true
         chart.setHoleColor(TRANSPARENT)
         chart.holeRadius = 60F
@@ -86,26 +103,10 @@ class Utils @Inject constructor(private val context: Context) {
         return colors.toTypedArray()
     }
 
+    // Logical functions.
     fun getPercentageWithTwoDecimals(dividend: Int, divisor: Int): BigDecimal {
         val percentage = (dividend.toDouble() / divisor) * 100
         return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP)
-    }
-
-    fun beginTransactionToDetailFragment(activity: DetailActivity, election: Election) {
-        val detailFragment = DetailFragment()
-        val transaction = activity.supportFragmentManager.beginTransaction()
-
-        detailFragment.arguments = Bundle().apply {
-            putSerializable(Constants.KEY_ELECTION, election)
-        }
-
-        transaction.replace(R.id.detail_frame, detailFragment)
-        transaction.commit()
-        activity.binding.toolbar.title = generateToolbarTitle(election)
-    }
-
-    fun generateToolbarTitle(election: Election): String {
-        return election.chamberName + " (" + election.date + ")"
     }
 
     fun getPercentageData(election: Election): Array<String> {
@@ -119,5 +120,28 @@ class Utils @Inject constructor(private val context: Context) {
         return arrayOf(election.scrutinized.toString(), "", percentageOfParticipation.toString(),
                 percentageOfAbstentions.toString(), percentageOfNull.toString(),
                 percentageOfBlank.toString())
+    }
+
+    fun sortElections(elections: List<Election>): List<Election> {
+        val electionsCopy = elections.map { it.copy() }
+
+        electionsCopy.sortedByDescending {
+            if (it.date.length > 4)
+                it.date.toDouble() / 10
+            else
+                it.date.toDouble()
+        }.let { sortedElections ->
+            sortedElections.forEach {
+                if (it.date.length > 4) {
+                    it.date = when (it.date) {
+                        "20192" -> "2019-10N"
+                        "20191" -> "2019-28A"
+                        else -> it.date
+                    }
+                }
+            }
+
+            return sortedElections
+        }
     }
 }

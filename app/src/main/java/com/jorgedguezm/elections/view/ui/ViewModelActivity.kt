@@ -8,11 +8,16 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
+import com.jorgedguezm.elections.utils.Utils
+
 import dagger.android.AndroidInjection
 
 import javax.inject.Inject
 
 open class ViewModelActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var utils: Utils
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

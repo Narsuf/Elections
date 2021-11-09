@@ -10,16 +10,27 @@ import android.widget.ListView
 import android.widget.SimpleAdapter
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
 import com.jorgedguezm.elections.utils.Utils
 
+import dagger.android.support.AndroidSupportInjection
+
+import javax.inject.Inject
+
 class DetailDialog : DialogFragment() {
 
     private lateinit var election: Election
 
+    @Inject
     lateinit var utils: Utils
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = activity as DetailActivity

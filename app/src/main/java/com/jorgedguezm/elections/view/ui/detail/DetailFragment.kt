@@ -10,29 +10,15 @@ import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.databinding.FragmentDetailBinding
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
-import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.view.binders.PartyColorBinder
 import com.jorgedguezm.elections.view.ui.ViewModelFragment
-
-import javax.inject.Inject
 
 class DetailFragment : ViewModelFragment() {
 
     private val vm by viewModel<DetailViewModel>()
 
-    private lateinit var election: Election
-
     internal lateinit var binding: FragmentDetailBinding
     internal lateinit var countDownTimer: CountDownTimer
-
-    @Inject
-    lateinit var utils: Utils
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        election = arguments?.getSerializable(KEY_ELECTION) as Election
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -44,13 +30,14 @@ class DetailFragment : ViewModelFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val election = arguments?.getSerializable(KEY_ELECTION) as Election
+
         binding.floatingButtonMoreInfo.setOnClickListener {
             val bundle = Bundle()
             val dialog = DetailDialog()
 
             bundle.putSerializable(KEY_ELECTION, election)
             dialog.arguments = bundle
-            dialog.utils = utils
             activity?.supportFragmentManager?.let { dialog.show(it, "DetailDialog") }
         }
 
@@ -62,7 +49,6 @@ class DetailFragment : ViewModelFragment() {
             it.viewBinder = PartyColorBinder()
 
             binding.listView.adapter = it
-
             binding.listView.setOnItemClickListener { _, _, position, _ ->
                 binding.pieChart.highlightValue(position.toFloat(), 0)
                 countDownTimer.start()

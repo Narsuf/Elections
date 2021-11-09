@@ -11,10 +11,7 @@ import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS
 import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
-import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.view.ui.ViewModelActivity
-
-import javax.inject.Inject
 
 class DetailActivity : ViewModelActivity() {
 
@@ -23,9 +20,6 @@ class DetailActivity : ViewModelActivity() {
     internal lateinit var currentElection: Election
     private lateinit var congressElection: Election
     private lateinit var senateElection: Election
-
-    @Inject
-    lateinit var utils: Utils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

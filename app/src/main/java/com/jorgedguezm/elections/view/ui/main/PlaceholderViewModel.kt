@@ -13,12 +13,8 @@ import io.reactivex.rxkotlin.subscribeBy
 
 import javax.inject.Inject
 
-class PlaceholderViewModel @Inject constructor(
-        private val electionRepository: ElectionRepository) : ViewModel() {
-
-    private val _index = MutableLiveData<Int>()
-
-    fun setIndex(index: Int) { _index.value = index }
+class PlaceholderViewModel @Inject constructor(private val electionRepository: ElectionRepository) :
+        ViewModel() {
 
     private val electionsDisposableObserver = CompositeDisposable()
     private val _electionsResult: MutableLiveData<MainViewState> = MutableLiveData()

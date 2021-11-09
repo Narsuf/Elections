@@ -10,11 +10,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
+import com.jorgedguezm.elections.utils.Utils
+
 import dagger.android.support.AndroidSupportInjection
 
 import javax.inject.Inject
 
 open class ViewModelFragment : Fragment() {
+
+    @Inject
+    lateinit var utils: Utils
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
