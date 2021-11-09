@@ -4,7 +4,7 @@ import androidx.room.Room
 
 import com.jorgedguezm.elections.data.DataUtils.Companion.generateElection
 import com.jorgedguezm.elections.room.Database
-import com.jorgedguezm.elections.room.ElectionsDao
+import com.jorgedguezm.elections.room.ElectionDao
 
 import org.junit.After
 import org.junit.Before
@@ -20,7 +20,7 @@ import androidx.test.core.app.ApplicationProvider
 @RunWith(RobolectricTestRunner::class)
 class DataReadWriteTest {
 
-    private lateinit var electionsDao: ElectionsDao
+    private lateinit var electionDao: ElectionDao
     private lateinit var db: Database
 
     @get:Rule
@@ -33,7 +33,7 @@ class DataReadWriteTest {
                 .allowMainThreadQueries()
                 .build()
 
-        electionsDao = db.electionsDao()
+        electionDao = db.electionsDao()
     }
 
     @After
@@ -45,11 +45,11 @@ class DataReadWriteTest {
     fun writeElectionAndRead() {
         val election = generateElection()
 
-        electionsDao.insertElection(election).test()
+        electionDao.insertElection(election).test()
 
-        electionsDao.queryChamberElections(election.place, election.chamberName).test()
+        electionDao.queryChamberElections(election.place, election.chamberName).test()
             .assertValue { it.contains(election) }
 
-        electionsDao.getElection(election.id).test().assertValue { it == election }
+        electionDao.getElection(election.id).test().assertValue { it == election }
     }
 }

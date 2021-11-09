@@ -10,5 +10,5 @@ import com.jorgedguezm.elections.room.converters.ResultsConverter
 @Database(entities = [Election::class], version = 1)
 @TypeConverters(ResultsConverter::class)
 abstract class Database : RoomDatabase() {
-    abstract fun electionsDao(): ElectionsDao
+    abstract fun electionDao(): ElectionDao
 }

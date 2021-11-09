@@ -3,7 +3,7 @@ package com.jorgedguezm.elections.repository
 import com.jorgedguezm.elections.api.ApiInterface
 import com.jorgedguezm.elections.models.ApiResponse
 import com.jorgedguezm.elections.models.Election
-import com.jorgedguezm.elections.room.ElectionsDao
+import com.jorgedguezm.elections.room.ElectionDao
 import com.jorgedguezm.elections.utils.Utils
 
 import io.reactivex.Observable
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ElectionRepository @Inject constructor(private val service: ApiInterface,
-                                             private val dao: ElectionsDao, val utils: Utils) {
+                                             private val dao: ElectionDao, val utils: Utils) {
 
     fun loadElections(place: String, chamber: String?): Observable<ApiResponse> {
         return if (utils.isConnectedToInternet()) {

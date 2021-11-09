@@ -11,7 +11,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 
 @Dao
-interface ElectionsDao {
+interface ElectionDao {
 
     @Query("SELECT * FROM election WHERE place = :place")
     fun queryElections(place: String): Flowable<List<Election>>
