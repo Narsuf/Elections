@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-        <variable
-            name="viewModel"
-            type="com.jorgedguezm.elections.view.ui.main.PlaceholderViewModel" />
-
-        <variable
-            name="adapter"
-            type="com.jorgedguezm.elections.view.adapters.GeneralCardAdapter" />
-    </data>
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -22,11 +11,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/card_vertical_margin"
-            android:paddingTop="@dimen/card_vertical_margin"
-            app:adapter="@{adapter}"
-            app:adapterElections="@{viewModel.electionsResult}" />
+            android:layout_height="match_parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

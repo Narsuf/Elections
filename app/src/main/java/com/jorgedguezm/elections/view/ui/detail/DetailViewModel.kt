@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.models.entities.Election
+import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
 import com.jorgedguezm.elections.utils.Utils
 

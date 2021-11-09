@@ -1,25 +1,21 @@
 package com.jorgedguezm.elections.utils
 
 import android.content.Context
-import android.net.ConnectivityManager
 import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
+import android.net.ConnectivityManager
 import android.os.Bundle
-
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
-
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.models.entities.Election
-import com.jorgedguezm.elections.models.entities.Results
+import com.jorgedguezm.elections.models.Election
+import com.jorgedguezm.elections.models.Results
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.view.ui.detail.DetailFragment
-
 import java.math.BigDecimal
 import java.math.RoundingMode
-
 import javax.inject.Inject
 
 class Utils @Inject constructor(private val context: Context) {

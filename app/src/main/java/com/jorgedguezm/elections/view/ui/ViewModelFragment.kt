@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.compose
+package com.jorgedguezm.elections.view.ui
 
 import android.content.Context
 import android.view.LayoutInflater

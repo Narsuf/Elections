@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.factory
+package com.jorgedguezm.elections.injection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 import javax.inject.Provider
 
-class AppViewModelFactory @Inject constructor(
+class ViewModelFactory @Inject constructor(
         private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
 

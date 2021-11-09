@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.room.Room
 
 import com.jorgedguezm.elections.room.Database
-import com.jorgedguezm.elections.room.ElectionsDao
+import com.jorgedguezm.elections.room.ElectionDao
 import com.jorgedguezm.elections.utils.Utils
 import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
 
@@ -17,15 +17,6 @@ import javax.inject.Singleton
 @Module
 class AppModule(val app: Application) {
 
-    /*companion object {
-        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                // Change the table name to the correct one
-                database.execSQL("ALTER TABLE election RENAME TO elections")
-            }
-        }
-    }*/
-
     @Provides
     @Singleton
     fun provideApplication(): Application = app
@@ -36,16 +27,14 @@ class AppModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun provideElectionsDatabase(app: Application): Database = Room.databaseBuilder(app,
-            Database::class.java, "elections_db")
-            //.addMigrations(MIGRATION_1_2)
-            //.allowMainThreadQueries()
+    fun provideDatabase(app: Application): Database = Room
+            .databaseBuilder(app, Database::class.java, "elections_db")
             .fallbackToDestructiveMigration()
             .build()
 
     @Provides
     @Singleton
-    fun provideElectionsDao(database: Database): ElectionsDao = database.electionsDao()
+    fun provideElectionDao(database: Database): ElectionDao = database.electionDao()
 
     @Provides
     @Singleton

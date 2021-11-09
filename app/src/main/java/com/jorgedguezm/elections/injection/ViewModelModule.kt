@@ -3,7 +3,6 @@ package com.jorgedguezm.elections.injection
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-import com.jorgedguezm.elections.factory.AppViewModelFactory
 import com.jorgedguezm.elections.view.ui.detail.DetailViewModel
 import com.jorgedguezm.elections.view.ui.main.PlaceholderViewModel
 
@@ -25,6 +24,5 @@ internal abstract class ViewModelModule {
     internal abstract fun bindDetailViewModel(galleryViewModel: DetailViewModel): ViewModel
 
     @Binds
-    internal abstract fun bindViewModelFactory(
-            factory: AppViewModelFactory): ViewModelProvider.Factory
+    internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

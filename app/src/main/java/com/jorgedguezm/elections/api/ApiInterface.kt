@@ -1,9 +1,8 @@
 package com.jorgedguezm.elections.api
 
-import androidx.lifecycle.LiveData
+import com.jorgedguezm.elections.models.ApiResponse
 
-import com.jorgedguezm.elections.models.entities.Election
-import com.jorgedguezm.elections.models.network.ElectionApiResponse
+import io.reactivex.Single
 
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,14 +12,14 @@ interface ApiInterface {
 
     @GET("elections")
     fun getElections(
-            @Query("place") place: String): LiveData<ApiResponse<ElectionApiResponse>>
+            @Query("place") place: String): Single<ApiResponse>
 
     @GET("elections")
     fun getChamberElections(
             @Query("place") place: String,
             @Query("chamberName") chamberName: String
-    ): LiveData<ApiResponse<ElectionApiResponse>>
+    ): Single<ApiResponse>
 
     @GET("elections/{id}")
-    fun getElection(@Path("id") id: Long): LiveData<ApiResponse<Election>>
+    fun getElection(@Path("id") id: Long): Single<ApiResponse>
 }
