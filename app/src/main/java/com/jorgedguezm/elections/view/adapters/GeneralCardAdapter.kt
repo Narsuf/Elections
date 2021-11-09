@@ -15,7 +15,7 @@ import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import javax.inject.Inject
 
 class GeneralCardAdapter @Inject constructor(val utils: Utils) :
-    RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
+        RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     var congressElections: List<Election> = ArrayList()
     var senateElections: List<Election> = ArrayList()

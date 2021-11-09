@@ -28,9 +28,9 @@ class AppModule(val app: Application) {
     @Provides
     @Singleton
     fun provideElectionsDatabase(app: Application): Database = Room
-        .databaseBuilder(app, Database::class.java, "elections_db")
-        .fallbackToDestructiveMigration()
-        .build()
+            .databaseBuilder(app, Database::class.java, "elections_db")
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     @Singleton

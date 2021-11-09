@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.compose.ViewModelFragment
 import com.jorgedguezm.elections.databinding.FragmentMainBinding
 import com.jorgedguezm.elections.view.adapters.GeneralCardAdapter
-
-import timber.log.Timber
+import com.jorgedguezm.elections.view.ui.ViewModelFragment
 
 import javax.inject.Inject
 
@@ -46,7 +44,7 @@ class PlaceholderFragment : ViewModelFragment() {
                         MainViewState.Loading -> Unit
                         is MainViewState.Error -> {
                             Snackbar.make(this, context.getString(R.string.something_wrong),
-                                Snackbar.LENGTH_LONG).show()
+                                    Snackbar.LENGTH_LONG).show()
                         }
 
                         is MainViewState.Success -> {

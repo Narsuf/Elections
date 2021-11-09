@@ -3,9 +3,9 @@ package com.jorgedguezm.elections.view.ui.main
 import android.os.Bundle
 
 import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.compose.ViewModelActivity
 import com.jorgedguezm.elections.databinding.ActivityMainBinding
 import com.jorgedguezm.elections.view.adapters.SectionsPagerAdapter
+import com.jorgedguezm.elections.view.ui.ViewModelActivity
 
 class MainActivity : ViewModelActivity() {
 
