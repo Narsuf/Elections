@@ -17,15 +17,6 @@ import javax.inject.Singleton
 @Module
 class AppModule(val app: Application) {
 
-    /*companion object {
-        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                // Change the table name to the correct one
-                database.execSQL("ALTER TABLE election RENAME TO elections")
-            }
-        }
-    }*/
-
     @Provides
     @Singleton
     fun provideApplication(): Application = app
@@ -36,12 +27,10 @@ class AppModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun provideElectionsDatabase(app: Application): Database = Room.databaseBuilder(app,
-            Database::class.java, "elections_db")
-            //.addMigrations(MIGRATION_1_2)
-            .allowMainThreadQueries()
-            .fallbackToDestructiveMigration()
-            .build()
+    fun provideElectionsDatabase(app: Application): Database = Room
+        .databaseBuilder(app, Database::class.java, "elections_db")
+        .fallbackToDestructiveMigration()
+        .build()
 
     @Provides
     @Singleton

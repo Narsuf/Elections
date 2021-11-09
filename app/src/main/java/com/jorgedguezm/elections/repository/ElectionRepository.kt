@@ -2,6 +2,7 @@ package com.jorgedguezm.elections.repository
 
 import com.jorgedguezm.elections.api.ApiInterface
 import com.jorgedguezm.elections.models.ApiResponse
+import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.room.ElectionsDao
 import com.jorgedguezm.elections.utils.Utils
 
@@ -16,31 +17,24 @@ class ElectionRepository @Inject constructor(private val service: ApiInterface,
                                              private val dao: ElectionsDao, val utils: Utils) {
 
     fun loadElections(place: String, chamber: String?): Observable<ApiResponse> {
-        return Observable.concatArrayEager(
-            // get items from db first
-            getElectionsFromDb(place, chamber),
-            // get items from api if Network is Available
-            Observable.defer {
-                if (utils.isConnectedToInternet()) {
-                    // get new items from api
-                    getElectionsFromApi(place, chamber).subscribeOn(Schedulers.io()).doOnNext {
-                        dao.insertElections(it.elections)
-                    }
-                } else {
-                    // or return empty
-                    Observable.empty()
-                }
+        return if (utils.isConnectedToInternet()) {
+            getElectionsFromApi(place, chamber).subscribeOn(Schedulers.io()).doOnNext {
+                dao.insertElections(it.elections).subscribe()
             }
-        )
+        } else {
+            getElectionsFromDb(place, chamber).subscribeOn(Schedulers.io()).flatMap {
+                Observable.just(ApiResponse(it))
+            }
+        }
     }
 
-    private fun getElectionsFromDb(place: String, chamber: String?): Observable<ApiResponse> {
+    private fun getElectionsFromDb(place: String, chamber: String?): Observable<List<Election>> {
         val elections = if (chamber != null)
             dao.queryChamberElections(place, chamber)
         else
             dao.queryElections(place)
 
-        return Observable.just(ApiResponse(elections))
+        return elections.toObservable()
     }
 
     private fun getElectionsFromApi(place: String, chamber: String?): Observable<ApiResponse> {

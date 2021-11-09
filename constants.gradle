@@ -3,5 +3,4 @@ project.ext {
     moshiVersion = '1.11.0'
     retrofitVersion = '2.7.1'
     roomVersion = '2.3.0'
-    lifecycleVersion = '2.3.1'
 }

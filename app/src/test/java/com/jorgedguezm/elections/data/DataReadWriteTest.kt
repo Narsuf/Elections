@@ -7,15 +7,15 @@ import com.jorgedguezm.elections.room.Database
 import com.jorgedguezm.elections.room.ElectionsDao
 
 import org.junit.After
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.junit.Rule
 import org.junit.runner.RunWith
 
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 
-import java.io.IOException
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ApplicationProvider
 
 @RunWith(RobolectricTestRunner::class)
 class DataReadWriteTest {
@@ -23,31 +23,33 @@ class DataReadWriteTest {
     private lateinit var electionsDao: ElectionsDao
     private lateinit var db: Database
 
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
     @Before
     fun createDb() {
-        val context = RuntimeEnvironment.systemContext
-        db = Room.inMemoryDatabaseBuilder(context, Database::class.java)
+        db = Room.inMemoryDatabaseBuilder(ApplicationProvider
+                .getApplicationContext(), Database::class.java)
                 .allowMainThreadQueries()
                 .build()
+
         electionsDao = db.electionsDao()
     }
 
     @After
-    @Throws(IOException::class)
     fun closeDb() {
         db.close()
     }
 
     @Test
-    @Throws(Exception::class)
     fun writeElectionAndRead() {
         val election = generateElection()
 
-        electionsDao.insertElection(election)
+        electionsDao.insertElection(election).test()
 
-        assertTrue(electionsDao.queryChamberElections(election.place, election.chamberName)
-                .contains(election))
+        electionsDao.queryChamberElections(election.place, election.chamberName).test()
+            .assertValue { it.contains(election) }
 
-        assertTrue(electionsDao.getElection(election.id) == election)
+        electionsDao.getElection(election.id).test().assertValue { it == election }
     }
 }
