@@ -32,7 +32,7 @@ class Utils @Inject constructor(private val context: Context) {
         return isConnected
     }
 
-    // UI related.
+    // UI related functions.
     fun generateToolbarTitle(election: Election): String {
         return election.chamberName + " (" + election.date + ")"
     }
