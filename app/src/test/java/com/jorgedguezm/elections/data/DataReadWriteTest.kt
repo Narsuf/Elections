@@ -33,7 +33,7 @@ class DataReadWriteTest {
                 .allowMainThreadQueries()
                 .build()
 
-        electionDao = db.electionsDao()
+        electionDao = db.electionDao()
     }
 
     @After
