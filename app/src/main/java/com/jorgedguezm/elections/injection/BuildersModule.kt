@@ -1,6 +1,7 @@
 package com.jorgedguezm.elections.injection
 
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
+import com.jorgedguezm.elections.view.ui.detail.DetailDialog
 import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 import com.jorgedguezm.elections.view.ui.main.MainActivity
 import com.jorgedguezm.elections.view.ui.main.PlaceholderFragment
@@ -22,4 +23,7 @@ abstract class BuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeMainActivity(): MainActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeDetailDialog(): DetailDialog
 }

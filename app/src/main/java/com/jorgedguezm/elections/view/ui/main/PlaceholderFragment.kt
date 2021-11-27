@@ -21,15 +21,9 @@ class PlaceholderFragment : ViewModelFragment() {
     @Inject
     lateinit var generalCardAdapter: GeneralCardAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        vm.setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = binding(inflater, R.layout.fragment_main, container)
-        binding.lifecycleOwner = viewLifecycleOwner
         binding.recyclerView.adapter = generalCardAdapter
         binding.recyclerView.apply {
             // use a linear layout manager
@@ -42,37 +36,22 @@ class PlaceholderFragment : ViewModelFragment() {
                 vm.electionsResult.observe(viewLifecycleOwner, { state ->
                     when (state) {
                         MainViewState.Loading -> Unit
+
                         is MainViewState.Error -> {
                             Snackbar.make(this, context.getString(R.string.something_wrong),
                                     Snackbar.LENGTH_LONG).show()
                         }
 
                         is MainViewState.Success -> {
-                            val elections = state.elections.map { it.copy() }
+                            val sortedElections = utils.sortElections(state.elections)
+                            val generalCardAdapter = adapter as GeneralCardAdapter
 
-                            elections.sortedByDescending {
-                                if (it.date.length > 4)
-                                    it.date.toDouble() / 10
-                                else
-                                    it.date.toDouble()
-                            }.let { sortedElections ->
-                                sortedElections.forEach {
-                                    if (it.date.length > 4) {
-                                        it.date = when (it.date) {
-                                            "20192" -> "2019-10N"
-                                            "20191" -> "2019-28A"
-                                            else -> it.date
-                                        }
-                                    }
-                                }
+                            generalCardAdapter.congressElections = sortedElections
+                                    .filter { it.chamberName == "Congreso" }
+                            generalCardAdapter.senateElections = sortedElections
+                                    .filter { it.chamberName == "Senado" }
 
-                                val generalCardAdapter = adapter as GeneralCardAdapter
-                                generalCardAdapter.congressElections =
-                                    sortedElections.filter { it.chamberName == "Congreso" }
-                                generalCardAdapter.senateElections =
-                                    sortedElections.filter { it.chamberName == "Senado" }
-                                adapter = generalCardAdapter
-                            }
+                            adapter = generalCardAdapter
                         }
                     }
                 })
