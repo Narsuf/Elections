@@ -13,7 +13,7 @@ interface ApiInterface {
 
     @GET("elections")
     suspend fun getChamberElections(@Query("place") place: String,
-                            @Query("chamberName") chamberName: String): ApiResponse
+                                    @Query("chamberName") chamberName: String): ApiResponse
 
     @GET("elections/{id}")
     suspend fun getElection(@Path("id") id: Long): ApiResponse

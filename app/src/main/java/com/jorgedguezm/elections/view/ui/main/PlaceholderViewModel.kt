@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 
 import javax.inject.Inject
 
-class PlaceholderViewModel @Inject constructor(private val electionRepository: ElectionRepository)
-    : ViewModel() {
+class PlaceholderViewModel @Inject constructor(private val electionRepository: ElectionRepository) :
+    ViewModel() {
 
     private val _electionsResult: MutableLiveData<MainViewState> = MutableLiveData()
 
