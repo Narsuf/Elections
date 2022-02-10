@@ -20,6 +20,12 @@ import androidx.test.core.app.ApplicationProvider
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.setMain
+
 @RunWith(RobolectricTestRunner::class)
 class DataReadWriteTest {
 
@@ -29,6 +35,10 @@ class DataReadWriteTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @ExperimentalCoroutinesApi
+    private val testDispatcher = TestCoroutineDispatcher()
+
+    @ExperimentalCoroutinesApi
     @Before
     fun createDb() {
         db = Room.inMemoryDatabaseBuilder(ApplicationProvider
@@ -37,6 +47,7 @@ class DataReadWriteTest {
                 .build()
 
         electionDao = db.electionDao()
+        Dispatchers.setMain(testDispatcher)
     }
 
     @After
@@ -44,8 +55,9 @@ class DataReadWriteTest {
         db.close()
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun writeElectionAndRead() {
+    fun writeElectionAndRead() = runBlockingTest {
         val election = generateElection()
 
         electionDao.insertElection(election)
