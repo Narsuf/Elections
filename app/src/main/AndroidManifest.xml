@@ -17,6 +17,7 @@
         android:name=".ElectionsApplication"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="n">
+
         <activity
             android:name=".view.ui.main.MainActivity">
             <intent-filter>
@@ -26,11 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".view.ui.detail.DetailActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
         </activity>
     </application>
-
 </manifest>

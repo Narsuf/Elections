@@ -98,11 +98,6 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-    // RxJava RxAndroid
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
-
     // Moshi
     implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
@@ -111,7 +106,7 @@ dependencies {
 
         // Room
         implementation "androidx.room:room-runtime:$roomVersion"
-        implementation "androidx.room:room-rxjava2:$roomVersion"
+        implementation "androidx.room:room-ktx:$roomVersion"
         kapt "androidx.room:room-compiler:$roomVersion"
 
         // Lifecycle
@@ -120,7 +115,6 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     // OkHttp
     implementation "com.squareup.okhttp3:okhttp:4.9.1"

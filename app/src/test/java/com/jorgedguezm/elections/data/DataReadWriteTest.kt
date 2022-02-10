@@ -17,6 +17,9 @@ import org.robolectric.RobolectricTestRunner
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
+
 @RunWith(RobolectricTestRunner::class)
 class DataReadWriteTest {
 
@@ -45,11 +48,12 @@ class DataReadWriteTest {
     fun writeElectionAndRead() {
         val election = generateElection()
 
-        electionDao.insertElection(election).test()
+        electionDao.insertElection(election)
 
-        electionDao.queryChamberElections(election.place, election.chamberName).test()
-            .assertValue { it.contains(election) }
+        val elections = electionDao.queryChamberElections(election.place, election.chamberName)
+        val dbElection = electionDao.getElection(election.id)
 
-        electionDao.getElection(election.id).test().assertValue { it == election }
+        assertTrue(elections.contains(election))
+        assertEquals(dbElection, election)
     }
 }

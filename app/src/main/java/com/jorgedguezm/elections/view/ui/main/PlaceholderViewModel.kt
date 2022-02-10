@@ -3,37 +3,44 @@ package com.jorgedguezm.elections.view.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.repository.ElectionRepository
 
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 import javax.inject.Inject
 
-class PlaceholderViewModel @Inject constructor(private val electionRepository: ElectionRepository) :
-        ViewModel() {
+class PlaceholderViewModel @Inject constructor(private val electionRepository: ElectionRepository)
+    : ViewModel() {
 
-    private val electionsDisposableObserver = CompositeDisposable()
     private val _electionsResult: MutableLiveData<MainViewState> = MutableLiveData()
 
     val electionsResult: LiveData<MainViewState> = _electionsResult
 
+    var electionsJob: Job? = null
+    lateinit var electionsExceptionHandler: CoroutineExceptionHandler
+
     fun loadElections(place: String, chamber: String? = null) {
         _electionsResult.value = MainViewState.Loading
 
-        electionsDisposableObserver += electionRepository.loadElections(place, chamber)
-            .subscribeBy(
-                onNext = { _electionsResult.postValue(MainViewState.Success(it.elections)) },
-                onError = { _electionsResult.postValue(MainViewState.Error(it)) }
-            )
+        electionsExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            _electionsResult.value = MainViewState.Error(throwable)
+        }
+
+        electionsJob = viewModelScope.launch(Dispatchers.Main) {
+            val elections = electionRepository.loadElections(place, chamber)
+            _electionsResult.value = MainViewState.Success(elections)
+        }
     }
 
     override fun onCleared() {
+        electionsJob?.cancel()
         super.onCleared()
-        electionsDisposableObserver.dispose()
     }
 }
 
