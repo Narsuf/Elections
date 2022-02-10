@@ -12,7 +12,6 @@ import okhttp3.OkHttpClient
 
 import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 import javax.inject.Singleton
@@ -33,7 +32,6 @@ class NetModule {
     fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Builder().client(okHttpClient).baseUrl("http://narsuf.ddns.net:8000/")
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
     }
 

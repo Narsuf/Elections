@@ -33,13 +33,15 @@ class PlaceholderFragment : ViewModelFragment() {
             if (arguments?.getInt(ARG_SECTION_NUMBER) == 1) {
                 setHasOptionsMenu(true)
 
-                vm.electionsResult.observe(viewLifecycleOwner, { state ->
+                vm.electionsResult.observe(viewLifecycleOwner) { state ->
                     when (state) {
                         MainViewState.Loading -> Unit
 
                         is MainViewState.Error -> {
-                            Snackbar.make(this, context.getString(R.string.something_wrong),
-                                    Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(
+                                this, context.getString(R.string.something_wrong),
+                                Snackbar.LENGTH_LONG
+                            ).show()
                         }
 
                         is MainViewState.Success -> {
@@ -47,14 +49,14 @@ class PlaceholderFragment : ViewModelFragment() {
                             val generalCardAdapter = adapter as GeneralCardAdapter
 
                             generalCardAdapter.congressElections = sortedElections
-                                    .filter { it.chamberName == "Congreso" }
+                                .filter { it.chamberName == "Congreso" }
                             generalCardAdapter.senateElections = sortedElections
-                                    .filter { it.chamberName == "Senado" }
+                                .filter { it.chamberName == "Senado" }
 
                             adapter = generalCardAdapter
                         }
                     }
-                })
+                }
 
                 if (vm.electionsResult.value == null) vm.loadElections("España")
             }

@@ -6,9 +6,6 @@ import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.room.ElectionDao
 import com.jorgedguezm.elections.utils.Utils
 
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
-
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,33 +13,25 @@ import javax.inject.Singleton
 class ElectionRepository @Inject constructor(private val service: ApiInterface,
                                              private val dao: ElectionDao, val utils: Utils) {
 
-    fun loadElections(place: String, chamber: String?): Observable<ApiResponse> {
+    suspend fun loadElections(place: String, chamber: String?): List<Election> {
         return if (utils.isConnectedToInternet()) {
-            getElectionsFromApi(place, chamber).subscribeOn(Schedulers.io()).doOnNext {
-                dao.insertElections(it.elections).subscribe()
-            }
+            val elections = getElectionsFromApi(place, chamber).elections
+            dao.insertElections(elections)
+            elections
         } else {
-            getElectionsFromDb(place, chamber).subscribeOn(Schedulers.io()).flatMap {
-                Observable.just(ApiResponse(it))
-            }
+            getElectionsFromDb(place, chamber)
         }
     }
 
-    private fun getElectionsFromDb(place: String, chamber: String?): Observable<List<Election>> {
-        val elections = if (chamber != null)
-            dao.queryChamberElections(place, chamber)
-        else
-            dao.queryElections(place)
-
-        return elections.toObservable()
+    private suspend fun getElectionsFromDb(place: String, chamber: String?): List<Election> {
+        return chamber?.let {
+            dao.queryChamberElections(place, it)
+        } ?: dao.queryElections(place)
     }
 
-    private fun getElectionsFromApi(place: String, chamber: String?): Observable<ApiResponse> {
-        val apiResponse = if (chamber != null)
-            service.getChamberElections(place, chamber)
-        else
-            service.getElections(place)
-
-        return apiResponse.toObservable()
+    private suspend fun getElectionsFromApi(place: String, chamber: String?): ApiResponse {
+        return chamber?.let {
+            service.getChamberElections(place, it)
+        } ?: service.getElections(place)
     }
 }

@@ -7,11 +7,10 @@ import com.jorgedguezm.elections.models.Results
 class DataUtils {
 
     companion object {
-        fun generateRand(): Int { return (0..288).random() }
 
-        fun generateParty(): Party { return Party(generateRand().toString(), "672f6c") }
-
-        fun generateResults(): Results {
+        private fun generateRand(): Int { return (0..288).random() }
+        private fun generateParty(): Party { return Party(generateRand().toString(), "672f6c") }
+        private fun generateResults(): Results {
             return Results(generateRand(), generateRand(), generateParty())
         }
 
