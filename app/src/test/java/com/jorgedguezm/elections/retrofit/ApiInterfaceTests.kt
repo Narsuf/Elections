@@ -8,12 +8,15 @@ import com.jorgedguezm.elections.models.Results
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+
 import junit.framework.TestCase.assertEquals
+
 import kotlinx.coroutines.runBlocking
 
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+
 import okio.buffer
 import okio.source
 
@@ -22,6 +25,7 @@ import org.junit.Test
 
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+
 import java.nio.charset.StandardCharsets
 
 class ApiInterfaceTests {

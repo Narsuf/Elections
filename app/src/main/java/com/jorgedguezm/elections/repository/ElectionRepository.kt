@@ -1,7 +1,6 @@
 package com.jorgedguezm.elections.repository
 
 import com.jorgedguezm.elections.api.ApiInterface
-import com.jorgedguezm.elections.models.ApiResponse
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.room.ElectionDao
 import com.jorgedguezm.elections.utils.Utils
@@ -23,15 +22,9 @@ class ElectionRepository @Inject constructor(private val service: ApiInterface,
         }
     }
 
-    private suspend fun getElectionsFromDb(place: String, chamber: String?): List<Election> {
-        return chamber?.let {
-            dao.queryChamberElections(place, it)
-        } ?: dao.queryElections(place)
-    }
+    private suspend fun getElectionsFromDb(place: String, chamber: String?) =
+        dao.queryElections(place, chamber)
 
-    private suspend fun getElectionsFromApi(place: String, chamber: String?): ApiResponse {
-        return chamber?.let {
-            service.getChamberElections(place, it)
-        } ?: service.getElections(place)
-    }
+    private suspend fun getElectionsFromApi(place: String, chamber: String?) =
+        service.getElections(place, chamber)
 }
