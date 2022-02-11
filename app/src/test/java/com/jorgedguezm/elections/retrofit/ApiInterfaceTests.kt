@@ -33,17 +33,6 @@ class ApiInterfaceTests {
     private lateinit var apiInterface: ApiInterface
     private lateinit var mockWebServer: MockWebServer
 
-    companion object {
-        // Expected response from test.json
-        val apiResponse = ApiResponse(mutableListOf(
-            Election(3, "Generales", "2015", "España", "Congreso",
-                350, 100.0F, 25349824, 9280429,
-                187766, 226994, mutableListOf(
-                    Results(123, 7215530, Party("PP", "006EC7"))
-                ))
-        ))
-    }
-
     @Before
     fun init() {
         mockWebServer = MockWebServer()
@@ -58,15 +47,42 @@ class ApiInterfaceTests {
 
     @Test
     fun getElections() = runBlocking {
-        enqueueResponse()
+        val expectedApiResponse = ApiResponse(mutableListOf(
+            Election(3, "Generales", "2015", "España", "Congreso",
+                350, 100.0F, 25349824, 9280429,
+                187766, 226994, mutableListOf(
+                    Results(123, 7215530, Party("PP", "006EC7"))
+                )
+            )
+        ))
+
+        enqueueResponse("elections-test.json")
 
         val response = apiInterface.getElections("España")
 
-        assertEquals(response, apiResponse)
+        assertEquals(response, expectedApiResponse)
     }
 
-    private fun enqueueResponse() {
-        val inputStream = javaClass.classLoader!!.getResourceAsStream("test.json")
+    @Test
+    fun getElection() = runBlocking {
+        val expectedApiResponse = ApiResponse(
+            Election(3, "Generales", "2015", "España", "Congreso",
+                350, 100.0F, 25349824, 9280429,
+                187766, 226994, mutableListOf(
+                    Results(123, 7215530, Party("PP", "006EC7"))
+                )
+            )
+        )
+
+        enqueueResponse("election-test.json")
+
+        val response = apiInterface.getElection(1)
+
+        assertEquals(response, expectedApiResponse)
+    }
+
+    private fun enqueueResponse(resource: String) {
+        val inputStream = javaClass.classLoader!!.getResourceAsStream(resource)
         val source = inputStream.source().buffer()
         val mockResponse = MockResponse()
         mockWebServer.enqueue(mockResponse.setBody(source.readString(StandardCharsets.UTF_8)))
