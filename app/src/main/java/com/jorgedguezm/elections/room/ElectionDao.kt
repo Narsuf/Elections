@@ -10,11 +10,8 @@ import com.jorgedguezm.elections.models.Election
 @Dao
 interface ElectionDao {
 
-    @Query("SELECT * FROM election WHERE place = :place")
-    suspend fun queryElections(place: String): List<Election>
-
     @Query("SELECT * FROM election WHERE place = :place AND chamberName = :chamber")
-    suspend fun queryChamberElections(place: String, chamber: String): List<Election>
+    suspend fun queryElections(place: String, chamber: String?): List<Election>
 
     @Query("SELECT * FROM election WHERE id = :id")
     suspend fun getElection(id: Long): Election

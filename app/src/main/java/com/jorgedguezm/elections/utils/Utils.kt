@@ -5,22 +5,26 @@ import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
 import android.net.ConnectivityManager
 import android.os.Bundle
+
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.models.Results
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.view.ui.detail.DetailFragment
+
 import java.math.BigDecimal
 import java.math.RoundingMode
+
 import javax.inject.Inject
 
-class Utils @Inject constructor(private val context: Context) {
+open class Utils @Inject constructor(internal var context: Context) {
 
-    fun isConnectedToInternet(): Boolean {
+    open fun isConnectedToInternet(): Boolean {
         var isConnected = false
         val connectivity = context.getSystemService(
                 Context.CONNECTIVITY_SERVICE) as ConnectivityManager
