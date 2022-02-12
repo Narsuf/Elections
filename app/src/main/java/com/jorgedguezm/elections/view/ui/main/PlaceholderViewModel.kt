@@ -32,7 +32,7 @@ class PlaceholderViewModel @Inject constructor(private val electionRepository: E
             _electionsResult.value = MainViewState.Error(throwable)
         }
 
-        electionsJob = viewModelScope.launch(Dispatchers.Main) {
+        electionsJob = viewModelScope.launch(Dispatchers.Main + electionsExceptionHandler) {
             val elections = electionRepository.loadElections(place, chamber)
             _electionsResult.value = MainViewState.Success(elections)
         }

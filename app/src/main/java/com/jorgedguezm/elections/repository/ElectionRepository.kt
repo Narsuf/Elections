@@ -9,8 +9,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ElectionRepository @Inject constructor(private val service: ApiInterface,
-                                             private val dao: ElectionDao, val utils: Utils) {
+open class ElectionRepository @Inject constructor(internal var service: ApiInterface,
+                                                  internal var dao: ElectionDao,
+                                                  internal var utils: Utils) {
 
     suspend fun loadElections(place: String, chamber: String?): List<Election> {
         return if (utils.isConnectedToInternet()) {
