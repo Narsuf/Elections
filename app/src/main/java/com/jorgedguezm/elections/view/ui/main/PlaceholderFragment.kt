@@ -45,14 +45,8 @@ class PlaceholderFragment : ViewModelFragment() {
                         }
 
                         is MainViewState.Success -> {
-                            val sortedElections = utils.sortElections(state.elections)
                             val generalCardAdapter = adapter as GeneralCardAdapter
-
-                            generalCardAdapter.congressElections = sortedElections
-                                .filter { it.chamberName == "Congreso" }
-                            generalCardAdapter.senateElections = sortedElections
-                                .filter { it.chamberName == "Senado" }
-
+                            generalCardAdapter.elections = state.elections
                             adapter = generalCardAdapter
                         }
                     }

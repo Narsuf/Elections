@@ -125,27 +125,4 @@ open class Utils @Inject constructor(internal var context: Context) {
                 percentageOfAbstentions.toString(), percentageOfNull.toString(),
                 percentageOfBlank.toString())
     }
-
-    fun sortElections(elections: List<Election>): List<Election> {
-        val electionsCopy = elections.map { it.copy() }
-
-        electionsCopy.sortedByDescending {
-            if (it.date.length > 4)
-                it.date.toDouble() / 10
-            else
-                it.date.toDouble()
-        }.let { sortedElections ->
-            sortedElections.forEach {
-                if (it.date.length > 4) {
-                    it.date = when (it.date) {
-                        "20192" -> "2019-10N"
-                        "20191" -> "2019-28A"
-                        else -> it.date
-                    }
-                }
-            }
-
-            return sortedElections
-        }
-    }
 }

@@ -17,8 +17,15 @@ import javax.inject.Inject
 class GeneralCardAdapter @Inject constructor(val utils: Utils) :
         RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
-    var congressElections: List<Election> = ArrayList()
-    var senateElections: List<Election> = ArrayList()
+    var elections: List<Election> = ArrayList()
+        set(value) {
+            field = value
+            congressElections = elections.filter { it.chamberName == "Congreso" }
+            senateElections = elections.filter { it.chamberName == "Senado" }
+        }
+
+    private var congressElections: List<Election> = ArrayList()
+    private var senateElections: List<Election> = ArrayList()
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and

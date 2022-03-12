@@ -34,15 +34,14 @@ class ApiInterfaceTests {
     private lateinit var mockWebServer: MockWebServer
 
     companion object {
-
-        val expectedApiResponse = ApiResponse(listOf(
-            Election(3, "Generales", "2015", "España", "Congreso",
-                350, 100.0F, 25349824, 9280429,
-                187766, 226994, mutableListOf(
-                    Results(123, 7215530, Party("PP", "006EC7"))
-                )
+        val expectedElection = Election(3, "Generales", "2015", "España",
+            "Congreso", 350, 100.0F, 25349824,
+            9280429, 187766, 226994, mutableListOf(
+                Results(123, 7215530, Party("PP", "006EC7"))
             )
-        ))
+        )
+
+        val expectedApiResponse = ApiResponse(listOf(expectedElection))
     }
 
     @Before
@@ -68,14 +67,7 @@ class ApiInterfaceTests {
 
     @Test
     fun getElection() = runBlocking {
-        val apiResponse = ApiResponse(
-            Election(3, "Generales", "2015", "España", "Congreso",
-                350, 100.0F, 25349824, 9280429,
-                187766, 226994, mutableListOf(
-                    Results(123, 7215530, Party("PP", "006EC7"))
-                )
-            )
-        )
+        val apiResponse = ApiResponse(expectedElection)
 
         enqueueResponse("election-test.json")
 

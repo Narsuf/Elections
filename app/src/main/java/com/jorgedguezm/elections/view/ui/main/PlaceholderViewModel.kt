@@ -34,7 +34,31 @@ class PlaceholderViewModel @Inject constructor(private val electionRepository: E
 
         electionsJob = viewModelScope.launch(Dispatchers.Main + electionsExceptionHandler) {
             val elections = electionRepository.loadElections(place, chamber)
-            _electionsResult.value = MainViewState.Success(elections)
+            val sortedElections = sortElections(elections)
+            _electionsResult.value = MainViewState.Success(sortedElections)
+        }
+    }
+
+    internal fun sortElections(elections: List<Election>): List<Election> {
+        val electionsCopy = elections.map { it.copy() }
+
+        electionsCopy.sortedByDescending {
+            if (it.date.length > 4)
+                it.date.toDouble() / 10
+            else
+                it.date.toDouble()
+        }.let { sortedElections ->
+            sortedElections.forEach {
+                if (it.date.length > 4) {
+                    it.date = when (it.date) {
+                        "20192" -> "2019-10N"
+                        "20191" -> "2019-28A"
+                        else -> it.date
+                    }
+                }
+            }
+
+            return sortedElections
         }
     }
 
