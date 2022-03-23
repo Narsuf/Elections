@@ -25,7 +25,7 @@ class PlaceholderViewModel @Inject constructor(private val electionRepository: E
     var electionsJob: Job? = null
     lateinit var electionsExceptionHandler: CoroutineExceptionHandler
 
-    fun loadElections(place: String, chamber: String? = null) {
+    fun loadElections(place: String? = null, chamber: String? = null) {
         _electionsResult.value = MainViewState.Loading
 
         electionsExceptionHandler = CoroutineExceptionHandler { _, throwable ->

@@ -9,23 +9,25 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class ElectionRepository @Inject constructor(internal var service: ApiInterface,
-                                                  internal var dao: ElectionDao,
-                                                  internal var utils: Utils) {
+open class ElectionRepository @Inject constructor(
+    internal var service: ApiInterface,
+    internal var dao: ElectionDao,
+    override var utils: Utils
+) : Repository<List<Election>>(utils) {
 
-    suspend fun loadElections(place: String, chamber: String?): List<Election> {
-        return if (utils.isConnectedToInternet()) {
-            val elections = getElectionsFromApi(place, chamber).elections
-            dao.insertElections(elections)
-            elections
-        } else {
-            getElectionsFromDb(place, chamber)
-        }
+    open suspend fun loadElections(place: String?, chamber: String?): List<Election> {
+        return loadData(listOf(place, chamber))
     }
 
-    private suspend fun getElectionsFromDb(place: String, chamber: String?) =
-        dao.queryElections(place, chamber)
+    override suspend fun getDataFromApi(filterParams: List<String?>): List<Election> {
+        return service.getElections(filterParams[0], filterParams[1]).data
+    }
 
-    private suspend fun getElectionsFromApi(place: String, chamber: String?) =
-        service.getElections(place, chamber)
+    override suspend fun insert(value: List<Election>) {
+        dao.insertElections(value)
+    }
+
+    override suspend fun getDataFromDb(filterParams: List<String?>): List<Election> {
+        return dao.queryElections(filterParams[0], filterParams[1])
+    }
 }

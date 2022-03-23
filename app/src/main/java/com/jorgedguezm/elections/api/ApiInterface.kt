@@ -11,7 +11,7 @@ interface ApiInterface {
 
     @GET("elections")
     suspend fun getElections(
-        @Query("place") place: String,
+        @Query("place") place: String? = null,
         @Query("chamberName") chamberName: String? = null
     ): ApiResponse<List<Election>>
 

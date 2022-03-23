@@ -54,7 +54,7 @@ class ElectionRepositoryTests {
     @ExperimentalCoroutinesApi
     @Test
     fun loadElectionsFromDb() = runBlockingTest {
-        val daoElections = expectedResponse.elections
+        val daoElections = expectedResponse.data
 
         `when`(utils.isConnectedToInternet()).thenReturn(false)
         `when`(dao.queryElections(anyString(), anyString())).thenReturn(daoElections)
@@ -70,7 +70,7 @@ class ElectionRepositoryTests {
         `when`(utils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections(anyString(), anyString())).thenReturn(apiElections)
 
-        assertEquals(repository.loadElections("", ""), apiElections.elections)
+        assertEquals(repository.loadElections("", ""), apiElections.data)
         verify(dao, times(1)).insertElections(anyList())
     }
 }

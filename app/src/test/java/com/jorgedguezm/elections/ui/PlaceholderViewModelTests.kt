@@ -53,11 +53,10 @@ class PlaceholderViewModelTests {
         electionRepository = mock(ElectionRepository::class.java)
         electionRepository.utils = Utils(ApplicationProvider.getApplicationContext())
         electionRepository.dao = mock(ElectionDao::class.java)
+        electionRepository.service = mock(ApiInterface::class.java)
 
-        apiInterface = mock(ApiInterface::class.java)
-        `when`(apiInterface.getElections(anyString(), anyString())).thenReturn(expectedResponse)
-
-        electionRepository.service = apiInterface
+        `when`(electionRepository.loadElections(anyString(), anyString()))
+            .thenReturn(expectedResponse.data)
 
         viewModel = PlaceholderViewModel(electionRepository)
         Dispatchers.setMain(testDispatcher)
@@ -69,7 +68,7 @@ class PlaceholderViewModelTests {
         val totalExecutionTime = measureTimeMillis {
             viewModel.loadElections(anyString(), anyString())
 
-            assertEquals(MainViewState.Success(expectedResponse.elections),
+            assertEquals(MainViewState.Success(expectedResponse.data),
                 viewModel.electionsResult.value)
         }
 
