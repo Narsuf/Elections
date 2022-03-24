@@ -9,13 +9,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class ElectionRepository @Inject constructor(
+class ElectionsRepository @Inject constructor(
     internal var service: ApiInterface,
     internal var dao: ElectionDao,
     override var utils: Utils
 ) : Repository<List<Election>>(utils) {
 
-    open suspend fun loadElections(place: String?, chamber: String?): List<Election> {
+    suspend fun loadElections(place: String?, chamber: String?): List<Election> {
         return loadData(listOf(place, chamber))
     }
 
