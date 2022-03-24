@@ -15,17 +15,11 @@ class ElectionRepository @Inject constructor(internal var service: ApiInterface,
 
     suspend fun loadElections(place: String, chamber: String?): List<Election> {
         return if (utils.isConnectedToInternet()) {
-            val elections = getElectionsFromApi(place, chamber).data
+            val elections = service.getElections(place, chamber).data
             dao.insertElections(elections)
             elections
         } else {
-            getElectionsFromDb(place, chamber)
+            dao.queryElections(place, chamber)
         }
     }
-
-    private suspend fun getElectionsFromDb(place: String, chamber: String?) =
-        dao.queryElections(place, chamber)
-
-    private suspend fun getElectionsFromApi(place: String, chamber: String?) =
-        service.getElections(place, chamber)
 }

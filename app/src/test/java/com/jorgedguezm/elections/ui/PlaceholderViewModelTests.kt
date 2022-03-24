@@ -94,14 +94,16 @@ class PlaceholderViewModelTests {
     fun sortElections() {
         val elections = mutableListOf<Election>()
 
-        // Generate 10 elections to reduce error margin.
-        for (i in 1..10) { elections.add(generateElection()) }
+        // Generate 100 elections to reduce error margin.
+        for (i in 1..100) { elections.add(generateElection()) }
 
         val sortedElections = viewModel.sortElections(elections)
         var lastElection: Election? = null
 
         sortedElections.forEach {
-            assertTrue(it.date.toInt() < lastElection?.date?.toInt() ?: Int.MAX_VALUE)
+            val currentDate = it.date.toInt()
+            val lastDate = lastElection?.date?.toInt() ?: Int.MAX_VALUE
+            assertTrue(currentDate <= lastDate)
             lastElection = it
         }
     }
