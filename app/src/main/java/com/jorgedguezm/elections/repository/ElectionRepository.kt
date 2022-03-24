@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ElectionsRepository @Inject constructor(
+class ElectionRepository @Inject constructor(
     internal var service: ApiInterface,
     internal var dao: ElectionDao,
     override var utils: Utils

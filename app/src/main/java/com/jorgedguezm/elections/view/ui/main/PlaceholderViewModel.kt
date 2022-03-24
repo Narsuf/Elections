@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.jorgedguezm.elections.models.Election
-import com.jorgedguezm.elections.repository.ElectionsRepository
+import com.jorgedguezm.elections.repository.ElectionRepository
 
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 import javax.inject.Inject
 
-class PlaceholderViewModel @Inject constructor(private val electionsRepository: ElectionsRepository) :
+class PlaceholderViewModel @Inject constructor(private val electionRepository: ElectionRepository) :
     ViewModel() {
 
     private val _electionsResult: MutableLiveData<MainViewState> = MutableLiveData()
@@ -33,7 +33,7 @@ class PlaceholderViewModel @Inject constructor(private val electionsRepository: 
         }
 
         electionsJob = viewModelScope.launch(Dispatchers.Main + electionsExceptionHandler) {
-            val elections = electionsRepository.loadElections(place, chamber)
+            val elections = electionRepository.loadElections(place, chamber)
             val sortedElections = sortElections(elections)
             _electionsResult.value = MainViewState.Success(sortedElections)
         }

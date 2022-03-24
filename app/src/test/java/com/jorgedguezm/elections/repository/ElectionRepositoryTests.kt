@@ -26,9 +26,9 @@ import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class ElectionsRepositoryTests {
+class ElectionRepositoryTests {
 
-    private lateinit var repository: ElectionsRepository
+    private lateinit var repository: ElectionRepository
     private lateinit var service: ApiInterface
     private lateinit var dao: ElectionDao
     private lateinit var utils: Utils
@@ -47,7 +47,7 @@ class ElectionsRepositoryTests {
         dao = mock(ElectionDao::class.java)
         utils = mock(Utils::class.java)
         utils.context = ApplicationProvider.getApplicationContext()
-        repository = ElectionsRepository(service, dao, utils)
+        repository = ElectionRepository(service, dao, utils)
         Dispatchers.setMain(testDispatcher)
     }
 

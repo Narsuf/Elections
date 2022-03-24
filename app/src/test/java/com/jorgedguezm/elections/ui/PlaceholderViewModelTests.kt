@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.jorgedguezm.elections.api.ApiInterface
 import com.jorgedguezm.elections.data.DataUtils.Companion.generateElection
 import com.jorgedguezm.elections.models.Election
-import com.jorgedguezm.elections.repository.ElectionsRepository
+import com.jorgedguezm.elections.repository.ElectionRepository
 import com.jorgedguezm.elections.retrofit.ApiInterfaceTests
 import com.jorgedguezm.elections.room.ElectionDao
 import com.jorgedguezm.elections.utils.Utils
@@ -36,7 +36,7 @@ import kotlin.system.measureTimeMillis
 @RunWith(RobolectricTestRunner::class)
 class PlaceholderViewModelTests {
 
-    private lateinit var electionsRepository: ElectionsRepository
+    private lateinit var electionRepository: ElectionRepository
     private lateinit var viewModel: PlaceholderViewModel
     private val expectedResponse = ApiInterfaceTests.expectedApiResponse
 
@@ -49,15 +49,15 @@ class PlaceholderViewModelTests {
     @ExperimentalCoroutinesApi
     @Before
     fun init() = runBlockingTest {
-        electionsRepository = mock(ElectionsRepository::class.java)
-        electionsRepository.utils = Utils(ApplicationProvider.getApplicationContext())
-        electionsRepository.dao = mock(ElectionDao::class.java)
-        electionsRepository.service = mock(ApiInterface::class.java)
+        electionRepository = mock(ElectionRepository::class.java)
+        electionRepository.utils = Utils(ApplicationProvider.getApplicationContext())
+        electionRepository.dao = mock(ElectionDao::class.java)
+        electionRepository.service = mock(ApiInterface::class.java)
 
-        `when`(electionsRepository.loadElections(anyString(), anyString()))
+        `when`(electionRepository.loadElections(anyString(), anyString()))
             .thenReturn(expectedResponse.data)
 
-        viewModel = PlaceholderViewModel(electionsRepository)
+        viewModel = PlaceholderViewModel(electionRepository)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -79,7 +79,7 @@ class PlaceholderViewModelTests {
     fun loadTaxisException() = runBlockingTest {
         val exception = IndexOutOfBoundsException()
 
-        `when`(electionsRepository.loadElections(anyString(), anyString())).thenThrow(exception)
+        `when`(electionRepository.loadElections(anyString(), anyString())).thenThrow(exception)
 
         val totalExecutionTime = measureTimeMillis {
             viewModel.loadElections(anyString(), anyString())
