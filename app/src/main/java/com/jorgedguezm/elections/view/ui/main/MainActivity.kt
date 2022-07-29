@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 class MainActivity : ViewModelActivity() {
 
+    internal lateinit var binding: ActivityMainBinding
     private val vm by viewModel<PlaceholderViewModel>()
 
     @Inject
@@ -20,7 +21,7 @@ class MainActivity : ViewModelActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 

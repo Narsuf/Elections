@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SimpleAdapter
-
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.databinding.FragmentDetailBinding
 import com.jorgedguezm.elections.models.Election
@@ -20,7 +19,7 @@ class DetailFragment : ViewModelFragment() {
     private var _binding: FragmentDetailBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
+    internal val binding get() = _binding!!
 
     internal lateinit var countDownTimer: CountDownTimer
 
