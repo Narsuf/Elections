@@ -26,8 +26,7 @@ open class Utils @Inject constructor(internal var context: Context) {
 
     open fun isConnectedToInternet(): Boolean {
         var isConnected = false
-        val connectivity = context.getSystemService(
-                Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivity = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         connectivity.run {
             activeNetworkInfo?.let { isConnected = it.isConnected }

@@ -17,12 +17,16 @@ import com.jorgedguezm.elections.view.ui.ViewModelFragment
 
 class DetailFragment : ViewModelFragment() {
 
-    internal lateinit var binding: FragmentDetailBinding
+    private var _binding: FragmentDetailBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
     internal lateinit var countDownTimer: CountDownTimer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = binding(inflater, R.layout.fragment_detail, container)
+        _binding = FragmentDetailBinding.inflate(inflater, container, false)
 
         val election = arguments?.getSerializable(KEY_ELECTION) as Election
 
