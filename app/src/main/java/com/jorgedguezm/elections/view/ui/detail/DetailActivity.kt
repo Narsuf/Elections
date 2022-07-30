@@ -15,14 +15,14 @@ import com.jorgedguezm.elections.view.ui.ViewModelActivity
 
 class DetailActivity : ViewModelActivity() {
 
-    internal val binding by binding<ActivityDetailBinding>(R.layout.activity_detail)
-
+    internal lateinit var binding: ActivityDetailBinding
     internal lateinit var currentElection: Election
     private lateinit var congressElection: Election
     private lateinit var senateElection: Election
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)

@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/root"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/pie_chart_height"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_marginTop="@dimen/detail_fragment_pie_chart_margin_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/detail_activity_list_height"
-            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/detail_fragment_list_height"
             android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/detail_fragment_list_view_margin_botton"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <TableRow
@@ -34,37 +34,36 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/detail_activity_party_text_view_height"
+                    android:layout_width="@dimen/detail_fragment_party_text_view_height"
                     android:layout_height="wrap_content"
-                    android:text="@string/party"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="@string/party" />
 
                 <TextView
-                    android:layout_width="@dimen/detail_activity_votes_text_view_width"
+                    android:layout_width="@dimen/detail_fragment_votes_text_view_width"
                     android:layout_height="wrap_content"
-                    android:text="@string/votes"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="@string/votes" />
 
                 <TextView
-                    android:layout_width="@dimen/detail_activity_votes_percentage_text_view_width"
+                    android:layout_width="@dimen/detail_fragment_votes_percentage_text_view_width"
                     android:layout_height="wrap_content"
-                    android:text="@string/votes_percentage"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="@string/votes_percentage" />
 
                 <TextView
-                    android:layout_width="@dimen/detail_activity_elects_text_view_width"
+                    android:layout_width="@dimen/detail_fragment_elects_text_view_width"
                     android:layout_height="wrap_content"
-                    android:text="@string/elects"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="@string/elects" />
             </TableRow>
 
             <ListView
+                android:id="@+id/list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/list_view"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin" />
 
         </LinearLayout>
 
@@ -72,14 +71,12 @@
             android:id="@+id/floating_button_more_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/detail_activity_floating_button_margin_top"
-            android:src="@android:drawable/ic_dialog_email"
             android:layout_gravity="center_horizontal"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/detail_fragment_floating_button_margin_top"
+            android:src="@android:drawable/ic_dialog_email"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
-</layout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

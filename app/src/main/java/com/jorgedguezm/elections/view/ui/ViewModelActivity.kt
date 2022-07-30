@@ -3,15 +3,10 @@ package com.jorgedguezm.elections.view.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-
 import com.jorgedguezm.elections.utils.Utils
-
 import dagger.android.AndroidInjection
-
 import javax.inject.Inject
 
 open class ViewModelActivity : AppCompatActivity() {
@@ -29,7 +24,4 @@ open class ViewModelActivity : AppCompatActivity() {
 
     protected inline fun <reified VM : ViewModel>
             viewModel(): Lazy<VM> = viewModels { viewModelFactory }
-
-    protected inline fun <reified T : ViewDataBinding> binding(resId: Int): Lazy<T> =
-        lazy { DataBindingUtil.setContentView(this, resId) }
 }
