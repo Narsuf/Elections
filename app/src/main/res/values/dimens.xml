@@ -28,7 +28,7 @@
     <dimen name="list_item_detail_activity_party_votes_width">65dp</dimen>
     <dimen name="list_item_detail_activity_party_percentage_votes_width">85dp</dimen>
     <dimen name="list_item_detail_activity_elects_width">125dp</dimen>
-    
+
     <dimen name="list_item_detail_dialog_height">45dp</dimen>
     <dimen name="list_item_detail_dialog_text_width">100dp</dimen>
     <dimen name="list_item_detail_dialog_number_width">80dp</dimen>
