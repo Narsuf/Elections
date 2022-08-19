@@ -35,7 +35,7 @@ class DetailDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = activity as DetailActivity
         val layoutInflater = activity
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
         val inflatedLayout = layoutInflater.inflate(R.layout.detail_dialog, null)
         val window = AlertDialog.Builder(activity)
@@ -60,10 +60,16 @@ class DetailDialog : DialogFragment() {
         val from = arrayOf("text", "number", "percentage")
         val to = intArrayOf(R.id.text_view_text, R.id.text_view_number, R.id.text_view_percentage)
         val textData = resources.getStringArray(R.array.detail_dialog_list_view_text)
-        val numberData = arrayOf("", election.totalElects, election.validVotes,
-                election.abstentions, election.nullVotes, election.blankVotes)
+        val numberData = arrayOf(
+            "",
+            election.totalElects,
+            election.validVotes,
+            election.abstentions,
+            election.nullVotes,
+            election.blankVotes
+        )
 
-        val percentageData = utils.getPercentageData(election)
+        val percentageData = getPercentageData(election)
 
         val arrayList = ArrayList<Map<String, Any>>()
 
@@ -85,5 +91,25 @@ class DetailDialog : DialogFragment() {
 
         val listView = inflatedLayout.findViewById(R.id.list_view_general_information) as ListView
         listView.adapter = adapter
+    }
+
+    private fun getPercentageData(election: Election): Array<String> {
+        val census = election.validVotes + election.abstentions
+
+        return with(utils) {
+            val percentageOfParticipation = getPercentageWithTwoDecimals(election.validVotes, census)
+            val percentageOfAbstentions = getPercentageWithTwoDecimals(election.abstentions, census)
+            val percentageOfNull = getPercentageWithTwoDecimals(election.nullVotes, election.validVotes)
+            val percentageOfBlank = getPercentageWithTwoDecimals(election.blankVotes, election.validVotes)
+
+            arrayOf(
+                election.scrutinized.toString(),
+                "",
+                percentageOfParticipation.toString(),
+                percentageOfAbstentions.toString(),
+                percentageOfNull.toString(),
+                percentageOfBlank.toString()
+            )
+        }
     }
 }

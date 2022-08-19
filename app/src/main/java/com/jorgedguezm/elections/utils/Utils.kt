@@ -118,22 +118,4 @@ open class Utils @Inject constructor(internal var context: Context) {
         val percentage = (dividend.toDouble() / divisor) * 100
         return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP)
     }
-
-    fun getPercentageData(election: Election): Array<String> {
-        val census = election.validVotes + election.abstentions
-
-        val percentageOfParticipation = getPercentageWithTwoDecimals(election.validVotes, census)
-        val percentageOfAbstentions = getPercentageWithTwoDecimals(election.abstentions, census)
-        val percentageOfNull = getPercentageWithTwoDecimals(election.nullVotes, election.validVotes)
-        val percentageOfBlank = getPercentageWithTwoDecimals(election.blankVotes, election.validVotes)
-
-        return arrayOf(
-            election.scrutinized.toString(),
-            "",
-            percentageOfParticipation.toString(),
-            percentageOfAbstentions.toString(),
-            percentageOfNull.toString(),
-            percentageOfBlank.toString()
-        )
-    }
 }
