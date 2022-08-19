@@ -4,6 +4,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
+import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
+import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import android.os.Bundle
 
 import com.github.mikephil.charting.charts.PieChart
@@ -25,14 +28,18 @@ import javax.inject.Inject
 open class Utils @Inject constructor(internal var context: Context) {
 
     open fun isConnectedToInternet(): Boolean {
-        var isConnected = false
         val connectivity = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        connectivity.run {
-            activeNetworkInfo?.let { isConnected = it.isConnected }
+        return connectivity.run {
+            getNetworkCapabilities(activeNetwork)?.run {
+                when {
+                    hasTransport(TRANSPORT_WIFI) -> true
+                    hasTransport(TRANSPORT_CELLULAR) -> true
+                    hasTransport(TRANSPORT_ETHERNET) -> true
+                    else -> false
+                }
+            } ?: false
         }
-
-        return isConnected
     }
 
     // UI related functions.
