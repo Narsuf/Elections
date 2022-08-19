@@ -12,9 +12,7 @@
 
     <dimen name="pie_chart_height">300dp</dimen>
 
-    <dimen name="detail_fragment_pie_chart_margin_top">32dp</dimen>
-    <dimen name="detail_fragment_list_view_margin_botton">8dp</dimen>
-    <dimen name="detail_fragment_list_height">416dp</dimen>
+    <dimen name="detail_fragment_list_view_margin_top">32dp</dimen>
     <dimen name="detail_fragment_party_text_view_height">150dp</dimen>
     <dimen name="detail_fragment_votes_text_view_width">65dp</dimen>
     <dimen name="detail_fragment_votes_percentage_text_view_width">110dp</dimen>
@@ -30,7 +28,7 @@
     <dimen name="list_item_detail_activity_party_votes_width">65dp</dimen>
     <dimen name="list_item_detail_activity_party_percentage_votes_width">85dp</dimen>
     <dimen name="list_item_detail_activity_elects_width">125dp</dimen>
-    
+
     <dimen name="list_item_detail_dialog_height">45dp</dimen>
     <dimen name="list_item_detail_dialog_text_width">100dp</dimen>
     <dimen name="list_item_detail_dialog_number_width">80dp</dimen>

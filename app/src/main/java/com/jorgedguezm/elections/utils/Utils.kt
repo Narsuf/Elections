@@ -4,6 +4,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
+import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
+import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import android.os.Bundle
 
 import com.github.mikephil.charting.charts.PieChart
@@ -14,6 +17,8 @@ import com.github.mikephil.charting.data.PieEntry
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.models.Results
+import com.jorgedguezm.elections.utils.extensions.getColors
+import com.jorgedguezm.elections.utils.extensions.getElects
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 
@@ -25,14 +30,18 @@ import javax.inject.Inject
 open class Utils @Inject constructor(internal var context: Context) {
 
     open fun isConnectedToInternet(): Boolean {
-        var isConnected = false
         val connectivity = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        connectivity.run {
-            activeNetworkInfo?.let { isConnected = it.isConnected }
+        return connectivity.run {
+            getNetworkCapabilities(activeNetwork)?.run {
+                when {
+                    hasTransport(TRANSPORT_WIFI) -> true
+                    hasTransport(TRANSPORT_CELLULAR) -> true
+                    hasTransport(TRANSPORT_ETHERNET) -> true
+                    else -> false
+                }
+            } ?: false
         }
-
-        return isConnected
     }
 
     // UI related functions.
@@ -56,8 +65,8 @@ open class Utils @Inject constructor(internal var context: Context) {
     fun drawPieChart(chart: PieChart, results: List<Results>) {
         val sortedResults = results.sortedByDescending { it.elects }
 
-        val elects = getElectsFromResults(sortedResults)
-        val colors = getColorsFromResults(sortedResults)
+        val elects = sortedResults.getElects()
+        val colors = sortedResults.getColors()
 
         chart.description = null
         chart.legend.isEnabled = false
@@ -90,38 +99,9 @@ open class Utils @Inject constructor(internal var context: Context) {
         chart.animateXY(1500, 1500)
     }
 
-    private fun getElectsFromResults(results: List<Results>): Array<Int> {
-        val elects = ArrayList<Int>()
-
-        for (r in results) elects.add(r.elects)
-
-        return elects.toTypedArray()
-    }
-
-    private fun getColorsFromResults(results: List<Results>): Array<String> {
-        val colors = ArrayList<String>()
-
-        for (r in results) colors.add("#" + r.party.color)
-
-        return colors.toTypedArray()
-    }
-
     // Logical functions.
     fun getPercentageWithTwoDecimals(dividend: Int, divisor: Int): BigDecimal {
         val percentage = (dividend.toDouble() / divisor) * 100
         return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP)
-    }
-
-    fun getPercentageData(election: Election): Array<String> {
-        val census = election.validVotes + election.abstentions
-
-        val percentageOfParticipation = getPercentageWithTwoDecimals(election.validVotes, census)
-        val percentageOfAbstentions = getPercentageWithTwoDecimals(election.abstentions, census)
-        val percentageOfNull = getPercentageWithTwoDecimals(election.nullVotes, election.validVotes)
-        val percentageOfBlank = getPercentageWithTwoDecimals(election.blankVotes, election.validVotes)
-
-        return arrayOf(election.scrutinized.toString(), "", percentageOfParticipation.toString(),
-                percentageOfAbstentions.toString(), percentageOfNull.toString(),
-                percentageOfBlank.toString())
     }
 }
