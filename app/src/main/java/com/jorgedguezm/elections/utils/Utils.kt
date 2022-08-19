@@ -17,6 +17,8 @@ import com.github.mikephil.charting.data.PieEntry
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.models.Results
+import com.jorgedguezm.elections.utils.extensions.getColors
+import com.jorgedguezm.elections.utils.extensions.getElects
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 
@@ -63,8 +65,8 @@ open class Utils @Inject constructor(internal var context: Context) {
     fun drawPieChart(chart: PieChart, results: List<Results>) {
         val sortedResults = results.sortedByDescending { it.elects }
 
-        val elects = getElectsFromResults(sortedResults)
-        val colors = getColorsFromResults(sortedResults)
+        val elects = sortedResults.getElects()
+        val colors = sortedResults.getColors()
 
         chart.description = null
         chart.legend.isEnabled = false
@@ -95,22 +97,6 @@ open class Utils @Inject constructor(internal var context: Context) {
         chart.rotationAngle = 180F
         chart.setTouchEnabled(false)
         chart.animateXY(1500, 1500)
-    }
-
-    private fun getElectsFromResults(results: List<Results>): Array<Int> {
-        val elects = ArrayList<Int>()
-
-        for (r in results) elects.add(r.elects)
-
-        return elects.toTypedArray()
-    }
-
-    private fun getColorsFromResults(results: List<Results>): Array<String> {
-        val colors = ArrayList<String>()
-
-        for (r in results) colors.add("#" + r.party.color)
-
-        return colors.toTypedArray()
     }
 
     // Logical functions.
