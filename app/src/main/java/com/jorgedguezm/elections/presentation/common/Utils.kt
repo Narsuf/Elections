@@ -45,9 +45,7 @@ open class Utils @Inject constructor(internal var context: Context) {
     }
 
     // UI related functions.
-    fun generateToolbarTitle(election: Election): String {
-        return election.chamberName + " (" + election.date + ")"
-    }
+    fun generateToolbarTitle(election: Election) = election.chamberName + " (" + election.date + ")"
 
     fun beginTransactionToDetailFragment(activity: DetailActivity, election: Election) {
         val detailFragment = DetailFragment()
