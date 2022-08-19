@@ -26,8 +26,9 @@ jobs:
         with: 
             api-level: 29
             script: ./gradlew connectedCheck 
-
-       # run: ./gradlew testDebugUnitTest
+            
+      - name: Build and run tests with Gradle
+        run: ./gradlew clean build test jacocoTestReport
 
       - name: generate report
         uses: actions/upload-artifact@v2
