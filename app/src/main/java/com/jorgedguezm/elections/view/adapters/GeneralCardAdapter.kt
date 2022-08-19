@@ -8,9 +8,9 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.models.Election
-import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
-import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
-import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_CONGRESS_ELECTION
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE_ELECTION
+import com.jorgedguezm.elections.presentation.common.Utils
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import javax.inject.Inject
 

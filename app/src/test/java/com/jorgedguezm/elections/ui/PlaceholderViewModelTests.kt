@@ -9,7 +9,7 @@ import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.repository.ElectionRepository
 import com.jorgedguezm.elections.retrofit.ApiInterfaceTests
 import com.jorgedguezm.elections.room.ElectionDao
-import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.presentation.common.Utils
 import com.jorgedguezm.elections.view.ui.main.MainViewState
 import com.jorgedguezm.elections.view.ui.main.PlaceholderViewModel
 

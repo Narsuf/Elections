@@ -7,10 +7,10 @@ import android.view.MenuItem
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.databinding.ActivityDetailBinding
 import com.jorgedguezm.elections.models.Election
-import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS
-import com.jorgedguezm.elections.utils.Constants.KEY_CONGRESS_ELECTION
-import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
-import com.jorgedguezm.elections.utils.Constants.KEY_SENATE_ELECTION
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_CONGRESS
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_CONGRESS_ELECTION
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.view.ui.ViewModelActivity
 
 class DetailActivity : ViewModelActivity() {

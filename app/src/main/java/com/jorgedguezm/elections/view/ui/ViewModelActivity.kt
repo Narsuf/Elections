@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.presentation.common.Utils
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 

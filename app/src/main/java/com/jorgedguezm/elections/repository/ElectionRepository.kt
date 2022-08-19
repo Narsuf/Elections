@@ -3,7 +3,7 @@ package com.jorgedguezm.elections.repository
 import com.jorgedguezm.elections.api.ApiInterface
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.room.ElectionDao
-import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.presentation.common.Utils
 
 import javax.inject.Inject
 import javax.inject.Singleton
