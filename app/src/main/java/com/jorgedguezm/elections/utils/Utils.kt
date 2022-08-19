@@ -128,8 +128,12 @@ open class Utils @Inject constructor(internal var context: Context) {
         val percentageOfBlank = getPercentageWithTwoDecimals(election.blankVotes, election.validVotes)
 
         return arrayOf(
-            election.scrutinized.toString(), "", percentageOfParticipation.toString(),
-            percentageOfAbstentions.toString(), percentageOfNull.toString(), percentageOfBlank.toString()
+            election.scrutinized.toString(),
+            "",
+            percentageOfParticipation.toString(),
+            percentageOfAbstentions.toString(),
+            percentageOfNull.toString(),
+            percentageOfBlank.toString()
         )
     }
 }
