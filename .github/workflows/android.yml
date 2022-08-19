@@ -23,4 +23,18 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew clean build test jacocoTestReport
+    - name: generate report
+      uses: actions/upload-artifact@v2
+      with:
+        name: report
+        path: app/build/reports/coverage/debug
+    - name: Download Test Reports Folder
+      uses: actions/download-artifact@v2
+      with:
+        name: report
+        path: app/build/reports/coverage/debug
+    - name: Upload Test Report
+      uses: codecov/codecov-action@v2
+      with:
+        files: "app/build/reports/coverage/debug/report.xml"
