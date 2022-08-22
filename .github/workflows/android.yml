@@ -16,7 +16,7 @@ jobs:
       - name: Test with Android Emulator Runner
         uses: ReactiveCircus/android-emulator-runner@v2.14.3
         with: 
-            api-level: 32
+            api-level: 29
             script: ./gradlew connectedCheck jacocoTestReport
 
       - name: Generate report
