@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.utils
+package com.jorgedguezm.elections.presentation.common
 
 import android.content.Context
 import android.graphics.Color
@@ -17,8 +17,8 @@ import com.github.mikephil.charting.data.PieEntry
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.models.Results
-import com.jorgedguezm.elections.utils.extensions.getColors
-import com.jorgedguezm.elections.utils.extensions.getElects
+import com.jorgedguezm.elections.presentation.common.extensions.getColors
+import com.jorgedguezm.elections.presentation.common.extensions.getElects
 import com.jorgedguezm.elections.view.ui.detail.DetailActivity
 import com.jorgedguezm.elections.view.ui.detail.DetailFragment
 
@@ -45,9 +45,7 @@ open class Utils @Inject constructor(internal var context: Context) {
     }
 
     // UI related functions.
-    fun generateToolbarTitle(election: Election): String {
-        return election.chamberName + " (" + election.date + ")"
-    }
+    fun generateToolbarTitle(election: Election) = election.chamberName + " (" + election.date + ")"
 
     fun beginTransactionToDetailFragment(activity: DetailActivity, election: Election) {
         val detailFragment = DetailFragment()

@@ -9,8 +9,8 @@ import android.widget.SimpleAdapter
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.databinding.FragmentDetailBinding
 import com.jorgedguezm.elections.models.Election
-import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
-import com.jorgedguezm.elections.utils.Constants.KEY_SENATE
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_ELECTION
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE
 import com.jorgedguezm.elections.view.binders.PartyColorBinder
 import com.jorgedguezm.elections.view.ui.ViewModelFragment
 

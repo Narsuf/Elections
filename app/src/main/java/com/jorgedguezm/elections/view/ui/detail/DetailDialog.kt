@@ -13,8 +13,8 @@ import androidx.fragment.app.DialogFragment
 
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.models.Election
-import com.jorgedguezm.elections.utils.Constants.KEY_ELECTION
-import com.jorgedguezm.elections.utils.Utils
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_ELECTION
+import com.jorgedguezm.elections.presentation.common.Utils
 
 import dagger.android.support.AndroidSupportInjection
 

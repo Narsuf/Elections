@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.utils.extensions
+package com.jorgedguezm.elections.presentation.common.extensions
 
 import com.jorgedguezm.elections.models.Results
 
