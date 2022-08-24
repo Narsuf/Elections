@@ -1,6 +1,6 @@
 package com.jorgedguezm.elections.presentation.common.extensions
 
-import com.jorgedguezm.elections.models.Results
+import com.jorgedguezm.elections.data.models.Results
 
 fun List<Results>.getElects(): Array<Int> {
     val elects = ArrayList<Int>()
