@@ -28,9 +28,9 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 
     sourceDirectories.from = files([mainSrc])
     classDirectories.from = files([debugTree], [kotlinDebugTree])
-    executionData.from = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec',
-            'outputs/code_coverage/debugAndroidTest/connected/*coverage.ec'
+    executionData.from = fileTree(dir: "${buildDir}/outputs", includes: [
+            'unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec',
+            'code_coverage/debugAndroidTest/connected/*/coverage.ec'
     ])
 }
 
