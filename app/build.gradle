@@ -103,8 +103,7 @@ dependencies {
         kapt "androidx.room:room-compiler:$roomVersion"
 
         // Lifecycle
-        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-        implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+        implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
