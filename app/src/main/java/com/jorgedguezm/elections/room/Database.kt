@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 import com.jorgedguezm.elections.models.Election
 import com.jorgedguezm.elections.room.converters.ResultsConverter
 
-@Database(entities = [Election::class], version = 1)
+@Database(entities = [Election::class], version = 1, exportSchema = false)
 @TypeConverters(ResultsConverter::class)
 abstract class Database : RoomDatabase() {
     abstract fun electionDao(): ElectionDao

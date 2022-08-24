@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">Elections</string>
 
-    <string name="general">General</string>
-    <string name="regional">Regional</string>
-    <string name="local">Local</string>
-
     <string name="congress">Congress</string>
     <string name="senate">Senate</string>
 
