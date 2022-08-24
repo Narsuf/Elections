@@ -18,8 +18,8 @@ import junit.framework.TestCase.assertTrue
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 
 import org.junit.Before
@@ -38,18 +38,17 @@ class PlaceholderViewModelTests {
 
     private lateinit var electionRepository: ElectionRepository
     private lateinit var viewModel: PlaceholderViewModel
-    private lateinit var apiInterface: ApiInterface
     private val expectedResponse = ApiInterfaceTests.expectedApiResponse
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
     @ExperimentalCoroutinesApi
-    private val testDispatcher = TestCoroutineDispatcher()
+    private val testDispatcher = UnconfinedTestDispatcher()
 
     @ExperimentalCoroutinesApi
     @Before
-    fun init() = runBlockingTest {
+    fun init() = runTest {
         electionRepository = mock(ElectionRepository::class.java)
         electionRepository.utils = Utils(ApplicationProvider.getApplicationContext())
         electionRepository.dao = mock(ElectionDao::class.java)
@@ -64,7 +63,7 @@ class PlaceholderViewModelTests {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun loadElections() = runBlockingTest {
+    fun loadElections() = runTest {
         val totalExecutionTime = measureTimeMillis {
             viewModel.loadElections(anyString(), anyString())
 
@@ -77,7 +76,7 @@ class PlaceholderViewModelTests {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun loadTaxisException() = runBlockingTest {
+    fun loadTaxisException() = runTest {
         val exception = IndexOutOfBoundsException()
 
         `when`(electionRepository.loadElections(anyString(), anyString())).thenThrow(exception)

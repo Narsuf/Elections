@@ -12,8 +12,8 @@ import junit.framework.TestCase.assertEquals
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 
 import org.junit.Before
@@ -38,7 +38,7 @@ class ElectionRepositoryTests {
     val rule = InstantTaskExecutorRule()
 
     @ExperimentalCoroutinesApi
-    private val testDispatcher = TestCoroutineDispatcher()
+    private val testDispatcher = UnconfinedTestDispatcher()
 
     @ExperimentalCoroutinesApi
     @Before
@@ -53,7 +53,7 @@ class ElectionRepositoryTests {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun loadElectionsFromDb() = runBlockingTest {
+    fun loadElectionsFromDb() = runTest {
         val daoElections = expectedResponse.data
 
         `when`(utils.isConnectedToInternet()).thenReturn(false)
@@ -64,7 +64,7 @@ class ElectionRepositoryTests {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun loadElectionsFromApi() = runBlockingTest {
+    fun loadElectionsFromApi() = runTest {
         val apiElections = expectedResponse
 
         `when`(utils.isConnectedToInternet()).thenReturn(true)

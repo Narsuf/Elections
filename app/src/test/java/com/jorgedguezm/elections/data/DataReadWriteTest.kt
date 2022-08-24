@@ -22,8 +22,8 @@ import junit.framework.TestCase.assertTrue
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 
 @RunWith(RobolectricTestRunner::class)
@@ -36,7 +36,7 @@ class DataReadWriteTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @ExperimentalCoroutinesApi
-    private val testDispatcher = TestCoroutineDispatcher()
+    private val testDispatcher = UnconfinedTestDispatcher()
 
     @ExperimentalCoroutinesApi
     @Before
@@ -57,7 +57,7 @@ class DataReadWriteTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun writeElectionAndRead() = runBlockingTest {
+    fun writeElectionAndRead() = runTest {
         val election = generateElection()
 
         electionDao.insertElection(election)
