@@ -1,6 +1,5 @@
 package com.jorgedguezm.elections.presentation.main.adapters
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -8,10 +7,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.presentation.common.Constants.KEY_CONGRESS_ELECTION
-import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE_ELECTION
 import com.jorgedguezm.elections.presentation.common.PresentationUtils
-import com.jorgedguezm.elections.presentation.detail.DetailActivity
+import com.jorgedguezm.elections.presentation.main.entities.OnElectionClicked
 import javax.inject.Inject
 
 class GeneralCardAdapter @Inject constructor(val utils: PresentationUtils) :
@@ -23,6 +20,8 @@ class GeneralCardAdapter @Inject constructor(val utils: PresentationUtils) :
             congressElections = elections.filter { it.chamberName == "Congreso" }
             senateElections = elections.filter { it.chamberName == "Senado" }
         }
+
+    var onElectionClicked: OnElectionClicked = { _, _ -> }
 
     private var congressElections: List<Election> = ArrayList()
     private var senateElections: List<Election> = ArrayList()
@@ -46,18 +45,12 @@ class GeneralCardAdapter @Inject constructor(val utils: PresentationUtils) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        val context = holder.itemView.context
         val congressElection = congressElections[position]
         val senateElection = senateElections[position]
         val concatenatedText = congressElection.date
 
         holder.card.findViewById<TextView>(R.id.section_label).text = concatenatedText
-        holder.card.setOnClickListener {
-            val myIntent = Intent(context, DetailActivity::class.java)
-            myIntent.putExtra(KEY_CONGRESS_ELECTION, congressElection)
-            myIntent.putExtra(KEY_SENATE_ELECTION, senateElection)
-            context.startActivity(myIntent)
-        }
+        holder.card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
 
         utils.drawPieChart(holder.card.findViewById(R.id.pie_chart), congressElection.results)
     }

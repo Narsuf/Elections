@@ -112,6 +112,9 @@ dependencies {
     // Timber
     implementation "com.jakewharton.timber:timber:5.0.1"
 
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+
     testImplementation 'androidx.test:core:1.4.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'org.robolectric:robolectric:4.8.1'

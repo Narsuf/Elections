@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-/*
+
 @RunWith(RobolectricTestRunner::class)
 class ElectionDaoTest {
 
@@ -60,4 +60,4 @@ class ElectionDaoTest {
         assertTrue(elections.contains(election))
         assertEquals(dbElection, election)
     }
-}*/
+}

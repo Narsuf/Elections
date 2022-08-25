@@ -6,12 +6,11 @@ import com.jorgedguezm.elections.data.DataUtils
 import com.jorgedguezm.elections.data.ElectionApi
 import com.jorgedguezm.elections.data.ElectionApiTest
 import com.jorgedguezm.elections.data.ElectionRepository
-import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.data.models.ElectionGenerator.Companion.generateElection
 import com.jorgedguezm.elections.data.room.ElectionDao
-import com.jorgedguezm.elections.presentation.main.MainViewState.*
+import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
+import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
+import com.jorgedguezm.elections.presentation.main.entities.MainState.Success
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -27,7 +26,7 @@ import org.robolectric.RobolectricTestRunner
 import kotlin.system.measureTimeMillis
 
 @RunWith(RobolectricTestRunner::class)
-class MainViewModelTests {
+class MainViewModelTest {
 
     private lateinit var electionRepository: ElectionRepository
     private lateinit var viewModel: MainViewModel
@@ -47,7 +46,7 @@ class MainViewModelTests {
         electionRepository.dao = mock(ElectionDao::class.java)
         electionRepository.service = mock(ElectionApi::class.java)
 
-        `when`(electionRepository.loadElections()).thenReturn(expectedResponse.data)
+        `when`(electionRepository.getElections()).thenReturn(expectedResponse.data)
 
         viewModel = MainViewModel(electionRepository)
         Dispatchers.setMain(testDispatcher)
@@ -55,11 +54,11 @@ class MainViewModelTests {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `load elections should emit success when succeeding`() = runTest {
+    fun `screen opened should emit success when succeeding`() = runTest {
         val totalExecutionTime = measureTimeMillis {
-            viewModel.loadElections()
+            viewModel.handleInteraction(ScreenOpened)
 
-            assertEquals(Success(expectedResponse.data), viewModel.electionsResult.value)
+            assertEquals(Success(expectedResponse.data, viewModel::onElectionClicked), viewModel.viewState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
@@ -67,34 +66,16 @@ class MainViewModelTests {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `load elections should emit error when failing`() = runTest {
+    fun `screen opened should emit error when failing`() = runTest {
         val exception = IndexOutOfBoundsException()
 
-        `when`(electionRepository.loadElections()).thenThrow(exception)
+        `when`(electionRepository.getElections()).thenThrow(exception)
 
         val totalExecutionTime = measureTimeMillis {
-            viewModel.loadElections()
-            assertEquals(Error(exception), viewModel.electionsResult.value)
+            viewModel.handleInteraction(ScreenOpened)
+            assertEquals(Error(exception), viewModel.viewState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
-    }
-
-    @Test
-    fun sortElections() {
-        val elections = mutableListOf<Election>()
-
-        // Generate 100 elections to reduce error margin.
-        for (i in 1..100) { elections.add(generateElection()) }
-
-        val sortedElections = viewModel.sortElections(elections)
-        var lastElection: Election? = null
-
-        sortedElections.forEach {
-            val currentDate = it.date.toInt()
-            val lastDate = lastElection?.date?.toInt() ?: Int.MAX_VALUE
-            assertTrue(currentDate <= lastDate)
-            lastElection = it
-        }
     }
 }
