@@ -20,7 +20,7 @@
 
         <activity
             android:exported="true"
-            android:name=".view.ui.main.MainActivity">
+            android:name=".presentation.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".view.ui.detail.DetailActivity"
+            android:name=".presentation.detail.DetailActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
         </activity>
