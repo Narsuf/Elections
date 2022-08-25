@@ -22,7 +22,7 @@ import org.mockito.Mockito.verify
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class ElectionRepositoryTests {
+class ElectionRepositoryTest {
 
     private lateinit var repository: ElectionRepository
     private lateinit var service: ElectionApi
@@ -55,7 +55,7 @@ class ElectionRepositoryTests {
         `when`(utils.isConnectedToInternet()).thenReturn(false)
         `when`(dao.queryElections(anyString(), anyString())).thenReturn(daoElections)
 
-        assertEquals(repository.loadElections("", ""), daoElections)
+        assertEquals(repository.getElections("", ""), daoElections)
     }
 
     @ExperimentalCoroutinesApi
@@ -66,7 +66,7 @@ class ElectionRepositoryTests {
         `when`(utils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections(anyString(), anyString())).thenReturn(apiElections)
 
-        assertEquals(repository.loadElections("", ""), apiElections.data)
+        assertEquals(repository.getElections("", ""), apiElections.data)
         verify(dao, times(1)).insertElections(anyList())
     }
 }

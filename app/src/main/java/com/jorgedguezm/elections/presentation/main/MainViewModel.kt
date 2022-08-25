@@ -1,73 +1,58 @@
 package com.jorgedguezm.elections.presentation.main
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
+import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
+import com.jorgedguezm.elections.presentation.main.entities.MainEvent
+import com.jorgedguezm.elections.presentation.main.entities.MainEvent.NavigateToDetail
+import com.jorgedguezm.elections.presentation.main.entities.MainInteraction
+import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
+import com.jorgedguezm.elections.presentation.main.entities.MainState
+import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
+import com.jorgedguezm.elections.presentation.main.entities.MainState.Idle
+import com.jorgedguezm.elections.presentation.main.entities.MainState.Loading
+import com.jorgedguezm.elections.presentation.main.entities.MainState.Success
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val electionRepository: ElectionRepository) :
-    ViewModel() {
+class MainViewModel @Inject constructor(private val electionRepository: ElectionRepository) : ViewModel() {
 
-    private val _electionsResult: MutableLiveData<MainViewState> = MutableLiveData()
+    private val state = MutableLiveData<MainState>(Idle)
+    internal val viewState: LiveData<MainState> = state
 
-    val electionsResult: LiveData<MainViewState> = _electionsResult
+    private val event = Channel<MainEvent>(capacity = 1, BufferOverflow.DROP_OLDEST)
+    internal val viewEvent = event.receiveAsFlow()
 
-    var electionsJob: Job? = null
-    lateinit var electionsExceptionHandler: CoroutineExceptionHandler
-
-    fun loadElections(place: String, chamber: String? = null) {
-        _electionsResult.value = MainViewState.Loading
-
-        electionsExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            _electionsResult.value = MainViewState.Error(throwable)
-        }
-
-        electionsJob = viewModelScope.launch(Dispatchers.Main + electionsExceptionHandler) {
-            val elections = electionRepository.loadElections(place, chamber)
-            val sortedElections = sortElections(elections)
-            _electionsResult.value = MainViewState.Success(sortedElections)
-        }
+    internal fun handleInteraction(action: MainInteraction) = when (action) {
+        ScreenOpened -> retrieveElections()
     }
 
-    internal fun sortElections(elections: List<Election>): List<Election> {
-        val electionsCopy = elections.map { it.copy() }
+    private fun retrieveElections() {
+        state.value = Loading
 
-        electionsCopy.sortedByDescending {
-            if (it.date.length > 4)
-                it.date.toDouble() / 10
-            else
-                it.date.toDouble()
-        }.let { sortedElections ->
-            sortedElections.forEach {
-                if (it.date.length > 4) {
-                    it.date = when (it.date) {
-                        "20192" -> "2019-10N"
-                        "20191" -> "2019-28A"
-                        else -> it.date
-                    }
-                }
-            }
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            state.value = Error(throwable)
+        }
 
-            return sortedElections
+        viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
+            val elections = electionRepository.getElections()
+            val sortedElections = elections.sortByDate()
+            state.value = Success(sortedElections, ::onElectionClicked)
         }
     }
 
-    override fun onCleared() {
-        electionsJob?.cancel()
-        super.onCleared()
+    @VisibleForTesting
+    internal fun onElectionClicked(congressElection: Election, senateElection: Election) {
+        event.trySend(NavigateToDetail(congressElection, senateElection))
     }
-}
-
-sealed class MainViewState {
-    object Loading : MainViewState()
-
-    data class Success(val elections: List<Election>) : MainViewState()
-    data class Error(val throwable: Throwable) : MainViewState()
 }
