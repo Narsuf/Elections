@@ -17,8 +17,8 @@ import com.jorgedguezm.elections.presentation.detail.binders.PartyColorBinder
 class DetailFragment : ViewModelFragment() {
 
     private var _binding: FragmentDetailBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+
+    // This property is only valid between onCreateView and onDestroyView.
     internal val binding get() = _binding!!
 
     internal lateinit var countDownTimer: CountDownTimer
