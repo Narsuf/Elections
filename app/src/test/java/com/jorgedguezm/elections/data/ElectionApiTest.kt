@@ -21,6 +21,7 @@ import okio.source
 
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyString
 
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -59,7 +60,7 @@ class ElectionApiTest {
     fun getElections() = runBlocking {
         enqueueResponse("elections-test.json")
 
-        val response = apiInterface.getElections("España")
+        val response = apiInterface.getElections("España", anyString())
 
         assertEquals(response, expectedApiResponse)
     }

@@ -10,7 +10,7 @@ class ElectionRepository @Inject constructor(internal var service: ElectionApi,
                                              internal var dao: ElectionDao,
                                              internal var utils: DataUtils) {
 
-    suspend fun loadElections(place: String, chamber: String?): List<Election> {
+    suspend fun loadElections(place: String = "España", chamber: String? = null): List<Election> {
         return if (utils.isConnectedToInternet()) {
             val elections = service.getElections(place, chamber).data
             dao.insertElections(elections)

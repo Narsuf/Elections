@@ -48,7 +48,7 @@ class MainActivity : ViewModelActivity() {
                 }
             }
 
-            if (vm.electionsResult.value == null) vm.loadElections("España")
+            if (vm.electionsResult.value == null) vm.loadElections()
         }
     }
 

@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(private val electionRepository: Election
     var electionsJob: Job? = null
     lateinit var electionsExceptionHandler: CoroutineExceptionHandler
 
-    fun loadElections(place: String, chamber: String? = null) {
+    fun loadElections() {
         _electionsResult.value = MainViewState.Loading
 
         electionsExceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -30,7 +30,7 @@ class MainViewModel @Inject constructor(private val electionRepository: Election
         }
 
         electionsJob = viewModelScope.launch(Dispatchers.Main + electionsExceptionHandler) {
-            val elections = electionRepository.loadElections(place, chamber)
+            val elections = electionRepository.loadElections()
             val sortedElections = sortElections(elections)
             _electionsResult.value = MainViewState.Success(sortedElections)
         }

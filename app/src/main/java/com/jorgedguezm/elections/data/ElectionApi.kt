@@ -12,7 +12,7 @@ interface ElectionApi {
     @GET("elections")
     suspend fun getElections(
         @Query("place") place: String,
-        @Query("chamberName") chamberName: String? = null
+        @Query("chamberName") chamberName: String?
     ): ApiResponse<List<Election>>
 
     @GET("elections/{id}")
