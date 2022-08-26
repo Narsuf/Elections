@@ -16,20 +16,19 @@ class MainActivityTest {
     fun checkSuccessViewState() {
         val state = getMainSuccess()
 
-        launchActivity().use { scenario ->
-            scenario.onActivity { activity ->
-                val binding = activity.binding
+        launchActivity().onActivity { activity ->
+            val binding = activity.binding
 
-                assertEquals(binding.toolbar.title, activity.resources.getString(R.string.app_name))
+            assertEquals(binding.toolbar.title, activity.resources.getString(R.string.app_name))
 
-                activity.renderState(state)
+            activity.renderState(state)
 
-                val adapter = binding.recyclerView.adapter!! as GeneralCardAdapter
-                assertEquals(adapter.elections, state.elections)
-                assertEquals(adapter.onElectionClicked, state.onElectionClicked)
-            }
+            val recyclerAdapter = binding.recyclerView.adapter!! as GeneralCardAdapter
+            assertEquals(recyclerAdapter.elections, state.elections)
+            assertEquals(recyclerAdapter.onElectionClicked, state.onElectionClicked)
         }
     }
 
     private fun launchActivity(): ActivityScenario<MainActivity> = launch(MainActivity::class.java)
 }
+
