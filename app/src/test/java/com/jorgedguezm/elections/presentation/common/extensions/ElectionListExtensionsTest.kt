@@ -1,7 +1,7 @@
 package com.jorgedguezm.elections.presentation.common.extensions
 
 import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.data.models.ElectionGenerator
+import com.jorgedguezm.elections.data.models.ElectionGenerator.Companion.generateElections
 import junit.framework.TestCase
 import org.junit.Test
 
@@ -9,11 +9,7 @@ class ElectionListExtensionsTest {
 
     @Test
     fun sortElections() {
-        val elections = mutableListOf<Election>()
-
-        // Generate 100 elections to reduce error margin.
-        for (i in 1..100) { elections.add(ElectionGenerator.generateElection()) }
-
+        val elections = generateElections()
         val sortedElections = elections.sortByDate()
         var lastElection: Election? = null
 

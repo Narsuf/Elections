@@ -26,5 +26,14 @@ class ElectionGenerator {
                 results = arrayListOf(generateResults())
             )
         }
+
+        fun generateElections(): List<Election> {
+            val elections = mutableListOf<Election>()
+
+            // Generate 100 elections to reduce error margin.
+            for (i in 1..100) { elections.add(generateElection()) }
+
+            return elections
+        }
     }
 }
