@@ -29,44 +29,51 @@ class DetailActivityTest {
 
     @Test
     fun launchDetailActivity() {
-        ActivityScenario.launch<DetailActivity>(intent).use { scenario ->
-            scenario.onActivity { activity ->
-                assertEquals(activity.binding.toolbar.title, activity.generateToolbarTitle())
+        ActivityScenario.launch<DetailActivity>(intent).onActivity { activity ->
+            // Congress results loaded
+            activity.checkCongress()
 
-                // Congress results loaded
-                assertEquals(congressElection.id, activity.currentElection.id)
+            // Congress option clicked
+            activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(0))
+            activity.checkCongress()
 
-                // Congress option clicked
-                activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(0))
-                assertEquals(congressElection.id, activity.currentElection.id)
+            // Senate option clicked
+            activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(1))
+            activity.checkSenate()
 
-                // Senate option clicked
-                activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(1))
-                assertEquals(activity.binding.toolbar.title, activity.generateToolbarTitle())
-                assertEquals(senateElection.id, activity.currentElection.id)
+            // Senate option clicked again
+            activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(1))
+            activity.checkSenate()
 
-                // Senate option clicked again
-                activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(1))
-                assertEquals(senateElection.id, activity.currentElection.id)
+            // Congress option clicked
+            activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(0))
+            activity.checkCongress()
 
-                // Congress option clicked
-                activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(0))
-                assertEquals(congressElection.id, activity.currentElection.id)
+            val fragment = activity.supportFragmentManager.fragments[0] as DetailFragment
 
-                val fragment = activity.supportFragmentManager.fragments[0] as DetailFragment
+            // Check highlight function
+            fragment.binding.listView.onItemClickListener?.onItemClick(null, null, 0, 0)
+            assertTrue(fragment.binding.pieChart.highlighted.isNotEmpty())
 
-                // Check highlight function
-                fragment.binding.listView.onItemClickListener?.onItemClick(null, null, 0, 0)
-                assertTrue(fragment.binding.pieChart.highlighted.isNotEmpty())
+            // Still highlighted
+            fragment.countDownTimer.onTick(1)
+            assertTrue(fragment.binding.pieChart.highlighted.isNotEmpty())
 
-                fragment.countDownTimer.onTick(1)
-                assertTrue(fragment.binding.pieChart.highlighted.isNotEmpty())
+            // Not highlighted anymore
+            fragment.countDownTimer.onFinish()
+            assertNull(fragment.binding.pieChart.highlighted)
 
-                fragment.countDownTimer.onFinish()
-                assertNull(fragment.binding.pieChart.highlighted)
-
-                fragment.binding.floatingButtonMoreInfo.performClick()
-            }
+            fragment.binding.floatingButtonMoreInfo.performClick()
         }
+    }
+
+    private fun DetailActivity.checkCongress() {
+        assertTrue(binding.toolbar.title.contains("Congreso"))
+        assertEquals(congressElection.id, currentElection.id)
+    }
+
+    private fun DetailActivity.checkSenate() {
+        assertTrue(binding.toolbar.title.contains("Senado"))
+        assertEquals(senateElection.id, currentElection.id)
     }
 }

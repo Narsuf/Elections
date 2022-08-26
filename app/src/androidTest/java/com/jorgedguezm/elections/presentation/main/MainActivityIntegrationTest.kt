@@ -19,7 +19,7 @@ class MainActivityIntegrationTest {
         launchActivity()
 
         assertToolbarTitle("Elections")
-        sleep(1000)
+        sleep(5000)
         intents {
             clickListItem(R.id.recyclerView, 0)
             intended(allOf(hasComponent(DetailActivity::class.java.name)))
