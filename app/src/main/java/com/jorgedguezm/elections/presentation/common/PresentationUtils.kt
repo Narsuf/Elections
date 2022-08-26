@@ -19,22 +19,6 @@ import java.math.RoundingMode
 
 open class PresentationUtils {
 
-    // UI related functions.
-    fun generateToolbarTitle(election: Election) = election.chamberName + " (" + election.date + ")"
-
-    fun beginTransactionToDetailFragment(activity: DetailActivity, election: Election) {
-        val detailFragment = DetailFragment()
-        val transaction = activity.supportFragmentManager.beginTransaction()
-
-        detailFragment.arguments = Bundle().apply {
-            putSerializable(Constants.KEY_ELECTION, election)
-        }
-
-        transaction.replace(R.id.detail_frame, detailFragment)
-        transaction.commit()
-        activity.binding.toolbar.title = generateToolbarTitle(election)
-    }
-
     fun drawPieChart(chart: PieChart, results: List<Results>) {
         val sortedResults = results.sortedByDescending { it.elects }
 
@@ -72,7 +56,6 @@ open class PresentationUtils {
         chart.animateXY(1500, 1500)
     }
 
-    // Logical functions.
     fun getPercentageWithTwoDecimals(dividend: Int, divisor: Int): BigDecimal {
         val percentage = (dividend.toDouble() / divisor) * 100
         return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP)

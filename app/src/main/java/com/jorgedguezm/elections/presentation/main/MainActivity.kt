@@ -3,6 +3,7 @@ package com.jorgedguezm.elections.presentation.main
 import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jorgedguezm.elections.R
@@ -34,16 +35,27 @@ class MainActivity : ViewModelActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        //binding.toolbar.setup()
 
-        binding.recyclerView.apply {
-            // use a linear layout manager
-            layoutManager = LinearLayoutManager(context)
-        }
+        binding.recyclerView.apply { layoutManager = LinearLayoutManager(context) }
 
         initObservers()
         vm.handleInteraction(ScreenOpened)
     }
+
+    /*private fun Toolbar.setup() {
+        inflateMenu(R.menu.menu_main)
+        setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_show_historical -> {
+                    vm.handleInteraction(ShowHistoric)
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }*/
 
     private fun initObservers() {
         vm.viewState.observe(this, ::renderState)
@@ -81,19 +93,4 @@ class MainActivity : ViewModelActivity() {
         myIntent.putExtra(Constants.KEY_SENATE_ELECTION, event.senateElection)
         startActivity(myIntent)
     }
-
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return if (item.itemId == R.id.action_show_historical)
-            true
-        else
-            super.onOptionsItemSelected(item)
-    }*/
 }

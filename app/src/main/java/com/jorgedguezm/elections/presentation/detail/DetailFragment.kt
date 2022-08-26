@@ -17,8 +17,8 @@ import com.jorgedguezm.elections.presentation.detail.binders.PartyColorBinder
 class DetailFragment : ViewModelFragment() {
 
     private var _binding: FragmentDetailBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+
+    // This property is only valid between onCreateView and onDestroyView.
     internal val binding get() = _binding!!
 
     internal lateinit var countDownTimer: CountDownTimer
@@ -42,7 +42,7 @@ class DetailFragment : ViewModelFragment() {
         initializeCountDownTimer()
 
         // Manage list view with election data.
-        val resultsAdapter = getResultsAdapter(election)
+        val resultsAdapter = election.getResultsAdapter()
         resultsAdapter.viewBinder = PartyColorBinder()
 
         binding.listView.adapter = resultsAdapter
@@ -54,13 +54,13 @@ class DetailFragment : ViewModelFragment() {
         return binding.root
     }
 
-    private fun getResultsAdapter(election: Election): SimpleAdapter {
+    private fun Election.getResultsAdapter(): SimpleAdapter {
         val from = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
-        val to = intArrayOf(R.id.tvPartyColor, R.id.tvPartyName, R.id.tvNumberVotes,
-                R.id.tvVotesPercentage, R.id.tvElects)
+        val to = intArrayOf(R.id.tvPartyColor, R.id.tvPartyName, R.id.tvNumberVotes, R.id.tvVotesPercentage,
+            R.id.tvElects)
 
         val arrayList = ArrayList<Map<String, Any>>()
-        val sortedResults = election.results.sortedByDescending { it.elects }
+        val sortedResults = results.sortedByDescending { it.elects }
 
         for (r in sortedResults) {
             val map = HashMap<String, Any>()
@@ -68,10 +68,10 @@ class DetailFragment : ViewModelFragment() {
             map[from[0]] = "#" + r.party.color
             map[from[1]] = r.party.name
             map[from[2]] = r.votes
-            map[from[3]] = if (election.chamberName == KEY_SENATE)
+            map[from[3]] = if (chamberName == KEY_SENATE)
                 "- %"
             else
-                utils.getPercentageWithTwoDecimals(r.votes, election.validVotes).toString() + " %"
+                utils.getPercentageWithTwoDecimals(r.votes, validVotes).toString() + " %"
 
             map[from[4]] = r.elects
 

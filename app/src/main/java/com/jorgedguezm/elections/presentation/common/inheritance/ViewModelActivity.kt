@@ -12,9 +12,6 @@ import javax.inject.Inject
 open class ViewModelActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var utils: PresentationUtils
-
-    @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +19,5 @@ open class ViewModelActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    protected inline fun <reified VM : ViewModel>
-            viewModel(): Lazy<VM> = viewModels { viewModelFactory }
+    protected inline fun <reified VM : ViewModel> viewModel(): Lazy<VM> = viewModels { viewModelFactory }
 }
