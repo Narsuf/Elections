@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.data
+package com.jorgedguezm.elections.data.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

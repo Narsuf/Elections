@@ -21,15 +21,21 @@ class DetailFragment : ViewModelFragment() {
     // This property is only valid between onCreateView and onDestroyView.
     internal val binding get() = _binding!!
 
+    private lateinit var election: Election
     internal lateinit var countDownTimer: CountDownTimer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
 
-        val election = arguments?.getSerializable(KEY_ELECTION) as Election
+        election = arguments?.getSerializable(KEY_ELECTION) as Election
 
-        binding.floatingButtonMoreInfo.setOnClickListener {
+        binding.setupViews()
+        return binding.root
+    }
+
+    private fun FragmentDetailBinding.setupViews() {
+        floatingButtonMoreInfo.setOnClickListener {
             val bundle = Bundle()
             val dialog = DetailDialog()
 
@@ -38,23 +44,28 @@ class DetailFragment : ViewModelFragment() {
             activity?.supportFragmentManager?.let { dialog.show(it, "DetailDialog") }
         }
 
-        utils.drawPieChart(binding.pieChart, election.results)
+        utils.drawPieChart(pieChart, election.results)
         initializeCountDownTimer()
 
-        // Manage list view with election data.
-        val resultsAdapter = election.getResultsAdapter()
+        // Fill ListView with election data.
+        val resultsAdapter = election.generateResultsAdapter()
         resultsAdapter.viewBinder = PartyColorBinder()
 
-        binding.listView.adapter = resultsAdapter
-        binding.listView.setOnItemClickListener { _, _, position, _ ->
-            binding.pieChart.highlightValue(position.toFloat(), 0)
+        listView.adapter = resultsAdapter
+        listView.setOnItemClickListener { _, _, position, _ ->
+            pieChart.highlightValue(position.toFloat(), 0)
             countDownTimer.start()
         }
-
-        return binding.root
     }
 
-    private fun Election.getResultsAdapter(): SimpleAdapter {
+    private fun initializeCountDownTimer() {
+        countDownTimer = object: CountDownTimer(1000, 1) {
+            override fun onTick(millisUntilFinished: Long) { }
+            override fun onFinish() { binding.pieChart.highlightValue(-1F, -1) }
+        }
+    }
+
+    private fun Election.generateResultsAdapter(): SimpleAdapter {
         val from = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
         val to = intArrayOf(R.id.tvPartyColor, R.id.tvPartyName, R.id.tvNumberVotes, R.id.tvVotesPercentage,
             R.id.tvElects)
@@ -81,10 +92,8 @@ class DetailFragment : ViewModelFragment() {
         return SimpleAdapter(context, arrayList, R.layout.list_item_detail_activity, from, to)
     }
 
-    private fun initializeCountDownTimer() {
-        countDownTimer = object: CountDownTimer(1000, 1) {
-            override fun onTick(millisUntilFinished: Long) { }
-            override fun onFinish() { binding.pieChart.highlightValue(-1F, -1) }
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

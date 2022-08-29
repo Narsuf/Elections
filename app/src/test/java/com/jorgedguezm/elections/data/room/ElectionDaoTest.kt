@@ -3,7 +3,7 @@ package com.jorgedguezm.elections.data.room
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.jorgedguezm.elections.data.models.ElectionGenerator.Companion.generateElection
+import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers

@@ -2,7 +2,7 @@ package com.jorgedguezm.elections.presentation.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
-import com.jorgedguezm.elections.data.DataUtils
+import com.jorgedguezm.elections.data.utils.DataUtils
 import com.jorgedguezm.elections.data.ElectionApi
 import com.jorgedguezm.elections.data.ElectionApiTest
 import com.jorgedguezm.elections.data.ElectionRepository
@@ -25,6 +25,7 @@ import org.mockito.Mockito.mock
 import org.robolectric.RobolectricTestRunner
 import kotlin.system.measureTimeMillis
 
+@ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
 class MainViewModelTest {
 
@@ -35,10 +36,8 @@ class MainViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    @ExperimentalCoroutinesApi
     private val testDispatcher = UnconfinedTestDispatcher()
 
-    @ExperimentalCoroutinesApi
     @Before
     fun init() = runTest {
         electionRepository = mock(ElectionRepository::class.java)
@@ -52,7 +51,6 @@ class MainViewModelTest {
         Dispatchers.setMain(testDispatcher)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `screen opened should emit success when succeeding`() = runTest {
         val totalExecutionTime = measureTimeMillis {
@@ -64,7 +62,6 @@ class MainViewModelTest {
         println("Total Execution Time: $totalExecutionTime ms")
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `screen opened should emit error when failing`() = runTest {
         val exception = IndexOutOfBoundsException()

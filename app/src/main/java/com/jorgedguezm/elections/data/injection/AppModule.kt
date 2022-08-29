@@ -2,7 +2,7 @@ package com.jorgedguezm.elections.data.injection
 
 import android.app.Application
 import androidx.room.Room
-import com.jorgedguezm.elections.data.DataUtils
+import com.jorgedguezm.elections.data.utils.DataUtils
 
 import com.jorgedguezm.elections.data.room.Database
 import com.jorgedguezm.elections.data.room.ElectionDao

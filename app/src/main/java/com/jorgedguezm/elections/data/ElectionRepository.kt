@@ -2,6 +2,7 @@ package com.jorgedguezm.elections.data
 
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
+import com.jorgedguezm.elections.data.utils.DataUtils
 import javax.inject.Inject
 import javax.inject.Singleton
 

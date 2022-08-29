@@ -4,28 +4,22 @@ import com.jorgedguezm.elections.data.models.ApiResponse
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.models.Party
 import com.jorgedguezm.elections.data.models.Results
-
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-
 import junit.framework.TestCase.assertEquals
-
 import kotlinx.coroutines.runBlocking
-
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-
 import okio.buffer
 import okio.source
-
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
-
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-
+import java.io.IOException
 import java.nio.charset.StandardCharsets
 
 class ElectionApiTest {
@@ -81,5 +75,11 @@ class ElectionApiTest {
         val source = inputStream.source().buffer()
         val mockResponse = MockResponse()
         mockWebServer.enqueue(mockResponse.setBody(source.readString(StandardCharsets.UTF_8)))
+    }
+
+    @After
+    @Throws(IOException::class)
+    fun teardown() {
+        mockWebServer.shutdown()
     }
 }

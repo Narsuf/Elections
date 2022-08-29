@@ -1,4 +1,8 @@
-package com.jorgedguezm.elections.data.models
+package com.jorgedguezm.elections.data.utils
+
+import com.jorgedguezm.elections.data.models.Election
+import com.jorgedguezm.elections.data.models.Party
+import com.jorgedguezm.elections.data.models.Results
 
 class ElectionGenerator {
 
@@ -25,6 +29,15 @@ class ElectionGenerator {
                 nullVotes = generateRand(),
                 results = arrayListOf(generateResults())
             )
+        }
+
+        fun generateElections(): List<Election> {
+            val elections = mutableListOf<Election>()
+
+            // Generate 100 elections to reduce error margin.
+            for (i in 1..100) { elections.add(generateElection()) }
+
+            return elections
         }
     }
 }
