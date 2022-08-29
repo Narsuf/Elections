@@ -1,9 +1,9 @@
 package com.jorgedguezm.elections.presentation.detail
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.widget.Toolbar
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.databinding.ActivityDetailBinding
@@ -25,20 +25,21 @@ class DetailActivity : ViewModelActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         val extras = intent.extras
         congressElection = extras?.getSerializable(KEY_CONGRESS_ELECTION) as Election
         currentElection = congressElection
         senateElection = extras.getSerializable(KEY_SENATE_ELECTION) as Election
 
-        binding.toolbar.setup()
+        title = generateToolbarTitle()
 
         beginTransactionToDetailFragment()
     }
 
-    private fun Toolbar.setup() {
-        title = generateToolbarTitle()
-        inflateMenu(R.menu.menu_detail_activity)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_detail_activity, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -7,13 +7,17 @@ import com.jorgedguezm.elections.data.ElectionApi
 import com.jorgedguezm.elections.data.ElectionApiTest
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.room.ElectionDao
+import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
+import com.jorgedguezm.elections.presentation.main.entities.MainEvent.*
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Success
+import com.jorgedguezm.elections.utils.FlowTestObserver
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
@@ -74,5 +78,17 @@ class MainViewModelTest {
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
+    }
+
+    @Test
+    fun `election clicked should emit navigate to detail event`() = runBlockingTest {
+        val observer = FlowTestObserver(this, viewModel.viewEvent)
+        val congressElection = generateElection()
+        val senateElection = generateElection()
+
+        viewModel.onElectionClicked(congressElection, senateElection)
+
+        observer.assertValues(NavigateToDetail(congressElection, senateElection))
+        observer.close()
     }
 }
