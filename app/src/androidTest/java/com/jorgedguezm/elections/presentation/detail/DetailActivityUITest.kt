@@ -14,6 +14,7 @@ import org.junit.Test
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
 import com.jorgedguezm.elections.utils.assertions.ListAssertions.assertListTexts
+import com.jorgedguezm.elections.utils.assertions.ListAssertions.assertListTextsWithDifferentPositions
 
 class DetailActivityUITest {
 
@@ -43,12 +44,14 @@ class DetailActivityUITest {
 
         with(congressElection) {
             assertDisplayed(R.id.text_view_title, "$chamberName $place $date")
-            assertDisplayedAtPosition(R.id.list_view_general_information, 0, "$scrutinized %")
-            assertDisplayedAtPosition(R.id.list_view_general_information, 1, totalElects.toString())
-            assertDisplayedAtPosition(R.id.list_view_general_information, 2, validVotes.toString())
-            assertDisplayedAtPosition(R.id.list_view_general_information, 3, abstentions.toString())
-            assertDisplayedAtPosition(R.id.list_view_general_information, 4, nullVotes.toString())
-            assertDisplayedAtPosition(R.id.list_view_general_information, 5, blankVotes.toString())
+            assertListTextsWithDifferentPositions(R.id.list_view_general_information, listOf(
+                "$scrutinized %",
+                totalElects.toString(),
+                validVotes.toString(),
+                abstentions.toString(),
+                nullVotes.toString(),
+                blankVotes.toString(),
+            ))
         }
     }
 

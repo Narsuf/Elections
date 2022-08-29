@@ -10,4 +10,10 @@ object ListAssertions {
             assertDisplayedAtPosition(listId, position, text)
         }
     }
+
+    fun assertListTextsWithDifferentPositions(@IdRes listId: Int, texts: List<String>) {
+        for (i in texts.indices) {
+            assertDisplayedAtPosition(listId, i, texts[i])
+        }
+    }
 }
