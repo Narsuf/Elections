@@ -1,10 +1,9 @@
 package com.jorgedguezm.elections.presentation.detail
 
-import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import com.jorgedguezm.elections.data.models.ElectionGenerator
+import com.jorgedguezm.elections.data.utils.ElectionGenerator
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_CONGRESS
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_CONGRESS_ELECTION
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE
@@ -19,17 +18,12 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class DetailActivityTest {
 
-    private val context = ApplicationProvider.getApplicationContext<Context>()
     private val congressElection = ElectionGenerator.generateElection(KEY_CONGRESS)
     private val senateElection = ElectionGenerator.generateElection(KEY_SENATE)
-    private val intent = Intent(context, DetailActivity::class.java).apply {
-        putExtra(KEY_CONGRESS_ELECTION, congressElection)
-        putExtra(KEY_SENATE_ELECTION, senateElection)
-    }
 
     @Test
     fun launchDetailActivity() {
-        ActivityScenario.launch<DetailActivity>(intent).onActivity { activity ->
+        launchActivity().onActivity { activity ->
             // Congress results loaded
             activity.checkCongress()
 
@@ -62,8 +56,6 @@ class DetailActivityTest {
             // Not highlighted anymore
             fragment.countDownTimer.onFinish()
             assertNull(fragment.binding.pieChart.highlighted)
-
-            fragment.binding.floatingButtonMoreInfo.performClick()
         }
     }
 
@@ -76,4 +68,11 @@ class DetailActivityTest {
         assertTrue(binding.toolbar.title.contains("Senado"))
         assertEquals(senateElection.id, currentElection.id)
     }
+
+    private fun launchActivity() = ActivityScenario.launch<DetailActivity>(
+        Intent(ApplicationProvider.getApplicationContext(), DetailActivity::class.java).apply {
+            putExtra(KEY_CONGRESS_ELECTION, congressElection)
+            putExtra(KEY_SENATE_ELECTION, senateElection)
+        }
+    )
 }

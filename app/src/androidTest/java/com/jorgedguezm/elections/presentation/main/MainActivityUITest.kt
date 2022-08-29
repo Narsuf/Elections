@@ -12,7 +12,7 @@ import org.hamcrest.Matchers.allOf
 import org.junit.Test
 import java.lang.Thread.sleep
 
-class MainActivityIntegrationTest {
+class MainActivityUITest {
 
     @Test
     fun clickOnElectionShouldNavigateToDetail() {

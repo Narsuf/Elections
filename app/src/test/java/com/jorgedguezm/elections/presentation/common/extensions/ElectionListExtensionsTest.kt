@@ -1,7 +1,7 @@
 package com.jorgedguezm.elections.presentation.common.extensions
 
 import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.data.models.ElectionGenerator.Companion.generateElections
+import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElections
 import junit.framework.TestCase
 import org.junit.Test
 

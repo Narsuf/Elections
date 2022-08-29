@@ -1,4 +1,8 @@
-package com.jorgedguezm.elections.data.models
+package com.jorgedguezm.elections.data.utils
+
+import com.jorgedguezm.elections.data.models.Election
+import com.jorgedguezm.elections.data.models.Party
+import com.jorgedguezm.elections.data.models.Results
 
 class ElectionGenerator {
 
