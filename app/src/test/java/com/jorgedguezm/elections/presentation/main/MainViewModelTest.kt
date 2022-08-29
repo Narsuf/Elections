@@ -2,7 +2,7 @@ package com.jorgedguezm.elections.presentation.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
-import com.jorgedguezm.elections.data.DataUtils
+import com.jorgedguezm.elections.data.utils.DataUtils
 import com.jorgedguezm.elections.data.ElectionApi
 import com.jorgedguezm.elections.data.ElectionApiTest
 import com.jorgedguezm.elections.data.ElectionRepository

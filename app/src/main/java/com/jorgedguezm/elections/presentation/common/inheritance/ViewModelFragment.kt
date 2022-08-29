@@ -22,6 +22,5 @@ open class ViewModelFragment : Fragment() {
         super.onAttach(context)
     }
 
-    protected inline fun <reified VM : ViewModel>
-            viewModel(): Lazy<VM> = viewModels { viewModelFactory }
+    protected inline fun <reified VM : ViewModel> viewModel(): Lazy<VM> = viewModels { viewModelFactory }
 }

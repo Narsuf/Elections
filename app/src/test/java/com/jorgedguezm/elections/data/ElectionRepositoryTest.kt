@@ -3,6 +3,7 @@ package com.jorgedguezm.elections.data
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import com.jorgedguezm.elections.data.room.ElectionDao
+import com.jorgedguezm.elections.data.utils.DataUtils
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
