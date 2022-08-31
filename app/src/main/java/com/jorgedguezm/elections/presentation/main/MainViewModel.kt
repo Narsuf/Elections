@@ -41,7 +41,7 @@ class MainViewModel @Inject constructor(private val electionRepository: Election
         state.value = Loading
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Error(throwable)
+            state.value = Error(throwable.message)
         }
 
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {

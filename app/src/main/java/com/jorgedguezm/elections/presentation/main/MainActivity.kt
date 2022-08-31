@@ -66,12 +66,17 @@ class MainActivity : ViewModelActivity() {
     internal fun renderState(state: MainState) = when (state) {
         Idle -> Unit
         Loading -> Unit
-        is Error -> showError()
+        is Error -> showError(state)
         is Success -> showElections(state)
     }
 
-    private fun showError() {
-        Snackbar.make(binding.content, getString(R.string.something_wrong), Snackbar.LENGTH_LONG).show()
+    private fun showError(state: Error) {
+        val error = when (state.errorMessage) {
+            "1" -> R.string.no_internet_connection
+            else -> R.string.something_wrong
+        }
+
+        Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
     private fun showElections(state: Success) {
