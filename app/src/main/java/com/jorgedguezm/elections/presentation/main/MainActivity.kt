@@ -2,8 +2,9 @@ package com.jorgedguezm.elections.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jorgedguezm.elections.R
@@ -15,7 +16,7 @@ import com.jorgedguezm.elections.presentation.detail.DetailActivity
 import com.jorgedguezm.elections.presentation.main.adapters.GeneralCardAdapter
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.NavigateToDetail
-import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
+import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.*
 import com.jorgedguezm.elections.presentation.main.entities.MainState
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Idle
@@ -36,9 +37,7 @@ class MainActivity : ViewModelActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //binding.toolbar.setup()
-
-        binding.recyclerView.apply { layoutManager = LinearLayoutManager(context) }
-
+        binding.setupViews()
         initObservers()
         vm.handleInteraction(ScreenOpened)
     }
@@ -57,6 +56,15 @@ class MainActivity : ViewModelActivity() {
         }
     }*/
 
+    private fun ActivityMainBinding.setupViews() {
+        swipe.setOnRefreshListener {
+            binding.recyclerView.visibility = GONE
+            vm.handleInteraction(Refresh)
+        }
+
+        recyclerView.apply { layoutManager = LinearLayoutManager(context) }
+    }
+
     private fun initObservers() {
         vm.viewState.observe(this, ::renderState)
         vm.viewEvent.observeOnLifecycle(this, action = ::handleEvent)
@@ -65,13 +73,34 @@ class MainActivity : ViewModelActivity() {
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Idle -> Unit
-        Loading -> Unit
-        is Error -> showError()
+        Loading -> loading()
+        is Error -> showError(state)
         is Success -> showElections(state)
     }
 
-    private fun showError() {
-        Snackbar.make(binding.content, getString(R.string.something_wrong), Snackbar.LENGTH_LONG).show()
+    private fun loading() {
+        if (dataUtils.isConnectedToInternet()) {
+            binding.errorAnimation.visibility = GONE
+            binding.loadingAnimation.visibility = VISIBLE
+        }
+    }
+
+    private fun showError(state: Error) {
+        binding.swipe.isRefreshing = false
+
+        val error = when (state.errorMessage) {
+            "1" -> noConnection()
+            else -> R.string.something_wrong
+        }
+
+        Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun noConnection(): Int {
+        binding.loadingAnimation.visibility = GONE
+        binding.errorAnimation.visibility = VISIBLE
+
+        return R.string.no_internet_connection
     }
 
     private fun showElections(state: Success) {
@@ -80,6 +109,10 @@ class MainActivity : ViewModelActivity() {
             onElectionClicked = state.onElectionClicked
         }
 
+        binding.swipe.isRefreshing = false
+        binding.errorAnimation.visibility = GONE
+        binding.loadingAnimation.visibility = GONE
+        binding.recyclerView.visibility = VISIBLE
         binding.recyclerView.adapter = generalCardAdapter
     }
 

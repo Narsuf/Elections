@@ -10,10 +10,7 @@ import retrofit2.http.Query
 interface ElectionApi {
 
     @GET("elections")
-    suspend fun getElections(
-        @Query("place") place: String,
-        @Query("chamberName") chamberName: String?
-    ): ApiResponse<List<Election>>
+    suspend fun getElections(@Query("place") place: String): ApiResponse<List<Election>>
 
     @GET("elections/{id}")
     suspend fun getElection(@Path("id") id: Long): ApiResponse<Election>

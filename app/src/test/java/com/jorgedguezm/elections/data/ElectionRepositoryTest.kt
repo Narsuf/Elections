@@ -1,7 +1,7 @@
 package com.jorgedguezm.elections.data
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
+import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
 import com.jorgedguezm.elections.data.utils.DataUtils
 import junit.framework.TestCase.assertEquals
@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
@@ -22,6 +21,7 @@ import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.robolectric.RobolectricTestRunner
 
+@ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
 class ElectionRepositoryTest {
 
@@ -30,14 +30,8 @@ class ElectionRepositoryTest {
     private lateinit var dao: ElectionDao
     private lateinit var utils: DataUtils
     private val expectedResponse = ElectionApiTest.expectedApiResponse
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
-    @ExperimentalCoroutinesApi
     private val testDispatcher = UnconfinedTestDispatcher()
 
-    @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
         service = mock(ElectionApi::class.java)
@@ -48,26 +42,38 @@ class ElectionRepositoryTest {
         Dispatchers.setMain(testDispatcher)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadElectionsFromDb() = runTest {
         val daoElections = expectedResponse.data
 
         `when`(utils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.queryElections(anyString(), anyString())).thenReturn(daoElections)
+        `when`(dao.queryElections(anyString())).thenReturn(daoElections)
 
-        assertEquals(repository.getElections("", ""), daoElections)
+        assertEquals(repository.getElections(""), daoElections)
     }
 
-    @ExperimentalCoroutinesApi
+    @Test
+    fun `no internet connection and empty database should throw exception`() = runTest {
+        val daoElections = listOf<Election>()
+
+        `when`(utils.isConnectedToInternet()).thenReturn(false)
+        `when`(dao.queryElections(anyString())).thenReturn(daoElections)
+
+        try {
+           repository.getElections("")
+        } catch (e: Exception) {
+            assertEquals(e.message, "1")
+        }
+    }
+
     @Test
     fun loadElectionsFromApi() = runTest {
         val apiElections = expectedResponse
 
         `when`(utils.isConnectedToInternet()).thenReturn(true)
-        `when`(service.getElections(anyString(), anyString())).thenReturn(apiElections)
+        `when`(service.getElections(anyString())).thenReturn(apiElections)
 
-        assertEquals(repository.getElections("", ""), apiElections.data)
+        assertEquals(repository.getElections(""), apiElections.data)
         verify(dao, times(1)).insertElections(anyList())
     }
 }

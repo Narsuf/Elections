@@ -10,5 +10,5 @@ sealed class MainState {
     object Loading : MainState()
 
     data class Success(val elections: List<Election>, val onElectionClicked: OnElectionClicked) : MainState()
-    data class Error(val throwable: Throwable) : MainState()
+    data class Error(val errorMessage: String?) : MainState()
 }

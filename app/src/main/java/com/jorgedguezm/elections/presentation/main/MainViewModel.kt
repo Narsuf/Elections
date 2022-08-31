@@ -11,7 +11,7 @@ import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.NavigateToDetail
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction
-import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
+import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.*
 import com.jorgedguezm.elections.presentation.main.entities.MainState
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Idle
@@ -34,14 +34,14 @@ class MainViewModel @Inject constructor(private val electionRepository: Election
     internal val viewEvent = event.receiveAsFlow()
 
     internal fun handleInteraction(action: MainInteraction) = when (action) {
-        ScreenOpened -> retrieveElections()
+        ScreenOpened, Refresh -> retrieveElections()
     }
 
     private fun retrieveElections() {
         state.value = Loading
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Error(throwable)
+            state.value = Error(throwable.message)
         }
 
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
