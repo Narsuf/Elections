@@ -16,8 +16,8 @@ import com.jorgedguezm.elections.utils.FlowTestObserver
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
@@ -81,8 +81,8 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `election clicked should emit navigate to detail event`() = runBlockingTest {
-        val observer = FlowTestObserver(this, viewModel.viewEvent)
+    fun `election clicked should emit navigate to detail event`() = runTest {
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
         val congressElection = generateElection()
         val senateElection = generateElection()
 
