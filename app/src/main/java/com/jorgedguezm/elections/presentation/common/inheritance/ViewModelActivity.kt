@@ -5,11 +5,15 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.jorgedguezm.elections.data.utils.DataUtils
 import com.jorgedguezm.elections.presentation.common.PresentationUtils
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 open class ViewModelActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var dataUtils: DataUtils
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

@@ -16,7 +16,7 @@ import com.jorgedguezm.elections.presentation.detail.DetailActivity
 import com.jorgedguezm.elections.presentation.main.adapters.GeneralCardAdapter
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.NavigateToDetail
-import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
+import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.*
 import com.jorgedguezm.elections.presentation.main.entities.MainState
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Idle
@@ -37,9 +37,7 @@ class MainActivity : ViewModelActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //binding.toolbar.setup()
-
-        binding.recyclerView.apply { layoutManager = LinearLayoutManager(context) }
-
+        binding.setupViews()
         initObservers()
         vm.handleInteraction(ScreenOpened)
     }
@@ -58,6 +56,15 @@ class MainActivity : ViewModelActivity() {
         }
     }*/
 
+    private fun ActivityMainBinding.setupViews() {
+        swipe.setOnRefreshListener {
+            binding.recyclerView.visibility = GONE
+            vm.handleInteraction(Refresh)
+        }
+
+        recyclerView.apply { layoutManager = LinearLayoutManager(context) }
+    }
+
     private fun initObservers() {
         vm.viewState.observe(this, ::renderState)
         vm.viewEvent.observeOnLifecycle(this, action = ::handleEvent)
@@ -66,12 +73,21 @@ class MainActivity : ViewModelActivity() {
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Idle -> Unit
-        Loading -> binding.loadingAnimation.visibility = VISIBLE
+        Loading -> loading()
         is Error -> showError(state)
         is Success -> showElections(state)
     }
 
+    private fun loading() {
+        if (dataUtils.isConnectedToInternet()) {
+            binding.errorAnimation.visibility = GONE
+            binding.loadingAnimation.visibility = VISIBLE
+        }
+    }
+
     private fun showError(state: Error) {
+        binding.swipe.isRefreshing = false
+
         val error = when (state.errorMessage) {
             "1" -> noConnection()
             else -> R.string.something_wrong
@@ -93,6 +109,8 @@ class MainActivity : ViewModelActivity() {
             onElectionClicked = state.onElectionClicked
         }
 
+        binding.swipe.isRefreshing = false
+        binding.errorAnimation.visibility = GONE
         binding.loadingAnimation.visibility = GONE
         binding.recyclerView.visibility = VISIBLE
         binding.recyclerView.adapter = generalCardAdapter

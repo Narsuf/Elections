@@ -54,7 +54,7 @@ class ElectionDaoTest {
 
         electionDao.insertElection(election)
 
-        val elections = electionDao.queryElections(election.place, election.chamberName)
+        val elections = electionDao.queryElections(election.place)
         val dbElection = electionDao.getElection(election.id)
 
         assertTrue(elections.contains(election))

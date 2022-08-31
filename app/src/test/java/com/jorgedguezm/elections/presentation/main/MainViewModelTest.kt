@@ -74,7 +74,7 @@ class MainViewModelTest {
 
         val totalExecutionTime = measureTimeMillis {
             viewModel.handleInteraction(ScreenOpened)
-            assertEquals(Error(exception), viewModel.viewState.value)
+            assertEquals(Error(exception.message), viewModel.viewState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")

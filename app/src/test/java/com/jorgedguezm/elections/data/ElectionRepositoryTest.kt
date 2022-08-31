@@ -54,9 +54,9 @@ class ElectionRepositoryTest {
         val daoElections = expectedResponse.data
 
         `when`(utils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.queryElections(anyString(), anyString())).thenReturn(daoElections)
+        `when`(dao.queryElections(anyString())).thenReturn(daoElections)
 
-        assertEquals(repository.getElections("", ""), daoElections)
+        assertEquals(repository.getElections(""), daoElections)
     }
 
     @ExperimentalCoroutinesApi
@@ -65,9 +65,9 @@ class ElectionRepositoryTest {
         val apiElections = expectedResponse
 
         `when`(utils.isConnectedToInternet()).thenReturn(true)
-        `when`(service.getElections(anyString(), anyString())).thenReturn(apiElections)
+        `when`(service.getElections(anyString())).thenReturn(apiElections)
 
-        assertEquals(repository.getElections("", ""), apiElections.data)
+        assertEquals(repository.getElections(""), apiElections.data)
         verify(dao, times(1)).insertElections(anyList())
     }
 }
