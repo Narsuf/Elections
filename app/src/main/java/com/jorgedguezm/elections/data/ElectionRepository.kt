@@ -18,7 +18,7 @@ class ElectionRepository @Inject constructor(internal var service: ElectionApi,
             dao.insertElections(elections)
             elections
         } else {
-            val elections = dao.queryElections(place, chamber)
+            val elections = dao.queryElections(place)
             if (elections.isEmpty()) throw Exception("1")
             elections
         }

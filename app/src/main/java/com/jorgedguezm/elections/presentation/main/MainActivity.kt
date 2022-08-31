@@ -2,8 +2,9 @@ package com.jorgedguezm.elections.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jorgedguezm.elections.R
@@ -65,18 +66,25 @@ class MainActivity : ViewModelActivity() {
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Idle -> Unit
-        Loading -> Unit
+        Loading -> binding.loadingAnimation.visibility = VISIBLE
         is Error -> showError(state)
         is Success -> showElections(state)
     }
 
     private fun showError(state: Error) {
         val error = when (state.errorMessage) {
-            "1" -> R.string.no_internet_connection
+            "1" -> noConnection()
             else -> R.string.something_wrong
         }
 
         Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun noConnection(): Int {
+        binding.loadingAnimation.visibility = GONE
+        binding.errorAnimation.visibility = VISIBLE
+
+        return R.string.no_internet_connection
     }
 
     private fun showElections(state: Success) {
@@ -85,6 +93,8 @@ class MainActivity : ViewModelActivity() {
             onElectionClicked = state.onElectionClicked
         }
 
+        binding.loadingAnimation.visibility = GONE
+        binding.recyclerView.visibility = VISIBLE
         binding.recyclerView.adapter = generalCardAdapter
     }
 
