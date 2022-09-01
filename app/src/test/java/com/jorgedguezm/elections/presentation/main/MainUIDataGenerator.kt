@@ -7,3 +7,5 @@ fun getMainSuccess() = Success(
     elections = generateElections(),
     onElectionClicked = { _, _ ->}
 )
+
+fun getMainError(error: String?) = Error(error)
