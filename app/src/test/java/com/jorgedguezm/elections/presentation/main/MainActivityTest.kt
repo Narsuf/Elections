@@ -1,10 +1,14 @@
 package com.jorgedguezm.elections.presentation.main
 
+import androidx.core.view.isVisible
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.presentation.main.adapters.GeneralCardAdapter
+import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -26,6 +30,40 @@ class MainActivityTest {
             val recyclerAdapter = binding.recyclerView.adapter!! as GeneralCardAdapter
             assertEquals(recyclerAdapter.elections, state.elections)
             assertEquals(recyclerAdapter.onElectionClicked, state.onElectionClicked)
+        }
+    }
+
+    @Test
+    fun checkLoadingViewState() {
+        launchActivity().onActivity { activity ->
+            // Loading is triggered automatically.
+            assertTrue(activity.binding.loadingAnimation.isVisible)
+        }
+    }
+
+    @Test
+    fun checkGenericErrorViewState() {
+        val state = getMainError(null)
+        checkError(state)
+    }
+
+    @Test
+    fun checkNoInternetConnectionErrorViewState() {
+        val state = getMainError("1")
+        checkError(state)
+    }
+
+    private fun checkError(state: Error) {
+        launchActivity().onActivity { activity ->
+            val binding = activity.binding
+
+            assertTrue(binding.loadingAnimation.isVisible)
+            assertFalse(binding.errorAnimation.isVisible)
+
+            activity.renderState(state)
+
+            assertFalse(binding.loadingAnimation.isVisible)
+            assertTrue(binding.errorAnimation.isVisible)
         }
     }
 

@@ -87,20 +87,15 @@ class MainActivity : ViewModelActivity() {
 
     private fun showError(state: Error) {
         binding.swipe.isRefreshing = false
+        binding.loadingAnimation.visibility = GONE
+        binding.errorAnimation.visibility = VISIBLE
 
         val error = when (state.errorMessage) {
-            "1" -> noConnection()
+            "1" -> R.string.no_internet_connection
             else -> R.string.something_wrong
         }
 
         Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
-    }
-
-    private fun noConnection(): Int {
-        binding.loadingAnimation.visibility = GONE
-        binding.errorAnimation.visibility = VISIBLE
-
-        return R.string.no_internet_connection
     }
 
     private fun showElections(state: Success) {
