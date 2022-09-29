@@ -2,10 +2,12 @@ package com.jorgedguezm.elections.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.databinding.ActivityMainBinding
@@ -89,13 +91,24 @@ class MainActivity : ViewModelActivity() {
         binding.swipe.isRefreshing = false
         binding.loadingAnimation.visibility = GONE
         binding.errorAnimation.visibility = VISIBLE
+        with(binding.errorAnimation) {
+            playAnimation()
+            addAnimatorUpdateListener {
+                val progress = it.animatedFraction
 
-        val error = when (state.errorMessage) {
-            "1" -> R.string.no_internet_connection
-            else -> R.string.something_wrong
+                if (progress in 0.67F..0.68F) {
+                    removeAllUpdateListeners()
+                    pauseAnimation()
+                }
+            }
+
+            val error = when (state.errorMessage) {
+                "1" -> R.string.no_internet_connection
+                else -> R.string.something_wrong
+            }
+
+            Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
         }
-
-        Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
     private fun showElections(state: Success) {
