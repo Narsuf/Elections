@@ -88,14 +88,25 @@ class MainActivity : ViewModelActivity() {
     private fun showError(state: Error) {
         binding.swipe.isRefreshing = false
         binding.loadingAnimation.visibility = GONE
-        binding.errorAnimation.visibility = VISIBLE
+        with(binding.errorAnimation) {
+            visibility = VISIBLE
+            playAnimation()
+            addAnimatorUpdateListener {
+                val progress = it.animatedFraction
 
-        val error = when (state.errorMessage) {
-            "1" -> R.string.no_internet_connection
-            else -> R.string.something_wrong
+                if (progress in 0.67F..0.68F) {
+                    removeAllUpdateListeners()
+                    pauseAnimation()
+                }
+            }
+
+            val error = when (state.errorMessage) {
+                "1" -> R.string.no_internet_connection
+                else -> R.string.something_wrong
+            }
+
+            Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
         }
-
-        Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
     private fun showElections(state: Success) {
