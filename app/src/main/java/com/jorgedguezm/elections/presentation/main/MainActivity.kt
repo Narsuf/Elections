@@ -88,8 +88,8 @@ class MainActivity : ViewModelActivity() {
     private fun showError(state: Error) {
         binding.swipe.isRefreshing = false
         binding.loadingAnimation.visibility = GONE
-        binding.errorAnimation.visibility = VISIBLE
         with(binding.errorAnimation) {
+            visibility = VISIBLE
             playAnimation()
             addAnimatorUpdateListener {
                 val progress = it.animatedFraction
