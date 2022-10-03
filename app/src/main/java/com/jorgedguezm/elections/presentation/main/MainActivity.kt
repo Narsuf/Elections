@@ -2,12 +2,10 @@ package com.jorgedguezm.elections.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.databinding.ActivityMainBinding
