@@ -20,10 +20,8 @@ import java.math.RoundingMode
 open class PresentationUtils {
 
     fun drawPieChart(chart: PieChart, results: List<Results>) {
-        val sortedResults = results.sortedByDescending { it.elects }
-
-        val elects = sortedResults.getElects()
-        val colors = sortedResults.getColors()
+        val elects = results.getElects()
+        val colors = results.getColors()
 
         chart.description = null
         chart.legend.isEnabled = false
