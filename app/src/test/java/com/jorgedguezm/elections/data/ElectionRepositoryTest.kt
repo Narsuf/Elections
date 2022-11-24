@@ -62,7 +62,7 @@ class ElectionRepositoryTest {
         try {
            repository.getElections("")
         } catch (e: Exception) {
-            assertEquals(e.message, "1")
+            assertEquals(e.message, "Empty database")
         }
     }
 

@@ -5,9 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
+import com.jorgedguezm.elections.presentation.common.extensions.sortResultsByElects
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.NavigateToDetail
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction
@@ -37,16 +40,21 @@ class MainViewModel @Inject constructor(private val electionRepository: Election
         ScreenOpened, Refresh -> retrieveElections()
     }
 
-    private fun retrieveElections() {
+    private fun retrieveElections(offline: Boolean = false) {
         state.value = Loading
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Error(throwable.message)
+            if (throwable.message != null && throwable.message!!.contains("Failed to connect to ")) {
+                Firebase.crashlytics.recordException(Exception("Service down"))
+                retrieveElections(offline = true)
+            } else {
+                state.value = Error(throwable.message)
+            }
         }
 
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
-            val elections = electionRepository.getElections()
-            val sortedElections = elections.sortByDate()
+            val elections = if (offline) electionRepository.getElectionsFromDb() else electionRepository.getElections()
+            val sortedElections = elections.sortByDate().sortResultsByElects()
             state.value = Success(sortedElections, ::onElectionClicked)
         }
     }

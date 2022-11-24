@@ -11,6 +11,7 @@ import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.databinding.FragmentDetailBinding
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_ELECTION
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE
+import com.jorgedguezm.elections.presentation.common.extensions.track
 import com.jorgedguezm.elections.presentation.common.inheritance.ViewModelFragment
 import com.jorgedguezm.elections.presentation.detail.binders.PartyColorBinder
 
@@ -42,8 +43,11 @@ class DetailFragment : ViewModelFragment() {
             bundle.putSerializable(KEY_ELECTION, election)
             dialog.arguments = bundle
             activity?.supportFragmentManager?.let { dialog.show(it, "DetailDialog") }
+
+            firebaseAnalytics.track("results_info_clicked", "election", "${election.chamberName} (${election.date})")
         }
 
+        // Prepare chart
         utils.drawPieChart(pieChart, election.results)
         initializeCountDownTimer()
 
@@ -55,6 +59,8 @@ class DetailFragment : ViewModelFragment() {
         listView.setOnItemClickListener { _, _, position, _ ->
             pieChart.highlightValue(position.toFloat(), 0)
             countDownTimer.start()
+
+            firebaseAnalytics.track("party_clicked", "party", election.results[position].party.name)
         }
     }
 

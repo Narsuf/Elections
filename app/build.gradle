@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
@@ -73,9 +75,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.google.android.material:material:1.6.1'
-    implementation "androidx.fragment:fragment-ktx:1.5.2"
+    implementation "androidx.fragment:fragment-ktx:1.5.3"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     // Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
@@ -116,7 +123,7 @@ dependencies {
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
 
-    debugImplementation 'androidx.fragment:fragment-testing:1.5.2'
+    debugImplementation 'androidx.fragment:fragment-testing:1.5.3'
 
     testImplementation project(':test_data')
     testImplementation 'androidx.test:core:1.4.0'

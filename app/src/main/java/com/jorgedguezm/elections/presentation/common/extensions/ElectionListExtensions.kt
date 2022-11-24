@@ -3,9 +3,7 @@ package com.jorgedguezm.elections.presentation.common.extensions
 import com.jorgedguezm.elections.data.models.Election
 
 fun List<Election>.sortByDate(): List<Election> {
-    val electionsCopy = map { it.copy() }
-
-    electionsCopy.sortedByDescending {
+    sortedByDescending {
         if (it.date.length > 4)
             it.date.toDouble() / 10
         else
@@ -23,4 +21,15 @@ fun List<Election>.sortByDate(): List<Election> {
 
         return sortedElections
     }
+}
+
+fun List<Election>.sortResultsByElects(): List<Election> {
+    val sortedElections = mutableListOf<Election>()
+
+    forEach { election ->
+        val sortedResults = election.results.sortedByDescending { it.elects }
+        sortedElections.add(election.copy(results = sortedResults))
+    }
+
+    return sortedElections
 }
