@@ -135,6 +135,6 @@ dependencies {
 
     androidTestImplementation project(':test_data')
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'com.adevinta.android:barista:4.3.0'
 }
