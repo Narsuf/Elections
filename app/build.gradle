@@ -63,6 +63,8 @@ android {
     testOptions {
         unitTests { includeAndroidResources = true }
     }
+
+    namespace 'com.jorgedguezm.elections'
 }
 
 repositories {
