@@ -2,8 +2,8 @@ package com.jorgedguezm.elections.data.models
 
 import com.squareup.moshi.Json
 
-data class ApiResponse<T> (
+data class ApiResponse (
 
-    @Json(name = "data")
-    val data: T
+    @Json(name = "elections")
+    val elections: List<Election>
 )

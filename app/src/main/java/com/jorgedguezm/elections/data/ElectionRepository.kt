@@ -12,18 +12,18 @@ class ElectionRepository @Inject constructor(internal var service: ElectionApi,
                                              internal var dao: ElectionDao,
                                              internal var utils: DataUtils) {
 
-    internal suspend fun getElections(place: String = "España"): List<Election> {
+    internal suspend fun getElections(): List<Election> {
         return if (utils.isConnectedToInternet()) {
-            val elections = service.getElections(place).data
+            val elections = service.getElections().elections
             dao.insertElections(elections)
             elections
         } else {
-            getElectionsFromDb(place)
+            getElectionsFromDb()
         }
     }
 
-    internal suspend fun getElectionsFromDb(place: String = "España"): List<Election> {
-        val elections = dao.queryElections(place)
+    internal suspend fun getElectionsFromDb(): List<Election> {
+        val elections = dao.queryElections()
         if (elections.isEmpty()) throw Exception("Empty database")
         return elections
     }

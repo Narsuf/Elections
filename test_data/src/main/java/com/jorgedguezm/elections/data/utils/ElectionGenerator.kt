@@ -27,7 +27,7 @@ class ElectionGenerator {
                 abstentions = generateRand(),
                 blankVotes = generateRand(),
                 nullVotes = generateRand(),
-                results = arrayListOf(generateResults())
+                result = arrayListOf(generateResults())
             )
         }
 

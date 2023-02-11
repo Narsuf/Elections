@@ -44,7 +44,7 @@ class MainViewModelTest {
         electionRepository.dao = mock(ElectionDao::class.java)
         electionRepository.service = mock(ElectionApi::class.java)
 
-        `when`(electionRepository.getElections()).thenReturn(expectedResponse.data)
+        `when`(electionRepository.getElections()).thenReturn(expectedResponse.elections)
 
         viewModel = MainViewModel(electionRepository)
         Dispatchers.setMain(testDispatcher)
@@ -55,7 +55,7 @@ class MainViewModelTest {
         val totalExecutionTime = measureTimeMillis {
             viewModel.handleInteraction(ScreenOpened)
 
-            assertEquals(Success(expectedResponse.data, viewModel::onElectionClicked), viewModel.viewState.value)
+            assertEquals(Success(expectedResponse.elections, viewModel::onElectionClicked), viewModel.viewState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
@@ -65,7 +65,7 @@ class MainViewModelTest {
     fun `refresh should emit success when succeeding`() = runTest {
         viewModel.handleInteraction(MainInteraction.Refresh)
 
-        assertEquals(Success(expectedResponse.data, viewModel::onElectionClicked), viewModel.viewState.value)
+        assertEquals(Success(expectedResponse.elections, viewModel::onElectionClicked), viewModel.viewState.value)
     }
 
     @Test

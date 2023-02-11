@@ -27,7 +27,7 @@ class DetailActivityUITest {
 
         assertToolbarTitle(congressElection.chamberName + " (" + congressElection.date + ")")
 
-        with(congressElection.results[0]) {
+        with(congressElection.result[0]) {
             assertListTexts(R.id.list_view, 0, listOf(
                 party.name,
                 votes.toString(),
