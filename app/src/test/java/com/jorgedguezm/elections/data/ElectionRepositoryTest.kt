@@ -44,12 +44,12 @@ class ElectionRepositoryTest {
 
     @Test
     fun loadElectionsFromDb() = runTest {
-        val daoElections = expectedResponse.data
+        val daoElections = expectedResponse.elections
 
         `when`(utils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.queryElections(anyString())).thenReturn(daoElections)
+        `when`(dao.queryElections()).thenReturn(daoElections)
 
-        assertEquals(repository.getElections(""), daoElections)
+        assertEquals(repository.getElections(), daoElections)
     }
 
     @Test
@@ -57,10 +57,10 @@ class ElectionRepositoryTest {
         val daoElections = listOf<Election>()
 
         `when`(utils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.queryElections(anyString())).thenReturn(daoElections)
+        `when`(dao.queryElections()).thenReturn(daoElections)
 
         try {
-           repository.getElections("")
+           repository.getElections()
         } catch (e: Exception) {
             assertEquals(e.message, "Empty database")
         }
@@ -71,9 +71,9 @@ class ElectionRepositoryTest {
         val apiElections = expectedResponse
 
         `when`(utils.isConnectedToInternet()).thenReturn(true)
-        `when`(service.getElections(anyString())).thenReturn(apiElections)
+        `when`(service.getElections()).thenReturn(apiElections)
 
-        assertEquals(repository.getElections(""), apiElections.data)
+        assertEquals(repository.getElections(), apiElections.elections)
         verify(dao, times(1)).insertElections(anyList())
     }
 }

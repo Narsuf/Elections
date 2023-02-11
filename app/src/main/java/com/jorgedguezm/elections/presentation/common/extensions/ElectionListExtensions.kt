@@ -27,8 +27,8 @@ fun List<Election>.sortResultsByElects(): List<Election> {
     val sortedElections = mutableListOf<Election>()
 
     forEach { election ->
-        val sortedResults = election.results.sortedByDescending { it.elects }
-        sortedElections.add(election.copy(results = sortedResults))
+        val sortedResults = election.result.sortedByDescending { it.elects }
+        sortedElections.add(election.copy(result = sortedResults))
     }
 
     return sortedElections

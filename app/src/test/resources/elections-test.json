@@ -1,5 +1,5 @@
 {
-  "data": [
+  "elections": [
     {
       "id": 3,
       "results": [
@@ -18,13 +18,14 @@
       "date": "2015",
       "name": "Generales",
       "place": "Espa\u00f1a",
-      "chamber_name": "Congreso",
-      "total_elects": 350,
+      "chamberName": "Congreso",
+      "totalElects": 350,
       "scrutinized": 100.0,
-      "valid_votes": 25349824,
+      "validVotes": 25349824,
       "abstentions": 9280429,
-      "blank_votes": 187766,
-      "null_votes": 226994
+      "blankVotes": 187766,
+      "nullVotes": 226994
     }
+
   ]
 }

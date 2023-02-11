@@ -52,7 +52,7 @@ class GeneralCardAdapter @Inject constructor(val utils: PresentationUtils) :
         holder.card.findViewById<TextView>(R.id.section_label).text = concatenatedText
         holder.card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
 
-        utils.drawPieChart(holder.card.findViewById(R.id.pie_chart), congressElection.results)
+        utils.drawPieChart(holder.card.findViewById(R.id.pie_chart), congressElection.result)
     }
 
     // Return the size of your dataset (invoked by the layout manager)

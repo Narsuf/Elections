@@ -54,14 +54,14 @@ class ElectionApiTest {
     fun getElections() = runBlocking {
         enqueueResponse("elections-test.json")
 
-        val response = apiInterface.getElections("España")
+        val response = apiInterface.getElections()
 
         assertEquals(response, expectedApiResponse)
     }
 
     @Test
     fun getElection() = runBlocking {
-        val apiResponse = ApiResponse(expectedElection)
+        val apiResponse = expectedElection
 
         enqueueResponse("election-test.json")
 
