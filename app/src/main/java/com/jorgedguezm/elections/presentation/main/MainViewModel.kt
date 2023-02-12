@@ -37,11 +37,12 @@ class MainViewModel @Inject constructor(private val electionRepository: Election
     internal val viewEvent = event.receiveAsFlow()
 
     internal fun handleInteraction(action: MainInteraction) = when (action) {
-        ScreenOpened, Refresh -> retrieveElections()
+        ScreenOpened -> retrieveElections()
+        Refresh -> retrieveElections(loadingAnimation = false)
     }
 
-    private fun retrieveElections(offline: Boolean = false) {
-        state.value = Loading
+    private fun retrieveElections(offline: Boolean = false, loadingAnimation: Boolean = true) {
+        if (!offline && loadingAnimation) state.value = Loading
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             if (throwable.message != null && throwable.message!!.contains("Failed to connect to ")) {
