@@ -58,11 +58,7 @@ class MainActivity : ViewModelActivity() {
     }*/
 
     private fun ActivityMainBinding.setupViews() {
-        swipe.setOnRefreshListener {
-            binding.recyclerView.visibility = GONE
-            vm.handleInteraction(Refresh)
-        }
-
+        swipe.setOnRefreshListener { vm.handleInteraction(Refresh) }
         recyclerView.apply { layoutManager = LinearLayoutManager(context) }
     }
 
@@ -88,6 +84,7 @@ class MainActivity : ViewModelActivity() {
 
     private fun showError(state: Error) {
         binding.swipe.isRefreshing = false
+        binding.recyclerView.visibility = GONE
         binding.loadingAnimation.visibility = GONE
         with(binding.errorAnimation) {
             visibility = VISIBLE
