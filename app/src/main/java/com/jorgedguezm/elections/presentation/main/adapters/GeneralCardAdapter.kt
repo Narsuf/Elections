@@ -1,9 +1,12 @@
 package com.jorgedguezm.elections.presentation.main.adapters
 
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.data.models.Election
@@ -53,6 +56,20 @@ class GeneralCardAdapter @Inject constructor(val utils: PresentationUtils) :
         holder.card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
 
         utils.drawPieChart(holder.card.findViewById(R.id.pie_chart), congressElection.result)
+
+        val resources = holder.card.context.resources
+
+        if (position == 0) {
+            holder.card.updateLayoutParams<MarginLayoutParams> {
+                topMargin = resources.getDimensionPixelSize(R.dimen.default_spacing)
+            }
+        }
+
+        if (congressElections.size - 1 == position) {
+            holder.card.updateLayoutParams<MarginLayoutParams> {
+                bottomMargin = resources.getDimensionPixelSize(R.dimen.default_spacing)
+            }
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
