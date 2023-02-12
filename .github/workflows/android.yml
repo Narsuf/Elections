@@ -19,13 +19,21 @@ jobs:
             java-version: '11'
             java-package: jdk
             
-      - name: Create file
+      - name: Create google-services
         run: touch ./app/google-services.json | base64
         
-      - name: Putting data
+      - name: Create local.properties
+        run: touch ./local-properties | base64
+        
+      - name: Putting data inside google-services
         env: 
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $DATA > ./app/google-services.json
+        
+      - name: Putting data inside local.properties
+        env: 
+          DATA: ${{ secrets.LOCAL_PROPERTIES }}
+        run: echo $DATA > ./local.properties
 
       - name: Test with Android Emulator Runner
         uses: ReactiveCircus/android-emulator-runner@v2.14.3
