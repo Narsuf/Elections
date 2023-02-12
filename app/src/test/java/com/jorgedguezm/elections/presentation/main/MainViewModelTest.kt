@@ -1,11 +1,11 @@
 package com.jorgedguezm.elections.presentation.main
 
 import androidx.test.core.app.ApplicationProvider
-import com.jorgedguezm.elections.data.utils.DataUtils
 import com.jorgedguezm.elections.data.ElectionApi
 import com.jorgedguezm.elections.data.ElectionApiTest
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.room.ElectionDao
+import com.jorgedguezm.elections.data.utils.DataUtils
 import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.*
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction
@@ -23,8 +23,8 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
 import kotlin.system.measureTimeMillis
 
