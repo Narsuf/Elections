@@ -10,11 +10,86 @@ import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.presentation.detail.DetailActivity
 import com.jorgedguezm.elections.utils.assertions.ToolbarAssertions.assertToolbarTitle
 import com.jorgedguezm.elections.utils.intents.intents
-import org.hamcrest.Matchers.allOf
 import org.junit.Test
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Before
+import java.io.IOException
+import org.hamcrest.Matchers.allOf
 import java.lang.Thread.sleep
 
 class MainActivityUITest {
+
+    private val mockWebServer = MockWebServer()
+    private val json = "{\n" +
+            "  \"elections\": [\n" +
+            "    {\n" +
+            "      \"id\": 3,\n" +
+            "      \"date\": \"2015\",\n" +
+            "      \"name\": \"Generales\",\n" +
+            "      \"place\": \"Espa\\u00f1a\",\n" +
+            "      \"chamberName\": \"Congreso\",\n" +
+            "      \"totalElects\": 350,\n" +
+            "      \"scrutinized\": 100.0,\n" +
+            "      \"validVotes\": 25349824,\n" +
+            "      \"abstentions\": 9280429,\n" +
+            "      \"blankVotes\": 187766,\n" +
+            "      \"nullVotes\": 226994,\n" +
+            "      \"results\": [\n" +
+            "        {\n" +
+            "          \"id\": 17,\n" +
+            "          \"elects\": 123,\n" +
+            "          \"votes\": 7215530,\n" +
+            "          \"election\": 3,\n" +
+            "          \"party\": {\n" +
+            "            \"id\": 1,\n" +
+            "            \"name\": \"PP\",\n" +
+            "            \"color\": \"1D84CE\"\n" +
+            "          }\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"id\": 4,\n" +
+            "      \"date\": \"2015\",\n" +
+            "      \"name\": \"Generales\",\n" +
+            "      \"place\": \"Espa\\u00f1a\",\n" +
+            "      \"chamberName\": \"Senado\",\n" +
+            "      \"totalElects\": 208,\n" +
+            "      \"scrutinized\": 99.99,\n" +
+            "      \"validVotes\": 25752839,\n" +
+            "      \"abstentions\": 8120062,\n" +
+            "      \"blankVotes\": 519409,\n" +
+            "      \"nullVotes\": 580989,\n" +
+            "      \"results\": [\n" +
+            "        {\n" +
+            "          \"id\": 18,\n" +
+            "          \"elects\": 101,\n" +
+            "          \"votes\": 0,\n" +
+            "          \"party\": {\n" +
+            "            \"id\": 1,\n" +
+            "            \"name\": \"PP\",\n" +
+            "            \"color\": \"1D84CE\"\n" +
+            "          }\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}\n"
+
+    @Before
+    @Throws(IOException::class, InterruptedException::class)
+    fun setup() {
+        mockWebServer.enqueue(MockResponse().setBody(json))
+        mockWebServer.start(8080)
+    }
+
+    @After
+    @Throws(IOException::class)
+    fun teardown() {
+        mockWebServer.shutdown()
+    }
 
     @Test
     fun clickOnElectionShouldNavigateToDetail() {

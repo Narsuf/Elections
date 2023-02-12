@@ -6,4 +6,5 @@ project.ext {
     lifecycleVersion = '2.5.1'
     coroutinesVersion = '1.6.4'
     fragmentVersion = '1.5.5'
+    okHttpVersion = '4.10.0'
 }

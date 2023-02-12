@@ -1,5 +1,6 @@
 package com.jorgedguezm.elections.data.injection
 
+import com.jorgedguezm.elections.BuildConfig
 import com.jorgedguezm.elections.data.ElectionApi
 
 import com.squareup.moshi.Moshi
@@ -30,7 +31,7 @@ class NetModule {
     @Provides
     @Singleton
     fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
-        return Builder().client(okHttpClient).baseUrl("http://narsuf.ddns.net:8000/")
+        return Builder().client(okHttpClient).baseUrl(BuildConfig.SERVER_URL)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .build()
     }
