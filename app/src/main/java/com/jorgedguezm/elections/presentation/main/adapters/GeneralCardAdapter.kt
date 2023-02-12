@@ -51,23 +51,16 @@ class GeneralCardAdapter @Inject constructor(val utils: PresentationUtils) :
         val congressElection = congressElections[position]
         val senateElection = senateElections[position]
         val concatenatedText = congressElection.date
+        val card = holder.card
 
-        holder.card.findViewById<TextView>(R.id.section_label).text = concatenatedText
-        holder.card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
+        card.findViewById<TextView>(R.id.section_label).text = concatenatedText
+        card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
 
-        utils.drawPieChart(holder.card.findViewById(R.id.pie_chart), congressElection.result)
-
-        val resources = holder.card.context.resources
+        utils.drawPieChart(card.findViewById(R.id.pie_chart), congressElection.result)
 
         if (position == 0) {
-            holder.card.updateLayoutParams<MarginLayoutParams> {
-                topMargin = resources.getDimensionPixelSize(R.dimen.default_spacing)
-            }
-        }
-
-        if (congressElections.size - 1 == position) {
-            holder.card.updateLayoutParams<MarginLayoutParams> {
-                bottomMargin = resources.getDimensionPixelSize(R.dimen.default_spacing)
+            card.updateLayoutParams<MarginLayoutParams> {
+                topMargin = card.context.resources.getDimensionPixelSize(R.dimen.default_spacing)
             }
         }
     }

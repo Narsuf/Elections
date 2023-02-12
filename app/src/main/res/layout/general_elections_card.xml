@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/default_spacing"
-    android:layout_marginVertical="@dimen/tight_spacing"
+    android:layout_marginBottom="@dimen/default_spacing"
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="@dimen/card_radius">
 
