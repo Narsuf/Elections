@@ -23,17 +23,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/detail_fragment_floating_button_margin_top"
             android:src="@android:drawable/ic_dialog_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/pie_chart"
+            app:layout_constraintBottom_toBottomOf="@id/pie_chart"/>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/detail_fragment_list_view_margin_top"
+            android:layout_marginTop="@dimen/loose_spacing"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
