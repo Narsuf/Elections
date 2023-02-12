@@ -37,6 +37,10 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 }
 
 android {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def productionUrl = properties.getProperty('production.url')
+
     compileSdkVersion 33
 
     defaultConfig {
@@ -53,9 +57,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "SERVER_URL", productionUrl
         }
 
-        debug { testCoverageEnabled true }
+        debug {
+            testCoverageEnabled true
+            buildConfigField "String", "SERVER_URL", '"http://127.0.0.1:8080"'
+        }
     }
 
     buildFeatures { viewBinding true }
@@ -125,6 +133,9 @@ dependencies {
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+
     debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
 
     testImplementation project(':test_data')
@@ -132,11 +143,12 @@ dependencies {
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'org.robolectric:robolectric:4.9.2'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
-    testImplementation "com.squareup.okhttp3:mockwebserver:4.10.0"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     testImplementation "org.mockito:mockito-core:4.11.0"
 
     androidTestImplementation project(':test_data')
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'com.adevinta.android:barista:4.3.0'
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
 }

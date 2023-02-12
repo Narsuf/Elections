@@ -16,7 +16,6 @@ import okio.source
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
@@ -28,10 +27,24 @@ class ElectionApiTest {
     private lateinit var mockWebServer: MockWebServer
 
     companion object {
-        val expectedElection = Election(3, "Generales", "2015", "España",
-            "Congreso", 350, 100.0F, 25349824,
-            9280429, 187766, 226994, mutableListOf(
-                Results(123, 7215530, Party("PP", "006EC7"))
+        val expectedElection = Election(
+            id = 3,
+            name = "Generales",
+            date = "2015",
+            place = "España",
+            chamberName = "Congreso",
+            totalElects = 350,
+            scrutinized = 100.0F,
+            validVotes = 25349824,
+            abstentions = 9280429,
+            blankVotes = 187766,
+            nullVotes = 226994,
+            result = mutableListOf(
+                Results(
+                    elects = 123,
+                    votes = 7215530,
+                    party = Party(name = "PP", color = "006EC7")
+                )
             )
         )
 
