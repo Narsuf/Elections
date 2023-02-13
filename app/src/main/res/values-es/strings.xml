@@ -7,8 +7,7 @@
 
     <string name="party">Partido</string>
     <string name="votes">Votos</string>
-    <string name="votes_percentage">Votos (%)</string>
-    <string name="elects">Electos</string>
+    <string name="elects">Escaños</string>
 
     <string name="show_historical">Mostrar histórico</string>
 
