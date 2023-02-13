@@ -4,9 +4,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Global spacings to be reused. -->
+    <dimen name="loose_spacing">32dp</dimen>
     <dimen name="default_spacing">16dp</dimen>
     <dimen name="tight_spacing">8dp</dimen>
-    <dimen name="loose_spacing">32dp</dimen>
+    <dimen name="tighter_spacing">4dp</dimen>
 
     <dimen name="card_radius">4dp</dimen>
     <dimen name="card_text_size_year_general_elections">32sp</dimen>
@@ -14,9 +15,5 @@
     <dimen name="pie_chart_height">300dp</dimen>
 
     <dimen name="list_item_detail_activity_height">60dp</dimen>
-
     <dimen name="list_item_detail_dialog_height">45dp</dimen>
-    <dimen name="list_item_detail_dialog_text_width">100dp</dimen>
-    <dimen name="list_item_detail_dialog_number_width">80dp</dimen>
-    <dimen name="list_item_detail_dialog_percentage_width">80dp</dimen>
 </resources>

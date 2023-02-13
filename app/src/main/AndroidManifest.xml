@@ -29,8 +29,7 @@
 
         <activity
             android:name=".presentation.detail.DetailActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 </manifest>

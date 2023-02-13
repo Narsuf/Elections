@@ -14,6 +14,7 @@ import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE
 import com.jorgedguezm.elections.presentation.common.extensions.track
 import com.jorgedguezm.elections.presentation.common.inheritance.ViewModelFragment
 import com.jorgedguezm.elections.presentation.detail.binders.PartyColorBinder
+import java.text.NumberFormat.getIntegerInstance
 
 class DetailFragment : ViewModelFragment() {
 
@@ -84,7 +85,7 @@ class DetailFragment : ViewModelFragment() {
 
             map[from[0]] = "#" + r.party.color
             map[from[1]] = r.party.name
-            map[from[2]] = r.votes
+            map[from[2]] = getIntegerInstance().format(r.votes)
             map[from[3]] = if (chamberName == KEY_SENATE)
                 "- %"
             else
