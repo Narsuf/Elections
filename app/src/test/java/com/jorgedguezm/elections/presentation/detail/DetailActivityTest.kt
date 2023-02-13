@@ -27,19 +27,11 @@ class DetailActivityTest {
             // Congress results loaded
             activity.checkCongress()
 
-            // Congress option clicked
+            // Swap option clicked
             activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(0))
-            activity.checkCongress()
-
-            // Senate option clicked
-            activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(1))
             activity.checkSenate()
 
-            // Senate option clicked again
-            activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(1))
-            activity.checkSenate()
-
-            // Congress option clicked
+            // Swap option clicked again
             activity.onOptionsItemSelected(activity.binding.toolbar.menu.getItem(0))
             activity.checkCongress()
 
