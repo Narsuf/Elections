@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/button_more_info_content"
             android:src="@android:drawable/ic_dialog_email"
             app:layout_constraintBottom_toBottomOf="@id/pie_chart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +47,6 @@
             android:maxLines="1"
             android:text="@string/party"
             app:layout_constraintEnd_toStartOf="@id/fragmentDetailVotesTextView"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintHorizontal_weight="5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
