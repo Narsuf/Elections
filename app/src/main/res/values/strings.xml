@@ -6,7 +6,6 @@
 
     <string name="party">Party</string>
     <string name="votes">Votes</string>
-    <string name="votes_percentage">Votes (%)</string>
     <string name="elects">Elects</string>
 
     <string name="show_historical">Show historical</string>

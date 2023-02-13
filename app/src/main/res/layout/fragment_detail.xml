@@ -23,60 +23,80 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/detail_fragment_floating_button_margin_top"
             android:src="@android:drawable/ic_dialog_email"
+            app:layout_constraintBottom_toBottomOf="@id/pie_chart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/pie_chart" />
 
-        <LinearLayout
+        <Space
+            android:id="@+id/fragmentDetailSpace"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/loose_spacing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/floating_button_more_info" />
+
+        <TextView
+            android:id="@+id/fragmentDetailPartyTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/loose_spacing"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/party"
+            app:layout_constraintEnd_toStartOf="@id/fragmentDetailVotesTextView"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+
+        <TextView
+            android:id="@+id/fragmentDetailVotesTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_spacing"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/votes"
+            app:layout_constraintEnd_toStartOf="@id/fragmentDetailPercentageOfVotesTextView"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toEndOf="@id/fragmentDetailPartyTextView"
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+
+        <TextView
+            android:id="@+id/fragmentDetailPercentageOfVotesTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_spacing"
+            app:layout_constraintEnd_toStartOf="@id/fragmentDetailElectsTextView"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@id/fragmentDetailVotesTextView"
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+
+        <TextView
+            android:id="@+id/fragmentDetailElectsTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_spacing"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@string/elects"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@id/fragmentDetailPercentageOfVotesTextView"
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+
+        <ListView
+            android:id="@+id/list_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/detail_fragment_list_view_margin_top"
-            android:orientation="vertical"
+            android:layout_marginTop="@dimen/default_spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/floating_button_more_info">
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailPartyTextView" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/detail_fragment_party_text_view_height"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/party" />
-
-                <TextView
-                    android:layout_width="@dimen/detail_fragment_votes_text_view_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/votes" />
-
-                <TextView
-                    android:layout_width="@dimen/detail_fragment_votes_percentage_text_view_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/votes_percentage" />
-
-                <TextView
-                    android:layout_width="@dimen/detail_fragment_elects_text_view_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/elects" />
-            </TableRow>
-
-            <ListView
-                android:id="@+id/list_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/default_spacing" />
-
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
