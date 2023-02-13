@@ -10,7 +10,7 @@ class ElectionGenerator {
 
         private fun generateRand() = (0..288).random()
         private fun generateParty() = Party(generateRand().toString(), "672f6c")
-        private fun generateResults() = Results(generateRand(), generateRand(), generateParty())
+        private fun generateResult() = Results(generateRand(), generateRand(), generateParty())
 
         fun generateElection(chamberName: String? = null): Election {
             val chamber = chamberName ?: generateRand().toString()
@@ -27,7 +27,7 @@ class ElectionGenerator {
                 abstentions = generateRand(),
                 blankVotes = generateRand(),
                 nullVotes = generateRand(),
-                result = arrayListOf(generateResults())
+                result = listOf(generateResult())
             )
         }
 
@@ -38,6 +38,21 @@ class ElectionGenerator {
             for (i in 1..100) { elections.add(generateElection()) }
 
             return elections
+        }
+
+        fun generateResults(): List<Results> {
+            val results = mutableListOf<Results>()
+
+            // Generate 100 results to reduce error margin.
+            for (i in 1..100) { results.add(generateResult()) }
+
+            // Add two duplicated parties with same elects but different votes.
+            val result = generateResult().copy(votes = Int.MAX_VALUE)
+            val result2 = result.copy(votes = Int.MIN_VALUE)
+            results.add(result)
+            results.add(result2)
+
+            return results
         }
     }
 }
