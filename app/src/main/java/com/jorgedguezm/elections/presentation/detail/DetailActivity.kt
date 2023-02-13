@@ -44,19 +44,15 @@ class DetailActivity : ViewModelActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_congress -> {
+            R.id.action_swap -> {
                 if (currentElection.chamberName == KEY_SENATE) {
                     currentElection = congressElection
                     beginTransactionToDetailFragment()
-                }
-                true
-            }
-
-            R.id.action_senate -> {
-                if (currentElection.chamberName == KEY_CONGRESS) {
+                } else if (currentElection.chamberName == KEY_CONGRESS) {
                     currentElection = senateElection
                     beginTransactionToDetailFragment()
                 }
+
                 true
             }
 
