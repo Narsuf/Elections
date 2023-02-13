@@ -17,6 +17,7 @@ import com.jorgedguezm.elections.presentation.common.Constants.KEY_ELECTION
 import com.jorgedguezm.elections.presentation.common.PresentationUtils
 
 import dagger.android.support.AndroidSupportInjection
+import java.text.NumberFormat.getIntegerInstance
 
 import javax.inject.Inject
 
@@ -62,11 +63,11 @@ class DetailDialog : DialogFragment() {
         val textData = resources.getStringArray(R.array.detail_dialog_list_view_text)
         val numberData = arrayOf(
             "",
-            election.totalElects,
-            election.validVotes,
-            election.abstentions,
-            election.nullVotes,
-            election.blankVotes
+            getIntegerInstance().format(election.totalElects),
+            getIntegerInstance().format(election.validVotes),
+            getIntegerInstance().format(election.abstentions),
+            getIntegerInstance().format(election.nullVotes),
+            getIntegerInstance().format(election.blankVotes)
         )
         val percentageData = election.getPercentageData()
 

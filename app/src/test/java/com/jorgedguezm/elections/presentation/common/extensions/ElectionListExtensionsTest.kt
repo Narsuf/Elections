@@ -1,8 +1,11 @@
 package com.jorgedguezm.elections.presentation.common.extensions
 
 import com.jorgedguezm.elections.data.models.Election
+import com.jorgedguezm.elections.data.models.Results
+import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
 import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElections
-import junit.framework.TestCase
+import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateResults
+import junit.framework.TestCase.assertTrue
 import org.junit.Test
 
 class ElectionListExtensionsTest {
@@ -16,8 +19,29 @@ class ElectionListExtensionsTest {
         sortedElections.forEach {
             val currentDate = it.date.toInt()
             val lastDate = lastElection?.date?.toInt() ?: Int.MAX_VALUE
-            TestCase.assertTrue(currentDate <= lastDate)
+
+            assertTrue(currentDate <= lastDate)
+
             lastElection = it
+        }
+    }
+
+    @Test
+    fun sortResults() {
+        val election = listOf(generateElection().copy(result = generateResults()))
+        val sortedElection = election.sortResultsByElectsAndVotes()
+        var lastResult: Results? = null
+
+        sortedElection[0].result.forEach {
+            val currentElects = it.elects
+            val currentVotes = it.votes
+            val lastElects = lastResult?.elects ?: Int.MAX_VALUE
+            val lastVotes = lastResult?.votes ?: Int.MAX_VALUE
+
+            assertTrue(currentElects <= lastElects)
+            if (currentElects == lastElects) assertTrue(currentVotes <= lastVotes)
+
+            lastResult = it
         }
     }
 }

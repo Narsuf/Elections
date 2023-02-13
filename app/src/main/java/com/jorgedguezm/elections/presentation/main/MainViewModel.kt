@@ -10,7 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
-import com.jorgedguezm.elections.presentation.common.extensions.sortResultsByElects
+import com.jorgedguezm.elections.presentation.common.extensions.sortResultsByElectsAndVotes
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.NavigateToDetail
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction
@@ -55,7 +55,7 @@ class MainViewModel @Inject constructor(private val electionRepository: Election
 
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
             val elections = if (offline) electionRepository.getElectionsFromDb() else electionRepository.getElections()
-            val sortedElections = elections.sortByDate().sortResultsByElects()
+            val sortedElections = elections.sortByDate().sortResultsByElectsAndVotes()
             state.value = Success(sortedElections, ::onElectionClicked)
         }
     }

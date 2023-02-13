@@ -23,11 +23,11 @@ fun List<Election>.sortByDate(): List<Election> {
     }
 }
 
-fun List<Election>.sortResultsByElects(): List<Election> {
+fun List<Election>.sortResultsByElectsAndVotes(): List<Election> {
     val sortedElections = mutableListOf<Election>()
 
     forEach { election ->
-        val sortedResults = election.result.sortedByDescending { it.elects }
+        val sortedResults = election.result.sortedByDescending { it.votes }.sortedByDescending { it.elects }
         sortedElections.add(election.copy(result = sortedResults))
     }
 
