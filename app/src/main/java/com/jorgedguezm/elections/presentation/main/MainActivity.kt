@@ -10,14 +10,16 @@ import com.google.android.material.snackbar.Snackbar
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.databinding.ActivityMainBinding
 import com.jorgedguezm.elections.presentation.common.Constants
+import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
+import com.jorgedguezm.elections.presentation.common.Errors.UNKNOWN
 import com.jorgedguezm.elections.presentation.common.extensions.observeOnLifecycle
-import com.jorgedguezm.elections.presentation.common.extensions.track
 import com.jorgedguezm.elections.presentation.common.inheritance.ViewModelActivity
 import com.jorgedguezm.elections.presentation.detail.DetailActivity
 import com.jorgedguezm.elections.presentation.main.adapters.GeneralCardAdapter
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.NavigateToDetail
-import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.*
+import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.Refresh
+import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
 import com.jorgedguezm.elections.presentation.main.entities.MainState
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Idle
@@ -98,9 +100,9 @@ class MainActivity : ViewModelActivity() {
                 }
             }
 
-            val error = when (state.errorMessage) {
-                "1" -> R.string.no_internet_connection
-                else -> R.string.something_wrong
+            val error = when (state.errorCode) {
+                NO_INTERNET_CONNECTION -> R.string.no_internet_connection
+                UNKNOWN -> R.string.something_wrong
             }
 
             Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
@@ -129,7 +131,5 @@ class MainActivity : ViewModelActivity() {
         myIntent.putExtra(Constants.KEY_CONGRESS_ELECTION, event.congressElection)
         myIntent.putExtra(Constants.KEY_SENATE_ELECTION, event.senateElection)
         startActivity(myIntent)
-
-        firebaseAnalytics.track("election_clicked", "election", event.congressElection.date)
     }
 }

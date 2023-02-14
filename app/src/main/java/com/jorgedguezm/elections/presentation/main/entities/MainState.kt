@@ -1,6 +1,9 @@
 package com.jorgedguezm.elections.presentation.main.entities
 
 import com.jorgedguezm.elections.data.models.Election
+import com.jorgedguezm.elections.presentation.common.Errors
+import com.jorgedguezm.elections.presentation.common.Errors.UNKNOWN
+
 
 typealias OnElectionClicked = (congressElection: Election, senateElection: Election) -> Unit
 
@@ -10,5 +13,5 @@ sealed class MainState {
     object Loading : MainState()
 
     data class Success(val elections: List<Election>, val onElectionClicked: OnElectionClicked) : MainState()
-    data class Error(val errorMessage: String?) : MainState()
+    data class Error(val errorCode: Errors = UNKNOWN) : MainState()
 }

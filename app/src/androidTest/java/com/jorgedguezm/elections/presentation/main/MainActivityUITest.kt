@@ -10,13 +10,13 @@ import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.presentation.detail.DetailActivity
 import com.jorgedguezm.elections.utils.assertions.ToolbarAssertions.assertToolbarTitle
 import com.jorgedguezm.elections.utils.intents.intents
-import org.junit.Test
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
+import org.junit.Test
 import java.io.IOException
-import org.hamcrest.Matchers.allOf
 import java.lang.Thread.sleep
 
 class MainActivityUITest {

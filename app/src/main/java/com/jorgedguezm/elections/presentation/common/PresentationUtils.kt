@@ -2,24 +2,19 @@ package com.jorgedguezm.elections.presentation.common
 
 import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
-import android.os.Bundle
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.data.models.Results
+import com.jorgedguezm.elections.data.models.Result
 import com.jorgedguezm.elections.presentation.common.extensions.getColors
 import com.jorgedguezm.elections.presentation.common.extensions.getElects
-import com.jorgedguezm.elections.presentation.detail.DetailActivity
-import com.jorgedguezm.elections.presentation.detail.DetailFragment
 import java.math.BigDecimal
 import java.math.RoundingMode
 
 open class PresentationUtils {
 
-    fun drawPieChart(chart: PieChart, results: List<Results>) {
+    fun drawPieChart(chart: PieChart, results: List<Result>) {
         val elects = results.getElects()
         val colors = results.getColors()
 

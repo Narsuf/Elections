@@ -13,7 +13,7 @@ open class ViewModelFragment : Fragment() {
     lateinit var utils: PresentationUtils
 
     @Inject
-    lateinit var firebaseAnalytics: FirebaseAnalytics
+    lateinit var analytics: FirebaseAnalytics
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)

@@ -3,7 +3,7 @@ package com.jorgedguezm.elections.data
 import com.jorgedguezm.elections.data.models.ApiResponse
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.models.Party
-import com.jorgedguezm.elections.data.models.Results
+import com.jorgedguezm.elections.data.models.Result
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import junit.framework.TestCase.assertEquals
@@ -39,8 +39,8 @@ class ElectionApiTest {
             abstentions = 9280429,
             blankVotes = 187766,
             nullVotes = 226994,
-            result = mutableListOf(
-                Results(
+            results = mutableListOf(
+                Result(
                     elects = 123,
                     votes = 7215530,
                     party = Party(name = "PP", color = "006EC7")

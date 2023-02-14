@@ -2,7 +2,7 @@ package com.jorgedguezm.elections.data.utils
 
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.models.Party
-import com.jorgedguezm.elections.data.models.Results
+import com.jorgedguezm.elections.data.models.Result
 
 class ElectionGenerator {
 
@@ -10,7 +10,7 @@ class ElectionGenerator {
 
         private fun generateRand() = (0..288).random()
         private fun generateParty() = Party(generateRand().toString(), "672f6c")
-        private fun generateResult() = Results(generateRand(), generateRand(), generateParty())
+        private fun generateResult() = Result(generateRand(), generateRand(), generateParty())
 
         fun generateElection(chamberName: String? = null): Election {
             val chamber = chamberName ?: generateRand().toString()
@@ -27,7 +27,7 @@ class ElectionGenerator {
                 abstentions = generateRand(),
                 blankVotes = generateRand(),
                 nullVotes = generateRand(),
-                result = listOf(generateResult())
+                results = listOf(generateResult())
             )
         }
 
@@ -40,8 +40,8 @@ class ElectionGenerator {
             return elections
         }
 
-        fun generateResults(): List<Results> {
-            val results = mutableListOf<Results>()
+        fun generateResults(): List<Result> {
+            val results = mutableListOf<Result>()
 
             // Generate 100 results to reduce error margin.
             for (i in 1..100) { results.add(generateResult()) }
