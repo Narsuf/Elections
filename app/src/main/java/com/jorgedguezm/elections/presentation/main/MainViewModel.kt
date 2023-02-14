@@ -9,6 +9,9 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
+import com.jorgedguezm.elections.data.utils.DataUtils
+import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
+import com.jorgedguezm.elections.presentation.common.Errors.UNKNOWN
 import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
 import com.jorgedguezm.elections.presentation.common.extensions.sortResultsByElectsAndVotes
 import com.jorgedguezm.elections.presentation.common.extensions.track
@@ -33,7 +36,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val electionRepository: ElectionRepository,
     private val analytics: FirebaseAnalytics,
-    private val crashlytics: FirebaseCrashlytics
+    private val crashlytics: FirebaseCrashlytics,
+    private val dataUtils: DataUtils,
 ) : ViewModel() {
 
     private val state = MutableLiveData<MainState>(Idle)
@@ -57,18 +61,24 @@ class MainViewModel @Inject constructor(
                     retrieveElections(fallback = true)
                 } else {
                     crashlytics.recordException(Exception("Firebase down"))
-                    state.value = Error(throwable.message)
+                    state.value = Error()
                 }
             } else {
                 crashlytics.recordException(throwable)
-                state.value = Error(throwable.message)
+                state.value = Error()
             }
         }
 
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
             electionRepository.getElections(fallback).collect { elections ->
-                val sortedElections = elections.sortByDate().sortResultsByElectsAndVotes()
-                state.value = Success(sortedElections, ::onElectionClicked)
+                if (elections.isEmpty()) {
+                    state.value = Error(
+                        errorCode = if (!dataUtils.isConnectedToInternet()) NO_INTERNET_CONNECTION else UNKNOWN
+                    )
+                } else {
+                    val sortedElections = elections.sortByDate().sortResultsByElectsAndVotes()
+                    state.value = Success(sortedElections, ::onElectionClicked)
+                }
             }
         }
     }

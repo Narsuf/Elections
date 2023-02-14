@@ -4,6 +4,7 @@ import androidx.core.view.isVisible
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.main.adapters.GeneralCardAdapter
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
 import junit.framework.TestCase.assertEquals
@@ -43,13 +44,13 @@ class MainActivityTest {
 
     @Test
     fun checkGenericErrorViewState() {
-        val state = getMainError(null)
+        val state = getMainError()
         checkError(state)
     }
 
     @Test
     fun checkNoInternetConnectionErrorViewState() {
-        val state = getMainError("1")
+        val state = getMainError(NO_INTERNET_CONNECTION)
         checkError(state)
     }
 

@@ -10,6 +10,7 @@ import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.room.ElectionDao
 import com.jorgedguezm.elections.data.utils.DataUtils
 import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
+import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.*
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
@@ -40,6 +41,7 @@ class MainViewModelTest {
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
+    private lateinit var dataUtils: DataUtils
     private val expectedResponse = ElectionApiTest.expectedApiResponse
     private val flow = channelFlow { send(expectedResponse.elections) }
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -49,14 +51,15 @@ class MainViewModelTest {
         electionRepository = mock(ElectionRepository::class.java)
         analytics = mock(FirebaseAnalytics::class.java)
         crashlytics = mock(FirebaseCrashlytics::class.java)
-        electionRepository.utils = DataUtils(ApplicationProvider.getApplicationContext())
+        dataUtils = mock(DataUtils::class.java)
+        electionRepository.dataUtils = DataUtils(ApplicationProvider.getApplicationContext())
         electionRepository.dao = mock(ElectionDao::class.java)
         electionRepository.service = mock(ElectionApi::class.java)
         electionRepository.firebaseDatabase = mock(FirebaseDatabase::class.java)
 
         `when`(electionRepository.getElections()).thenReturn(flow)
 
-        viewModel = MainViewModel(electionRepository, analytics, crashlytics)
+        viewModel = MainViewModel(electionRepository, analytics, crashlytics, dataUtils)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -79,13 +82,32 @@ class MainViewModelTest {
     }
 
     @Test
+    fun `screen opened should emit network error when empty elections and no connection`() = runTest {
+        `when`(electionRepository.getElections()).thenReturn(channelFlow { send(listOf()) })
+
+        viewModel.handleInteraction(ScreenOpened)
+
+        assertEquals(Error(NO_INTERNET_CONNECTION), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `screen opened should emit error when empty elections and connection`() = runTest {
+        `when`(electionRepository.getElections()).thenReturn(channelFlow { send(listOf()) })
+        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
+
+        viewModel.handleInteraction(ScreenOpened)
+
+        assertEquals(Error(), viewModel.viewState.value)
+    }
+
+    @Test
     fun `screen opened should emit error when failing`() = runTest {
         val exception = IndexOutOfBoundsException()
         `when`(electionRepository.getElections()).thenThrow(exception)
 
         viewModel.handleInteraction(ScreenOpened)
 
-        assertEquals(Error(exception.message), viewModel.viewState.value)
+        assertEquals(Error(), viewModel.viewState.value)
     }
 
     @Test
@@ -107,7 +129,7 @@ class MainViewModelTest {
 
         viewModel.handleInteraction(ScreenOpened)
 
-        assertEquals(Error(exception.message), viewModel.viewState.value)
+        assertEquals(Error(), viewModel.viewState.value)
     }
 
     @Test

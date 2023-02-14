@@ -16,12 +16,12 @@ import javax.inject.Singleton
 class ElectionRepository @Inject constructor(
     internal var service: ElectionApi,
     internal var dao: ElectionDao,
-    internal var utils: DataUtils,
+    internal var dataUtils: DataUtils,
     internal var firebaseDatabase: FirebaseDatabase
 ) {
 
     internal suspend fun getElections(fallback: Boolean = false): Flow<List<Election>> {
-        return if (utils.isConnectedToInternet()) {
+        return if (dataUtils.isConnectedToInternet()) {
             if (!fallback)
                 getElectionsFromApi()
             else

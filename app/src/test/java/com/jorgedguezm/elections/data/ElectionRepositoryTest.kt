@@ -29,7 +29,7 @@ class ElectionRepositoryTest {
     private lateinit var repository: ElectionRepository
     private lateinit var service: ElectionApi
     private lateinit var dao: ElectionDao
-    private lateinit var utils: DataUtils
+    private lateinit var dataUtils: DataUtils
     private lateinit var firebaseDatabase: FirebaseDatabase
     private val expectedResponse = ElectionApiTest.expectedApiResponse
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -38,10 +38,10 @@ class ElectionRepositoryTest {
     fun setUp() {
         service = mock(ElectionApi::class.java)
         dao = mock(ElectionDao::class.java)
-        utils = mock(DataUtils::class.java)
+        dataUtils = mock(DataUtils::class.java)
         firebaseDatabase = mock(FirebaseDatabase::class.java)
-        utils.context = ApplicationProvider.getApplicationContext()
-        repository = ElectionRepository(service, dao, utils, firebaseDatabase)
+        dataUtils.context = ApplicationProvider.getApplicationContext()
+        repository = ElectionRepository(service, dao, dataUtils, firebaseDatabase)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -49,7 +49,7 @@ class ElectionRepositoryTest {
     fun loadElectionsFromDb() = runTest {
         val daoElections = expectedResponse.elections
 
-        `when`(utils.isConnectedToInternet()).thenReturn(false)
+        `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
         `when`(dao.queryElections()).thenReturn(daoElections)
 
         repository.getElections().collect { assertEquals(it, daoElections) }
@@ -59,7 +59,7 @@ class ElectionRepositoryTest {
     fun loadElectionsFromApi() = runTest {
         val apiElections = expectedResponse
 
-        `when`(utils.isConnectedToInternet()).thenReturn(true)
+        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenReturn(apiElections)
 
         repository.getElections().collect {
@@ -72,7 +72,7 @@ class ElectionRepositoryTest {
     fun loadElectionsFromDbWhenFallback() = runTest {
         val daoElections = expectedResponse.elections
 
-        `when`(utils.isConnectedToInternet()).thenReturn(true)
+        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(dao.queryElections()).thenReturn(daoElections)
 
         repository.getElections(fallback = true).collect { assertEquals(it, daoElections) }
@@ -82,7 +82,7 @@ class ElectionRepositoryTest {
     fun `try load elections from firebase when fallback but empty db`() = runTest {
         val daoElections = listOf<Election>()
 
-        `when`(utils.isConnectedToInternet()).thenReturn(true)
+        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(dao.queryElections()).thenReturn(daoElections)
 
         try {

@@ -101,6 +101,7 @@ class DetailFragment : ViewModelFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        countDownTimer.cancel()
         _binding = null
     }
 }
