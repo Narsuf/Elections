@@ -1,7 +1,7 @@
 package com.jorgedguezm.elections.data
 
 import androidx.test.core.app.ApplicationProvider
-import com.jorgedguezm.elections.data.models.Election
+import com.google.firebase.database.FirebaseDatabase
 import com.jorgedguezm.elections.data.room.ElectionDao
 import com.jorgedguezm.elections.data.utils.DataUtils
 import junit.framework.TestCase.assertEquals
@@ -28,6 +28,7 @@ class ElectionRepositoryTest {
     private lateinit var service: ElectionApi
     private lateinit var dao: ElectionDao
     private lateinit var utils: DataUtils
+    private lateinit var firebaseDatabase: FirebaseDatabase
     private val expectedResponse = ElectionApiTest.expectedApiResponse
     private val testDispatcher = UnconfinedTestDispatcher()
 
@@ -36,8 +37,9 @@ class ElectionRepositoryTest {
         service = mock(ElectionApi::class.java)
         dao = mock(ElectionDao::class.java)
         utils = mock(DataUtils::class.java)
+        firebaseDatabase = mock(FirebaseDatabase::class.java)
         utils.context = ApplicationProvider.getApplicationContext()
-        repository = ElectionRepository(service, dao, utils)
+        repository = ElectionRepository(service, dao, utils, firebaseDatabase)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -48,21 +50,7 @@ class ElectionRepositoryTest {
         `when`(utils.isConnectedToInternet()).thenReturn(false)
         `when`(dao.queryElections()).thenReturn(daoElections)
 
-        assertEquals(repository.getElections(), daoElections)
-    }
-
-    @Test
-    fun `no internet connection and empty database should throw exception`() = runTest {
-        val daoElections = listOf<Election>()
-
-        `when`(utils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.queryElections()).thenReturn(daoElections)
-
-        try {
-           repository.getElections()
-        } catch (e: Exception) {
-            assertEquals(e.message, "Empty database")
-        }
+        repository.getElections().collect { assertEquals(it, daoElections) }
     }
 
     @Test
@@ -72,7 +60,9 @@ class ElectionRepositoryTest {
         `when`(utils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenReturn(apiElections)
 
-        assertEquals(repository.getElections(), apiElections.elections)
-        verify(dao, times(1)).insertElections(anyList())
+        repository.getElections().collect {
+            assertEquals(it, apiElections.elections)
+            verify(dao, times(1)).insertElections(anyList())
+        }
     }
 }

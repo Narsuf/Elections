@@ -3,6 +3,7 @@ package com.jorgedguezm.elections.data.injection
 import android.app.Application
 import androidx.room.Room
 import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.jorgedguezm.elections.data.utils.DataUtils
 import com.jorgedguezm.elections.data.room.Database
@@ -42,5 +43,10 @@ class AppModule(val app: Application) {
     fun provideGeneralCardAdapter(utils: PresentationUtils) = GeneralCardAdapter(utils)
 
     @Provides
+    @Singleton
     fun provideFirebaseAnalytics() = Firebase.analytics
+
+    @Provides
+    @Singleton
+    fun provideFirebaseDatabase() = FirebaseDatabase.getInstance()
 }

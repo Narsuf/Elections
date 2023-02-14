@@ -1,6 +1,8 @@
 package com.jorgedguezm.elections.presentation.main
 
 import androidx.test.core.app.ApplicationProvider
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.database.FirebaseDatabase
 import com.jorgedguezm.elections.data.ElectionApi
 import com.jorgedguezm.elections.data.ElectionApiTest
 import com.jorgedguezm.elections.data.ElectionRepository
@@ -16,6 +18,7 @@ import com.jorgedguezm.elections.utils.FlowTestObserver
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -33,6 +36,7 @@ import kotlin.system.measureTimeMillis
 class MainViewModelTest {
 
     private lateinit var electionRepository: ElectionRepository
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var viewModel: MainViewModel
     private val expectedResponse = ElectionApiTest.expectedApiResponse
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -40,13 +44,16 @@ class MainViewModelTest {
     @Before
     fun init() = runTest {
         electionRepository = mock(ElectionRepository::class.java)
+        firebaseAnalytics = mock(FirebaseAnalytics::class.java)
         electionRepository.utils = DataUtils(ApplicationProvider.getApplicationContext())
         electionRepository.dao = mock(ElectionDao::class.java)
         electionRepository.service = mock(ElectionApi::class.java)
+        electionRepository.firebaseDatabase = mock(FirebaseDatabase::class.java)
 
-        `when`(electionRepository.getElections()).thenReturn(expectedResponse.elections)
+        val flow = channelFlow { send(expectedResponse.elections) }
+        `when`(electionRepository.getElections()).thenReturn(flow)
 
-        viewModel = MainViewModel(electionRepository)
+        viewModel = MainViewModel(electionRepository, firebaseAnalytics)
         Dispatchers.setMain(testDispatcher)
     }
 
