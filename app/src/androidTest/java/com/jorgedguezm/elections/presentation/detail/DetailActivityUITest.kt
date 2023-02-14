@@ -5,15 +5,15 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
+import com.jorgedguezm.elections.R
+import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
 import com.jorgedguezm.elections.presentation.common.Constants
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_CONGRESS
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE
-import com.jorgedguezm.elections.utils.assertions.ToolbarAssertions.assertToolbarTitle
-import org.junit.Test
-import com.jorgedguezm.elections.R
-import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
 import com.jorgedguezm.elections.utils.assertions.ListAssertions.assertListTexts
 import com.jorgedguezm.elections.utils.assertions.ListAssertions.assertListTextsWithDifferentPositions
+import com.jorgedguezm.elections.utils.assertions.ToolbarAssertions.assertToolbarTitle
+import org.junit.Test
 import java.text.NumberFormat.getIntegerInstance
 
 class DetailActivityUITest {

@@ -5,7 +5,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.jorgedguezm.elections.data.utils.DataUtils
 import dagger.android.AndroidInjection
 import javax.inject.Inject
