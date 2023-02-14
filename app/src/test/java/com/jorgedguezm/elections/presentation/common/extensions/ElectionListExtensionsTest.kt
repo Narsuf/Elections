@@ -1,7 +1,7 @@
 package com.jorgedguezm.elections.presentation.common.extensions
 
 import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.data.models.Results
+import com.jorgedguezm.elections.data.models.Result
 import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
 import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElections
 import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateResults
@@ -30,7 +30,7 @@ class ElectionListExtensionsTest {
     fun sortResults() {
         val election = listOf(generateElection().copy(results = generateResults()))
         val sortedElection = election.sortResultsByElectsAndVotes()
-        var lastResult: Results? = null
+        var lastResult: Result? = null
 
         sortedElection[0].results.forEach {
             val currentElects = it.elects

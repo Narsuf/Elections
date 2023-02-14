@@ -45,9 +45,9 @@ data class Election(
         val nullVotes: Int = 0,
 
         @Json(name = "results")
-        val results: List<Results> = listOf()
+        val results: List<Result> = listOf()
 ) : Serializable
-data class Results(
+data class Result(
         val elects: Int = 0,
         val votes: Int = 0,
         val party: Party = Party()

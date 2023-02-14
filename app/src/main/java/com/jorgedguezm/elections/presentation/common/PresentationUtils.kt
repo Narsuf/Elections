@@ -6,7 +6,7 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.jorgedguezm.elections.data.models.Results
+import com.jorgedguezm.elections.data.models.Result
 import com.jorgedguezm.elections.presentation.common.extensions.getColors
 import com.jorgedguezm.elections.presentation.common.extensions.getElects
 import java.math.BigDecimal
@@ -14,7 +14,7 @@ import java.math.RoundingMode
 
 open class PresentationUtils {
 
-    fun drawPieChart(chart: PieChart, results: List<Results>) {
+    fun drawPieChart(chart: PieChart, results: List<Result>) {
         val elects = results.getElects()
         val colors = results.getColors()
 
