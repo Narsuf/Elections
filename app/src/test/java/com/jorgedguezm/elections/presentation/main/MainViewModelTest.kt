@@ -2,6 +2,7 @@ package com.jorgedguezm.elections.presentation.main
 
 import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.FirebaseDatabase
 import com.jorgedguezm.elections.data.ElectionApi
 import com.jorgedguezm.elections.data.ElectionApiTest
@@ -36,24 +37,26 @@ import kotlin.system.measureTimeMillis
 class MainViewModelTest {
 
     private lateinit var electionRepository: ElectionRepository
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var analytics: FirebaseAnalytics
+    private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
     private val expectedResponse = ElectionApiTest.expectedApiResponse
+    private val flow = channelFlow { send(expectedResponse.elections) }
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun init() = runTest {
         electionRepository = mock(ElectionRepository::class.java)
-        firebaseAnalytics = mock(FirebaseAnalytics::class.java)
+        analytics = mock(FirebaseAnalytics::class.java)
+        crashlytics = mock(FirebaseCrashlytics::class.java)
         electionRepository.utils = DataUtils(ApplicationProvider.getApplicationContext())
         electionRepository.dao = mock(ElectionDao::class.java)
         electionRepository.service = mock(ElectionApi::class.java)
         electionRepository.firebaseDatabase = mock(FirebaseDatabase::class.java)
 
-        val flow = channelFlow { send(expectedResponse.elections) }
         `when`(electionRepository.getElections()).thenReturn(flow)
 
-        viewModel = MainViewModel(electionRepository, firebaseAnalytics)
+        viewModel = MainViewModel(electionRepository, analytics, crashlytics)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -79,6 +82,28 @@ class MainViewModelTest {
     fun `screen opened should emit error when failing`() = runTest {
         val exception = IndexOutOfBoundsException()
         `when`(electionRepository.getElections()).thenThrow(exception)
+
+        viewModel.handleInteraction(ScreenOpened)
+
+        assertEquals(Error(exception.message), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `screen opened should emit success when failing with fallback`() = runTest {
+        val exception = IndexOutOfBoundsException("Failed to connect to ")
+        `when`(electionRepository.getElections()).thenThrow(exception)
+        `when`(electionRepository.getElections(fallback = true)).thenReturn(flow)
+
+        viewModel.handleInteraction(ScreenOpened)
+
+        assertEquals(Success(expectedResponse.elections, viewModel::onElectionClicked), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `screen opened should emit error when both main server and fallback fail`() = runTest {
+        val exception = IndexOutOfBoundsException("Failed to connect to ")
+        `when`(electionRepository.getElections()).thenThrow(exception)
+        `when`(electionRepository.getElections(fallback = true)).thenThrow(exception)
 
         viewModel.handleInteraction(ScreenOpened)
 

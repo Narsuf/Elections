@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
@@ -33,7 +32,8 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val electionRepository: ElectionRepository,
-    private val firebaseAnalytics: FirebaseAnalytics
+    private val analytics: FirebaseAnalytics,
+    private val crashlytics: FirebaseCrashlytics
 ) : ViewModel() {
 
     private val state = MutableLiveData<MainState>(Idle)
@@ -52,10 +52,15 @@ class MainViewModel @Inject constructor(
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             if (throwable.message != null && throwable.message!!.contains("Failed to connect to ")) {
-                Firebase.crashlytics.recordException(Exception("Service down"))
-                retrieveElections(fallback = true)
+                if (!fallback) {
+                    crashlytics.recordException(Exception("Main service down"))
+                    retrieveElections(fallback = true)
+                } else {
+                    crashlytics.recordException(Exception("Firebase down"))
+                    state.value = Error(throwable.message)
+                }
             } else {
-                Firebase.crashlytics.recordException(throwable)
+                crashlytics.recordException(throwable)
                 state.value = Error(throwable.message)
             }
         }
@@ -70,7 +75,7 @@ class MainViewModel @Inject constructor(
 
     @VisibleForTesting
     internal fun onElectionClicked(congressElection: Election, senateElection: Election) {
-        firebaseAnalytics.track("election_clicked", "election", congressElection.date)
+        analytics.track("election_clicked", "election", congressElection.date)
         event.trySend(NavigateToDetail(congressElection, senateElection))
     }
 }

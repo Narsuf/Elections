@@ -45,7 +45,7 @@ class DetailFragment : ViewModelFragment() {
             dialog.arguments = bundle
             activity?.supportFragmentManager?.let { dialog.show(it, "DetailDialog") }
 
-            firebaseAnalytics.track("results_info_clicked", "election", "${election.chamberName} (${election.date})")
+            analytics.track("results_info_clicked", "election", "${election.chamberName} (${election.date})")
         }
 
         // Prepare chart
@@ -61,7 +61,7 @@ class DetailFragment : ViewModelFragment() {
             pieChart.highlightValue(position.toFloat(), 0)
             countDownTimer.start()
 
-            firebaseAnalytics.track("party_clicked", "party", election.result[position].party.name)
+            analytics.track("party_clicked", "party", election.result[position].party.name)
         }
     }
 

@@ -65,4 +65,14 @@ class ElectionRepositoryTest {
             verify(dao, times(1)).insertElections(anyList())
         }
     }
+
+    @Test
+    fun loadElectionsFromDbWhenFallback() = runTest {
+        val daoElections = expectedResponse.elections
+
+        `when`(utils.isConnectedToInternet()).thenReturn(true)
+        `when`(dao.queryElections()).thenReturn(daoElections)
+
+        repository.getElections(fallback = true).collect { assertEquals(it, daoElections) }
+    }
 }

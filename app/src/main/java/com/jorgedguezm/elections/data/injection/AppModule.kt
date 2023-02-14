@@ -3,6 +3,7 @@ package com.jorgedguezm.elections.data.injection
 import android.app.Application
 import androidx.room.Room
 import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.jorgedguezm.elections.data.room.Database
@@ -44,9 +45,13 @@ class AppModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun provideFirebaseAnalytics() = Firebase.analytics
+    fun provideAnalytics() = Firebase.analytics
 
     @Provides
     @Singleton
     fun provideFirebaseDatabase() = FirebaseDatabase.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideCrashlytics() = Firebase.crashlytics
 }
