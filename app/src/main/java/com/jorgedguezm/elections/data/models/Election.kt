@@ -12,41 +12,45 @@ data class Election(
 
         @Json(name = "id")
         @PrimaryKey
-        val id: Long,
+        val id: Long = 0,
 
         @Json(name = "name")
-        val name: String,
+        val name: String = "",
 
         @Json(name = "date")
-        var date: String,
+        var date: String = "",
 
         @Json(name = "place")
-        val place: String,
+        val place: String = "",
 
         @Json(name = "chamberName")
-        val chamberName: String,
+        val chamberName: String = "",
 
         @Json(name = "totalElects")
-        val totalElects: Int,
+        val totalElects: Int = 0,
 
         @Json(name = "scrutinized")
-        val scrutinized: Float,
+        val scrutinized: Float = 0f,
 
         @Json(name = "validVotes")
-        val validVotes: Int,
+        val validVotes: Int = 0,
 
         @Json(name = "abstentions")
-        val abstentions: Int,
+        val abstentions: Int = 0,
 
         @Json(name = "blankVotes")
-        val blankVotes: Int,
+        val blankVotes: Int = 0,
 
         @Json(name = "nullVotes")
-        val nullVotes: Int,
+        val nullVotes: Int = 0,
 
         @Json(name = "results")
-        val result: List<Results>
+        val results: List<Results> = listOf()
+) : Serializable
+data class Results(
+        val elects: Int = 0,
+        val votes: Int = 0,
+        val party: Party = Party()
 ) : Serializable
 
-data class Party(val name: String, val color: String) : Serializable
-data class Results(val elects: Int, val votes: Int, val party: Party) : Serializable
+data class Party(val name: String = "", val color: String = "") : Serializable

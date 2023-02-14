@@ -49,7 +49,7 @@ class DetailFragment : ViewModelFragment() {
         }
 
         // Prepare chart
-        utils.drawPieChart(pieChart, election.result)
+        utils.drawPieChart(pieChart, election.results)
         initializeCountDownTimer()
 
         // Fill ListView with election data.
@@ -61,7 +61,7 @@ class DetailFragment : ViewModelFragment() {
             pieChart.highlightValue(position.toFloat(), 0)
             countDownTimer.start()
 
-            analytics.track("party_clicked", "party", election.result[position].party.name)
+            analytics.track("party_clicked", "party", election.results[position].party.name)
         }
     }
 
@@ -78,7 +78,7 @@ class DetailFragment : ViewModelFragment() {
             R.id.tvElects)
 
         val arrayList = ArrayList<Map<String, Any>>()
-        val sortedResults = result.sortedByDescending { it.elects }
+        val sortedResults = results.sortedByDescending { it.elects }
 
         for (r in sortedResults) {
             val map = HashMap<String, Any>()

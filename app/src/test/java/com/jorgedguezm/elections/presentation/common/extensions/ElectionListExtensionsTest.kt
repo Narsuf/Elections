@@ -28,11 +28,11 @@ class ElectionListExtensionsTest {
 
     @Test
     fun sortResults() {
-        val election = listOf(generateElection().copy(result = generateResults()))
+        val election = listOf(generateElection().copy(results = generateResults()))
         val sortedElection = election.sortResultsByElectsAndVotes()
         var lastResult: Results? = null
 
-        sortedElection[0].result.forEach {
+        sortedElection[0].results.forEach {
             val currentElects = it.elects
             val currentVotes = it.votes
             val lastElects = lastResult?.elects ?: Int.MAX_VALUE

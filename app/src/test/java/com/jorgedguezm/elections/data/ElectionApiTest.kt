@@ -39,7 +39,7 @@ class ElectionApiTest {
             abstentions = 9280429,
             blankVotes = 187766,
             nullVotes = 226994,
-            result = mutableListOf(
+            results = mutableListOf(
                 Results(
                     elects = 123,
                     votes = 7215530,

@@ -55,7 +55,7 @@ class GeneralCardAdapter @Inject constructor(val utils: PresentationUtils) :
         card.findViewById<TextView>(R.id.section_label).text = concatenatedText
         card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
 
-        utils.drawPieChart(card.findViewById(R.id.pie_chart), congressElection.result)
+        utils.drawPieChart(card.findViewById(R.id.pie_chart), congressElection.results)
 
         if (position == 0) {
             card.updateLayoutParams<MarginLayoutParams> {
