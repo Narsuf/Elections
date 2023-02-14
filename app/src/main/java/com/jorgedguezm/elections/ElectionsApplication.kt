@@ -2,9 +2,9 @@ package com.jorgedguezm.elections
 
 import androidx.multidex.MultiDexApplication
 import com.google.firebase.FirebaseApp
-import com.jorgedguezm.elections.data.injection.AppModule
-import com.jorgedguezm.elections.data.injection.DaggerAppComponent
 import com.jorgedguezm.elections.data.injection.NetModule
+import com.jorgedguezm.elections.injection.AppModule
+import com.jorgedguezm.elections.injection.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

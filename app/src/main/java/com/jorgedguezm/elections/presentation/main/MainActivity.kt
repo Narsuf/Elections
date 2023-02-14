@@ -21,10 +21,7 @@ import com.jorgedguezm.elections.presentation.main.entities.MainEvent.NavigateTo
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.Refresh
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
 import com.jorgedguezm.elections.presentation.main.entities.MainState
-import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
-import com.jorgedguezm.elections.presentation.main.entities.MainState.Idle
-import com.jorgedguezm.elections.presentation.main.entities.MainState.Loading
-import com.jorgedguezm.elections.presentation.main.entities.MainState.Success
+import com.jorgedguezm.elections.presentation.main.entities.MainState.*
 import javax.inject.Inject
 
 class MainActivity : ViewModelActivity() {

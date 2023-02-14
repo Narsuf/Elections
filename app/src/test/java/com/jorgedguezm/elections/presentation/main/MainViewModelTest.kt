@@ -8,7 +8,7 @@ import com.jorgedguezm.elections.data.ElectionApi
 import com.jorgedguezm.elections.data.ElectionApiTest
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.room.ElectionDao
-import com.jorgedguezm.elections.data.utils.DataUtils
+import com.jorgedguezm.elections.data.DataUtils
 import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
 import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.*

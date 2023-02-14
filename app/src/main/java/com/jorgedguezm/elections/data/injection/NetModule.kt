@@ -2,19 +2,14 @@ package com.jorgedguezm.elections.data.injection
 
 import com.jorgedguezm.elections.BuildConfig
 import com.jorgedguezm.elections.data.ElectionApi
-
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-
 import dagger.Module
 import dagger.Provides
-
 import okhttp3.OkHttpClient
-
 import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder
 import retrofit2.converter.moshi.MoshiConverterFactory
-
 import javax.inject.Singleton
 
 @Module

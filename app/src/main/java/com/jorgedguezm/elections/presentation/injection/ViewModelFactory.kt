@@ -1,8 +1,7 @@
-package com.jorgedguezm.elections.data.injection.vm
+package com.jorgedguezm.elections.presentation.injection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-
 import javax.inject.Inject
 import javax.inject.Provider
 

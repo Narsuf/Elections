@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.jorgedguezm.elections.data.DataUtils
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.data.utils.DataUtils
 import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.common.Errors.UNKNOWN
 import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
@@ -21,10 +21,7 @@ import com.jorgedguezm.elections.presentation.main.entities.MainInteraction
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.Refresh
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
 import com.jorgedguezm.elections.presentation.main.entities.MainState
-import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
-import com.jorgedguezm.elections.presentation.main.entities.MainState.Idle
-import com.jorgedguezm.elections.presentation.main.entities.MainState.Loading
-import com.jorgedguezm.elections.presentation.main.entities.MainState.Success
+import com.jorgedguezm.elections.presentation.main.entities.MainState.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow

@@ -4,7 +4,6 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
-import com.jorgedguezm.elections.data.utils.DataUtils
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers

@@ -1,9 +1,7 @@
-package com.jorgedguezm.elections.data.injection.vm
+package com.jorgedguezm.elections.presentation.injection
 
 import androidx.lifecycle.ViewModel
-
 import dagger.MapKey
-
 import kotlin.reflect.KClass
 
 @MapKey
