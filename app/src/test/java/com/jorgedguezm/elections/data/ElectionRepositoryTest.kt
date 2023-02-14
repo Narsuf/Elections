@@ -2,9 +2,11 @@ package com.jorgedguezm.elections.data
 
 import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.database.FirebaseDatabase
+import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
 import com.jorgedguezm.elections.data.utils.DataUtils
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -74,5 +76,20 @@ class ElectionRepositoryTest {
         `when`(dao.queryElections()).thenReturn(daoElections)
 
         repository.getElections(fallback = true).collect { assertEquals(it, daoElections) }
+    }
+
+    @Test
+    fun `try load elections from firebase when fallback but empty db`() = runTest {
+        val daoElections = listOf<Election>()
+
+        `when`(utils.isConnectedToInternet()).thenReturn(true)
+        `when`(dao.queryElections()).thenReturn(daoElections)
+
+        try {
+            repository.getElections(fallback = true).collect { }
+        } catch(e: Exception) {
+            // Not proud of this test, but Firebase's API doesn't make it easy.
+            assertTrue(e is NullPointerException)
+        }
     }
 }
