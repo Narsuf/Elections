@@ -44,7 +44,10 @@ class ElectionRepository @Inject constructor(
         firebaseDatabase.getReference("elections").get().addOnSuccessListener { dataSnapshot ->
             launch {
                 val gti = object : GenericTypeIndicator<List<Election>>() { }
-                dataSnapshot.getValue(gti)?.let { send(it) }
+                dataSnapshot.getValue(gti)?.let {
+                    dao.insertElections(it)
+                    send(it)
+                }
             }
         }
 
