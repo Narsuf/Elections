@@ -2,34 +2,34 @@ package com.jorgedguezm.elections.presentation.common.extensions
 
 import com.jorgedguezm.elections.data.models.Election
 
-fun List<Election>.sortByDate(): List<Election> {
-    sortedByDescending {
-        if (it.date.length > 4)
-            it.date.toDouble() / 10
-        else
-            it.date.toDouble()
-    }.let { sortedElections ->
-        sortedElections.forEach {
-            if (it.date.length > 4) {
-                it.date = when (it.date) {
-                    "20192" -> "2019-10N"
-                    "20191" -> "2019-28A"
-                    else -> it.date
-                }
-            }
+fun List<Election>.sortByDateAndFormat(): List<Election> {
+    return sortedByDescending { it.formatDateToDouble() }.map { it.formatDate() }
+}
+
+private fun Election.formatDateToDouble(): Double {
+    return if (date.length > 4)
+        date.toDouble() / 10
+    else
+        date.toDouble()
+}
+
+private fun Election.formatDate(): Election {
+    var newDate = date
+
+    if (date.length > 4) {
+        newDate = when (date) {
+            "20192" -> "2019-10N"
+            "20191" -> "2019-28A"
+            else -> date
         }
-
-        return sortedElections
-    }
-}
-
-fun List<Election>.sortResultsByElectsAndVotes(): List<Election> {
-    val sortedElections = mutableListOf<Election>()
-
-    forEach { election ->
-        val sortedResults = election.results.sortedByDescending { it.votes }.sortedByDescending { it.elects }
-        sortedElections.add(election.copy(results = sortedResults))
     }
 
-    return sortedElections
+    return copy(date = newDate)
 }
+
+fun Election.sortResultsByElectsAndVotes() = copy(
+    results = results
+        .sortedByDescending { it.votes }
+        .sortedByDescending { it.elects }
+)
+

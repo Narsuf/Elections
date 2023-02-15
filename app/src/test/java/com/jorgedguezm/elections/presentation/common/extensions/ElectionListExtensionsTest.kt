@@ -4,6 +4,7 @@ import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.models.Result
 import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateElection
 import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateElections
+import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateResult
 import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateResults
 import junit.framework.TestCase.assertTrue
 import org.junit.Test
@@ -13,7 +14,7 @@ class ElectionListExtensionsTest {
     @Test
     fun sortElections() {
         val elections = generateElections()
-        val sortedElections = elections.sortByDate()
+        val sortedElections = elections.sortByDateAndFormat()
         var lastElection: Election? = null
 
         sortedElections.forEach {
@@ -28,11 +29,12 @@ class ElectionListExtensionsTest {
 
     @Test
     fun sortResults() {
-        val election = listOf(generateElection().copy(results = generateResults()))
-        val sortedElection = election.sortResultsByElectsAndVotes()
+        val election = generateElection()
+            .copy(results = generateResults().addDuplicatedParties())
+            .sortResultsByElectsAndVotes()
         var lastResult: Result? = null
 
-        sortedElection[0].results.forEach {
+        election.results.forEach {
             val currentElects = it.elects
             val currentVotes = it.votes
             val lastElects = lastResult?.elects ?: Int.MAX_VALUE
@@ -43,5 +45,21 @@ class ElectionListExtensionsTest {
 
             lastResult = it
         }
+    }
+
+    /**
+     *  Adds duplicated parties with same elects but different votes.
+     */
+    private fun List<Result>.addDuplicatedParties(): List<Result> {
+        val extraResults = mutableListOf<Result>()
+        extraResults.addAll(this)
+
+        val result = generateResult().copy(votes = Int.MAX_VALUE)
+        val result2 = result.copy(votes = Int.MIN_VALUE)
+
+        extraResults.add(result)
+        extraResults.add(result2)
+
+        return extraResults
     }
 }
