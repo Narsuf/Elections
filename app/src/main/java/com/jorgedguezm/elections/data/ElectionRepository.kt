@@ -32,20 +32,25 @@ class ElectionRepository @Inject constructor(
 
     private suspend fun getElectionsFromApi() = channelFlow {
         val elections = service.getElections().elections
-        dao.insertElections(elections)
+        dao.insertElectionsWithResultsAndParty(elections.map { it.toElectionWithResultsAndParty() })
         send(elections)
     }
 
-    private suspend fun getElectionsFromDb() = channelFlow { send(dao.queryElections()) }
-    private suspend fun isDatabaseEmpty() = dao.queryElections().isEmpty()
+    private suspend fun getElectionsFromDb() = channelFlow {
+        send(dao.getElections().map { it.toElection() })
+    }
+
+    private suspend fun isDatabaseEmpty() = dao.getElections().isEmpty()
 
     private fun getElectionsFromFirebase(): Flow<List<Election>> = channelFlow {
         firebaseDatabase.getReference("elections").get().addOnSuccessListener { dataSnapshot ->
             launch {
                 val gti = object : GenericTypeIndicator<List<Election>>() { }
-                dataSnapshot.getValue(gti)?.let {
-                    dao.insertElections(it)
-                    send(it)
+                dataSnapshot.getValue(gti)?.let { elections ->
+                    dao.insertElectionsWithResultsAndParty(
+                        elections.map { it.toElectionWithResultsAndParty() }
+                    )
+                    send(elections)
                 }
             }
         }

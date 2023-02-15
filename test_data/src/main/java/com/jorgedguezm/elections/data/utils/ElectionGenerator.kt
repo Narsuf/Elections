@@ -8,15 +8,33 @@ class ElectionGenerator {
 
     companion object {
 
-        private fun generateRand() = (0..288).random()
-        private fun generateParty() = Party(generateRand().toString(), "672f6c")
-        private fun generateResult() = Result(generateRand(), generateRand(), generateParty())
+        fun generateRand() = (0..288).random()
+        private fun generateParty(partyId: Long) = Party(
+            id = partyId,
+            name = generateRand().toString(),
+            color = "672f6c"
+        )
+        private fun generateResult(electionId: Long): Result {
+            val partyId = generateRand().toLong()
 
-        fun generateElection(chamberName: String? = null): Election {
+            return Result(
+                id = generateRand().toLong(),
+                partyId = partyId,
+                electionId = electionId,
+                elects = generateRand(),
+                votes = generateRand(),
+                party = generateParty(partyId)
+            )
+        }
+
+        fun generateElection(
+            chamberName: String? = null, withSeveralResults: Boolean = false
+        ): Election {
             val chamber = chamberName ?: generateRand().toString()
+            val electionId = generateRand().toLong()
 
             return Election(
-                id = generateRand().toLong(),
+                id = electionId,
                 name = generateRand().toString(),
                 date = generateRand().toString(),
                 place = generateRand().toString(),
@@ -27,7 +45,10 @@ class ElectionGenerator {
                 abstentions = generateRand(),
                 blankVotes = generateRand(),
                 nullVotes = generateRand(),
-                results = listOf(generateResult())
+                results = if (withSeveralResults)
+                    generateResults(electionId)
+                else
+                    listOf(generateResult(electionId))
             )
         }
 
@@ -40,14 +61,14 @@ class ElectionGenerator {
             return elections
         }
 
-        fun generateResults(): List<Result> {
+        fun generateResults(electionId: Long = generateRand().toLong()): List<Result> {
             val results = mutableListOf<Result>()
 
             // Generate 100 results to reduce error margin.
-            for (i in 1..100) { results.add(generateResult()) }
+            for (i in 1..100) { results.add(generateResult(electionId)) }
 
             // Add two duplicated parties with same elects but different votes.
-            val result = generateResult().copy(votes = Int.MAX_VALUE)
+            val result = generateResult(electionId).copy(votes = Int.MAX_VALUE)
             val result2 = result.copy(votes = Int.MIN_VALUE)
             results.add(result)
             results.add(result2)

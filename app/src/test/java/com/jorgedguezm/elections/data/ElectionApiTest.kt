@@ -41,9 +41,16 @@ class ElectionApiTest {
             nullVotes = 226994,
             results = mutableListOf(
                 Result(
+                    id = 17,
+                    partyId = 1,
+                    electionId = 3,
                     elects = 123,
                     votes = 7215530,
-                    party = Party(name = "PP", color = "006EC7")
+                    party = Party(
+                        id = 1,
+                        name = "PP",
+                        color = "006EC7"
+                    )
                 )
             )
         )

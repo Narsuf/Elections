@@ -49,7 +49,8 @@ class ElectionRepositoryTest {
         val daoElections = expectedResponse.elections
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.queryElections()).thenReturn(daoElections)
+        `when`(dao.getElections())
+            .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         repository.getElections().collect { assertEquals(it, daoElections) }
     }
@@ -63,7 +64,8 @@ class ElectionRepositoryTest {
 
         repository.getElections().collect {
             assertEquals(it, apiElections.elections)
-            verify(dao, times(1)).insertElections(anyList())
+            verify(dao, times(1))
+                .insertElectionsWithResultsAndParty(anyList())
         }
     }
 
@@ -72,7 +74,8 @@ class ElectionRepositoryTest {
         val daoElections = expectedResponse.elections
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
-        `when`(dao.queryElections()).thenReturn(daoElections)
+        `when`(dao.getElections())
+            .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         repository.getElections(fallback = true).collect { assertEquals(it, daoElections) }
     }
@@ -82,7 +85,8 @@ class ElectionRepositoryTest {
         val daoElections = listOf<Election>()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
-        `when`(dao.queryElections()).thenReturn(daoElections)
+        `when`(dao.getElections())
+            .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         try {
             repository.getElections(fallback = true).collect { }

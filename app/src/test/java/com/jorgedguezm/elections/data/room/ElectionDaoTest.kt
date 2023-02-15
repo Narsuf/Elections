@@ -3,6 +3,7 @@ package com.jorgedguezm.elections.data.room
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.jorgedguezm.elections.data.toElectionWithResultsAndParty
 import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
@@ -50,14 +51,22 @@ class ElectionDaoTest {
     @ExperimentalCoroutinesApi
     @Test
     fun writeElectionAndRead() = runTest {
-        val election = generateElection()
+        val election = generateElection(withSeveralResults = true)
+        val electionWithResultsAndParty = election.toElectionWithResultsAndParty()
+        val election2 = generateElection(withSeveralResults = true)
+        val electionWithResultsAndParty2 = election2.toElectionWithResultsAndParty()
 
-        electionDao.insertElection(election)
+        electionDao.insertElectionsWithResultsAndParty(
+            listOf(electionWithResultsAndParty, electionWithResultsAndParty2)
+        )
 
-        val elections = electionDao.queryElections()
+        val elections = electionDao.getElections()
         val dbElection = electionDao.getElection(election.id)
+        val dbElection2 = electionDao.getElection(election2.id)
 
-        assertTrue(elections.contains(election))
-        assertEquals(dbElection, election)
+        assertTrue(elections.contains(electionWithResultsAndParty))
+        assertTrue(elections.contains(electionWithResultsAndParty2))
+        assertEquals(dbElection, electionWithResultsAndParty)
+        assertEquals(dbElection2, electionWithResultsAndParty2)
     }
 }

@@ -62,7 +62,7 @@ android {
 
         debug {
             testCoverageEnabled true
-            buildConfigField "String", "SERVER_URL", '"http://127.0.0.1:8080"'
+            buildConfigField "String", "SERVER_URL", productionUrl
         }
     }
 
