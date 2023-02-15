@@ -4,7 +4,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
-import com.jorgedguezm.elections.data.utils.DataUtils
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow

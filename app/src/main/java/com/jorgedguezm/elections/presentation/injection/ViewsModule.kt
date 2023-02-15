@@ -1,4 +1,4 @@
-package com.jorgedguezm.elections.data.injection
+package com.jorgedguezm.elections.presentation.injection
 
 import com.jorgedguezm.elections.presentation.detail.DetailActivity
 import com.jorgedguezm.elections.presentation.detail.DetailDialog
@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class BuildersModule {
+abstract class ViewsModule {
 
     @ContributesAndroidInjector
     abstract fun contributeDetailFragment(): DetailFragment
