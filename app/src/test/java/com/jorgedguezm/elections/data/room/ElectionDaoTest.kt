@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.jorgedguezm.elections.data.toElection
 import com.jorgedguezm.elections.data.toElectionWithResultsAndParty
-import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateElection
+import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateElections
 import com.jorgedguezm.elections.presentation.common.extensions.sortResultsByElectsAndVotes
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
@@ -52,20 +52,21 @@ class ElectionDaoTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun writeElectionAndRead() = runTest {
-        val election = generateElection().toElectionWithResultsAndParty()
+    fun writeElectionsAndRead() = runTest {
+        val elections = generateElections().map { it.toElectionWithResultsAndParty() }
 
-        electionDao.insertElectionsWithResultsAndParty(listOf(election))
+        electionDao.insertElectionsWithResultsAndParty(elections)
 
-        val elections = electionDao.getElections()
-        val dbElection = electionDao.getElection(election.election.electionId)
+        val dbElections = electionDao.getElections()
+        val sortedElections = dbElections.map { it.toElection() }.sortResultsByElectsAndVotes()
 
-        val sortedElections = elections.map { it.toElection() }.sortResultsByElectsAndVotes()
-        val sortElection = listOf(election).map { it.toElection() }.sortResultsByElectsAndVotes()[0]
-        val sortedDbElection = listOf(dbElection).map { it.toElection() }
-            .sortResultsByElectsAndVotes()[0]
+        sortedElections.forEach { election ->
+            val dbElection = electionDao.getElection(election.id)
+            val sortedDbElection = listOf(dbElection).map { it.toElection() }
+                .sortResultsByElectsAndVotes()[0]
 
-        assertTrue(sortedElections.contains(sortElection))
-        assertEquals(sortedDbElection, sortElection)
+            assertTrue(sortedElections.contains(election))
+            assertEquals(sortedDbElection, election)
+        }
     }
 }

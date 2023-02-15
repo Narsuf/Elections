@@ -48,9 +48,13 @@ class ElectionRandomGenerator {
 
         fun generateElections(): List<Election> {
             val elections = mutableListOf<Election>()
+            val results = generateResults()
 
             // Generate 100 elections to reduce error margin.
-            for (i in 1..100) { elections.add(generateElection()) }
+            for (i in 1..100) {
+                val election = generateElection().copy(results = results.shuffled().take(10))
+                elections.add(election)
+            }
 
             return elections
         }
@@ -60,9 +64,9 @@ class ElectionRandomGenerator {
             val parties = generateParties()
 
             // Generate 100 results to reduce error margin.
-            for (i in 1..100) {
-                var result = generateResult(electionId)
-                result = result.copy(party = parties.shuffled().take(1)[0])
+            for (i in 1..1000) {
+                val result = generateResult(electionId)
+                    .copy(party = parties.shuffled().take(1)[0])
                 results.add(result)
             }
 
@@ -78,7 +82,7 @@ class ElectionRandomGenerator {
         private fun generateParties(): List<Party> {
             val parties = mutableListOf<Party>()
 
-            for (i in 1..100) { parties.add(generateParty()) }
+            for (i in 1..600) { parties.add(generateParty()) }
 
             return parties.distinctBy { it.id }
         }
