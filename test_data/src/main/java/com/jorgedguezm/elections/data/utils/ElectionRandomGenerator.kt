@@ -27,8 +27,7 @@ class ElectionRandomGenerator {
             )
         }
 
-        fun generateElection(chamberName: String? = null): Election {
-            val chamber = chamberName ?: generateRand().toString()
+        fun generateElection(): Election {
             val electionId = generateRand().toLong()
 
             return Election(
@@ -36,14 +35,14 @@ class ElectionRandomGenerator {
                 name = generateRand().toString(),
                 date = generateRand().toString(),
                 place = generateRand().toString(),
-                chamberName = chamber,
+                chamberName = generateRand().toString(),
                 totalElects = generateRand(),
                 scrutinized = generateRand().toFloat(),
                 validVotes = generateRand(),
                 abstentions = generateRand(),
                 blankVotes = generateRand(),
                 nullVotes = generateRand(),
-                results = listOf(generateResult(electionId))
+                results = generateResults(electionId)
             )
         }
 
