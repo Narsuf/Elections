@@ -8,11 +8,7 @@ import com.jorgedguezm.elections.data.room.ElectionDao
 import com.jorgedguezm.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.common.Constants.SERVER_COMMUNICATION_ISSUES
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton

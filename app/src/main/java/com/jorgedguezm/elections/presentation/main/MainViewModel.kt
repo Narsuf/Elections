@@ -9,7 +9,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
+import com.jorgedguezm.elections.presentation.common.extensions.sortByDateAndFormat
 import com.jorgedguezm.elections.presentation.common.extensions.sortResultsByElectsAndVotes
 import com.jorgedguezm.elections.presentation.common.extensions.track
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent
@@ -54,8 +54,10 @@ class MainViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
             electionRepository.getElections().collect { elections ->
-                elections.onSuccess {
-                    val sortedElections = it.sortByDate().sortResultsByElectsAndVotes()
+                elections.onSuccess { election ->
+                    val sortedElections = election
+                        .map{ it.sortResultsByElectsAndVotes() }
+                        .sortByDateAndFormat()
                     if (initialLoading) analytics.track("main_activity_loaded", "state", "success")
                     state.value = Success(sortedElections, ::onElectionClicked)
                 }.onFailure {
