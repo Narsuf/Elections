@@ -1,6 +1,7 @@
 package com.jorgedguezm.elections.data
 
 import androidx.test.core.app.ApplicationProvider
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.FirebaseDatabase
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
@@ -28,6 +29,8 @@ class ElectionRepositoryTest {
     private lateinit var dao: ElectionDao
     private lateinit var dataUtils: DataUtils
     private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var crashlytics: FirebaseCrashlytics
+    val exception = IndexOutOfBoundsException("Failed to connect to ")
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -36,8 +39,9 @@ class ElectionRepositoryTest {
         dao = mock(ElectionDao::class.java)
         dataUtils = mock(DataUtils::class.java)
         firebaseDatabase = mock(FirebaseDatabase::class.java)
+        crashlytics = mock(FirebaseCrashlytics::class.java)
         dataUtils.context = ApplicationProvider.getApplicationContext()
-        repository = ElectionRepository(service, dao, dataUtils, firebaseDatabase)
+        repository = ElectionRepository(service, dao, dataUtils, firebaseDatabase, crashlytics)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -49,7 +53,7 @@ class ElectionRepositoryTest {
         `when`(dao.getElections())
             .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
-        repository.getElections().collect { assertEquals(it, daoElections) }
+        repository.getElections().collect { assertEquals(it, Result.success(daoElections)) }
     }
 
     @Test
@@ -60,21 +64,22 @@ class ElectionRepositoryTest {
         `when`(service.getElections()).thenReturn(apiElections)
 
         repository.getElections().collect {
-            assertEquals(it, apiElections.elections)
+            assertEquals(it, Result.success(apiElections.elections))
             verify(dao, times(1))
                 .insertElectionsWithResultsAndParty(anyList())
         }
     }
 
     @Test
-    fun loadElectionsFromDbWhenFallback() = runTest {
+    fun loadElectionsFromDbWhenApiFails() = runTest {
         val daoElections = getElections()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
+        `when`(service.getElections()).thenThrow(exception)
         `when`(dao.getElections())
             .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
-        repository.getElections(fallback = true).collect { assertEquals(it, daoElections) }
+        repository.getElections().collect { assertEquals(it, Result.success(daoElections)) }
     }
 
     @Test
@@ -82,11 +87,12 @@ class ElectionRepositoryTest {
         val daoElections = listOf<Election>()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
+        `when`(service.getElections()).thenThrow(exception)
         `when`(dao.getElections())
             .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         try {
-            repository.getElections(fallback = true).collect { }
+            repository.getElections().collect { }
         } catch(e: Exception) {
             // Not proud of this test, but Firebase's API doesn't make it easy.
             assertTrue(e is NullPointerException)

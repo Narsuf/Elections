@@ -11,7 +11,7 @@ import com.jorgedguezm.elections.data.room.ElectionDao
 import com.jorgedguezm.elections.data.utils.getElection
 import com.jorgedguezm.elections.data.utils.getElections
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE
-import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
+import com.jorgedguezm.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.*
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction.ScreenOpened
@@ -43,7 +43,7 @@ class MainViewModelTest {
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
     private lateinit var dataUtils: DataUtils
-    private val flow = channelFlow { send(getElections()) }
+    private val flow = channelFlow { send(Result.success(getElections())) }
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -59,7 +59,7 @@ class MainViewModelTest {
 
         `when`(electionRepository.getElections()).thenReturn(flow)
 
-        viewModel = MainViewModel(electionRepository, analytics, crashlytics, dataUtils)
+        viewModel = MainViewModel(electionRepository, analytics, crashlytics)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -89,7 +89,8 @@ class MainViewModelTest {
 
     @Test
     fun `screen opened should emit network error when empty elections and no connection`() = runTest {
-        `when`(electionRepository.getElections()).thenReturn(channelFlow { send(listOf()) })
+        `when`(electionRepository.getElections())
+            .thenReturn(channelFlow { send(Result.failure(Throwable(NO_INTERNET_CONNECTION))) })
 
         viewModel.handleInteraction(ScreenOpened)
 
@@ -98,7 +99,7 @@ class MainViewModelTest {
 
     @Test
     fun `screen opened should emit error when empty elections and connection`() = runTest {
-        `when`(electionRepository.getElections()).thenReturn(channelFlow { send(listOf()) })
+        `when`(electionRepository.getElections()).thenReturn(channelFlow { send(Result.failure(Throwable())) })
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
 
         viewModel.handleInteraction(ScreenOpened)
@@ -117,24 +118,9 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `screen opened should emit success when failing with fallback`() = runTest {
-        val exception = IndexOutOfBoundsException("Failed to connect to ")
-        `when`(electionRepository.getElections()).thenThrow(exception)
-        `when`(electionRepository.getElections(fallback = true)).thenReturn(flow)
-
-        viewModel.handleInteraction(ScreenOpened)
-
-        assertEquals(
-            Success(getElections(), viewModel::onElectionClicked),
-            viewModel.viewState.value
-        )
-    }
-
-    @Test
     fun `screen opened should emit error when both main server and fallback fail`() = runTest {
         val exception = IndexOutOfBoundsException("Failed to connect to ")
         `when`(electionRepository.getElections()).thenThrow(exception)
-        `when`(electionRepository.getElections(fallback = true)).thenThrow(exception)
 
         viewModel.handleInteraction(ScreenOpened)
 
