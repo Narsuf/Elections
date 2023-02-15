@@ -9,10 +9,10 @@ class ElectionRandomGenerator {
     companion object {
 
         private fun generateRand() = (0..288).random()
-        private fun generateParty(partyId: Long) = Party(
+        private fun generateParty(partyId: Long = generateRand().toLong()) = Party(
             id = partyId,
             name = generateRand().toString(),
-            color = "672f6c"
+            color = generateRand().toString()
         )
         private fun generateResult(electionId: Long): Result {
             val partyId = generateRand().toLong()
@@ -57,9 +57,14 @@ class ElectionRandomGenerator {
 
         fun generateResults(electionId: Long = generateRand().toLong()): List<Result> {
             val results = mutableListOf<Result>()
+            val parties = generateParties()
 
             // Generate 100 results to reduce error margin.
-            for (i in 1..100) { results.add(generateResult(electionId)) }
+            for (i in 1..100) {
+                var result = generateResult(electionId)
+                result = result.copy(party = parties.shuffled().take(1)[0])
+                results.add(result)
+            }
 
             // Add two duplicated parties with same elects but different votes.
             val result = generateResult(electionId).copy(votes = Int.MAX_VALUE)
@@ -67,7 +72,15 @@ class ElectionRandomGenerator {
             results.add(result)
             results.add(result2)
 
-            return results
+            return results.distinctBy { it.id }
+        }
+
+        private fun generateParties(): List<Party> {
+            val parties = mutableListOf<Party>()
+
+            for (i in 1..100) { parties.add(generateParty()) }
+
+            return parties.distinctBy { it.id }
         }
     }
 }

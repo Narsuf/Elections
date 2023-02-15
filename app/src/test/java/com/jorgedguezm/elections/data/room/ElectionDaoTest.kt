@@ -3,8 +3,10 @@ package com.jorgedguezm.elections.data.room
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.jorgedguezm.elections.data.toElection
 import com.jorgedguezm.elections.data.toElectionWithResultsAndParty
-import com.jorgedguezm.elections.data.utils.getElection
+import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateElection
+import com.jorgedguezm.elections.presentation.common.extensions.sortResultsByElectsAndVotes
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
@@ -51,15 +53,19 @@ class ElectionDaoTest {
     @ExperimentalCoroutinesApi
     @Test
     fun writeElectionAndRead() = runTest {
-        val election = getElection()
-        val electionWithResultsAndParty = election.toElectionWithResultsAndParty()
+        val election = generateElection().toElectionWithResultsAndParty()
 
-        electionDao.insertElectionsWithResultsAndParty(listOf(electionWithResultsAndParty))
+        electionDao.insertElectionsWithResultsAndParty(listOf(election))
 
         val elections = electionDao.getElections()
-        val dbElection = electionDao.getElection(election.id)
+        val dbElection = electionDao.getElection(election.election.electionId)
 
-        assertTrue(elections.contains(electionWithResultsAndParty))
-        assertEquals(dbElection, electionWithResultsAndParty)
+        val sortedElections = elections.map { it.toElection() }.sortResultsByElectsAndVotes()
+        val sortElection = listOf(election).map { it.toElection() }.sortResultsByElectsAndVotes()[0]
+        val sortedDbElection = listOf(dbElection).map { it.toElection() }
+            .sortResultsByElectsAndVotes()[0]
+
+        assertTrue(sortedElections.contains(sortElection))
+        assertEquals(sortedDbElection, sortElection)
     }
 }
