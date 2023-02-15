@@ -2,9 +2,9 @@ package com.jorgedguezm.elections.data
 
 import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.database.FirebaseDatabase
-import com.jorgedguezm.elections.data.models.ApiResponse
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
+import com.jorgedguezm.elections.data.utils.getApiResponse
 import com.jorgedguezm.elections.data.utils.getElections
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
@@ -28,7 +28,6 @@ class ElectionRepositoryTest {
     private lateinit var dao: ElectionDao
     private lateinit var dataUtils: DataUtils
     private lateinit var firebaseDatabase: FirebaseDatabase
-    private val expectedResponse = ApiResponse(getElections())
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -44,7 +43,7 @@ class ElectionRepositoryTest {
 
     @Test
     fun loadElectionsFromDb() = runTest {
-        val daoElections = expectedResponse.elections
+        val daoElections = getApiResponse().elections
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
         `when`(dao.getElections())
@@ -55,7 +54,7 @@ class ElectionRepositoryTest {
 
     @Test
     fun loadElectionsFromApi() = runTest {
-        val apiElections = expectedResponse
+        val apiElections = getApiResponse()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenReturn(apiElections)
@@ -69,7 +68,7 @@ class ElectionRepositoryTest {
 
     @Test
     fun loadElectionsFromDbWhenFallback() = runTest {
-        val daoElections = expectedResponse.elections
+        val daoElections = getElections()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(dao.getElections())

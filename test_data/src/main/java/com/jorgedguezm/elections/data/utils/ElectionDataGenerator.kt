@@ -1,8 +1,11 @@
 package com.jorgedguezm.elections.data.utils
 
+import com.jorgedguezm.elections.data.models.ApiResponse
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.models.Party
 import com.jorgedguezm.elections.data.models.Result
+
+fun getApiResponse() = ApiResponse(getElections())
 
 fun getElections() = listOf(getElection())
 

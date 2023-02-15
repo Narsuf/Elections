@@ -1,8 +1,7 @@
 package com.jorgedguezm.elections.data
 
-import com.jorgedguezm.elections.data.models.ApiResponse
+import com.jorgedguezm.elections.data.utils.getApiResponse
 import com.jorgedguezm.elections.data.utils.getElection
-import com.jorgedguezm.elections.data.utils.getElections
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import junit.framework.TestCase.assertEquals
@@ -24,8 +23,6 @@ class ElectionApiTest {
 
     private lateinit var apiInterface: ElectionApi
     private lateinit var mockWebServer: MockWebServer
-    private val expectedApiResponse = ApiResponse(getElections())
-
 
     @Before
     fun init() {
@@ -45,7 +42,7 @@ class ElectionApiTest {
 
         val response = apiInterface.getElections()
 
-        assertEquals(response, expectedApiResponse)
+        assertEquals(response, getApiResponse())
     }
 
     @Test

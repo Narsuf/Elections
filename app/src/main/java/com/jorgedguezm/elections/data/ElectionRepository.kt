@@ -32,7 +32,11 @@ class ElectionRepository @Inject constructor(
 
     private suspend fun getElectionsFromApi() = channelFlow {
         val elections = service.getElections().elections
-        dao.insertElectionsWithResultsAndParty(elections.map { it.toElectionWithResultsAndParty() })
+
+        dao.insertElectionsWithResultsAndParty(
+            elections.map { it.toElectionWithResultsAndParty() }
+        )
+
         send(elections)
     }
 

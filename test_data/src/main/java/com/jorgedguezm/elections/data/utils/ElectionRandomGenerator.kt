@@ -52,6 +52,7 @@ class ElectionRandomGenerator {
 
             // Generate 100 elections to reduce error margin.
             for (i in 1..100) {
+                // This black magic here is needed to maintain healthy references.
                 val election = generateElection().copy(results = results.shuffled().take(10))
                 elections.add(election)
             }
@@ -63,7 +64,6 @@ class ElectionRandomGenerator {
             val results = mutableListOf<Result>()
             val parties = generateParties()
 
-            // Generate 100 results to reduce error margin.
             for (i in 1..1000) {
                 val result = generateResult(electionId)
                     .copy(party = parties.shuffled().take(1)[0])
