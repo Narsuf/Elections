@@ -4,12 +4,13 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.FirebaseDatabase
+import com.jorgedguezm.elections.data.DataUtils
 import com.jorgedguezm.elections.data.ElectionApi
-import com.jorgedguezm.elections.data.ElectionApiTest
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.room.ElectionDao
-import com.jorgedguezm.elections.data.DataUtils
-import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
+import com.jorgedguezm.elections.data.utils.getElection
+import com.jorgedguezm.elections.data.utils.getElections
+import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE
 import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent.*
 import com.jorgedguezm.elections.presentation.main.entities.MainInteraction
@@ -42,8 +43,7 @@ class MainViewModelTest {
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
     private lateinit var dataUtils: DataUtils
-    private val expectedResponse = ElectionApiTest.expectedApiResponse
-    private val flow = channelFlow { send(expectedResponse.elections) }
+    private val flow = channelFlow { send(getElections()) }
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -68,7 +68,10 @@ class MainViewModelTest {
         val totalExecutionTime = measureTimeMillis {
             viewModel.handleInteraction(ScreenOpened)
 
-            assertEquals(Success(expectedResponse.elections, viewModel::onElectionClicked), viewModel.viewState.value)
+            assertEquals(
+                Success(getElections(), viewModel::onElectionClicked),
+                viewModel.viewState.value
+            )
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
@@ -78,7 +81,10 @@ class MainViewModelTest {
     fun `refresh should emit success when succeeding`() = runTest {
         viewModel.handleInteraction(MainInteraction.Refresh)
 
-        assertEquals(Success(expectedResponse.elections, viewModel::onElectionClicked), viewModel.viewState.value)
+        assertEquals(
+            Success(getElections(), viewModel::onElectionClicked),
+            viewModel.viewState.value
+        )
     }
 
     @Test
@@ -118,7 +124,10 @@ class MainViewModelTest {
 
         viewModel.handleInteraction(ScreenOpened)
 
-        assertEquals(Success(expectedResponse.elections, viewModel::onElectionClicked), viewModel.viewState.value)
+        assertEquals(
+            Success(getElections(), viewModel::onElectionClicked),
+            viewModel.viewState.value
+        )
     }
 
     @Test
@@ -135,8 +144,8 @@ class MainViewModelTest {
     @Test
     fun `election clicked should emit navigate to detail event`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
-        val congressElection = generateElection()
-        val senateElection = generateElection()
+        val congressElection = getElection()
+        val senateElection = getElection(KEY_SENATE)
 
         viewModel.onElectionClicked(congressElection, senateElection)
 

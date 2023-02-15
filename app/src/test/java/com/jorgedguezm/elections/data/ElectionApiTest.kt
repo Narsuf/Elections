@@ -1,9 +1,7 @@
 package com.jorgedguezm.elections.data
 
-import com.jorgedguezm.elections.data.models.ApiResponse
-import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.data.models.Party
-import com.jorgedguezm.elections.data.models.Result
+import com.jorgedguezm.elections.data.utils.getApiResponse
+import com.jorgedguezm.elections.data.utils.getElection
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import junit.framework.TestCase.assertEquals
@@ -26,31 +24,6 @@ class ElectionApiTest {
     private lateinit var apiInterface: ElectionApi
     private lateinit var mockWebServer: MockWebServer
 
-    companion object {
-        val expectedElection = Election(
-            id = 3,
-            name = "Generales",
-            date = "2015",
-            place = "España",
-            chamberName = "Congreso",
-            totalElects = 350,
-            scrutinized = 100.0F,
-            validVotes = 25349824,
-            abstentions = 9280429,
-            blankVotes = 187766,
-            nullVotes = 226994,
-            results = mutableListOf(
-                Result(
-                    elects = 123,
-                    votes = 7215530,
-                    party = Party(name = "PP", color = "006EC7")
-                )
-            )
-        )
-
-        val expectedApiResponse = ApiResponse(listOf(expectedElection))
-    }
-
     @Before
     fun init() {
         mockWebServer = MockWebServer()
@@ -64,17 +37,17 @@ class ElectionApiTest {
     }
 
     @Test
-    fun getElections() = runBlocking {
+    fun getApiElections() = runBlocking {
         enqueueResponse("elections-test.json")
 
         val response = apiInterface.getElections()
 
-        assertEquals(response, expectedApiResponse)
+        assertEquals(response, getApiResponse())
     }
 
     @Test
-    fun getElection() = runBlocking {
-        val apiResponse = expectedElection
+    fun getApiElection() = runBlocking {
+        val apiResponse = getElection()
 
         enqueueResponse("election-test.json")
 

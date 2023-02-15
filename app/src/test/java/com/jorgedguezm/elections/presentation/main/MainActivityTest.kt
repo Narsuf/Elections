@@ -7,9 +7,7 @@ import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.main.adapters.GeneralCardAdapter
 import com.jorgedguezm.elections.presentation.main.entities.MainState.Error
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import junit.framework.TestCase.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

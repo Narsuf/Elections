@@ -5,6 +5,8 @@
       "results": [
         {
           "id": 17,
+          "partyId": 1,
+          "electionId": 3,
           "party": {
             "id": 1,
             "name": "PP",
@@ -26,6 +28,5 @@
       "blankVotes": 187766,
       "nullVotes": 226994
     }
-
   ]
 }

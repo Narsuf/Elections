@@ -4,6 +4,8 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
+import com.jorgedguezm.elections.data.utils.getApiResponse
+import com.jorgedguezm.elections.data.utils.getElections
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
@@ -14,11 +16,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.anyList
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
 
 @ExperimentalCoroutinesApi
@@ -30,7 +28,6 @@ class ElectionRepositoryTest {
     private lateinit var dao: ElectionDao
     private lateinit var dataUtils: DataUtils
     private lateinit var firebaseDatabase: FirebaseDatabase
-    private val expectedResponse = ElectionApiTest.expectedApiResponse
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -46,33 +43,36 @@ class ElectionRepositoryTest {
 
     @Test
     fun loadElectionsFromDb() = runTest {
-        val daoElections = expectedResponse.elections
+        val daoElections = getApiResponse().elections
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.queryElections()).thenReturn(daoElections)
+        `when`(dao.getElections())
+            .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         repository.getElections().collect { assertEquals(it, daoElections) }
     }
 
     @Test
     fun loadElectionsFromApi() = runTest {
-        val apiElections = expectedResponse
+        val apiElections = getApiResponse()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenReturn(apiElections)
 
         repository.getElections().collect {
             assertEquals(it, apiElections.elections)
-            verify(dao, times(1)).insertElections(anyList())
+            verify(dao, times(1))
+                .insertElectionsWithResultsAndParty(anyList())
         }
     }
 
     @Test
     fun loadElectionsFromDbWhenFallback() = runTest {
-        val daoElections = expectedResponse.elections
+        val daoElections = getElections()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
-        `when`(dao.queryElections()).thenReturn(daoElections)
+        `when`(dao.getElections())
+            .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         repository.getElections(fallback = true).collect { assertEquals(it, daoElections) }
     }
@@ -82,7 +82,8 @@ class ElectionRepositoryTest {
         val daoElections = listOf<Election>()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
-        `when`(dao.queryElections()).thenReturn(daoElections)
+        `when`(dao.getElections())
+            .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         try {
             repository.getElections(fallback = true).collect { }
