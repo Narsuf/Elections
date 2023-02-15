@@ -10,8 +10,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.jorgedguezm.elections.R
 import com.jorgedguezm.elections.databinding.ActivityMainBinding
 import com.jorgedguezm.elections.presentation.common.Constants
-import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
-import com.jorgedguezm.elections.presentation.common.Errors.UNKNOWN
+import com.jorgedguezm.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
+import com.jorgedguezm.elections.presentation.common.Constants.SERVER_COMMUNICATION_ISSUES
 import com.jorgedguezm.elections.presentation.common.extensions.observeOnLifecycle
 import com.jorgedguezm.elections.presentation.common.inheritance.ViewModelActivity
 import com.jorgedguezm.elections.presentation.detail.DetailActivity
@@ -97,9 +97,10 @@ class MainActivity : ViewModelActivity() {
                 }
             }
 
-            val error = when (state.errorCode) {
+            val error = when (state.errorMessage) {
+                SERVER_COMMUNICATION_ISSUES -> R.string.server_communication_issues
                 NO_INTERNET_CONNECTION -> R.string.no_internet_connection
-                UNKNOWN -> R.string.something_wrong
+                else -> R.string.something_wrong
             }
 
             Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()

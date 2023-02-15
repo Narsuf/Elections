@@ -15,4 +15,5 @@
     <!-- Errors. -->
     <string name="something_wrong">Oops! Algo ha ido mal.</string>
     <string name="no_internet_connection">Sin conexión a Internet</string>
+    <string name="server_communication_issues">Parece que estamos teniendo problemas al intentar comunicarnos con nuestros servidores.</string>
 </resources>

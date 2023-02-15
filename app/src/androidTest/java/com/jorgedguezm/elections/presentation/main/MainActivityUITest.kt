@@ -96,7 +96,7 @@ class MainActivityUITest {
         launchActivity()
 
         assertToolbarTitle("Elections")
-        sleep(1000)
+        sleep(3000)
         assertNotDisplayed(R.id.error_animation)
         assertNotDisplayed(R.id.loading_animation)
         assertDisplayed(R.id.recyclerView)

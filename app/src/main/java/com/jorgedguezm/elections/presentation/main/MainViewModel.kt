@@ -7,11 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.jorgedguezm.elections.data.DataUtils
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
-import com.jorgedguezm.elections.presentation.common.Errors.UNKNOWN
 import com.jorgedguezm.elections.presentation.common.extensions.sortByDateAndFormat
 import com.jorgedguezm.elections.presentation.common.extensions.sortResultsByElectsAndVotes
 import com.jorgedguezm.elections.presentation.common.extensions.track
@@ -34,7 +31,6 @@ class MainViewModel @Inject constructor(
     private val electionRepository: ElectionRepository,
     private val analytics: FirebaseAnalytics,
     private val crashlytics: FirebaseCrashlytics,
-    private val dataUtils: DataUtils,
 ) : ViewModel() {
 
     private val state = MutableLiveData<MainState>(Idle)
@@ -44,39 +40,28 @@ class MainViewModel @Inject constructor(
     internal val viewEvent = event.receiveAsFlow()
 
     internal fun handleInteraction(action: MainInteraction) = when (action) {
-        ScreenOpened -> retrieveElections(loadAnimation = true)
+        ScreenOpened -> retrieveElections(initialLoading = true)
         Refresh -> retrieveElections()
     }
 
-    private fun retrieveElections(loadAnimation: Boolean = false, fallback: Boolean = false) {
-        if (loadAnimation) state.value = Loading
+    private fun retrieveElections(initialLoading: Boolean = false) {
+        if (initialLoading) state.value = Loading
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            if (throwable.message != null && throwable.message!!.contains("Failed to connect to ")) {
-                if (!fallback) {
-                    crashlytics.recordException(Exception("Main service down"))
-                    retrieveElections(fallback = true)
-                } else {
-                    crashlytics.recordException(Exception("Firebase down"))
-                    state.value = Error()
-                }
-            } else {
-                crashlytics.recordException(throwable)
-                state.value = Error()
-            }
+            crashlytics.recordException(throwable)
+            state.value = Error()
         }
 
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
-            electionRepository.getElections(fallback).collect { elections ->
-                if (elections.isEmpty()) {
-                    state.value = Error(
-                        errorCode = if (!dataUtils.isConnectedToInternet()) NO_INTERNET_CONNECTION else UNKNOWN
-                    )
-                } else {
-                    val sortedElections = elections
-                        .map { it.sortResultsByElectsAndVotes() }
+            electionRepository.getElections().collect { elections ->
+                elections.onSuccess { election ->
+                    val sortedElections = election
+                        .map{ it.sortResultsByElectsAndVotes() }
                         .sortByDateAndFormat()
+                    if (initialLoading) analytics.track("main_activity_loaded", "state", "success")
                     state.value = Success(sortedElections, ::onElectionClicked)
+                }.onFailure {
+                    state.value = Error(it.message)
                 }
             }
         }

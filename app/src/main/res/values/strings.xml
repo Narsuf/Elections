@@ -13,5 +13,6 @@
 
     <!-- Errors. -->
     <string name="something_wrong">Oops! Something went wrong.</string>
-    <string name="no_internet_connection">No Internet connection</string>
+    <string name="no_internet_connection">No Internet connection.</string>
+    <string name="server_communication_issues">Seems like we are having trouble communicating with our servers.</string>
 </resources>
