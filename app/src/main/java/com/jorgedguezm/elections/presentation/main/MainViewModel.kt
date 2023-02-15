@@ -12,7 +12,7 @@ import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.presentation.common.Errors.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.common.Errors.UNKNOWN
-import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
+import com.jorgedguezm.elections.presentation.common.extensions.sortByDateAndFormat
 import com.jorgedguezm.elections.presentation.common.extensions.sortResultsByElectsAndVotes
 import com.jorgedguezm.elections.presentation.common.extensions.track
 import com.jorgedguezm.elections.presentation.main.entities.MainEvent
@@ -73,7 +73,9 @@ class MainViewModel @Inject constructor(
                         errorCode = if (!dataUtils.isConnectedToInternet()) NO_INTERNET_CONNECTION else UNKNOWN
                     )
                 } else {
-                    val sortedElections = elections.sortByDate().sortResultsByElectsAndVotes()
+                    val sortedElections = elections
+                        .map { it.sortResultsByElectsAndVotes() }
+                        .sortByDateAndFormat()
                     state.value = Success(sortedElections, ::onElectionClicked)
                 }
             }

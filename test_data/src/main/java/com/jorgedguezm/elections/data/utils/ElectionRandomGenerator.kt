@@ -14,7 +14,7 @@ class ElectionRandomGenerator {
             name = generateRand().toString(),
             color = generateRand().toString()
         )
-        private fun generateResult(electionId: Long): Result {
+        fun generateResult(electionId: Long = generateRand().toLong()): Result {
             val partyId = generateRand().toLong()
 
             return Result(
@@ -69,12 +69,6 @@ class ElectionRandomGenerator {
                     .copy(party = parties.shuffled().take(1)[0])
                 results.add(result)
             }
-
-            // Add two duplicated parties with same elects but different votes.
-            val result = generateResult(electionId).copy(votes = Int.MAX_VALUE)
-            val result2 = result.copy(votes = Int.MIN_VALUE)
-            results.add(result)
-            results.add(result2)
 
             return results.distinctBy { it.id }
         }

@@ -34,9 +34,10 @@ interface ElectionDao {
             val party = it.party
             insertParty(party)
 
-            val result = it.result
-            result.resultPartyId = party.partyId
-            result.resultElectionId = election.electionId
+            val result = it.result.copy(
+                resultPartyId = party.partyId,
+                resultElectionId = election.electionId
+            )
             insertResult(result)
         }
     }

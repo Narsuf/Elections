@@ -9,7 +9,7 @@ import androidx.room.Relation
 data class ElectionRaw(
     @PrimaryKey val electionId: Long,
     val name: String,
-    var date: String,
+    val date: String,
     val place: String,
     val chamberName: String,
     val totalElects: Int,
@@ -22,16 +22,16 @@ data class ElectionRaw(
 
 @Entity(tableName = "parties")
 data class PartyRaw(
-    @PrimaryKey var partyId: Long,
+    @PrimaryKey val partyId: Long,
     val name: String,
     val color: String
 )
 
 @Entity(tableName = "results")
 data class ResultRaw(
-    @PrimaryKey var id: Long,
-    var resultPartyId: Long,
-    var resultElectionId: Long,
+    @PrimaryKey val id: Long,
+    val resultPartyId: Long,
+    val resultElectionId: Long,
     val elects: Int,
     val votes: Int
 )
