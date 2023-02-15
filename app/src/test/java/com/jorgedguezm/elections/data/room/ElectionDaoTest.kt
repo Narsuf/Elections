@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.jorgedguezm.elections.data.toElectionWithResultsAndParty
-import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
+import com.jorgedguezm.elections.data.utils.getElection
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +51,7 @@ class ElectionDaoTest {
     @ExperimentalCoroutinesApi
     @Test
     fun writeElectionAndRead() = runTest {
-        val election = generateElection()
+        val election = getElection()
         val electionWithResultsAndParty = election.toElectionWithResultsAndParty()
 
         electionDao.insertElectionsWithResultsAndParty(listOf(electionWithResultsAndParty))

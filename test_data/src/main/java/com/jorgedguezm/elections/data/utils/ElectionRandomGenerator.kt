@@ -4,7 +4,7 @@ import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.models.Party
 import com.jorgedguezm.elections.data.models.Result
 
-class ElectionGenerator {
+class ElectionRandomGenerator {
 
     companion object {
 

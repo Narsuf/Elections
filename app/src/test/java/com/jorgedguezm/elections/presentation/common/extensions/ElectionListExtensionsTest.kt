@@ -2,9 +2,9 @@ package com.jorgedguezm.elections.presentation.common.extensions
 
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.models.Result
-import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElection
-import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateElections
-import com.jorgedguezm.elections.data.utils.ElectionGenerator.Companion.generateResults
+import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateElection
+import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateElections
+import com.jorgedguezm.elections.data.utils.ElectionRandomGenerator.Companion.generateResults
 import junit.framework.TestCase.assertTrue
 import org.junit.Test
 

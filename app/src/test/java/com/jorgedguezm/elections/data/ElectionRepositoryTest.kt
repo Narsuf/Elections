@@ -2,8 +2,10 @@ package com.jorgedguezm.elections.data
 
 import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.database.FirebaseDatabase
+import com.jorgedguezm.elections.data.models.ApiResponse
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
+import com.jorgedguezm.elections.data.utils.getElections
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
@@ -14,11 +16,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.anyList
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
 
 @ExperimentalCoroutinesApi
@@ -30,7 +28,7 @@ class ElectionRepositoryTest {
     private lateinit var dao: ElectionDao
     private lateinit var dataUtils: DataUtils
     private lateinit var firebaseDatabase: FirebaseDatabase
-    private val expectedResponse = ElectionApiTest.expectedApiResponse
+    private val expectedResponse = ApiResponse(getElections())
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before

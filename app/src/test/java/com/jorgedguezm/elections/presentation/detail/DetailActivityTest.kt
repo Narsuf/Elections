@@ -3,14 +3,11 @@ package com.jorgedguezm.elections.presentation.detail
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import com.jorgedguezm.elections.data.utils.ElectionGenerator
-import com.jorgedguezm.elections.presentation.common.Constants.KEY_CONGRESS
+import com.jorgedguezm.elections.data.utils.getElection
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_CONGRESS_ELECTION
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE
 import com.jorgedguezm.elections.presentation.common.Constants.KEY_SENATE_ELECTION
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNull
-import junit.framework.TestCase.assertTrue
+import junit.framework.TestCase.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -18,8 +15,8 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class DetailActivityTest {
 
-    private val congressElection = ElectionGenerator.generateElection(KEY_CONGRESS)
-    private val senateElection = ElectionGenerator.generateElection(KEY_SENATE)
+    private val congressElection = getElection()
+    private val senateElection = getElection(KEY_SENATE)
 
     @Test
     fun launchDetailActivity() {
