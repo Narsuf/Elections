@@ -4,10 +4,9 @@ import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.models.Party
 import com.jorgedguezm.elections.data.models.Result
 import com.jorgedguezm.elections.data.room.*
-import com.jorgedguezm.elections.data.room.models.*
 
 internal fun ElectionWithResultsAndParty.toElection() = Election(
-    id = election.id,
+    id = election.electionId,
     name = election.name,
     date = election.date,
     place = election.place,
@@ -18,13 +17,13 @@ internal fun ElectionWithResultsAndParty.toElection() = Election(
     abstentions = election.abstentions,
     blankVotes = election.blankVotes,
     nullVotes = election.nullVotes,
-    results = results.map { it.toResult(election.id) }
+    results = results.map { it.toResult(election.electionId) }
 
 )
 
 private fun ResultWithParty.toResult(electionId: Long) = Result(
     id = result.id,
-    partyId = party.id,
+    partyId = party.partyId,
     electionId = electionId,
     elects = result.elects,
     votes = result.votes,
@@ -32,7 +31,7 @@ private fun ResultWithParty.toResult(electionId: Long) = Result(
 )
 
 private fun PartyRaw.toParty() = Party(
-    id = id,
+    id = partyId,
     name = name,
     color = color
 )
@@ -43,7 +42,7 @@ internal fun Election.toElectionWithResultsAndParty() = ElectionWithResultsAndPa
 )
 
 private fun Election.toElectionRaw() = ElectionRaw(
-    id = id,
+    electionId = id,
     name = name,
     date = date,
     place = place,
@@ -63,14 +62,14 @@ private fun Result.toResultWithParty() = ResultWithParty(
 
 private fun Result.toResultRaw() = ResultRaw(
     id = id,
-    partyId = partyId,
-    electionId = electionId,
+    resultPartyId = partyId,
+    resultElectionId = electionId,
     elects = elects,
     votes = votes
 )
 
 private fun Party.toPartyRaw() = PartyRaw(
-    id = id,
+    partyId = id,
     name = name,
     color = color
 )

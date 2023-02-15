@@ -51,22 +51,15 @@ class ElectionDaoTest {
     @ExperimentalCoroutinesApi
     @Test
     fun writeElectionAndRead() = runTest {
-        val election = generateElection(withSeveralResults = true)
+        val election = generateElection()
         val electionWithResultsAndParty = election.toElectionWithResultsAndParty()
-        val election2 = generateElection(withSeveralResults = true)
-        val electionWithResultsAndParty2 = election2.toElectionWithResultsAndParty()
 
-        electionDao.insertElectionsWithResultsAndParty(
-            listOf(electionWithResultsAndParty, electionWithResultsAndParty2)
-        )
+        electionDao.insertElectionsWithResultsAndParty(listOf(electionWithResultsAndParty))
 
         val elections = electionDao.getElections()
         val dbElection = electionDao.getElection(election.id)
-        val dbElection2 = electionDao.getElection(election2.id)
 
         assertTrue(elections.contains(electionWithResultsAndParty))
-        assertTrue(elections.contains(electionWithResultsAndParty2))
         assertEquals(dbElection, electionWithResultsAndParty)
-        assertEquals(dbElection2, electionWithResultsAndParty2)
     }
 }

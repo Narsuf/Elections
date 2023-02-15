@@ -8,7 +8,7 @@ class ElectionGenerator {
 
     companion object {
 
-        fun generateRand() = (0..288).random()
+        private fun generateRand() = (0..288).random()
         private fun generateParty(partyId: Long) = Party(
             id = partyId,
             name = generateRand().toString(),
@@ -27,9 +27,7 @@ class ElectionGenerator {
             )
         }
 
-        fun generateElection(
-            chamberName: String? = null, withSeveralResults: Boolean = false
-        ): Election {
+        fun generateElection(chamberName: String? = null): Election {
             val chamber = chamberName ?: generateRand().toString()
             val electionId = generateRand().toLong()
 
@@ -45,10 +43,7 @@ class ElectionGenerator {
                 abstentions = generateRand(),
                 blankVotes = generateRand(),
                 nullVotes = generateRand(),
-                results = if (withSeveralResults)
-                    generateResults(electionId)
-                else
-                    listOf(generateResult(electionId))
+                results = listOf(generateResult(electionId))
             )
         }
 

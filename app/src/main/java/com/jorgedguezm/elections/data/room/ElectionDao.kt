@@ -1,10 +1,6 @@
 package com.jorgedguezm.elections.data.room
 
 import androidx.room.*
-import com.jorgedguezm.elections.data.room.models.ElectionRaw
-import com.jorgedguezm.elections.data.room.models.ElectionWithResultsAndParty
-import com.jorgedguezm.elections.data.room.models.PartyRaw
-import com.jorgedguezm.elections.data.room.models.ResultRaw
 
 @Dao
 interface ElectionDao {
@@ -14,7 +10,7 @@ interface ElectionDao {
     suspend fun getElections(): List<ElectionWithResultsAndParty>
 
     @Transaction
-    @Query("SELECT * FROM elections WHERE id = :id")
+    @Query("SELECT * FROM elections WHERE electionId = :id")
     suspend fun getElection(id: Long): ElectionWithResultsAndParty
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -39,8 +35,8 @@ interface ElectionDao {
             insertParty(party)
 
             val result = it.result
-            result.partyId = party.id
-            result.electionId = election.id
+            result.resultPartyId = party.partyId
+            result.resultElectionId = election.electionId
             insertResult(result)
         }
     }
