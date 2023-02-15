@@ -5,7 +5,7 @@ import java.io.Serializable
 data class Election(
         val id: Long = 0,
         val name: String = "",
-        var date: String = "",
+        val date: String = "",
         val place: String = "",
         val chamberName: String = "",
         val totalElects: Int = 0,

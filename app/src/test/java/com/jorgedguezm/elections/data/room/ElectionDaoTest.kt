@@ -58,15 +58,15 @@ class ElectionDaoTest {
         electionDao.insertElectionsWithResultsAndParty(elections)
 
         val dbElections = electionDao.getElections()
-        val sortedElections = dbElections.map { it.toElection() }.sortResultsByElectsAndVotes()
+            .map { it.toElection().sortResultsByElectsAndVotes() }
 
-        sortedElections.forEach { election ->
+        dbElections.forEach { election ->
             val dbElection = electionDao.getElection(election.id)
-            val sortedDbElection = listOf(dbElection).map { it.toElection() }
-                .sortResultsByElectsAndVotes()[0]
+                .toElection()
+                .sortResultsByElectsAndVotes()
 
-            assertTrue(sortedElections.contains(election))
-            assertEquals(sortedDbElection, election)
+            assertTrue(dbElections.contains(election))
+            assertEquals(dbElection, election)
         }
     }
 }

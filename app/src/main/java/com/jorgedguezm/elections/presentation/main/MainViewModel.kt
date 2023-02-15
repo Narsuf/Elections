@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.jorgedguezm.elections.data.DataUtils
 import com.jorgedguezm.elections.data.ElectionRepository
 import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.presentation.common.extensions.sortByDate
