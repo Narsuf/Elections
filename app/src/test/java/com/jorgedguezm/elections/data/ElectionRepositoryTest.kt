@@ -30,7 +30,7 @@ class ElectionRepositoryTest {
     private lateinit var dataUtils: DataUtils
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var crashlytics: FirebaseCrashlytics
-    val exception = IndexOutOfBoundsException("Failed to connect to ")
+    private val exception = IndexOutOfBoundsException("Failed to connect to ")
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before

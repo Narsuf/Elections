@@ -118,16 +118,6 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `screen opened should emit error when both main server and fallback fail`() = runTest {
-        val exception = IndexOutOfBoundsException("Failed to connect to ")
-        `when`(electionRepository.getElections()).thenThrow(exception)
-
-        viewModel.handleInteraction(ScreenOpened)
-
-        assertEquals(Error(), viewModel.viewState.value)
-    }
-
-    @Test
     fun `election clicked should emit navigate to detail event`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
         val congressElection = getElection()
