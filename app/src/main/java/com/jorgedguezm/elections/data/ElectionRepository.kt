@@ -7,9 +7,10 @@ import com.jorgedguezm.elections.data.models.Election
 import com.jorgedguezm.elections.data.room.ElectionDao
 import com.jorgedguezm.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
 import com.jorgedguezm.elections.presentation.common.Constants.SERVER_COMMUNICATION_ISSUES
-import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.Result.Companion.failure
@@ -65,21 +66,21 @@ class ElectionRepository @Inject constructor(
         }
     }
 
-    private fun getElectionsFromFirebase(): Flow<Result<List<Election>>> = channelFlow {
-        firebaseDatabase.getReference("elections").get().addOnSuccessListener { dataSnapshot ->
+    private fun getElectionsFromFirebase() = flow<Result<List<Election>>> {
+        withContext(Dispatchers.IO) {
             launch {
-                val gti = object : GenericTypeIndicator<List<Election>>() { }
-                dataSnapshot.getValue(gti)?.let { elections ->
-                    dao.insertElectionsWithResultsAndParty(
-                        elections.map { it.toElectionWithResultsAndParty() }
-                    )
-                    send(success(elections))
+                firebaseDatabase.getReference("elections").get().addOnSuccessListener { dataSnapshot ->
+                    launch {
+                        val gti = object : GenericTypeIndicator<List<Election>>() {}
+                        dataSnapshot.getValue(gti)?.let { elections ->
+                            dao.insertElectionsWithResultsAndParty(elections.map { it.toElectionWithResultsAndParty() })
+                            emit(success(elections))
+                        }
+                    }
+                }.addOnFailureListener {
+                    launch { emit(failure(it)) }
                 }
             }
-        }.addOnFailureListener {
-            launch { send(failure(it)) }
         }
-
-        awaitClose()
     }
 }
