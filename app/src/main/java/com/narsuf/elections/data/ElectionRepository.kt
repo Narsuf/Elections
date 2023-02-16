@@ -1,12 +1,12 @@
-package com.jorgedguezm.elections.data
+package com.narsuf.elections.data
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
-import com.jorgedguezm.elections.data.models.Election
-import com.jorgedguezm.elections.data.room.ElectionDao
-import com.jorgedguezm.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
-import com.jorgedguezm.elections.presentation.common.Constants.SERVER_COMMUNICATION_ISSUES
+import com.narsuf.elections.data.models.Election
+import com.narsuf.elections.data.room.ElectionDao
+import com.narsuf.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
+import com.narsuf.elections.presentation.common.Constants.SERVER_COMMUNICATION_ISSUES
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
