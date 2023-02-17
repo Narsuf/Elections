@@ -55,7 +55,7 @@ class ElectionRepositoryTest {
 
         val expected = repository.getElections()
 
-        assertEquals(expected, Result.success(daoElections))
+        assertEquals(expected, daoElections)
     }
 
     @Test
@@ -68,7 +68,7 @@ class ElectionRepositoryTest {
         val expected = repository.getElections()
         val expectedInsert = apiElections.elections[0].toElectionWithResultsAndParty()
 
-        assertEquals(expected, Result.success(apiElections.elections))
+        assertEquals(expected, apiElections.elections)
         verify(dao, times(1)).insertElectionWithResultsAndParty(expectedInsert)
 
     }
@@ -84,7 +84,7 @@ class ElectionRepositoryTest {
 
         val expected = repository.getElections()
 
-        assertEquals(expected, Result.success(daoElections))
+        assertEquals(expected, daoElections)
     }
 
     @Test

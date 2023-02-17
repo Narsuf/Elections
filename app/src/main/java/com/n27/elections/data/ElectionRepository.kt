@@ -9,12 +9,10 @@ import com.n27.elections.data.models.Election
 import com.n27.elections.data.room.ElectionDao
 import com.n27.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.Result.Companion.success
-import kotlin.collections.forEach
 import kotlin.coroutines.suspendCoroutine
 
 @Singleton
@@ -27,27 +25,25 @@ class ElectionRepository @Inject constructor(
 ) {
 
     internal suspend fun getElections() = if (dataUtils.isConnectedToInternet())
-        getElectionsRemotely().onEach { it.insertInDb() }
+        getElectionsRemotely()
     else
-        getFlowElectionsFromDb()
+        getElectionsFromDb().takeIf { it.isNotEmpty() } ?: throw Throwable(NO_INTERNET_CONNECTION)
 
-    private suspend fun getElectionsRemotely() = flow { emit(service.getElections().elections) }
-        .flowOn(Dispatchers.IO)
-        .catch { throwable ->
-            throwable.message?.takeIf { it.contains("Failed to connect to ") }?.let {
-                crashlytics.recordException(Exception("Main service down"))
-                getElectionsFromDb()
-                    .takeIf { it.isNotEmpty() }?.let { emit(it.toElections()) }
-                    ?: emit(getElectionsFromFirebase())
-            } ?: throw throwable
+    private suspend fun getElectionsRemotely() = runCatching {
+        withContext(Dispatchers.IO) {
+            service.getElections().elections.apply { insertInDb() }
         }
+    }.getOrElse { throwable ->
+        throwable.message?.takeIf { it.contains("Failed to connect to ") }?.let {
+            crashlytics.recordException(Exception("Main service down"))
+            getElectionsFromDb()
+                .takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase().apply { insertInDb() }
+        } ?: throw throwable
+    }
 
-    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }
-
-    private suspend fun getFlowElectionsFromDb() = flow { emit(dao.getElections()) }
-            .flowOn(Dispatchers.IO)
-            .map { it.toElections() }
-            .onEach { if (it.isEmpty()) throw Throwable(NO_INTERNET_CONNECTION) }
+    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) {
+        dao.getElections().toElections()
+    }
 
     private suspend fun getElectionsFromFirebase() = withContext(Dispatchers.IO) {
         suspendCoroutine { continuation ->

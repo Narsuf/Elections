@@ -21,7 +21,6 @@ import com.n27.elections.utils.FlowTestObserver
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -43,7 +42,6 @@ class MainViewModelTest {
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
     private lateinit var dataUtils: DataUtils
-    private val result = Result.success(getElections())
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -57,7 +55,7 @@ class MainViewModelTest {
         electionRepository.service = mock(ElectionApi::class.java)
         electionRepository.firebaseDatabase = mock(FirebaseDatabase::class.java)
 
-        `when`(electionRepository.getElections()).thenReturn(result)
+        `when`(electionRepository.getElections()).thenReturn(getElections())
 
         viewModel = MainViewModel(electionRepository, analytics, crashlytics)
         Dispatchers.setMain(testDispatcher)
@@ -89,7 +87,8 @@ class MainViewModelTest {
 
     @Test
     fun `screen opened should emit network error when empty elections and no connection`() = runTest {
-        `when`(electionRepository.getElections()).thenReturn(Result.failure(Throwable(NO_INTERNET_CONNECTION)))
+        `when`(electionRepository.getElections())
+            .thenThrow(IndexOutOfBoundsException((NO_INTERNET_CONNECTION)))
 
         viewModel.handleInteraction(ScreenOpened)
 
@@ -98,7 +97,7 @@ class MainViewModelTest {
 
     @Test
     fun `screen opened should emit error when empty elections and connection`() = runTest {
-        `when`(electionRepository.getElections()).thenReturn(Result.failure(Throwable()))
+        `when`(electionRepository.getElections()).thenThrow(IndexOutOfBoundsException())
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
 
         viewModel.handleInteraction(ScreenOpened)
