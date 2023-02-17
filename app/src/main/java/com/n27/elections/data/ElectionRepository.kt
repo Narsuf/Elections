@@ -41,9 +41,8 @@ class ElectionRepository @Inject constructor(
         } ?: throw throwable
     }
 
-    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) {
-        dao.getElections().toElections()
-    }
+    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }
+        .toElections()
 
     private suspend fun getElectionsFromFirebase() = withContext(Dispatchers.IO) {
         suspendCoroutine { continuation ->
@@ -51,7 +50,7 @@ class ElectionRepository @Inject constructor(
                 val gti = object : GenericTypeIndicator<List<Election>>() {}
                 dataSnapshot.getValue(gti)?.let { elections ->
                     continuation.resumeWith(success(elections))
-                } ?: throw Throwable("Response from Firebase was empty")
+                } ?: throw Throwable("Empty response from Firebase")
             }
 
             firebaseDatabase.getReference("elections").get()

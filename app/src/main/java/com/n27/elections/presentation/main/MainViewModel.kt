@@ -59,7 +59,6 @@ class MainViewModel @Inject constructor(
                 .sortByDateAndFormat()
             state.value = Success(sortedElections, ::onElectionClicked)
         }
-
     }
 
     @VisibleForTesting

@@ -53,9 +53,7 @@ class ElectionRepositoryTest {
         `when`(dao.getElections())
             .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
-        val expected = repository.getElections()
-
-        assertEquals(expected, daoElections)
+        assertEquals(repository.getElections(), daoElections)
     }
 
     @Test
@@ -65,10 +63,9 @@ class ElectionRepositoryTest {
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenReturn(apiElections)
 
-        val expected = repository.getElections()
         val expectedInsert = apiElections.elections[0].toElectionWithResultsAndParty()
 
-        assertEquals(expected, apiElections.elections)
+        assertEquals(repository.getElections(), apiElections.elections)
         verify(dao, times(1)).insertElectionWithResultsAndParty(expectedInsert)
 
     }
@@ -82,9 +79,7 @@ class ElectionRepositoryTest {
         `when`(dao.getElections())
             .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
-        val expected = repository.getElections()
-
-        assertEquals(expected, daoElections)
+        assertEquals(repository.getElections(), daoElections)
     }
 
     @Test
