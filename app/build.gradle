@@ -44,7 +44,7 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.n27..elections"
+        applicationId "com.n27.elections"
         minSdkVersion 23
         targetSdkVersion 33
         multiDexEnabled true
@@ -72,7 +72,7 @@ android {
         unitTests { includeAndroidResources = true }
     }
 
-    namespace 'com.n27..elections'
+    namespace 'com.n27.elections'
 }
 
 repositories {
