@@ -44,12 +44,12 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.narsuf.elections"
+        applicationId "com.n27.elections"
         minSdkVersion 23
         targetSdkVersion 33
         multiDexEnabled true
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 3
+        versionName "1.0.0-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -72,7 +72,7 @@ android {
         unitTests { includeAndroidResources = true }
     }
 
-    namespace 'com.narsuf.elections'
+    namespace 'com.n27.elections'
 }
 
 repositories {

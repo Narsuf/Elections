@@ -21,7 +21,7 @@ android {
         }
     }
 
-    namespace 'com.narsuf.elections.test_data'
+    namespace 'com.n27.elections.test_data'
 }
 
 repositories {
