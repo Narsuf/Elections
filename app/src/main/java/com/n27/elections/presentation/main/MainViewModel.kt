@@ -53,13 +53,13 @@ class MainViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
-            electionRepository.getElections()
-                .onSuccess { elections ->
-                    val sortedElections = elections.map { it.sortResultsByElectsAndVotes() }.sortByDateAndFormat()
-                    if (initialLoading) analytics.track("main_activity_loaded", "state", "success")
-                    state.value = Success(sortedElections, ::onElectionClicked)
-                }
-                .onFailure { state.value = Error(it.message) }
+            electionRepository.getElections().collect { elections ->
+                if (initialLoading) analytics.track("main_activity_loaded", "state", "success")
+                val sortedElections = elections
+                    .map { it.sortResultsByElectsAndVotes() }
+                    .sortByDateAndFormat()
+                state.value = Success(sortedElections, ::onElectionClicked)
+            }
         }
     }
 
