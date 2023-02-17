@@ -1,20 +1,19 @@
 package com.n27.elections.data
 
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
 import com.n27.elections.data.models.Election
 import com.n27.elections.data.room.ElectionDao
 import com.n27.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.presentation.common.Constants.SERVER_COMMUNICATION_ISSUES
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
+import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class ElectionRepository @Inject constructor(
@@ -26,61 +25,49 @@ class ElectionRepository @Inject constructor(
 ) {
 
     internal suspend fun getElections() = if (dataUtils.isConnectedToInternet())
-        getElectionsFromApi()
+        getElectionsRemotely().onSuccess { it.insertInDb() }
     else
-        flowOf(getElectionsFromDb(offline = true))
+        getElectionsFromDb()
 
-
-    private suspend fun getElectionsFromApi() = flow {
-        val elections = service.getElections().elections
-
-        dao.insertElectionsWithResultsAndParty(elections.map { it.toElectionWithResultsAndParty() })
-
-        emit(success(elections))
-    }.catch { throwable ->
+    private suspend fun getElectionsRemotely() = runCatching {
+        success(service.getElections().elections)
+    }.getOrElse { throwable ->
         throwable.message?.takeIf { it.contains("Failed to connect to ") }?.let {
             crashlytics.recordException(Exception("Main service down"))
             getElectionsFromDb()
-                .takeIf { it.isSuccess }?.let { emit(it) }
-                ?: getElectionsFromFirebase().collect { emit(it) }
-        } ?: emit(throwable.getResult())
+                .onSuccess { success(it) }
+                .onFailure { success(getElectionsFromFirebase()) }
+        } ?: failureException(throwable)
     }
 
-    private fun Throwable.getResult(): Result<List<Election>> {
-        crashlytics.recordException(this)
-        return failure(this)
+    private fun failureException(t: Throwable): Result<List<Election>> {
+        crashlytics.recordException(t)
+        return failure(Throwable(SERVER_COMMUNICATION_ISSUES))
     }
 
-    private suspend fun getElectionsFromDb(offline: Boolean = false): Result<List<Election>> {
+    private suspend fun getElectionsFromDb(): Result<List<Election>> {
         val elections = dao.getElections()
 
-        return if (elections.isNotEmpty()) {
+        return if (elections.isNotEmpty())
             success(elections.map { it.toElection() })
-        } else {
-            failure(
-                if (offline)
-                    Throwable(NO_INTERNET_CONNECTION)
-                else
-                    Throwable(SERVER_COMMUNICATION_ISSUES)
-            )
-        }
+        else
+            failure(Throwable(NO_INTERNET_CONNECTION))
     }
 
-    private fun getElectionsFromFirebase() = flow<Result<List<Election>>> {
-        withContext(Dispatchers.IO) {
-            launch {
-                firebaseDatabase.getReference("elections").get().addOnSuccessListener { dataSnapshot ->
-                    launch {
-                        val gti = object : GenericTypeIndicator<List<Election>>() {}
-                        dataSnapshot.getValue(gti)?.let { elections ->
-                            dao.insertElectionsWithResultsAndParty(elections.map { it.toElectionWithResultsAndParty() })
-                            emit(success(elections))
-                        }
-                    }
-                }.addOnFailureListener {
-                    launch { emit(failure(it)) }
-                }
-            }
+    private suspend fun getElectionsFromFirebase() = suspendCoroutine { continuation ->
+        val onSuccessListener = OnSuccessListener<DataSnapshot> { dataSnapshot ->
+            val gti = object : GenericTypeIndicator<List<Election>>() { }
+            dataSnapshot.getValue(gti)?.let { elections ->
+                continuation.resumeWith(success(elections))
+            } ?: continuation.resumeWith(failureException(Throwable("Response from Firebase was empty")))
         }
+
+        firebaseDatabase.getReference("elections").get()
+            .addOnSuccessListener(onSuccessListener)
+            .addOnFailureListener { continuation.resumeWith(failureException(it)) }
+    }
+
+    private suspend fun List<Election>.insertInDb() {
+        forEach { dao.insertElectionWithResultsAndParty(it.toElectionWithResultsAndParty()) }
     }
 }

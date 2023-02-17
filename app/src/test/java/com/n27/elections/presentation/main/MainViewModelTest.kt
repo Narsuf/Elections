@@ -43,7 +43,7 @@ class MainViewModelTest {
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
     private lateinit var dataUtils: DataUtils
-    private val flow = channelFlow { send(Result.success(getElections())) }
+    private val result = Result.success(getElections())
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -57,7 +57,7 @@ class MainViewModelTest {
         electionRepository.service = mock(ElectionApi::class.java)
         electionRepository.firebaseDatabase = mock(FirebaseDatabase::class.java)
 
-        `when`(electionRepository.getElections()).thenReturn(flow)
+        `when`(electionRepository.getElections()).thenReturn(result)
 
         viewModel = MainViewModel(electionRepository, analytics, crashlytics)
         Dispatchers.setMain(testDispatcher)
@@ -89,8 +89,7 @@ class MainViewModelTest {
 
     @Test
     fun `screen opened should emit network error when empty elections and no connection`() = runTest {
-        `when`(electionRepository.getElections())
-            .thenReturn(channelFlow { send(Result.failure(Throwable(NO_INTERNET_CONNECTION))) })
+        `when`(electionRepository.getElections()).thenReturn(Result.failure(Throwable(NO_INTERNET_CONNECTION)))
 
         viewModel.handleInteraction(ScreenOpened)
 
@@ -99,7 +98,7 @@ class MainViewModelTest {
 
     @Test
     fun `screen opened should emit error when empty elections and connection`() = runTest {
-        `when`(electionRepository.getElections()).thenReturn(channelFlow { send(Result.failure(Throwable())) })
+        `when`(electionRepository.getElections()).thenReturn(Result.failure(Throwable()))
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
 
         viewModel.handleInteraction(ScreenOpened)
