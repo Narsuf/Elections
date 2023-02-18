@@ -5,6 +5,8 @@ import com.n27.elections.data.models.Party
 import com.n27.elections.data.models.Result
 import com.n27.elections.data.room.*
 
+internal fun List<ElectionWithResultsAndParty>.toElections() = map { it.toElection() }
+
 internal fun ElectionWithResultsAndParty.toElection() = Election(
     id = election.electionId,
     name = election.name,

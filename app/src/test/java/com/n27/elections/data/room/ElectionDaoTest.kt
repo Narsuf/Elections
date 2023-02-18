@@ -55,7 +55,7 @@ class ElectionDaoTest {
     fun writeElectionsAndRead() = runTest {
         val elections = generateElections().map { it.toElectionWithResultsAndParty() }
 
-        electionDao.insertElectionsWithResultsAndParty(elections)
+        elections.forEach { electionDao.insertElectionWithResultsAndParty(it) }
 
         val dbElections = electionDao.getElections()
             .map { it.toElection().sortResultsByElectsAndVotes() }

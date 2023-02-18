@@ -11,7 +11,6 @@ import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.common.Constants
 import com.n27.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
-import com.n27.elections.presentation.common.Constants.SERVER_COMMUNICATION_ISSUES
 import com.n27.elections.presentation.common.extensions.observeOnLifecycle
 import com.n27.elections.presentation.common.inheritance.ViewModelActivity
 import com.n27.elections.presentation.detail.DetailActivity
@@ -98,7 +97,6 @@ class MainActivity : ViewModelActivity() {
             }
 
             val error = when (state.errorMessage) {
-                SERVER_COMMUNICATION_ISSUES -> R.string.server_communication_issues
                 NO_INTERNET_CONNECTION -> R.string.no_internet_connection
                 else -> R.string.something_wrong
             }

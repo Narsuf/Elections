@@ -53,7 +53,7 @@ class ElectionRepositoryTest {
         `when`(dao.getElections())
             .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
-        repository.getElections().collect { assertEquals(it, Result.success(daoElections)) }
+        assertEquals(repository.getElections(), daoElections)
     }
 
     @Test
@@ -63,11 +63,11 @@ class ElectionRepositoryTest {
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenReturn(apiElections)
 
-        repository.getElections().collect {
-            assertEquals(it, Result.success(apiElections.elections))
-            verify(dao, times(1))
-                .insertElectionsWithResultsAndParty(anyList())
-        }
+        val expectedInsert = apiElections.elections[0].toElectionWithResultsAndParty()
+
+        assertEquals(repository.getElections(), apiElections.elections)
+        verify(dao, times(1)).insertElectionWithResultsAndParty(expectedInsert)
+
     }
 
     @Test
@@ -79,7 +79,7 @@ class ElectionRepositoryTest {
         `when`(dao.getElections())
             .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
-        repository.getElections().collect { assertEquals(it, Result.success(daoElections)) }
+        assertEquals(repository.getElections(), daoElections)
     }
 
     @Test
@@ -92,7 +92,7 @@ class ElectionRepositoryTest {
             .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         try {
-            repository.getElections().collect { }
+            repository.getElections()
         } catch(e: Exception) {
             // Not proud of this test, but Firebase's API doesn't make it easy.
             assertTrue(e is NullPointerException)

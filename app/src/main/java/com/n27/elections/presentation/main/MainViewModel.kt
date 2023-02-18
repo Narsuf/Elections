@@ -49,21 +49,15 @@ class MainViewModel @Inject constructor(
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             crashlytics.recordException(throwable)
-            state.value = Error()
+            state.value = Error(throwable.message)
         }
 
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
-            electionRepository.getElections().collect { elections ->
-                elections.onSuccess { election ->
-                    val sortedElections = election
-                        .map{ it.sortResultsByElectsAndVotes() }
-                        .sortByDateAndFormat()
-                    if (initialLoading) analytics.track("main_activity_loaded", "state", "success")
-                    state.value = Success(sortedElections, ::onElectionClicked)
-                }.onFailure {
-                    state.value = Error(it.message)
-                }
-            }
+            if (initialLoading) analytics.track("main_activity_loaded", "state", "success")
+            val sortedElections = electionRepository.getElections()
+                .map { it.sortResultsByElectsAndVotes() }
+                .sortByDateAndFormat()
+            state.value = Success(sortedElections, ::onElectionClicked)
         }
     }
 

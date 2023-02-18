@@ -41,10 +41,4 @@ interface ElectionDao {
             insertResult(result)
         }
     }
-
-    suspend fun insertElectionsWithResultsAndParty(
-        electionsWithResultsAndParty: List<ElectionWithResultsAndParty>
-    ) {
-        electionsWithResultsAndParty.forEach { insertElectionWithResultsAndParty(it) }
-    }
 }
