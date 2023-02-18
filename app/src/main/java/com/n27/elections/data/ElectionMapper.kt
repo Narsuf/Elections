@@ -1,9 +1,13 @@
 package com.n27.elections.data
 
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.GenericTypeIndicator
 import com.n27.elections.data.models.Election
 import com.n27.elections.data.models.Party
 import com.n27.elections.data.models.Result
 import com.n27.elections.data.room.*
+
+internal fun DataSnapshot.toElections() = getValue(object : GenericTypeIndicator<List<Election>>() { })
 
 internal fun List<ElectionWithResultsAndParty>.toElections() = map { it.toElection() }
 

@@ -1,13 +1,9 @@
 package com.n27.elections.presentation.main
 
-import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.database.FirebaseDatabase
 import com.n27.elections.data.DataUtils
-import com.n27.elections.data.ElectionApi
 import com.n27.elections.data.ElectionRepository
-import com.n27.elections.data.room.ElectionDao
 import com.n27.elections.data.utils.getElection
 import com.n27.elections.data.utils.getElections
 import com.n27.elections.presentation.common.Constants.KEY_SENATE
@@ -50,10 +46,6 @@ class MainViewModelTest {
         analytics = mock(FirebaseAnalytics::class.java)
         crashlytics = mock(FirebaseCrashlytics::class.java)
         dataUtils = mock(DataUtils::class.java)
-        electionRepository.dataUtils = DataUtils(ApplicationProvider.getApplicationContext())
-        electionRepository.dao = mock(ElectionDao::class.java)
-        electionRepository.service = mock(ElectionApi::class.java)
-        electionRepository.firebaseDatabase = mock(FirebaseDatabase::class.java)
 
         `when`(electionRepository.getElections()).thenReturn(getElections())
 
