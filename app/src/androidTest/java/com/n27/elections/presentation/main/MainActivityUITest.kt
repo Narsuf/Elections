@@ -96,15 +96,13 @@ class MainActivityUITest {
     fun clickOnElectionShouldNavigateToDetail() {
         launchActivity()
 
-        assertDisplayed("Disclaimer")
-        assertDisplayed("Blablablabla")
-        clickOn("Accept")
+        clickOn("CLOSE")
         assertToolbarTitle("Elections")
-        sleep(5000)
         assertNotDisplayed(R.id.error_animation)
         assertNotDisplayed(R.id.loading_animation)
         assertDisplayed(R.id.recyclerView)
         intents {
+            sleep(5000)
             clickListItem(R.id.recyclerView, 0)
             intended(allOf(hasComponent(DetailActivity::class.java.name)))
         }

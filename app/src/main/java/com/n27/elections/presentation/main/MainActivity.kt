@@ -131,9 +131,9 @@ class MainActivity : ViewModelActivity() {
 
     private fun onShowDisclaimer() {
         AlertDialog.Builder(this)
-            .setTitle("Disclaimer")
-            .setMessage("Blablablabla")
-            .setPositiveButton("Accept", null)
+            .setTitle(getString(R.string.disclaimer))
+            .setMessage(getString(R.string.disclaimer_description))
+            .setPositiveButton(getString(R.string.disclaimer_button), null)
             .setOnDismissListener { vm.handleInteraction(DialogDismissed) }
             .show()
     }
