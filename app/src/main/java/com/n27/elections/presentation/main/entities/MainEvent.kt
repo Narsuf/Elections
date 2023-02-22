@@ -4,5 +4,6 @@ import com.n27.elections.data.models.Election
 
 internal sealed class MainEvent {
 
+    object ShowDisclaimer: MainEvent()
     data class NavigateToDetail(val congressElection: Election, val senateElection: Election) : MainEvent()
 }

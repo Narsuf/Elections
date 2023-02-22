@@ -1,6 +1,8 @@
 package com.n27.elections.injection
 
 import android.app.Application
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.n27.elections.data.DataUtils
 import com.n27.elections.data.room.Database
@@ -29,4 +31,8 @@ class AppModule(val app: Application) {
     @Provides
     @Singleton
     fun provideDataUtils() = DataUtils(app)
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(): SharedPreferences = app.getSharedPreferences("shared_preferences", MODE_PRIVATE)
 }
