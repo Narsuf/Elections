@@ -97,12 +97,12 @@ class MainActivityUITest {
         launchActivity()
 
         clickOn("CLOSE")
+        sleep(5000)
         assertToolbarTitle("Elections")
         assertNotDisplayed(R.id.error_animation)
         assertNotDisplayed(R.id.loading_animation)
         assertDisplayed(R.id.recyclerView)
         intents {
-            sleep(5000)
             clickListItem(R.id.recyclerView, 0)
             intended(allOf(hasComponent(DetailActivity::class.java.name)))
         }
