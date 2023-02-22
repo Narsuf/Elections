@@ -15,4 +15,10 @@
     <!-- Errors. -->
     <string name="something_wrong">Oops! Algo ha ido mal.</string>
     <string name="no_internet_connection">Sin conexión a Internet</string>
+
+    <!-- Disclaimer -->
+    <string name="disclaimer">Aviso legal</string>
+    <string name="disclaimer_description">Esta aplicación no representa a ninguna entidad
+        gubernamental.  Los datos de los resultados se obtienen del periódico El País.</string>
+    <string name="disclaimer_button">Cerrar</string>
 </resources>

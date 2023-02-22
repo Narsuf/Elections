@@ -11,6 +11,7 @@ import org.hamcrest.Matchers.instanceOf
 object ToolbarAssertions {
 
     fun assertToolbarTitle(title: String?) {
-        onView(instanceOf(Toolbar::class.java)).check(matches(allOf(isDisplayed(), withToolbarTitle(title))))
+        onView(instanceOf(Toolbar::class.java))
+            .check(matches(allOf(isDisplayed(), withToolbarTitle(title))))
     }
 }

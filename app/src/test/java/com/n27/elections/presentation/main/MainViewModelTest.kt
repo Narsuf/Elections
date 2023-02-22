@@ -1,20 +1,25 @@
 package com.n27.elections.presentation.main
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
+import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.n27.elections.ElectionsApplication
 import com.n27.elections.data.DataUtils
 import com.n27.elections.data.ElectionRepository
 import com.n27.elections.data.utils.getElection
 import com.n27.elections.data.utils.getElections
 import com.n27.elections.presentation.common.Constants.KEY_SENATE
+import com.n27.elections.presentation.common.Constants.NOT_FIRST_LAUNCH
 import com.n27.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.presentation.main.entities.MainEvent.*
-import com.n27.elections.presentation.main.entities.MainInteraction
-import com.n27.elections.presentation.main.entities.MainInteraction.ScreenOpened
+import com.n27.elections.presentation.main.entities.MainInteraction.*
 import com.n27.elections.presentation.main.entities.MainState.Error
 import com.n27.elections.presentation.main.entities.MainState.Success
 import com.n27.elections.utils.FlowTestObserver
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.plus
@@ -38,6 +43,7 @@ class MainViewModelTest {
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
     private lateinit var dataUtils: DataUtils
+    private lateinit var sharedPreferences: SharedPreferences
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -46,10 +52,11 @@ class MainViewModelTest {
         analytics = mock(FirebaseAnalytics::class.java)
         crashlytics = mock(FirebaseCrashlytics::class.java)
         dataUtils = mock(DataUtils::class.java)
+        sharedPreferences = mock(SharedPreferences::class.java)
 
         `when`(electionRepository.getElections()).thenReturn(getElections())
 
-        viewModel = MainViewModel(electionRepository, analytics, crashlytics)
+        viewModel = MainViewModel(electionRepository, analytics, crashlytics, sharedPreferences)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -68,8 +75,18 @@ class MainViewModelTest {
     }
 
     @Test
+    fun `dialog dismissed should save on shared preferences`() = runTest {
+        viewModel.sharedPreferences = ApplicationProvider.getApplicationContext<ElectionsApplication>()
+            .getSharedPreferences("prefs", MODE_PRIVATE)
+
+        viewModel.handleInteraction(DialogDismissed)
+
+        assertTrue(viewModel.sharedPreferences.contains(NOT_FIRST_LAUNCH))
+    }
+
+    @Test
     fun `refresh should emit success when succeeding`() = runTest {
-        viewModel.handleInteraction(MainInteraction.Refresh)
+        viewModel.handleInteraction(Refresh)
 
         assertEquals(
             Success(getElections(), viewModel::onElectionClicked),
@@ -105,6 +122,27 @@ class MainViewModelTest {
         viewModel.handleInteraction(ScreenOpened)
 
         assertEquals(Error(), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `first launch should emit show disclaimer`() = runTest {
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
+
+        viewModel.handleInteraction(ScreenOpened)
+
+        observer.assertValues(ShowDisclaimer)
+        observer.close()
+    }
+
+    @Test
+    fun `not first launch should not emit show disclaimer`() = runTest {
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
+        `when`(sharedPreferences.contains(NOT_FIRST_LAUNCH)).thenReturn(true)
+
+        viewModel.handleInteraction(ScreenOpened)
+
+        observer.assertValues()
+        observer.close()
     }
 
     @Test

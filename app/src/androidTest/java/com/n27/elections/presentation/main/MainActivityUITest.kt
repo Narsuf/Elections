@@ -5,6 +5,7 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.adevinta.android.barista.interaction.BaristaListInteractions.clickListItem
 import com.n27.elections.R
 import com.n27.elections.presentation.detail.DetailActivity
@@ -95,8 +96,9 @@ class MainActivityUITest {
     fun clickOnElectionShouldNavigateToDetail() {
         launchActivity()
 
-        assertToolbarTitle("Elections")
+        clickOn("CLOSE")
         sleep(5000)
+        assertToolbarTitle("Elections")
         assertNotDisplayed(R.id.error_animation)
         assertNotDisplayed(R.id.loading_animation)
         assertDisplayed(R.id.recyclerView)

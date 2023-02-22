@@ -8,7 +8,6 @@ sealed class MainState {
 
     object Idle : MainState()
     object Loading : MainState()
-
     data class Success(val elections: List<Election>, val onElectionClicked: OnElectionClicked) : MainState()
     data class Error(val errorMessage: String? = null) : MainState()
 }
