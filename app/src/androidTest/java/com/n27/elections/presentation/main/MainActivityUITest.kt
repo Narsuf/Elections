@@ -112,7 +112,7 @@ class MainActivityUITest {
         }
 
         clickOn("CLOSE")
-        sleep(10000)
+        sleep(7000)
         assertToolbarTitle("Elections")
         assertNotDisplayed(R.id.error_animation)
         assertNotDisplayed(R.id.loading_animation)
