@@ -54,8 +54,8 @@ class DetailActivityUITest {
         }
     }
 
-    private fun launchActivity() = ActivityScenario.launch<org.n27.elections.presentation.detail.DetailActivity>(
-        Intent(getInstrumentation().targetContext, org.n27.elections.presentation.detail.DetailActivity::class.java).apply {
+    private fun launchActivity() = ActivityScenario.launch<DetailActivity>(
+        Intent(getInstrumentation().targetContext, DetailActivity::class.java).apply {
             putExtra(Constants.KEY_CONGRESS_ELECTION, congressElection)
             putExtra(Constants.KEY_SENATE_ELECTION, senateElection)
         }
