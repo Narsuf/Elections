@@ -1,17 +1,7 @@
 package com.n27.elections.presentation.main
 
-import android.app.Activity.RESULT_OK
-import android.app.Instrumentation.ActivityResult
-import android.content.Intent
-import android.content.Intent.ACTION_VIEW
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.Intents.intending
-import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
@@ -22,9 +12,11 @@ import com.n27.elections.presentation.detail.DetailActivity
 import com.n27.elections.utils.actions.SpanActions.clickClickableSpan
 import com.n27.elections.utils.assertions.ToolbarAssertions.assertToolbarTitle
 import com.n27.elections.utils.intents.intents
+import com.n27.elections.utils.intents.mockIntent
+import com.n27.elections.utils.intents.verifyBrowserOpened
+import com.n27.elections.utils.intents.verifyIntent
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -108,18 +100,15 @@ class MainActivityUITest {
         launchActivity()
 
         intents {
-            intending(anyIntent()).respondWith(ActivityResult(RESULT_OK, Intent()))
+            mockIntent()
 
-            onView(withText("This app does not represent any government entity. " +
-                    "The data of the results is retrieved from the Spanish newspaper El País.")
-            ).perform(clickClickableSpan("El País"))
+            val link = "El País"
+            val dialogDescription = "This app does not represent any government entity. " +
+                    "The data of the results is retrieved from the Spanish newspaper $link."
 
-            intended(
-                allOf(
-                    hasAction(ACTION_VIEW),
-                    hasData("https://resultados.elpais.com/elecciones/generales.html")
-                )
-            )
+            onView(withText(dialogDescription)).perform(clickClickableSpan(link))
+
+            verifyBrowserOpened("https://resultados.elpais.com/elecciones/generales.html")
         }
 
         clickOn("CLOSE")
@@ -130,7 +119,7 @@ class MainActivityUITest {
         assertDisplayed(R.id.recyclerView)
         intents {
             clickListItem(R.id.recyclerView, 0)
-            intended(allOf(hasComponent(DetailActivity::class.java.name)))
+            verifyIntent(DetailActivity::class.java.name)
         }
     }
 

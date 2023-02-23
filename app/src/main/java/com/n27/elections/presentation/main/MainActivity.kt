@@ -32,7 +32,6 @@ import com.n27.elections.presentation.main.entities.MainState.Loading
 import com.n27.elections.presentation.main.entities.MainState.Success
 import javax.inject.Inject
 
-
 class MainActivity : ViewModelActivity() {
 
     internal lateinit var binding: ActivityMainBinding
@@ -149,8 +148,7 @@ class MainActivity : ViewModelActivity() {
             .setOnDismissListener { vm.handleInteraction(DialogDismissed) }
             .show()
 
-        (alertDialog.findViewById(android.R.id.message) as TextView).movementMethod =
-            LinkMovementMethod.getInstance()
+        (alertDialog.findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun onNavigateToDetail(event: NavigateToDetail) {
