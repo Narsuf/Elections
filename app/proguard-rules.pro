@@ -1,2 +1,2 @@
--keep class com.n27.elections.data.models.** {*;}
+-keep class org.n27.elections.data.models.** {*;}
 -keep class com.github.mikephil.charting.** {*;}
