@@ -18,6 +18,6 @@
     <!-- Disclaimer -->
     <string name="disclaimer">Disclaimer</string>
     <string name="disclaimer_description">This app does not represent any government entity.
-        The data of the results is retrieved from the Spanish newspaper El País.</string>
+        The data of the results is retrieved from the Spanish newspaper</string>
     <string name="disclaimer_button">Close</string>
 </resources>
