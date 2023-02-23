@@ -3,9 +3,12 @@ package com.n27.elections.presentation.main
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.TextView
 import androidx.annotation.VisibleForTesting
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.elections.R
@@ -130,12 +133,22 @@ class MainActivity : ViewModelActivity() {
     }
 
     private fun onShowDisclaimer() {
-        AlertDialog.Builder(this)
+        val alertDialog = AlertDialog.Builder(this)
             .setTitle(getString(R.string.disclaimer))
-            .setMessage(getString(R.string.disclaimer_description))
+            .setMessage(
+                HtmlCompat.fromHtml(
+                    "${getString(R.string.disclaimer_description)} " +
+                            "<a href=\"https://resultados.elpais.com/elecciones/generales.html\">" +
+                            "El País" +
+                            "</a>.",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
+            )
             .setPositiveButton(getString(R.string.disclaimer_button), null)
             .setOnDismissListener { vm.handleInteraction(DialogDismissed) }
             .show()
+
+        (alertDialog.findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun onNavigateToDetail(event: NavigateToDetail) {

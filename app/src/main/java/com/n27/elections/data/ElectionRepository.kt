@@ -31,8 +31,8 @@ class ElectionRepository @Inject constructor(
             service.getElections().elections.apply { insertInDb() }
         }
     }.getOrElse { throwable ->
-        throwable.message?.takeIf { it.contains("Failed to connect to ") }?.let {
-            crashlytics.recordException(Exception("Main service down"))
+        throwable.message?.takeIf { it.lowercase().contains("failed to connect to ") }?.let {
+            crashlytics.recordException(Exception("Main service not responding"))
             getElectionsFromDb()
                 .takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase().apply { insertInDb() }
         } ?: throw throwable
