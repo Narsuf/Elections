@@ -1,14 +1,25 @@
 package com.n27.elections.presentation.main
 
+import android.app.Activity.RESULT_OK
+import android.app.Instrumentation.ActivityResult
+import android.content.Intent
+import android.content.Intent.ACTION_VIEW
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.intending
+import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.adevinta.android.barista.interaction.BaristaListInteractions.clickListItem
 import com.n27.elections.R
 import com.n27.elections.presentation.detail.DetailActivity
+import com.n27.elections.utils.actions.SpanActions.clickClickableSpan
 import com.n27.elections.utils.assertions.ToolbarAssertions.assertToolbarTitle
 import com.n27.elections.utils.intents.intents
 import okhttp3.mockwebserver.MockResponse
@@ -95,6 +106,21 @@ class MainActivityUITest {
     @Test
     fun clickOnElectionShouldNavigateToDetail() {
         launchActivity()
+
+        intents {
+            intending(anyIntent()).respondWith(ActivityResult(RESULT_OK, Intent()))
+
+            onView(withText("This app does not represent any government entity. " +
+                    "The data of the results is retrieved from the Spanish newspaper El País.")
+            ).perform(clickClickableSpan("El País"))
+
+            intended(
+                allOf(
+                    hasAction(ACTION_VIEW),
+                    hasData("https://resultados.elpais.com/elecciones/generales.html")
+                )
+            )
+        }
 
         clickOn("CLOSE")
         sleep(5000)

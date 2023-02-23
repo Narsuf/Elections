@@ -3,7 +3,6 @@ package com.n27.elections.presentation.main
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -23,9 +22,14 @@ import com.n27.elections.presentation.main.adapters.GeneralCardAdapter
 import com.n27.elections.presentation.main.entities.MainEvent
 import com.n27.elections.presentation.main.entities.MainEvent.NavigateToDetail
 import com.n27.elections.presentation.main.entities.MainEvent.ShowDisclaimer
-import com.n27.elections.presentation.main.entities.MainInteraction.*
+import com.n27.elections.presentation.main.entities.MainInteraction.DialogDismissed
+import com.n27.elections.presentation.main.entities.MainInteraction.Refresh
+import com.n27.elections.presentation.main.entities.MainInteraction.ScreenOpened
 import com.n27.elections.presentation.main.entities.MainState
-import com.n27.elections.presentation.main.entities.MainState.*
+import com.n27.elections.presentation.main.entities.MainState.Error
+import com.n27.elections.presentation.main.entities.MainState.Idle
+import com.n27.elections.presentation.main.entities.MainState.Loading
+import com.n27.elections.presentation.main.entities.MainState.Success
 import javax.inject.Inject
 
 
