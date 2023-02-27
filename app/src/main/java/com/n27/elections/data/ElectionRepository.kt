@@ -30,12 +30,10 @@ class ElectionRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             service.getElections().elections.apply { insertInDb() }
         }
-    }.getOrElse { throwable ->
-        throwable.message?.takeIf { it.lowercase().contains("failed to connect to ") }?.let {
-            crashlytics.recordException(Exception("Main service not responding"))
-            getElectionsFromDb()
-                .takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase().apply { insertInDb() }
-        } ?: throw throwable
+    }.getOrElse {
+        crashlytics.recordException(Exception("Main service not responding"))
+        getElectionsFromDb()
+            .takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase().apply { insertInDb() }
     }
 
     private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }
