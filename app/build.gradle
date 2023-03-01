@@ -48,8 +48,8 @@ android {
         minSdkVersion 23
         targetSdkVersion 33
         multiDexEnabled true
-        versionCode 8
-        versionName "1.0.0-debug"
+        versionCode 9
+        versionName "1.0.1-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs "en", "es"
     }
