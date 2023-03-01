@@ -61,7 +61,7 @@ class MainViewModel @Inject constructor(
             state.value = Error(throwable.message)
         }
 
-        viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
+        viewModelScope.launch(exceptionHandler) {
             if (initialLoading) analytics.track("main_activity_loaded") { param("state", "success") }
             val sortedElections = electionRepository.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
