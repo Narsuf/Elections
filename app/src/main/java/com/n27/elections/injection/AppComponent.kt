@@ -13,9 +13,9 @@ import javax.inject.Singleton
     modules = [
         NetModule::class,
         AppModule::class,
+        SubcomponentsModule::class,
         AppPresentationModule::class,
-        CorePresentationModule::class,
-        SubcomponentsModule::class
+        CorePresentationModule::class
     ]
 )
 interface AppComponent {

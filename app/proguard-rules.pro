@@ -1,2 +1,3 @@
--keep class com.n27.elections.data.models.** {*;}
+-keep class com.n27.elections.data.api.models.** {*;}
+-keep class com.n27.core.data.models.** {*;}
 -keep class com.github.mikephil.charting.** {*;}

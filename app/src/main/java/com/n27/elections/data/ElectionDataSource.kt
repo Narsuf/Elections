@@ -38,7 +38,7 @@ class ElectionDataSource @Inject constructor(
             .takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase().apply { insertInDb() }
     }
 
-    private suspend fun getElectionsFromApi() = withContext(Dispatchers.IO) { service.getElections().elections }
+    private suspend fun getElectionsFromApi() = withContext(Dispatchers.IO) { service.getElections() }.elections
 
     private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }.toElections()
 
