@@ -1,6 +1,6 @@
 package com.n27.elections.presentation.main.entities
 
-import com.n27.elections.data.models.Election
+import com.n27.core.data.models.Election
 
 internal sealed class MainEvent {
 

@@ -1,4 +1,7 @@
 project.ext {
+    sdkV = 33
+    minSdkV = 23
+
     daggerVersion = '2.43.2'
     moshiVersion = '1.14.0'
     retrofitVersion = '2.9.0'
@@ -7,4 +10,11 @@ project.ext {
     coroutinesVersion = '1.6.4'
     fragmentVersion = '1.5.5'
     okHttpVersion = '4.10.0'
+
+    testVersion = '1.5.0'
+    archTestVersion = '2.1.0'
+    robolectricVersion = '4.9.2'
+
+    espressoVersion = '3.4.0'
+    baristaVersion = '4.3.0'
 }

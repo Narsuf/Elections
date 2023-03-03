@@ -8,16 +8,18 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.n27.core.data.DataUtils
+import com.n27.core.Constants
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
+import com.n27.core.presentation.common.extensions.observeOnLifecycle
+import com.n27.core.presentation.detail.DetailActivity
+import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
-import com.n27.elections.presentation.common.Constants
-import com.n27.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
-import com.n27.elections.presentation.common.extensions.observeOnLifecycle
-import com.n27.elections.presentation.common.inheritance.ViewModelActivity
-import com.n27.elections.presentation.detail.DetailActivity
 import com.n27.elections.presentation.main.adapters.GeneralCardAdapter
 import com.n27.elections.presentation.main.entities.MainEvent
 import com.n27.elections.presentation.main.entities.MainEvent.NavigateToDetail
@@ -32,15 +34,16 @@ import com.n27.elections.presentation.main.entities.MainState.Loading
 import com.n27.elections.presentation.main.entities.MainState.Success
 import javax.inject.Inject
 
-class MainActivity : ViewModelActivity() {
+class MainActivity : AppCompatActivity() {
 
     internal lateinit var binding: ActivityMainBinding
-    private val vm by viewModel<MainViewModel>()
 
-    @Inject
-    lateinit var generalCardAdapter: GeneralCardAdapter
+    @Inject lateinit var vm: MainViewModel
+    @Inject lateinit var dataUtils: DataUtils
+    @Inject lateinit var generalCardAdapter: GeneralCardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (applicationContext as ElectionsApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

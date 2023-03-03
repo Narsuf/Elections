@@ -41,12 +41,12 @@ android {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     def productionUrl = properties.getProperty('production.url')
 
-    compileSdkVersion 33
+    compileSdkVersion sdkV
 
     defaultConfig {
         applicationId "com.n27.elections"
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdkVersion minSdkV
+        targetSdkVersion sdkV
         multiDexEnabled true
         versionCode 9
         versionName "1.0.1-debug"
@@ -84,27 +84,16 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":libraries:core")
 
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    // Swipe
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'androidx.multidex:multidex:2.0.1'
-
-    // Firebase
-    implementation platform('com.google.firebase:firebase-bom:30.4.1')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation "com.google.firebase:firebase-database-ktx"
 
     // Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
 
     // Dagger 2
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // Moshi
     implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
@@ -112,8 +101,6 @@ dependencies {
     // Android Jetpack
 
         // Room
-        implementation "androidx.room:room-runtime:$roomVersion"
-        implementation "androidx.room:room-ktx:$roomVersion"
         kapt "androidx.room:room-compiler:$roomVersion"
 
         // Lifecycle
@@ -124,34 +111,23 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
 
-    // MPAndroidChart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-
-    // Gson
-    implementation 'com.google.code.gson:gson:2.10.1'
-
     // Timber
     implementation "com.jakewharton.timber:timber:5.0.1"
-
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
     // OkHttp
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
-    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
-
-    testImplementation project(':test_data')
-    testImplementation 'androidx.test:core:1.5.0'
-    testImplementation 'androidx.arch.core:core-testing:2.1.0'
-    testImplementation 'org.robolectric:robolectric:4.9.2'
+    testImplementation project(':libraries:test')
+    testImplementation "androidx.test:core:$testVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     testImplementation "org.mockito:mockito-core:4.11.0"
 
-    androidTestImplementation project(':test_data')
+    androidTestImplementation project(':libraries:test')
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'com.adevinta.android:barista:4.3.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
 }

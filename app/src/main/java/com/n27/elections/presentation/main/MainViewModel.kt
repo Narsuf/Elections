@@ -8,12 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.elections.data.ElectionRepository
-import com.n27.elections.data.models.Election
-import com.n27.elections.presentation.common.Constants.NOT_FIRST_LAUNCH
-import com.n27.elections.presentation.common.extensions.sortByDateAndFormat
-import com.n27.elections.presentation.common.extensions.sortResultsByElectsAndVotes
-import com.n27.elections.presentation.common.extensions.track
+import com.n27.core.data.models.Election
+import com.n27.core.Constants.NOT_FIRST_LAUNCH
+import com.n27.core.presentation.common.extensions.sortByDateAndFormat
+import com.n27.core.presentation.common.extensions.sortResultsByElectsAndVotes
+import com.n27.core.presentation.common.extensions.track
+import com.n27.elections.data.ElectionDataSource
 import com.n27.elections.presentation.main.entities.MainEvent
 import com.n27.elections.presentation.main.entities.MainEvent.NavigateToDetail
 import com.n27.elections.presentation.main.entities.MainInteraction
@@ -26,7 +26,6 @@ import com.n27.elections.presentation.main.entities.MainState.Idle
 import com.n27.elections.presentation.main.entities.MainState.Loading
 import com.n27.elections.presentation.main.entities.MainState.Success
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -34,7 +33,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val electionRepository: ElectionRepository,
+    private val dataSource: ElectionDataSource,
     private val analytics: FirebaseAnalytics,
     private val crashlytics: FirebaseCrashlytics,
     internal var sharedPreferences: SharedPreferences
@@ -63,7 +62,7 @@ class MainViewModel @Inject constructor(
 
         viewModelScope.launch(exceptionHandler) {
             if (initialLoading) analytics.track("main_activity_loaded") { param("state", "success") }
-            val sortedElections = electionRepository.getElections()
+            val sortedElections = dataSource.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
             state.value = Success(sortedElections, ::onElectionClicked)

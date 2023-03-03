@@ -3,10 +3,12 @@ package com.n27.elections.presentation.detail
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import com.n27.elections.data.utils.getElection
-import com.n27.elections.presentation.common.Constants.KEY_CONGRESS_ELECTION
-import com.n27.elections.presentation.common.Constants.KEY_SENATE
-import com.n27.elections.presentation.common.Constants.KEY_SENATE_ELECTION
+import com.n27.core.Constants.KEY_CONGRESS_ELECTION
+import com.n27.core.Constants.KEY_SENATE
+import com.n27.core.Constants.KEY_SENATE_ELECTION
+import com.n27.core.presentation.detail.DetailActivity
+import com.n27.core.presentation.detail.DetailFragment
+import com.n27.test.generators.getElection
 import junit.framework.TestCase.*
 import org.junit.Test
 import org.junit.runner.RunWith

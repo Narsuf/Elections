@@ -7,13 +7,13 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
+import com.n27.core.data.models.Election
+import com.n27.core.presentation.common.PresentationUtils
 import com.n27.elections.R
-import com.n27.elections.data.models.Election
-import com.n27.elections.presentation.common.PresentationUtils
 import com.n27.elections.presentation.main.entities.OnElectionClicked
 import javax.inject.Inject
 
-class GeneralCardAdapter @Inject constructor(val utils: PresentationUtils) :
+class GeneralCardAdapter @Inject constructor(private val utils: PresentationUtils) :
         RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     var elections: List<Election> = ArrayList()

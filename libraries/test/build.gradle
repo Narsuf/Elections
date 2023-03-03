@@ -1,0 +1,33 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+apply from : '../../constants.gradle'
+
+android {
+    namespace 'com.n27.test'
+    compileSdk sdkV
+
+    defaultConfig {
+        minSdk minSdkV
+        targetSdk sdkV
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly project(":libraries:core")
+
+    // Coroutines
+    compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+
+    // Android test
+    compileOnly "androidx.test.espresso:espresso-core:$espressoVersion"
+    implementation "com.adevinta.android:barista:$baristaVersion"
+}

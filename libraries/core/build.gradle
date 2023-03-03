@@ -1,0 +1,60 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+apply from : '../../constants.gradle'
+
+android {
+    compileSdk sdkV
+
+    defaultConfig {
+        minSdk minSdkV
+        targetSdk sdkV
+    }
+
+    buildFeatures { viewBinding true }
+}
+
+repositories {
+    google()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    api 'com.google.android.material:material:1.8.0'
+    api "androidx.fragment:fragment-ktx:$fragmentVersion"
+    api 'androidx.multidex:multidex:2.0.1'
+
+    // Firebase
+    api platform('com.google.firebase:firebase-bom:30.4.1')
+    api 'com.google.firebase:firebase-analytics-ktx'
+    api 'com.google.firebase:firebase-crashlytics-ktx'
+    api "com.google.firebase:firebase-database-ktx"
+
+    // Dagger 2
+    api "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // Android Jetpack
+
+        // Room
+        api "androidx.room:room-runtime:$roomVersion"
+        api "androidx.room:room-ktx:$roomVersion"
+        kapt "androidx.room:room-compiler:$roomVersion"
+
+    // MPAndroidChart
+    api 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+    // Coroutines
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+
+    testImplementation project(':libraries:test')
+    testImplementation "androidx.test:core:$testVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+}

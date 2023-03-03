@@ -5,13 +5,14 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
-import com.n27.elections.R
-import com.n27.elections.data.utils.getElection
-import com.n27.elections.presentation.common.Constants
-import com.n27.elections.presentation.common.Constants.KEY_SENATE
-import com.n27.elections.utils.assertions.ListAssertions.assertListTexts
-import com.n27.elections.utils.assertions.ListAssertions.assertListTextsWithDifferentPositions
-import com.n27.elections.utils.assertions.ToolbarAssertions.assertToolbarTitle
+import com.n27.core.R
+import com.n27.core.Constants
+import com.n27.core.Constants.KEY_SENATE
+import com.n27.core.presentation.detail.DetailActivity
+import com.n27.test.assertions.ListAssertions.assertListTexts
+import com.n27.test.assertions.ListAssertions.assertListTextsWithDifferentPositions
+import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
+import com.n27.test.generators.getElection
 import org.junit.Test
 import java.text.NumberFormat.getIntegerInstance
 

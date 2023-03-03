@@ -4,7 +4,7 @@ import androidx.core.view.isVisible
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import com.n27.elections.R
-import com.n27.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.presentation.main.adapters.GeneralCardAdapter
 import com.n27.elections.presentation.main.entities.MainState.Error
 import junit.framework.TestCase.*

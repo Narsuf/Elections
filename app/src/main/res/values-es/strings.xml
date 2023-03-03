@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Elecciones</string>
-
-    <string name="party">Partido</string>
-    <string name="votes">Votos</string>
-    <string name="elects">Escaños</string>
-
     <!-- Actions. -->
-    <string name="button_more_info_content">Más información.</string>
     <string name="show_historical">Mostrar histórico</string>
-    <string name="close">Cerrar</string>
-    <string name="swap">Cambiar cámara</string>
-
-    <!-- Errors. -->
-    <string name="something_wrong">Oops! Algo ha ido mal.</string>
-    <string name="no_internet_connection">Sin conexión a Internet</string>
 
     <!-- Disclaimer -->
     <string name="disclaimer">Aviso legal</string>

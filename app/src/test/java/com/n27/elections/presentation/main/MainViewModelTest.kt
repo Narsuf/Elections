@@ -6,18 +6,18 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.elections.ElectionsApplication
-import com.n27.elections.data.DataUtils
-import com.n27.elections.data.ElectionRepository
-import com.n27.elections.data.utils.getElection
-import com.n27.elections.data.utils.getElections
-import com.n27.elections.presentation.common.Constants.KEY_SENATE
-import com.n27.elections.presentation.common.Constants.NOT_FIRST_LAUNCH
-import com.n27.elections.presentation.common.Constants.NO_INTERNET_CONNECTION
+import com.n27.core.data.DataUtils
+import com.n27.elections.data.ElectionDataSource
+import com.n27.test.generators.getElection
+import com.n27.test.generators.getElections
+import com.n27.core.Constants.KEY_SENATE
+import com.n27.core.Constants.NOT_FIRST_LAUNCH
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
+import com.n27.test.observers.FlowTestObserver
 import com.n27.elections.presentation.main.entities.MainEvent.*
 import com.n27.elections.presentation.main.entities.MainInteraction.*
 import com.n27.elections.presentation.main.entities.MainState.Error
 import com.n27.elections.presentation.main.entities.MainState.Success
-import com.n27.elections.utils.FlowTestObserver
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
@@ -38,7 +38,7 @@ import kotlin.system.measureTimeMillis
 @RunWith(RobolectricTestRunner::class)
 class MainViewModelTest {
 
-    private lateinit var electionRepository: ElectionRepository
+    private lateinit var electionRepository: ElectionDataSource
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
@@ -48,7 +48,7 @@ class MainViewModelTest {
 
     @Before
     fun init() = runTest {
-        electionRepository = mock(ElectionRepository::class.java)
+        electionRepository = mock(ElectionDataSource::class.java)
         analytics = mock(FirebaseAnalytics::class.java)
         crashlytics = mock(FirebaseCrashlytics::class.java)
         dataUtils = mock(DataUtils::class.java)
