@@ -56,4 +56,4 @@ jobs:
       - name: Upload Test Report
         uses: codecov/codecov-action@v2
         with:
-          files: "app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
+          files: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml, libraries/core/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
