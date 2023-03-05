@@ -13,6 +13,7 @@ import com.n27.test.generators.getElections
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NOT_FIRST_LAUNCH
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
+import com.n27.core.presentation.common.PresentationUtils
 import com.n27.test.observers.FlowTestObserver
 import com.n27.elections.presentation.main.entities.MainEvent.*
 import com.n27.elections.presentation.main.entities.MainInteraction.*
@@ -39,7 +40,7 @@ import kotlin.system.measureTimeMillis
 class MainViewModelTest {
 
     private lateinit var electionRepository: ElectionDataSource
-    private lateinit var analytics: FirebaseAnalytics
+    private lateinit var presentationUtils: PresentationUtils
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
     private lateinit var dataUtils: DataUtils
@@ -49,14 +50,14 @@ class MainViewModelTest {
     @Before
     fun init() = runTest {
         electionRepository = mock(ElectionDataSource::class.java)
-        analytics = mock(FirebaseAnalytics::class.java)
+        presentationUtils = mock(PresentationUtils::class.java)
         crashlytics = mock(FirebaseCrashlytics::class.java)
         dataUtils = mock(DataUtils::class.java)
         sharedPreferences = mock(SharedPreferences::class.java)
 
         `when`(electionRepository.getElections()).thenReturn(getElections())
 
-        viewModel = MainViewModel(electionRepository, analytics, crashlytics, sharedPreferences)
+        viewModel = MainViewModel(electionRepository, presentationUtils, crashlytics, sharedPreferences)
         Dispatchers.setMain(testDispatcher)
     }
 

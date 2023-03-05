@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'jacoco'
@@ -44,6 +43,7 @@ android {
     defaultConfig {
         minSdk minSdkV
         targetSdk sdkV
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -51,6 +51,10 @@ android {
     }
 
     buildFeatures { viewBinding true }
+
+    testOptions {
+        unitTests { includeAndroidResources = true }
+    }
 }
 
 repositories {
@@ -92,4 +96,12 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$archTestVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    androidTestImplementation project(':libraries:test')
+    androidTestImplementation "androidx.test.ext:junit:$junitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }

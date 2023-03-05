@@ -8,14 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SimpleAdapter
 import androidx.fragment.app.Fragment
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.FragmentDetailBinding
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.presentation.common.PresentationUtils
-import com.n27.core.presentation.common.extensions.track
 import com.n27.core.presentation.detail.binders.PartyColorBinder
 import java.text.NumberFormat.getIntegerInstance
 import javax.inject.Inject
@@ -28,7 +26,6 @@ class DetailFragment : Fragment() {
     val binding get() = _binding!!
 
     @Inject lateinit var utils: PresentationUtils
-    @Inject lateinit var analytics: FirebaseAnalytics
     lateinit var countDownTimer: CountDownTimer
     private lateinit var election: Election
 
@@ -56,7 +53,7 @@ class DetailFragment : Fragment() {
             dialog.arguments = bundle
             activity?.supportFragmentManager?.let { dialog.show(it, "DetailDialog") }
 
-            analytics.track("results_info_clicked") {
+            utils.track("results_info_clicked") {
                 param("election", "${election.chamberName} (${election.date})")
             }
         }
@@ -74,7 +71,7 @@ class DetailFragment : Fragment() {
             pieChart.highlightValue(position.toFloat(), 0)
             countDownTimer.start()
 
-            analytics.track("party_clicked") { param("party", election.results[position].party.name) }
+            utils.track("party_clicked") { param("party", election.results[position].party.name) }
         }
     }
 

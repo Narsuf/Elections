@@ -126,10 +126,10 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
-    testImplementation "org.mockito:mockito-core:4.11.0"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
 
     androidTestImplementation project(':libraries:test')
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation "androidx.test.ext:junit:$junitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"

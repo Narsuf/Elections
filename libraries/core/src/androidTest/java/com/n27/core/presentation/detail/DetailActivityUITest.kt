@@ -1,4 +1,4 @@
-package com.n27.elections.presentation.detail
+package com.n27.core.presentation.detail
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
@@ -8,7 +8,6 @@ import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.n27.core.R
 import com.n27.core.Constants
 import com.n27.core.Constants.KEY_SENATE
-import com.n27.core.presentation.detail.DetailActivity
 import com.n27.test.assertions.ListAssertions.assertListTexts
 import com.n27.test.assertions.ListAssertions.assertListTextsWithDifferentPositions
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle

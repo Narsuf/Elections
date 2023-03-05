@@ -6,13 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.models.Election
 import com.n27.core.Constants.NOT_FIRST_LAUNCH
+import com.n27.core.data.models.Election
+import com.n27.core.presentation.common.PresentationUtils
 import com.n27.core.presentation.common.extensions.sortByDateAndFormat
 import com.n27.core.presentation.common.extensions.sortResultsByElectsAndVotes
-import com.n27.core.presentation.common.extensions.track
 import com.n27.elections.data.ElectionDataSource
 import com.n27.elections.presentation.main.entities.MainEvent
 import com.n27.elections.presentation.main.entities.MainEvent.NavigateToDetail
@@ -34,7 +33,7 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val dataSource: ElectionDataSource,
-    private val analytics: FirebaseAnalytics,
+    private val utils: PresentationUtils,
     private val crashlytics: FirebaseCrashlytics,
     internal var sharedPreferences: SharedPreferences
 ) : ViewModel() {
@@ -61,7 +60,7 @@ class MainViewModel @Inject constructor(
         }
 
         viewModelScope.launch(exceptionHandler) {
-            if (initialLoading) analytics.track("main_activity_loaded") { param("state", "success") }
+            if (initialLoading) utils.track("main_activity_loaded") { param("state", "success") }
             val sortedElections = dataSource.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
@@ -70,13 +69,13 @@ class MainViewModel @Inject constructor(
     }
 
     private fun saveFirstLaunchFlag() {
-        analytics.track("dialog_dismissed")
+        utils.track("dialog_dismissed")
         sharedPreferences.edit().putBoolean(NOT_FIRST_LAUNCH, true).apply()
     }
 
     @VisibleForTesting
     internal fun onElectionClicked(congressElection: Election, senateElection: Election) {
-        analytics.track("election_clicked") { param("election", congressElection.date) }
+        utils.track("election_clicked") { param("election", congressElection.date) }
         event.trySend(NavigateToDetail(congressElection, senateElection))
     }
 }

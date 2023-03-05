@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.n27.core.data.DataUtils
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
+import com.n27.core.data.DataUtils
 import com.n27.core.presentation.common.extensions.observeOnLifecycle
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.ElectionsApplication
