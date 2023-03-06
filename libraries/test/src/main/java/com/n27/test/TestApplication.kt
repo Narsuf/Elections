@@ -1,8 +1,8 @@
 package com.n27.test
 
 import androidx.multidex.MultiDexApplication
-import com.n27.core.injection.DetailComponent
-import com.n27.core.injection.DetailComponentProvider
+import com.n27.core.presentation.injection.DetailComponent
+import com.n27.core.presentation.injection.DetailComponentProvider
 import com.n27.core.presentation.common.PresentationUtils
 import dagger.Component
 import dagger.Module

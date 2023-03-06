@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
-import com.n27.core.injection.DetailComponent
-import com.n27.core.injection.DetailComponentProvider
+import com.n27.core.presentation.injection.DetailComponent
+import com.n27.core.presentation.injection.DetailComponentProvider
 import com.n27.core.Constants
 import com.n27.core.Constants.KEY_CONGRESS
 import com.n27.core.Constants.KEY_CONGRESS_ELECTION
@@ -18,8 +18,8 @@ import com.n27.core.Constants.KEY_SENATE_ELECTION
 
 class DetailActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityDetailBinding
-    lateinit var currentElection: Election
+    internal lateinit var binding: ActivityDetailBinding
+    internal lateinit var currentElection: Election
     internal lateinit var detailComponent: DetailComponent
     private lateinit var congressElection: Election
     private lateinit var senateElection: Election

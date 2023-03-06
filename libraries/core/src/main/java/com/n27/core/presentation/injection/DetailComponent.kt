@@ -1,4 +1,4 @@
-package com.n27.core.injection
+package com.n27.core.presentation.injection
 
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.core.presentation.detail.DetailDialog

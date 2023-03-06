@@ -23,10 +23,10 @@ class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
-    val binding get() = _binding!!
+    internal val binding get() = _binding!!
 
     @Inject lateinit var utils: PresentationUtils
-    lateinit var countDownTimer: CountDownTimer
+    internal lateinit var countDownTimer: CountDownTimer
     private lateinit var election: Election
 
     override fun onAttach(context: Context) {
