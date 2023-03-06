@@ -1,3 +1,4 @@
 include ':app'
 include ':libraries:core'
 include ':libraries:test'
+include ':features:regional_live'

@@ -9,6 +9,7 @@ plugins {
 
 apply from : '../constants.gradle'
 
+//region Jacoco
 jacoco { toolVersion = '0.8.8' }
 
 tasks.withType(Test) {
@@ -38,6 +39,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             'code_coverage/debugAndroidTest/connected/*/coverage.ec'
     ])
 }
+//endregion
 
 android {
     Properties properties = new Properties()
@@ -129,7 +131,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
 
     androidTestImplementation project(':libraries:test')
-    androidTestImplementation "androidx.test.ext:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
