@@ -1,6 +1,7 @@
 <resources>
     <!-- Actions. -->
     <string name="show_historical">Show historical</string>
+    <string name="live_elections">Live elections</string>
 
     <!-- Disclaimer -->
     <string name="disclaimer">Disclaimer</string>

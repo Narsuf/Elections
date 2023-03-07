@@ -23,8 +23,10 @@ import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.main.adapters.GeneralCardAdapter
 import com.n27.elections.presentation.main.entities.MainEvent
 import com.n27.elections.presentation.main.entities.MainEvent.NavigateToDetail
+import com.n27.elections.presentation.main.entities.MainEvent.NavigateToLive
 import com.n27.elections.presentation.main.entities.MainEvent.ShowDisclaimer
 import com.n27.elections.presentation.main.entities.MainInteraction.DialogDismissed
+import com.n27.elections.presentation.main.entities.MainInteraction.LiveButtonClicked
 import com.n27.elections.presentation.main.entities.MainInteraction.Refresh
 import com.n27.elections.presentation.main.entities.MainInteraction.ScreenOpened
 import com.n27.elections.presentation.main.entities.MainState
@@ -32,6 +34,7 @@ import com.n27.elections.presentation.main.entities.MainState.Error
 import com.n27.elections.presentation.main.entities.MainState.Idle
 import com.n27.elections.presentation.main.entities.MainState.Loading
 import com.n27.elections.presentation.main.entities.MainState.Success
+import com.n27.regional_live.RegionalLiveActivity
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     internal lateinit var binding: ActivityMainBinding
 
     @Inject lateinit var vm: MainViewModel
-    @Inject lateinit var dataUtils: DataUtils
     @Inject lateinit var generalCardAdapter: GeneralCardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +72,7 @@ class MainActivity : AppCompatActivity() {
     private fun ActivityMainBinding.setupViews() {
         swipe.setOnRefreshListener { vm.handleInteraction(Refresh) }
         recyclerView.apply { layoutManager = LinearLayoutManager(context) }
+        liveElectionsButton.setOnClickListener { vm.handleInteraction(LiveButtonClicked) }
     }
 
     private fun initObservers() {
@@ -86,10 +89,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loading() {
-        if (dataUtils.isConnectedToInternet()) {
-            binding.errorAnimation.visibility = GONE
-            binding.loadingAnimation.visibility = VISIBLE
-        }
+        binding.errorAnimation.visibility = GONE
+        binding.loadingAnimation.visibility = VISIBLE
     }
 
     private fun showError(state: Error) {
@@ -132,6 +133,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleEvent(event: MainEvent) = when (event) {
         is ShowDisclaimer -> onShowDisclaimer()
+        is NavigateToLive -> onNavigateToLive()
         is NavigateToDetail -> onNavigateToDetail(event)
     }
 
@@ -158,6 +160,11 @@ class MainActivity : AppCompatActivity() {
         val myIntent = Intent(this, DetailActivity::class.java)
         myIntent.putExtra(Constants.KEY_CONGRESS_ELECTION, event.congressElection)
         myIntent.putExtra(Constants.KEY_SENATE_ELECTION, event.senateElection)
+        startActivity(myIntent)
+    }
+
+    private fun onNavigateToLive() {
+        val myIntent = Intent(this, RegionalLiveActivity::class.java)
         startActivity(myIntent)
     }
 }

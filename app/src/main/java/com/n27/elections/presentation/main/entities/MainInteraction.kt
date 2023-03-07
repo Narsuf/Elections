@@ -5,4 +5,5 @@ internal sealed class MainInteraction {
     object ScreenOpened : MainInteraction()
     object DialogDismissed : MainInteraction()
     object Refresh : MainInteraction()
+    object LiveButtonClicked : MainInteraction()
 }

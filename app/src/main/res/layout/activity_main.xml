@@ -55,4 +55,15 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:lottie_rawRes="@raw/empty_box" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/live_elections_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_spacing"
+        android:layout_marginBottom="@dimen/default_spacing"
+        android:contentDescription="@string/live_elections"
+        android:src="@drawable/ic_live_election"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

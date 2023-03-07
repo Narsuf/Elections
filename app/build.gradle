@@ -90,6 +90,7 @@ repositories {
 
 dependencies {
     implementation project(":libraries:core")
+    implementation project(":features:regional_live")
 
     // Swipe
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'

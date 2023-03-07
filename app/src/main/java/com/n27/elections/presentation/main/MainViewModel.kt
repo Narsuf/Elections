@@ -15,8 +15,10 @@ import com.n27.core.presentation.common.extensions.sortResultsByElectsAndVotes
 import com.n27.elections.data.ElectionDataSource
 import com.n27.elections.presentation.main.entities.MainEvent
 import com.n27.elections.presentation.main.entities.MainEvent.NavigateToDetail
+import com.n27.elections.presentation.main.entities.MainEvent.NavigateToLive
 import com.n27.elections.presentation.main.entities.MainInteraction
 import com.n27.elections.presentation.main.entities.MainInteraction.DialogDismissed
+import com.n27.elections.presentation.main.entities.MainInteraction.LiveButtonClicked
 import com.n27.elections.presentation.main.entities.MainInteraction.Refresh
 import com.n27.elections.presentation.main.entities.MainInteraction.ScreenOpened
 import com.n27.elections.presentation.main.entities.MainState
@@ -48,6 +50,7 @@ class MainViewModel @Inject constructor(
         ScreenOpened -> retrieveElections(initialLoading = true)
         DialogDismissed -> saveFirstLaunchFlag()
         Refresh -> retrieveElections()
+        LiveButtonClicked -> onLiveButtonClicked()
     }
 
     private fun retrieveElections(initialLoading: Boolean = false) {
@@ -60,11 +63,13 @@ class MainViewModel @Inject constructor(
         }
 
         viewModelScope.launch(exceptionHandler) {
-            if (initialLoading) utils.track("main_activity_loaded") { param("state", "success") }
             val sortedElections = dataSource.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
+
             state.value = Success(sortedElections, ::onElectionClicked)
+
+            if (initialLoading) utils.track("main_activity_loaded") { param("state", "success") }
         }
     }
 
@@ -77,5 +82,11 @@ class MainViewModel @Inject constructor(
     internal fun onElectionClicked(congressElection: Election, senateElection: Election) {
         utils.track("election_clicked") { param("election", congressElection.date) }
         event.trySend(NavigateToDetail(congressElection, senateElection))
+    }
+
+    @VisibleForTesting
+    internal fun onLiveButtonClicked() {
+        utils.track("live_button_clicked")
+        event.trySend(NavigateToLive)
     }
 }

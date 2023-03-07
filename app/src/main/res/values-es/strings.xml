@@ -2,6 +2,7 @@
 <resources>
     <!-- Actions. -->
     <string name="show_historical">Mostrar histórico</string>
+    <string name="live_elections">Elecciones en directo</string>
 
     <!-- Disclaimer -->
     <string name="disclaimer">Aviso legal</string>
