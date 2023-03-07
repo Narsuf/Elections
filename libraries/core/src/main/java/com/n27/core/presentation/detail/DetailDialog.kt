@@ -10,14 +10,11 @@ import android.widget.ListView
 import android.widget.SimpleAdapter
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-
+import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.R
 import com.n27.core.data.models.Election
-import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.presentation.common.PresentationUtils
-
 import java.text.NumberFormat.getIntegerInstance
-
 import javax.inject.Inject
 
 class DetailDialog : DialogFragment() {
