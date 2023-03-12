@@ -50,7 +50,7 @@ class ElectionDataSourceTest {
 
     @Test
     fun loadElectionsFromDb() = runTest {
-        val daoElections = ApiResponse(getElections()).elections
+        val daoElections = getElections()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
         `when`(dao.getElections())
