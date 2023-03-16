@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     internal lateinit var binding: ActivityMainBinding
 
-    @Inject lateinit var vm: MainViewModel
+    @Inject lateinit var viewModel: MainViewModel
     @Inject lateinit var generalCardAdapter: GeneralCardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         //binding.toolbar.setup()
         binding.setupViews()
         initObservers()
-        vm.handleInteraction(ScreenOpened)
+        viewModel.handleInteraction(ScreenOpened)
     }
 
     /*private fun Toolbar.setup() {
@@ -67,13 +67,13 @@ class MainActivity : AppCompatActivity() {
     }*/
 
     private fun ActivityMainBinding.setupViews() {
-        swipe.setOnRefreshListener { vm.handleInteraction(Refresh) }
+        swipe.setOnRefreshListener { viewModel.handleInteraction(Refresh) }
         recyclerView.apply { layoutManager = LinearLayoutManager(context) }
     }
 
     private fun initObservers() {
-        vm.viewState.observe(this, ::renderState)
-        vm.viewEvent.observeOnLifecycle(this, action = ::handleEvent)
+        viewModel.viewState.observe(this, ::renderState)
+        viewModel.viewEvent.observeOnLifecycle(this, action = ::handleEvent)
     }
 
     @VisibleForTesting
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                 )
             )
             .setPositiveButton(getString(R.string.disclaimer_button), null)
-            .setOnDismissListener { vm.handleInteraction(DialogDismissed) }
+            .setOnDismissListener { viewModel.handleInteraction(DialogDismissed) }
             .show()
 
         (alertDialog.findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()

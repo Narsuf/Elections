@@ -25,9 +25,9 @@ import org.robolectric.RobolectricTestRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
-class ElectionDataSourceTest {
+class ElectionRepositoryTest {
 
-    private lateinit var repository: ElectionDataSource
+    private lateinit var repository: ElectionRepository
     private lateinit var service: ElectionApi
     private lateinit var dao: ElectionDao
     private lateinit var dataUtils: DataUtils
@@ -44,7 +44,7 @@ class ElectionDataSourceTest {
         firebaseDatabase = mock(FirebaseDatabase::class.java)
         crashlytics = mock(FirebaseCrashlytics::class.java)
         dataUtils.context = ApplicationProvider.getApplicationContext()
-        repository = ElectionDataSource(service, dao, dataUtils, firebaseDatabase, crashlytics)
+        repository = ElectionRepository(service, dao, dataUtils, firebaseDatabase, crashlytics)
         Dispatchers.setMain(testDispatcher)
     }
 

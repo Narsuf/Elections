@@ -10,7 +10,7 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.DataUtils
 import com.n27.core.presentation.common.PresentationUtils
 import com.n27.elections.ElectionsApplication
-import com.n27.elections.data.ElectionDataSource
+import com.n27.elections.data.ElectionRepository
 import com.n27.elections.presentation.main.entities.MainEvent.*
 import com.n27.elections.presentation.main.entities.MainInteraction.*
 import com.n27.elections.presentation.main.entities.MainState.Error
@@ -38,7 +38,7 @@ import kotlin.system.measureTimeMillis
 @RunWith(RobolectricTestRunner::class)
 class MainViewModelTest {
 
-    private lateinit var electionRepository: ElectionDataSource
+    private lateinit var electionRepository: ElectionRepository
     private lateinit var presentationUtils: PresentationUtils
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
@@ -48,7 +48,7 @@ class MainViewModelTest {
 
     @Before
     fun init() = runTest {
-        electionRepository = mock(ElectionDataSource::class.java)
+        electionRepository = mock(ElectionRepository::class.java)
         presentationUtils = mock(PresentationUtils::class.java)
         crashlytics = mock(FirebaseCrashlytics::class.java)
         dataUtils = mock(DataUtils::class.java)
