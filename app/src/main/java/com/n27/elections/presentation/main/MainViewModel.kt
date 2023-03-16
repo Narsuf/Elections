@@ -60,11 +60,13 @@ class MainViewModel @Inject constructor(
         }
 
         viewModelScope.launch(exceptionHandler) {
-            if (initialLoading) utils.track("main_activity_loaded") { param("state", "success") }
             val sortedElections = dataSource.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
+
             state.value = Success(sortedElections, ::onElectionClicked)
+
+            if (initialLoading) utils.track("main_activity_loaded") { param("state", "success") }
         }
     }
 

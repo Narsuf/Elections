@@ -5,16 +5,16 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
-import com.n27.core.R
-import com.n27.core.data.models.Election
-import com.n27.core.databinding.ActivityDetailBinding
-import com.n27.core.presentation.injection.DetailComponent
-import com.n27.core.presentation.injection.DetailComponentProvider
 import com.n27.core.Constants
 import com.n27.core.Constants.KEY_CONGRESS
 import com.n27.core.Constants.KEY_CONGRESS_ELECTION
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
+import com.n27.core.R
+import com.n27.core.data.models.Election
+import com.n27.core.databinding.ActivityDetailBinding
+import com.n27.core.presentation.injection.DetailComponent
+import com.n27.core.presentation.injection.DetailComponentProvider
 
 class DetailActivity : AppCompatActivity() {
 

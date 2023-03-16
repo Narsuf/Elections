@@ -7,6 +7,7 @@ plugins {
 
 apply from : '../../constants.gradle'
 
+//region Jacoco
 jacoco { toolVersion = '0.8.8' }
 
 tasks.withType(Test) {
@@ -36,6 +37,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             'code_coverage/debugAndroidTest/connected/*/coverage.ec'
     ])
 }
+//endregion
 
 android {
     compileSdk sdkV

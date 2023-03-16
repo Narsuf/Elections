@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
     internal lateinit var binding: ActivityMainBinding
 
     @Inject lateinit var vm: MainViewModel
-    @Inject lateinit var dataUtils: DataUtils
     @Inject lateinit var generalCardAdapter: GeneralCardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,10 +85,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loading() {
-        if (dataUtils.isConnectedToInternet()) {
-            binding.errorAnimation.visibility = GONE
-            binding.loadingAnimation.visibility = VISIBLE
-        }
+        binding.errorAnimation.visibility = GONE
+        binding.loadingAnimation.visibility = VISIBLE
     }
 
     private fun showError(state: Error) {

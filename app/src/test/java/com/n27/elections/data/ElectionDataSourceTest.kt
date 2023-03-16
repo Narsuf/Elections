@@ -4,9 +4,9 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.FirebaseDatabase
 import com.n27.core.data.DataUtils
+import com.n27.core.data.mappers.toElectionWithResultsAndParty
 import com.n27.core.data.models.Election
 import com.n27.core.data.room.ElectionDao
-import com.n27.core.data.mappers.toElectionWithResultsAndParty
 import com.n27.elections.data.api.ElectionApi
 import com.n27.elections.data.api.models.ApiResponse
 import com.n27.test.generators.getElections
@@ -50,7 +50,7 @@ class ElectionDataSourceTest {
 
     @Test
     fun loadElectionsFromDb() = runTest {
-        val daoElections = ApiResponse(getElections()).elections
+        val daoElections = getElections()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
         `when`(dao.getElections())

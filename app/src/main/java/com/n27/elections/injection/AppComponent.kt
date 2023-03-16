@@ -1,7 +1,7 @@
 package com.n27.elections.injection
 
-import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.CorePresentationModule
+import com.n27.core.presentation.injection.DetailComponent
 import com.n27.elections.data.api.injection.NetModule
 import com.n27.elections.presentation.injection.AppPresentationModule
 import com.n27.elections.presentation.main.MainActivity
