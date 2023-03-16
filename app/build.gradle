@@ -95,7 +95,7 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     // Lottie
-    implementation 'com.airbnb.android:lottie:5.2.0'
+    implementation 'com.airbnb.android:lottie:6.0.0'
 
     // Dagger 2
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
