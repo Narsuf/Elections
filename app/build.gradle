@@ -56,7 +56,7 @@ android {
         versionCode 9
         versionName "1.0.1-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs "en", "es"
+        resConfigs 'en', 'es'
     }
 
     buildTypes {
