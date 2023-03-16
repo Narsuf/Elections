@@ -17,6 +17,5 @@ project.ext {
     mockitoVersion = '5.1.1'
 
     junitVersion = '1.1.5'
-    espressoVersion = '3.4.0'
     baristaVersion = '4.3.0'
 }

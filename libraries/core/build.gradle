@@ -100,7 +100,6 @@ dependencies {
 
     androidTestImplementation project(':libraries:test')
     androidTestImplementation "androidx.test.ext:junit:$junitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }

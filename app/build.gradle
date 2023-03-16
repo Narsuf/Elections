@@ -132,7 +132,6 @@ dependencies {
 
     androidTestImplementation project(':libraries:test')
     androidTestImplementation "androidx.test.ext:junit:$junitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
 }
