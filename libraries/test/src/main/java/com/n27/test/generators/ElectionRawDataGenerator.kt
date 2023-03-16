@@ -1,6 +1,10 @@
 package com.n27.test.generators
 
-import com.n27.core.data.room.*
+import com.n27.core.data.room.ElectionRaw
+import com.n27.core.data.room.ElectionWithResultsAndParty
+import com.n27.core.data.room.PartyRaw
+import com.n27.core.data.room.ResultRaw
+import com.n27.core.data.room.ResultWithParty
 
 fun getElectionWithResultsAndParty() = ElectionWithResultsAndParty(
     election = getElectionRaw(),
