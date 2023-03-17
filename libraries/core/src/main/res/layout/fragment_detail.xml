@@ -34,7 +34,7 @@
         <Space
             android:id="@+id/fragmentDetailSpace"
             android:layout_width="0dp"
-            android:layout_height="@dimen/loose_spacing"
+            android:layout_height="@dimen/looser_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/floating_button_more_info" />
@@ -43,7 +43,7 @@
             android:id="@+id/fragmentDetailPartyTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/loose_spacing"
+            android:layout_marginStart="@dimen/looser_spacing"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/party"
