@@ -8,7 +8,7 @@ import android.widget.TextView
 class PartyColorBinder: SimpleAdapter.ViewBinder {
 
     override fun setViewValue(view: View?, data: Any?, textRepresentation: String?): Boolean {
-        if (view is TextView && data.toString().matches(Regex("[#].*"))) {
+        if (view is TextView && data.toString().matches(Regex("#.*"))) {
             view.setBackgroundColor(Color.parseColor(data.toString()))
             return true
         }

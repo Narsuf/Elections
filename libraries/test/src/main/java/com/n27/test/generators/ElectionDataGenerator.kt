@@ -21,17 +21,22 @@ fun getElection(chamberName: String = "Congreso") = Election(
     results = listOf(getResult())
 )
 
-private fun getResult() = Result(
+fun getResult(
+    elects: Int = 123,
+    party: Party = getParty()
+) = Result(
     id = 17,
     partyId = 1,
     electionId = 3,
-    elects = 123,
+    elects,
     votes = 7215530,
-    party = getParty()
+    party
 )
 
-private fun getParty() = Party(
+fun getParty(
+    color: String = "006EC7"
+) = Party(
     id = 1,
     name = "PP",
-    color = "006EC7"
+    color
 )
