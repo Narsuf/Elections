@@ -24,11 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/button_more_info_content"
-            android:src="@android:drawable/ic_dialog_email"
+            android:src="@drawable/ic_vote"
             app:layout_constraintBottom_toBottomOf="@id/pie_chart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/pie_chart" />
+            app:layout_constraintTop_toTopOf="@id/pie_chart"
+            app:tint="@color/white" />
 
         <Space
             android:id="@+id/fragmentDetailSpace"

@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/action_swap"
-        android:icon="@drawable/swap"
+        android:icon="@drawable/ic_swap"
         android:orderInCategory="1"
         android:title="@string/swap"
         app:showAsAction="always" />

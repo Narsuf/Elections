@@ -73,7 +73,7 @@ dependencies {
     api 'androidx.multidex:multidex:2.0.1'
 
     // Firebase
-    api platform('com.google.firebase:firebase-bom:30.4.1')
+    api platform('com.google.firebase:firebase-bom:31.2.3')
     api 'com.google.firebase:firebase-analytics-ktx'
     api 'com.google.firebase:firebase-crashlytics-ktx'
     api "com.google.firebase:firebase-database-ktx"
