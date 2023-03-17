@@ -7,8 +7,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.n27.core.presentation.injection.DetailComponent
-import com.n27.core.presentation.injection.DetailComponentProvider
 import com.n27.regional_live.R
 import com.n27.regional_live.databinding.ActivityRegionalLiveBinding
 import com.n27.regional_live.ui.injection.RegionalLiveComponent

@@ -1,13 +1,9 @@
 package com.n27.regional_live.data.api
 
-import com.n27.regional_live.data.api.models.ElectionXml
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.simpleframework.xml.core.Persister
-import retrofit2.http.GET
-import retrofit2.http.Path
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton

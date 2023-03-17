@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
 import javax.inject.Inject

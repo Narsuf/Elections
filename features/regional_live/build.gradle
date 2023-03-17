@@ -72,8 +72,8 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
-    // Dagger 2
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    // SimpleXML
+    implementation 'org.simpleframework:simple-xml:2.7.1'
 
     testImplementation "junit:junit:4.13.2"
 
