@@ -16,13 +16,13 @@
             android:id="@+id/pie_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loose_spacing" />
+            android:layout_marginTop="@dimen/looser_spacing" />
 
         <TextView
             android:id="@+id/section_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/loose_spacing"
+            android:layout_marginBottom="@dimen/looser_spacing"
             android:textSize="@dimen/card_text_size_year_general_elections"
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
