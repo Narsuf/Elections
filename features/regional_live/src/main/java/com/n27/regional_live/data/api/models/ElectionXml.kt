@@ -1,95 +1,97 @@
-package com.n27.core.data.models
+package com.n27.regional_live.data.api.models
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
+import org.simpleframework.xml.Root
 
+@Root(name = "escrutinio_sitio")
 data class ElectionXml(
 
     @field:Element(name = "num_a_elegir")
-    val totalElects: Int,
+    var totalElects: Int = 0,
 
     @field:Element(name = "id")
-    val id: Int,
+    var id: String? = null,
 
     @field:Element(name = "nombre_lugar")
-    val chamberName: String,
+    var chamberName: String = "",
 
     @field:Element(name = "nombre_disputado")
-    val electName: String,
+    var electName: String? = null,
 
     @field:Element(name = "porciento_escrutado")
-    val scrutinized: Float,
+    var scrutinized: Float = 0f,
 
     @field:Element(name = "nombre_sitio")
-    val place: String,
+    var place: String = "",
 
     @field:Element(name = "convocatoria")
-    val year: Int,
+    var year: String = "",
 
     @field:Element(name = "ts")
-    val timeStamp: Long,
+    var timestamp: Long? = null,
 
     @field:Element(name = "tipo_sitio")
-    val type: Int,
+    var type: Int? = null,
 
     @field:Element(name = "votos")
-    val votes: VoteType,
+    var votes: Votes? = null,
 
     @field:Element(name = "resultados")
-    val results: List<Results>
+    var results: Results? = null
 ) {
 
-    @Element(name = "votos")
-    data class VoteType(
+    data class Votes(
 
         @field:Element(name = "contabilizados")
-        val valid: Votes,
+        var valid: VotesInfo? = null,
 
         @field:Element(name = "abstenciones")
-        val abstention: Votes,
+        var abstentions: VotesInfo? = null,
 
         @field:Element(name = "nulos")
-        val nulls: Votes,
+        var notValid: VotesInfo? = null,
 
         @field:Element(name = "blancos")
-        val blank: Votes
+        var blank: VotesInfo? = null
     ) {
 
-        data class Votes(
+        data class VotesInfo(
 
             @field:Element(name = "cantidad")
-            val number: Int,
+            var votes: Int? = null,
 
             @field:Element(name = "porcentaje")
-            val percentage: Float
+            var percentage: Float? = null
         )
     }
 
     data class Results(
 
         @field:Element(name = "numero_partidos")
-        val partiesNumber: Int,
+        var numberOfParties: Int? = null,
 
-        @field:ElementList(name = "partido")
-        val partidos: List<Party>
+        @field:ElementList(name = "partido", inline = true)
+        var parties: List<Party>? = null
     ) {
 
+        @Root(name = "partido")
         data class Party(
 
             @field:Element(name = "id_partido")
-            val id: Int,
+            var id: Long = 0,
 
             @field:Element(name = "nombre")
-            val name: String,
+            var name: String = "",
 
             @field:Element(name = "electos")
-            val elects: Int,
+            var elects: Int = 0,
 
             @field:Element(name = "votos_numero")
-            val votes: Int,
+            var votes: Int = 0,
 
             @field:Element(name = "votos_porciento")
-            val percentage: Float
+            var votePercentage: Float? = null,
         )
     }
 }
