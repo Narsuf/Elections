@@ -11,6 +11,7 @@ import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.R
 import com.n27.test.actions.SpanActions.clickClickableSpan
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
+import com.n27.test.conditions.instructions.waitUntil
 import com.n27.test.intents.intents
 import com.n27.test.intents.mockIntent
 import com.n27.test.intents.verifyBrowserOpened
@@ -20,7 +21,6 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import com.n27.test.conditions.instructions.waitUntil
 import java.io.IOException
 
 class MainActivityUITest {
