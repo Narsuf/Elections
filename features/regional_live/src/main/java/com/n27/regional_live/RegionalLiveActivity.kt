@@ -18,6 +18,7 @@ class RegionalLiveActivity : AppCompatActivity() {
 
         binding = ActivityRegionalLiveBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         val navView: BottomNavigationView = binding.navView
 

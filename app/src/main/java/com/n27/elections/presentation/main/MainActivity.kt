@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     private fun ActivityMainBinding.setupViews() {
         swipe.setOnRefreshListener { viewModel.handleInteraction(Refresh) }
         recyclerView.apply { layoutManager = LinearLayoutManager(context) }
-        liveElectionsButton.setOnClickListener { vm.handleInteraction(LiveButtonClicked) }
+        liveElectionsButton.setOnClickListener { viewModel.handleInteraction(LiveButtonClicked) }
     }
 
     private fun initObservers() {

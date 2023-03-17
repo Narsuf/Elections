@@ -69,11 +69,11 @@ repositories {
 dependencies {
     implementation project(":libraries:core")
 
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
     testImplementation "junit:junit:4.13.2"
 
-    androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.ext:junit:$junitVersion"
+    androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
 }

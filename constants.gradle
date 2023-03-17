@@ -10,6 +10,7 @@ project.ext {
     coroutinesVersion = '1.6.4'
     fragmentVersion = '1.5.5'
     okHttpVersion = '4.10.0'
+    navigationVersion = '2.5.3'
 
     testVersion = '1.5.0'
     archTestVersion = '2.2.0'
