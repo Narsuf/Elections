@@ -7,7 +7,6 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NOT_FIRST_LAUNCH
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.DataUtils
 import com.n27.core.presentation.common.PresentationUtils
 import com.n27.elections.ElectionsApplication
 import com.n27.elections.data.ElectionRepository
@@ -38,25 +37,23 @@ import kotlin.system.measureTimeMillis
 @RunWith(RobolectricTestRunner::class)
 class MainViewModelTest {
 
-    private lateinit var electionRepository: ElectionRepository
-    private lateinit var presentationUtils: PresentationUtils
+    private lateinit var repository: ElectionRepository
+    private lateinit var utils: PresentationUtils
     private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
-    private lateinit var dataUtils: DataUtils
     private lateinit var sharedPreferences: SharedPreferences
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun init() = runTest {
-        electionRepository = mock(ElectionRepository::class.java)
-        presentationUtils = mock(PresentationUtils::class.java)
+        repository = mock(ElectionRepository::class.java)
+        utils = mock(PresentationUtils::class.java)
         crashlytics = mock(FirebaseCrashlytics::class.java)
-        dataUtils = mock(DataUtils::class.java)
         sharedPreferences = mock(SharedPreferences::class.java)
 
-        `when`(electionRepository.getElections()).thenReturn(getElections())
+        `when`(repository.getElections()).thenReturn(getElections())
 
-        viewModel = MainViewModel(electionRepository, presentationUtils, crashlytics, sharedPreferences)
+        viewModel = MainViewModel(repository, utils, crashlytics, sharedPreferences)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -96,7 +93,7 @@ class MainViewModelTest {
 
     @Test
     fun `screen opened should emit network error when empty elections and no connection`() = runTest {
-        `when`(electionRepository.getElections())
+        `when`(repository.getElections())
             .thenThrow(IndexOutOfBoundsException((NO_INTERNET_CONNECTION)))
 
         viewModel.handleInteraction(ScreenOpened)
@@ -105,9 +102,8 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `screen opened should emit error when empty elections and connection`() = runTest {
-        `when`(electionRepository.getElections()).thenThrow(IndexOutOfBoundsException())
-        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
+    fun `screen opened should emit error when empty elections`() = runTest {
+        `when`(repository.getElections()).thenThrow(IndexOutOfBoundsException())
 
         viewModel.handleInteraction(ScreenOpened)
 
@@ -117,7 +113,7 @@ class MainViewModelTest {
     @Test
     fun `screen opened should emit error when failing`() = runTest {
         val exception = IndexOutOfBoundsException()
-        `when`(electionRepository.getElections()).thenThrow(exception)
+        `when`(repository.getElections()).thenThrow(exception)
 
         viewModel.handleInteraction(ScreenOpened)
 
