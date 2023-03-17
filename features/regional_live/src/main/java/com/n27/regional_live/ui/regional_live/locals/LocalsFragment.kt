@@ -1,5 +1,6 @@
-package com.n27.regional_live.ui.locals
+package com.n27.regional_live.ui.regional_live.locals
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.n27.regional_live.databinding.FragmentLocalsBinding
+import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
 
 class LocalsFragment : Fragment() {
 
@@ -25,6 +27,11 @@ class LocalsFragment : Fragment() {
         val textView: TextView = binding.textDashboard
         viewModel.text.observe(viewLifecycleOwner) { textView.text = it }
         return root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as RegionalLiveActivity).regionalLiveComponent.inject(this)
     }
 
     override fun onDestroyView() {

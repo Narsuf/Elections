@@ -33,7 +33,7 @@ import com.n27.elections.presentation.main.entities.MainState.Error
 import com.n27.elections.presentation.main.entities.MainState.Idle
 import com.n27.elections.presentation.main.entities.MainState.Loading
 import com.n27.elections.presentation.main.entities.MainState.Success
-import com.n27.regional_live.RegionalLiveActivity
+import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {

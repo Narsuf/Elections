@@ -13,11 +13,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
-class NetModule {
-
-    @Provides
-    @Singleton
-    fun providesOkHttpClient(): OkHttpClient = OkHttpClient.Builder().build()
+class AppNetModule {
 
     @Provides
     @Singleton
@@ -25,13 +21,10 @@ class NetModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
+    fun providesElectionApi(okHttpClient: OkHttpClient, moshi: Moshi): ElectionApi {
         return Builder().client(okHttpClient).baseUrl(BuildConfig.SERVER_URL)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .build()
+                .create(ElectionApi::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun providesApiInterface(retrofit: Retrofit): ElectionApi = retrofit.create(ElectionApi::class.java)
 }

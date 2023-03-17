@@ -7,9 +7,10 @@ import com.n27.core.presentation.injection.DetailComponentProvider
 import com.n27.elections.injection.AppComponent
 import com.n27.elections.injection.AppModule
 import com.n27.elections.injection.DaggerAppComponent
+import com.n27.regional_live.ui.injection.RegionalLiveComponentProvider
 import timber.log.Timber
 
-class ElectionsApplication : MultiDexApplication(), DetailComponentProvider {
+class ElectionsApplication : MultiDexApplication(), DetailComponentProvider, RegionalLiveComponentProvider {
 
     val appComponent: AppComponent = DaggerAppComponent.builder()
         .appModule(AppModule(this))
@@ -24,4 +25,5 @@ class ElectionsApplication : MultiDexApplication(), DetailComponentProvider {
     }
 
     override fun provideDetailComponent() = appComponent.detailComponent().create()
+    override fun provideRegionalLiveComponent() = appComponent.regionalLiveComponent().create()
 }

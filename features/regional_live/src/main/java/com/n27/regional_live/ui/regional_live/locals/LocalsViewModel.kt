@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.locals
+package com.n27.regional_live.ui.regional_live.locals
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
