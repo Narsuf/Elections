@@ -56,7 +56,7 @@ android {
         versionCode 9
         versionName "1.0.1-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs "en", "es"
+        resConfigs 'en', 'es'
     }
 
     buildTypes {
@@ -96,7 +96,7 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     // Lottie
-    implementation 'com.airbnb.android:lottie:5.2.0'
+    implementation 'com.airbnb.android:lottie:6.0.0'
 
     // Dagger 2
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -132,8 +132,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
 
     androidTestImplementation project(':libraries:test')
-    androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.ext:junit:$junitVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
 }

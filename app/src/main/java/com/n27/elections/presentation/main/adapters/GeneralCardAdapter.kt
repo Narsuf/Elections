@@ -13,8 +13,9 @@ import com.n27.elections.R
 import com.n27.elections.presentation.main.entities.OnElectionClicked
 import javax.inject.Inject
 
-class GeneralCardAdapter @Inject constructor(private val utils: PresentationUtils) :
-        RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
+class GeneralCardAdapter @Inject constructor(
+    private val utils: PresentationUtils
+) : RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     var elections: List<Election> = ArrayList()
         set(value) {

@@ -2,21 +2,20 @@ project.ext {
     sdkV = 33
     minSdkV = 23
 
-    daggerVersion = '2.43.2'
+    daggerVersion = '2.45'
     moshiVersion = '1.14.0'
     retrofitVersion = '2.9.0'
     roomVersion = '2.5.0'
-    lifecycleVersion = '2.5.1'
+    lifecycleVersion = '2.6.0'
     coroutinesVersion = '1.6.4'
     fragmentVersion = '1.5.5'
     okHttpVersion = '4.10.0'
 
     testVersion = '1.5.0'
-    archTestVersion = '2.1.0'
+    archTestVersion = '2.2.0'
     robolectricVersion = '4.9.2'
-    mockitoVersion = '4.11.0'
+    mockitoVersion = '5.1.1'
 
-    androidJunitVersion = '1.1.5'
-    espressoVersion = '3.4.0'
+    junitVersion = '1.1.5'
     baristaVersion = '4.3.0'
 }

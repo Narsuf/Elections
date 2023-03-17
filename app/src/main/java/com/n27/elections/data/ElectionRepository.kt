@@ -17,7 +17,7 @@ import kotlin.Result.Companion.success
 import kotlin.coroutines.suspendCoroutine
 
 @Singleton
-class ElectionDataSource @Inject constructor(
+class ElectionRepository @Inject constructor(
     private var service: ElectionApi,
     private var dao: ElectionDao,
     private var dataUtils: DataUtils,

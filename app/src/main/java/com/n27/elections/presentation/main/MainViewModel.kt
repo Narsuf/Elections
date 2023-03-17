@@ -12,7 +12,7 @@ import com.n27.core.data.models.Election
 import com.n27.core.presentation.common.PresentationUtils
 import com.n27.core.presentation.common.extensions.sortByDateAndFormat
 import com.n27.core.presentation.common.extensions.sortResultsByElectsAndVotes
-import com.n27.elections.data.ElectionDataSource
+import com.n27.elections.data.ElectionRepository
 import com.n27.elections.presentation.main.entities.MainEvent
 import com.n27.elections.presentation.main.entities.MainEvent.NavigateToDetail
 import com.n27.elections.presentation.main.entities.MainEvent.NavigateToLive
@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val dataSource: ElectionDataSource,
+    private val repository: ElectionRepository,
     private val utils: PresentationUtils,
     private val crashlytics: FirebaseCrashlytics,
     internal var sharedPreferences: SharedPreferences
@@ -63,7 +63,7 @@ class MainViewModel @Inject constructor(
         }
 
         viewModelScope.launch(exceptionHandler) {
-            val sortedElections = dataSource.getElections()
+            val sortedElections = repository.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
 
