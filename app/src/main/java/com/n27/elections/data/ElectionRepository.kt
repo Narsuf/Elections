@@ -18,11 +18,11 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class ElectionRepository @Inject constructor(
-    private var service: ElectionApi,
-    private var dao: ElectionDao,
-    private var dataUtils: DataUtils,
-    private var firebaseDatabase: FirebaseDatabase,
-    private var crashlytics: FirebaseCrashlytics
+    private val service: ElectionApi,
+    private val dao: ElectionDao,
+    private val dataUtils: DataUtils,
+    private val firebaseDatabase: FirebaseDatabase,
+    private val crashlytics: FirebaseCrashlytics
 ) {
 
     internal suspend fun getElections() = if (dataUtils.isConnectedToInternet())

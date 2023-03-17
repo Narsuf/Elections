@@ -72,6 +72,14 @@ dependencies {
     api "androidx.fragment:fragment-ktx:$fragmentVersion"
     api 'androidx.multidex:multidex:2.0.1'
 
+    // Retrofit
+    api "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    api "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    api "com.squareup.retrofit2:converter-simplexml:$retrofitVersion"
+
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+
     // Firebase
     api platform('com.google.firebase:firebase-bom:31.2.3')
     api 'com.google.firebase:firebase-analytics-ktx'

@@ -1,19 +1,27 @@
-package com.n27.regional_live
+package com.n27.regional_live.ui.regional_live
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.n27.core.presentation.injection.DetailComponent
+import com.n27.core.presentation.injection.DetailComponentProvider
+import com.n27.regional_live.R
 import com.n27.regional_live.databinding.ActivityRegionalLiveBinding
+import com.n27.regional_live.ui.injection.RegionalLiveComponent
+import com.n27.regional_live.ui.injection.RegionalLiveComponentProvider
 
 class RegionalLiveActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegionalLiveBinding
+    internal lateinit var regionalLiveComponent: RegionalLiveComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        regionalLiveComponent = (applicationContext as RegionalLiveComponentProvider).provideRegionalLiveComponent()
+        regionalLiveComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         binding = ActivityRegionalLiveBinding.inflate(layoutInflater)
