@@ -1,4 +1,4 @@
-package com.n27.core.presentation.common.extensions
+package com.n27.core.extensions
 
 import com.n27.core.data.models.Result
 

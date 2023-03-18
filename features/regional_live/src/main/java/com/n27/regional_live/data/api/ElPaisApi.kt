@@ -20,10 +20,12 @@ class ElPaisApi @Inject constructor(private val client: OkHttpClient) {
             .url(url)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Error: $response")
-            response.body?.string()
-        }
+        runCatching {
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) throw IOException("Error: $response")
+                response.body?.string()
+            }
+        }.getOrNull()
     }
 
     /*@GET("{year}/municipales/{id}/index.xml2")

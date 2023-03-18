@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
 import javax.inject.Inject
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Loading
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Failure
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Success
 
 class RegionalsFragment : Fragment() {
 
@@ -23,10 +25,17 @@ class RegionalsFragment : Fragment() {
         _binding = FragmentRegionalsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        viewModel.text.observe(viewLifecycleOwner) { textView.text = it }
-        viewModel.apiRequest()
+        initObservers()
+        viewModel.requestElections()
         return root
+    }
+
+    private fun initObservers() { viewModel.viewState.observe(viewLifecycleOwner, ::renderState) }
+
+    private fun renderState(state: RegionalsState) = when (state) {
+        Loading -> binding.textHome.text = "Loading"
+        is Success -> paintACs(state)
+        is Failure -> showError(state)
     }
 
     override fun onAttach(context: Context) {

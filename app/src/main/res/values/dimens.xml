@@ -1,4 +1,3 @@
 <resources>
-    <dimen name="card_radius">4dp</dimen>
     <dimen name="card_text_size_year_general_elections">32sp</dimen>
 </resources>

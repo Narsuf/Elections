@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.presentation.common.extensions.observeOnLifecycle
+import com.n27.core.data.models.Election
+import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
@@ -41,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     internal lateinit var binding: ActivityMainBinding
 
     @Inject lateinit var viewModel: MainViewModel
-    @Inject lateinit var generalCardAdapter: GeneralCardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as ElectionsApplication).appComponent.inject(this)
@@ -117,17 +117,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showElections(state: Success) {
-        generalCardAdapter.apply {
-            elections = state.elections
-            onElectionClicked = state.onElectionClicked
-        }
-
-        binding.swipe.isRefreshing = false
-        binding.errorAnimation.visibility = GONE
-        binding.loadingAnimation.visibility = GONE
-        binding.recyclerView.visibility = VISIBLE
-        binding.recyclerView.adapter = generalCardAdapter
+    private fun showElections(state: Success) = with(binding) {
+        swipe.isRefreshing = false
+        errorAnimation.visibility = GONE
+        loadingAnimation.visibility = GONE
+        recyclerView.visibility = VISIBLE
+        recyclerView.adapter = GeneralCardAdapter(
+            state.elections.filter { it.chamberName == "Congreso" },
+            state.elections.filter { it.chamberName == "Senado" },
+            state.onElectionClicked
+        )
     }
 
     private fun handleEvent(event: MainEvent) = when (event) {

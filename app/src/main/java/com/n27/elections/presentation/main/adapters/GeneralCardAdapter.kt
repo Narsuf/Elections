@@ -7,27 +7,20 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.charts.PieChart
 import com.n27.core.data.models.Election
+import com.n27.core.extensions.drawWithResults
+import com.n27.core.presentation.common.OnElectionClicked
+import com.n27.core.presentation.common.OnGeneralElectionClicked
 import com.n27.core.presentation.common.PresentationUtils
 import com.n27.elections.R
-import com.n27.elections.presentation.main.entities.OnElectionClicked
 import javax.inject.Inject
 
-class GeneralCardAdapter @Inject constructor(
-    private val utils: PresentationUtils
+class GeneralCardAdapter(
+    private val congressElections: List<Election>,
+    private val senateElections: List<Election>,
+    private val onElectionClicked: OnGeneralElectionClicked
 ) : RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
-
-    var elections: List<Election> = ArrayList()
-        set(value) {
-            field = value
-            congressElections = elections.filter { it.chamberName == "Congreso" }
-            senateElections = elections.filter { it.chamberName == "Senado" }
-        }
-
-    var onElectionClicked: OnElectionClicked = { _, _ -> }
-
-    private var congressElections: List<Election> = ArrayList()
-    private var senateElections: List<Election> = ArrayList()
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -50,13 +43,12 @@ class GeneralCardAdapter @Inject constructor(
         // - replace the contents of the view with that element
         val congressElection = congressElections[position]
         val senateElection = senateElections[position]
-        val concatenatedText = congressElection.date
         val card = holder.card
 
-        card.findViewById<TextView>(R.id.section_label).text = concatenatedText
+        card.findViewById<TextView>(R.id.section_label).text = congressElection.date
         card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
 
-        utils.drawPieChart(card.findViewById(R.id.pie_chart), congressElection.results)
+        (card.findViewById(R.id.pie_chart) as PieChart).drawWithResults(congressElection.results)
 
         if (position == 0) {
             card.updateLayoutParams<MarginLayoutParams> {

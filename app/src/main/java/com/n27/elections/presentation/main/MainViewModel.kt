@@ -10,8 +10,8 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.core.Constants.NOT_FIRST_LAUNCH
 import com.n27.core.data.models.Election
 import com.n27.core.presentation.common.PresentationUtils
-import com.n27.core.presentation.common.extensions.sortByDateAndFormat
-import com.n27.core.presentation.common.extensions.sortResultsByElectsAndVotes
+import com.n27.core.extensions.sortByDateAndFormat
+import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.elections.data.ElectionRepository
 import com.n27.elections.presentation.main.entities.MainEvent
 import com.n27.elections.presentation.main.entities.MainEvent.NavigateToDetail
