@@ -30,8 +30,8 @@ data class PartyRaw(
 @Entity(tableName = "results")
 data class ResultRaw(
     @PrimaryKey val id: Long,
-    val resultPartyId: Long,
-    val resultElectionId: Long,
+    var resultPartyId: Long,
+    var resultElectionId: Long,
     val elects: Int,
     val votes: Int
 )

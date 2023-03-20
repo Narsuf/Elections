@@ -4,17 +4,16 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.presentation.common.extensions.observeOnLifecycle
+import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
@@ -41,7 +40,6 @@ class MainActivity : AppCompatActivity() {
     internal lateinit var binding: ActivityMainBinding
 
     @Inject lateinit var viewModel: MainViewModel
-    @Inject lateinit var generalCardAdapter: GeneralCardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as ElectionsApplication).appComponent.inject(this)
@@ -82,23 +80,28 @@ class MainActivity : AppCompatActivity() {
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Idle -> Unit
-        Loading -> loading()
-        is Error -> showError(state)
+        Loading -> setViewsVisibility(loading = true)
+        is Error -> showError(state.errorMessage)
         is Success -> showElections(state)
     }
 
-    private fun loading() {
-        binding.errorAnimation.visibility = GONE
-        binding.loadingAnimation.visibility = VISIBLE
+    private fun setViewsVisibility(
+        loading: Boolean = false,
+        error: Boolean = false,
+        content: Boolean = false
+    ) = with(binding) {
+        loadingAnimation.isVisible = loading
+        errorAnimation.isVisible = error
+        recyclerView.isVisible = content
     }
 
-    private fun showError(state: Error) {
-        binding.swipe.isRefreshing = false
-        binding.recyclerView.visibility = GONE
-        binding.loadingAnimation.visibility = GONE
-        with(binding.errorAnimation) {
-            visibility = VISIBLE
+    private fun showError(errorMsg: String?) = with(binding) {
+        swipe.isRefreshing = false
+        setViewsVisibility(error = true)
+
+        errorAnimation.apply {
             playAnimation()
+
             addAnimatorUpdateListener {
                 val progress = it.animatedFraction
 
@@ -107,27 +110,25 @@ class MainActivity : AppCompatActivity() {
                     pauseAnimation()
                 }
             }
-
-            val error = when (state.errorMessage) {
-                NO_INTERNET_CONNECTION -> R.string.no_internet_connection
-                else -> R.string.something_wrong
-            }
-
-            Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
         }
+
+        val error = when (errorMsg) {
+            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
+            else -> R.string.something_wrong
+        }
+
+        Snackbar.make(mainContent, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
-    private fun showElections(state: Success) {
-        generalCardAdapter.apply {
-            elections = state.elections
-            onElectionClicked = state.onElectionClicked
-        }
-
-        binding.swipe.isRefreshing = false
-        binding.errorAnimation.visibility = GONE
-        binding.loadingAnimation.visibility = GONE
-        binding.recyclerView.visibility = VISIBLE
-        binding.recyclerView.adapter = generalCardAdapter
+    private fun showElections(state: Success) = with(binding) {
+        swipe.isRefreshing = false
+        setViewsVisibility(content = true)
+        liveElectionsButton.isVisible = true
+        recyclerView.adapter = GeneralCardAdapter(
+            state.elections.filter { it.chamberName == "Congreso" },
+            state.elections.filter { it.chamberName == "Senado" },
+            state.onElectionClicked
+        )
     }
 
     private fun handleEvent(event: MainEvent) = when (event) {

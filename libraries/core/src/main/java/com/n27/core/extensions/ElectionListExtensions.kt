@@ -1,4 +1,4 @@
-package com.n27.core.presentation.common.extensions
+package com.n27.core.extensions
 
 import com.n27.core.data.models.Election
 
@@ -24,12 +24,12 @@ private fun Election.formatDate(): Election {
         }
     }
 
-    return copy(date = newDate)
+    return apply { date = newDate }
 }
 
-fun Election.sortResultsByElectsAndVotes() = copy(
+fun Election.sortResultsByElectsAndVotes() = apply {
     results = results
         .sortedByDescending { it.votes }
         .sortedByDescending { it.elects }
-)
+}
 

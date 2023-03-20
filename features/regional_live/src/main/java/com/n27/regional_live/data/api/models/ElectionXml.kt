@@ -10,7 +10,7 @@ data class ElectionXml(
     @field:Element(name = "num_a_elegir")
     var totalElects: Int = 0,
 
-    @field:Element(name = "id")
+    @field:Element(name = "id", required = false)
     var id: String? = null,
 
     @field:Element(name = "nombre_lugar")
