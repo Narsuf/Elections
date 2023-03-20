@@ -12,10 +12,10 @@ import com.n27.core.data.models.Election
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
 import com.n27.regional_live.ui.regional_live.adapters.RegionalCardAdapter
-import javax.inject.Inject
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Loading
 import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Failure
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Loading
 import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Success
+import javax.inject.Inject
 
 class RegionalsFragment : Fragment() {
 

@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.regional_live.data.RegionalLiveRepository
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Failure
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Loading
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Success
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Loading
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Failure
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Success
 
 class RegionalsViewModel @Inject constructor(
     private val repository: RegionalLiveRepository

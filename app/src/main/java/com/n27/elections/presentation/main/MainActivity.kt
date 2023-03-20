@@ -4,8 +4,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.models.Election
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.ElectionsApplication
@@ -99,8 +96,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showError(errorMsg: String?) = with(binding) {
-        setViewsVisibility(error = true)
         swipe.isRefreshing = false
+        setViewsVisibility(error = true)
 
         errorAnimation.apply {
             playAnimation()
@@ -124,8 +121,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showElections(state: Success) = with(binding) {
-        setViewsVisibility(content = true)
         swipe.isRefreshing = false
+        setViewsVisibility(content = true)
         liveElectionsButton.isVisible = true
         recyclerView.adapter = GeneralCardAdapter(
             state.elections.filter { it.chamberName == "Congreso" },

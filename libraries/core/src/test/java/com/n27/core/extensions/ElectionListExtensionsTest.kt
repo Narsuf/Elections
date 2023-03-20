@@ -2,8 +2,6 @@ package com.n27.core.extensions
 
 import com.n27.core.data.models.Election
 import com.n27.core.data.models.Result
-import com.n27.core.extensions.sortByDateAndFormat
-import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElection
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateResult
