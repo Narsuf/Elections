@@ -12,9 +12,9 @@ import com.n27.core.presentation.common.OnGeneralElectionClicked
 import com.n27.elections.R
 
 class GeneralCardAdapter(
-    private val congressElections: List<Election>,
-    private val senateElections: List<Election>,
-    private val onElectionClicked: OnGeneralElectionClicked
+    internal val congressElections: List<Election>,
+    internal val senateElections: List<Election>,
+    internal val onElectionClicked: OnGeneralElectionClicked
 ) : RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
 
     // Provide a reference to the views for each data item

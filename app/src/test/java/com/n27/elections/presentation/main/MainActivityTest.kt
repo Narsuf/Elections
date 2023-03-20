@@ -27,7 +27,8 @@ class MainActivityTest {
             activity.renderState(state)
 
             val recyclerAdapter = binding.recyclerView.adapter!! as GeneralCardAdapter
-            assertEquals(recyclerAdapter.elections, state.elections)
+            assertTrue(state.elections.containsAll(recyclerAdapter.congressElections))
+            assertTrue(state.elections.containsAll(recyclerAdapter.senateElections))
             assertEquals(recyclerAdapter.onElectionClicked, state.onElectionClicked)
         }
     }
