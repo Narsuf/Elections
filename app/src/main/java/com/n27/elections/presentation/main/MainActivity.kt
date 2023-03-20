@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
@@ -82,23 +83,28 @@ class MainActivity : AppCompatActivity() {
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Idle -> Unit
-        Loading -> loading()
-        is Error -> showError(state)
+        Loading -> setViewsVisibility(loading = true)
+        is Error -> showError(state.errorMessage)
         is Success -> showElections(state)
     }
 
-    private fun loading() {
-        binding.errorAnimation.visibility = GONE
-        binding.loadingAnimation.visibility = VISIBLE
+    private fun setViewsVisibility(
+        loading: Boolean = false,
+        error: Boolean = false,
+        content: Boolean = false
+    ) = with(binding) {
+        loadingAnimation.isVisible = loading
+        errorAnimation.isVisible = error
+        recyclerView.isVisible = content
     }
 
-    private fun showError(state: Error) {
-        binding.swipe.isRefreshing = false
-        binding.recyclerView.visibility = GONE
-        binding.loadingAnimation.visibility = GONE
-        with(binding.errorAnimation) {
-            visibility = VISIBLE
+    private fun showError(errorMsg: String?) = with(binding) {
+        setViewsVisibility(error = true)
+        swipe.isRefreshing = false
+
+        errorAnimation.apply {
             playAnimation()
+
             addAnimatorUpdateListener {
                 val progress = it.animatedFraction
 
@@ -107,21 +113,20 @@ class MainActivity : AppCompatActivity() {
                     pauseAnimation()
                 }
             }
-
-            val error = when (state.errorMessage) {
-                NO_INTERNET_CONNECTION -> R.string.no_internet_connection
-                else -> R.string.something_wrong
-            }
-
-            Snackbar.make(binding.content, getString(error), Snackbar.LENGTH_LONG).show()
         }
+
+        val error = when (errorMsg) {
+            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
+            else -> R.string.something_wrong
+        }
+
+        Snackbar.make(mainContent, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
     private fun showElections(state: Success) = with(binding) {
+        setViewsVisibility(content = true)
         swipe.isRefreshing = false
-        errorAnimation.visibility = GONE
-        loadingAnimation.visibility = GONE
-        recyclerView.visibility = VISIBLE
+        liveElectionsButton.isVisible = true
         recyclerView.adapter = GeneralCardAdapter(
             state.elections.filter { it.chamberName == "Congreso" },
             state.elections.filter { it.chamberName == "Senado" },

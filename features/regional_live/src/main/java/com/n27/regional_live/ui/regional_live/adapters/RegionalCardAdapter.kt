@@ -33,14 +33,7 @@ class RegionalCardAdapter(
 
         card.findViewById<TextView>(R.id.card_region_name).text = election.place
         card.setOnClickListener { onElectionClicked(election) }
-
-        (card.findViewById(R.id.pie_chart) as PieChart).drawWithResults(election.results)
-
-        if (position == 0) {
-            card.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                topMargin = card.context.resources.getDimensionPixelSize(R.dimen.default_spacing)
-            }
-        }
+        (card.findViewById(R.id.card_regional_pie_chart) as PieChart).drawWithResults(election.results)
     }
 
     override fun getItemCount() = elections.size

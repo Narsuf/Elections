@@ -13,6 +13,7 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.FragmentDetailBinding
+import com.n27.core.extensions.drawWithResults
 import com.n27.core.presentation.common.PresentationUtils
 import com.n27.core.presentation.detail.binders.PartyColorBinder
 import java.text.NumberFormat.getIntegerInstance
@@ -59,7 +60,7 @@ class DetailFragment : Fragment() {
         }
 
         // Prepare chart
-        utils.drawPieChart(pieChart, election.results)
+        pieChart.drawWithResults(election.results)
         initializeCountDownTimer()
 
         // Fill ListView with election data.

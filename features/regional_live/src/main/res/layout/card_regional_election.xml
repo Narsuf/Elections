@@ -4,32 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/default_spacing"
-    android:layout_marginBottom="@dimen/default_spacing"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_marginTop="@dimen/tighter_spacing"
+    android:layout_marginBottom="@dimen/tighter_spacing"
+    android:foreground="@color/white"
     card_view:cardCornerRadius="@dimen/card_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="140dp">
 
         <TextView
             android:id="@+id/card_region_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:layout_marginStart="@dimen/looser_spacing"
+            android:textSize="24sp"
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@id/card_regional_pie_chart"
+            card_view:layout_constraintHorizontal_weight="3"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/card_regional_pie_chart"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintBottom_toBottomOf="@id/card_region_name"
+            android:orientation="horizontal"
+            card_view:layout_constraintGuide_percent="0.32" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/card_regional_pie_chart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/looser_spacing"
+            card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="1.0"
+            card_view:layout_constraintHorizontal_weight="2"
             card_view:layout_constraintStart_toEndOf="@id/card_region_name"
-            card_view:layout_constraintTop_toTopOf="@id/card_region_name" />
+            card_view:layout_constraintTop_toBottomOf="@id/guideline" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

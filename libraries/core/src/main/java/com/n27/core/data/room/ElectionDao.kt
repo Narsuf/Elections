@@ -13,6 +13,10 @@ interface ElectionDao {
     @Query("SELECT * FROM elections WHERE electionId = :id")
     suspend fun getElection(id: Long): ElectionWithResultsAndParty
 
+    @Transaction
+    @Query("SELECT * FROM parties")
+    suspend fun getParties(): List<PartyRaw>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertElection(election: ElectionRaw)
 
@@ -34,10 +38,10 @@ interface ElectionDao {
             val party = it.party
             insertParty(party)
 
-            val result = it.result.copy(
-                resultPartyId = party.partyId,
+            val result = it.result.apply {
+                resultPartyId = party.partyId
                 resultElectionId = election.electionId
-            )
+            }
             insertResult(result)
         }
     }

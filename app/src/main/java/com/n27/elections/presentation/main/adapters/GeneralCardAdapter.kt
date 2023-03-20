@@ -47,14 +47,7 @@ class GeneralCardAdapter(
 
         card.findViewById<TextView>(R.id.section_label).text = congressElection.date
         card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
-
         (card.findViewById(R.id.pie_chart) as PieChart).drawWithResults(congressElection.results)
-
-        if (position == 0) {
-            card.updateLayoutParams<MarginLayoutParams> {
-                topMargin = card.context.resources.getDimensionPixelSize(R.dimen.default_spacing)
-            }
-        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -24,12 +24,12 @@ private fun Election.formatDate(): Election {
         }
     }
 
-    return copy(date = newDate)
+    return apply { date = newDate }
 }
 
-fun Election.sortResultsByElectsAndVotes() = copy(
+fun Election.sortResultsByElectsAndVotes() = apply {
     results = results
         .sortedByDescending { it.votes }
         .sortedByDescending { it.elects }
-)
+}
 
