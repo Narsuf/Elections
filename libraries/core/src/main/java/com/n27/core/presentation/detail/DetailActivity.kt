@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.google.android.material.progressindicator.LinearProgressIndicator.INDETERMINATE_ANIMATION_TYPE_CONTIGUOUS
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.KEY_CONGRESS
@@ -39,11 +40,9 @@ class DetailActivity : AppCompatActivity() {
         detailComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
-        binding.setUpViews()
 
         intent.extras?.deserialize()
-
-        title = generateToolbarTitle()
+        binding.setUpViews()
 
         initObservers()
         viewModel.requestElection(election, liveElectionId)
@@ -52,11 +51,8 @@ class DetailActivity : AppCompatActivity() {
     private fun ActivityDetailBinding.setUpViews() {
         setContentView(root)
         setSupportActionBar(toolbar)
-
-        if (liveElectionId != null)
-            detailSwipe.setOnRefreshListener { viewModel.requestElection(election, liveElectionId) }
-        else
-            detailSwipe.isEnabled = false
+        title = generateToolbarTitle()
+        setViewsVisibility(animation = true)
     }
 
     private fun Bundle.deserialize() {
@@ -72,26 +68,38 @@ class DetailActivity : AppCompatActivity() {
     private fun initObservers() { viewModel.viewState.observe(this, ::renderState) }
 
     private fun renderState(state: DetailState) = when (state) {
-        Loading -> setViewsVisibility(loading = true)
+        Loading -> showLoading()
         is Success -> showContent(state.election)
         is Failure -> showError(state.error)
     }
 
+    private fun showLoading() = with(binding) {
+        when {
+            detailErrorAnimation.isVisible -> setViewsVisibility(animation = true)
+
+            !detailLoadingAnimation.isVisible -> setViewsVisibility(
+                loading = true,
+                content = detailFrame.isVisible
+            )
+        }
+    }
+
     private fun setViewsVisibility(
+        animation: Boolean = false,
         loading: Boolean = false,
         error: Boolean = false,
         content: Boolean = false
     ) = with(binding) {
-        detailLoadingAnimation.isVisible = loading
+        detailLoadingAnimation.isVisible = animation
+        progressBar.isVisible = loading
         detailErrorAnimation.isVisible = error
         detailFrame.isVisible = content
     }
 
     private fun showContent(election: Election) {
-        binding.detailSwipe.isRefreshing = false
-        setViewsVisibility(content = true)
         currentElection = election
         beginTransactionToDetailFragment()
+        setViewsVisibility(content = true)
     }
 
     private fun beginTransactionToDetailFragment() {
@@ -107,7 +115,6 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun showError(errorMsg: String?) = with(binding) {
-        detailSwipe.isRefreshing = false
         setViewsVisibility(error = true)
         detailErrorAnimation.playErrorAnimation()
 
@@ -120,27 +127,40 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        return if (senateElection != null) {
-            menuInflater.inflate(R.menu.menu_detail_activity, menu)
-             true
-        } else {
-            false
+        val res = when {
+            senateElection != null -> R.menu.menu_detail_activity
+            liveElectionId != null -> R.menu.menu_detail_activity_live
+            else -> null
         }
+
+        return res?.let {
+            menuInflater.inflate(it, menu)
+            true
+        } ?: false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_swap -> {
-                if (currentElection.chamberName == KEY_SENATE) {
-                    currentElection = election
-                    beginTransactionToDetailFragment()
-                } else if (currentElection.chamberName == KEY_CONGRESS) {
-                    senateElection?.let {
-                        currentElection = it
+                when (currentElection.chamberName) {
+                    KEY_SENATE -> {
+                        currentElection = election
                         beginTransactionToDetailFragment()
+                    }
+
+                    KEY_CONGRESS -> {
+                        senateElection?.let {
+                            currentElection = it
+                            beginTransactionToDetailFragment()
+                        }
                     }
                 }
 
+                true
+            }
+
+            R.id.action_reload -> {
+                viewModel.requestElection(election, liveElectionId)
                 true
             }
 

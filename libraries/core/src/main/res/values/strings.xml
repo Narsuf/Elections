@@ -9,6 +9,8 @@
     <string name="button_more_info_content">More information.</string>
     <string name="close">Close</string>
     <string name="swap">Swap chamber</string>
+    <string name="reload">Reload</string>
+
 
     <!-- Errors. -->
     <string name="something_wrong">Oops! Something went wrong.</string>

@@ -23,6 +23,8 @@ class DetailViewModel @Inject constructor(
     internal val viewState: LiveData<DetailState> = state
 
     fun requestElection(election: Election, electionId: String?) {
+        state.value = Loading
+
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             state.value = Failure(throwable.message)
         }
