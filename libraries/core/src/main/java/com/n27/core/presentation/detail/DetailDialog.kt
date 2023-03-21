@@ -20,9 +20,7 @@ import javax.inject.Inject
 class DetailDialog : DialogFragment() {
 
     private lateinit var election: Election
-
-    @Inject
-    lateinit var utils: PresentationUtils
+    @Inject internal lateinit var utils: PresentationUtils
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -31,30 +29,27 @@ class DetailDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = activity as DetailActivity
-        val layoutInflater = activity
-            .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
+        val layoutInflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val inflatedLayout = layoutInflater.inflate(R.layout.detail_dialog, null)
         val window = AlertDialog.Builder(activity)
 
         election = arguments?.getSerializable(KEY_ELECTION) as Election
 
         val textViewTitle = inflatedLayout.findViewById(R.id.text_view_title) as TextView
-        val concatenatedText = election.chamberName + " " + election.place + " " + election.date
-
+        val concatenatedText = "${election.chamberName} ${election.place} ${election.date}"
         textViewTitle.text = concatenatedText
 
         setSimpleAdapter(inflatedLayout)
 
-        window.setView(inflatedLayout)
-        window.setPositiveButton(resources.getString(R.string.close), null)
-
-        return window.create()
+        return window.apply {
+            setView(inflatedLayout)
+            setPositiveButton(resources.getString(R.string.close), null)
+        }.create()
     }
 
     private fun setSimpleAdapter(inflatedLayout: View) {
-        val from = arrayOf("text", "number", "percentage")
-        val to = intArrayOf(R.id.text_view_text, R.id.text_view_number, R.id.text_view_percentage)
+        val keys = arrayOf("text", "number", "percentage")
+        val res = intArrayOf(R.id.text_view_text, R.id.text_view_number, R.id.text_view_percentage)
 
         val textData = resources.getStringArray(R.array.detail_dialog_list_view_text)
         val numberData = arrayOf(
@@ -65,6 +60,7 @@ class DetailDialog : DialogFragment() {
             getIntegerInstance().format(election.nullVotes),
             getIntegerInstance().format(election.blankVotes)
         )
+
         val percentageData = election.getPercentageData()
 
         val arrayList = ArrayList<Map<String, Any>>()
@@ -72,18 +68,18 @@ class DetailDialog : DialogFragment() {
         for (i in textData.indices) {
             val map = HashMap<String, Any>()
 
-            map[from[0]] = textData[i]
-            map[from[1]] = numberData[i]
+            map[keys[0]] = textData[i]
+            map[keys[1]] = numberData[i]
 
             if (i == 1)
-                map[from[2]] = percentageData[i]
+                map[keys[2]] = percentageData[i]
             else
-                map[from[2]] = percentageData[i] + " %"
+                map[keys[2]] = percentageData[i] + " %"
 
             arrayList.add(map)
         }
 
-        val adapter = SimpleAdapter(activity, arrayList, R.layout.list_item_detail_dialog, from, to)
+        val adapter = SimpleAdapter(activity, arrayList, R.layout.list_item_detail_dialog, keys, res)
 
         val listView = inflatedLayout.findViewById(R.id.list_view_general_information) as ListView
         listView.adapter = adapter
@@ -92,19 +88,14 @@ class DetailDialog : DialogFragment() {
     private fun Election.getPercentageData(): Array<String> {
         val census = validVotes + abstentions
 
-        return with(utils) {
-            val percentageOfParticipation = getPercentageWithTwoDecimals(validVotes, census)
-            val percentageOfAbstentions = getPercentageWithTwoDecimals(abstentions, census)
-            val percentageOfNull = getPercentageWithTwoDecimals(nullVotes, validVotes)
-            val percentageOfBlank = getPercentageWithTwoDecimals(blankVotes, validVotes)
-
+        return utils.run {
             arrayOf(
                 scrutinized.toString(),
                 "",
-                percentageOfParticipation.toString(),
-                percentageOfAbstentions.toString(),
-                percentageOfNull.toString(),
-                percentageOfBlank.toString()
+                getPercentageWithTwoDecimals(validVotes, census),
+                getPercentageWithTwoDecimals(abstentions, census),
+                getPercentageWithTwoDecimals(nullVotes, validVotes),
+                getPercentageWithTwoDecimals(blankVotes, validVotes)
             )
         }
     }

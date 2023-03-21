@@ -10,9 +10,9 @@ import java.math.RoundingMode
 
 open class PresentationUtils {
 
-    fun getPercentageWithTwoDecimals(dividend: Int, divisor: Int): BigDecimal {
+    fun getPercentageWithTwoDecimals(dividend: Int, divisor: Int): String {
         val percentage = (dividend.toDouble() / divisor) * 100
-        return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP)
+        return percentage.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
     }
 
     inline fun track(eventName: String, crossinline block: ParametersBuilder.() -> Unit = {}) {

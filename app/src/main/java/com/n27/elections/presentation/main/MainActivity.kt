@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.extensions.observeOnLifecycle
+import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
@@ -37,9 +38,8 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    internal lateinit var binding: ActivityMainBinding
-
-    @Inject lateinit var viewModel: MainViewModel
+    @VisibleForTesting internal lateinit var binding: ActivityMainBinding
+    @Inject internal lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as ElectionsApplication).appComponent.inject(this)
@@ -98,19 +98,7 @@ class MainActivity : AppCompatActivity() {
     private fun showError(errorMsg: String?) = with(binding) {
         swipe.isRefreshing = false
         setViewsVisibility(error = true)
-
-        errorAnimation.apply {
-            playAnimation()
-
-            addAnimatorUpdateListener {
-                val progress = it.animatedFraction
-
-                if (progress in 0.67F..0.68F) {
-                    removeAllUpdateListeners()
-                    pauseAnimation()
-                }
-            }
-        }
+        errorAnimation.playErrorAnimation()
 
         val error = when (errorMsg) {
             NO_INTERNET_CONNECTION -> R.string.no_internet_connection
@@ -156,15 +144,15 @@ class MainActivity : AppCompatActivity() {
         (alertDialog.findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
     }
 
-    private fun onNavigateToDetail(event: NavigateToDetail) {
-        val myIntent = Intent(this, DetailActivity::class.java)
-        myIntent.putExtra(Constants.KEY_CONGRESS_ELECTION, event.congressElection)
-        myIntent.putExtra(Constants.KEY_SENATE_ELECTION, event.senateElection)
+    private fun onNavigateToLive() {
+        val myIntent = Intent(this, RegionalLiveActivity::class.java)
         startActivity(myIntent)
     }
 
-    private fun onNavigateToLive() {
-        val myIntent = Intent(this, RegionalLiveActivity::class.java)
+    private fun onNavigateToDetail(event: NavigateToDetail) {
+        val myIntent = Intent(this, DetailActivity::class.java)
+        myIntent.putExtra(Constants.KEY_ELECTION, event.congressElection)
+        myIntent.putExtra(Constants.KEY_SENATE_ELECTION, event.senateElection)
         startActivity(myIntent)
     }
 }

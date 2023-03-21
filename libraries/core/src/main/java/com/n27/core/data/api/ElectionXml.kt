@@ -1,4 +1,4 @@
-package com.n27.regional_live.data.api.models
+package com.n27.core.data.api
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList

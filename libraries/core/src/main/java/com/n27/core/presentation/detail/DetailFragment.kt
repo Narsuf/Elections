@@ -26,7 +26,7 @@ class DetailFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     internal val binding get() = _binding!!
 
-    @Inject lateinit var utils: PresentationUtils
+    @Inject internal lateinit var utils: PresentationUtils
     internal lateinit var countDownTimer: CountDownTimer
     private lateinit var election: Election
 
@@ -47,11 +47,7 @@ class DetailFragment : Fragment() {
 
     private fun FragmentDetailBinding.setupViews() {
         floatingButtonMoreInfo.setOnClickListener {
-            val bundle = Bundle()
-            val dialog = DetailDialog()
-
-            bundle.putSerializable(KEY_ELECTION, election)
-            dialog.arguments = bundle
+            val dialog = DetailDialog().also { it.arguments = arguments }
             activity?.supportFragmentManager?.let { dialog.show(it, "DetailDialog") }
 
             utils.track("results_info_clicked") {
@@ -78,36 +74,40 @@ class DetailFragment : Fragment() {
 
     private fun initializeCountDownTimer() {
         countDownTimer = object: CountDownTimer(1000, 1) {
-            override fun onTick(millisUntilFinished: Long) { }
+            override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() { binding.pieChart.highlightValue(-1F, -1) }
         }
     }
 
     private fun Election.generateResultsAdapter(): SimpleAdapter {
-        val from = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
-        val to = intArrayOf(R.id.tvPartyColor, R.id.tvPartyName, R.id.tvNumberVotes, R.id.tvVotesPercentage,
-            R.id.tvElects)
+        val keys = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
+        val resources = intArrayOf(
+            R.id.tvPartyColor,
+            R.id.tvPartyName,
+            R.id.tvNumberVotes,
+            R.id.tvVotesPercentage,
+            R.id.tvElects
+        )
 
         val arrayList = ArrayList<Map<String, Any>>()
-        val sortedResults = results.sortedByDescending { it.elects }
 
-        for (r in sortedResults) {
+        for (r in results) {
             val map = HashMap<String, Any>()
 
-            map[from[0]] = "#" + r.party.color
-            map[from[1]] = r.party.name
-            map[from[2]] = getIntegerInstance().format(r.votes)
-            map[from[3]] = if (chamberName == KEY_SENATE)
+            map[keys[0]] = "#" + r.party.color
+            map[keys[1]] = r.party.name
+            map[keys[2]] = getIntegerInstance().format(r.votes)
+            map[keys[3]] = if (chamberName == KEY_SENATE)
                 "- %"
             else
-                utils.getPercentageWithTwoDecimals(r.votes, validVotes).toString() + " %"
+                utils.getPercentageWithTwoDecimals(r.votes, validVotes) + " %"
 
-            map[from[4]] = r.elects
+            map[keys[4]] = r.elects
 
             arrayList.add(map)
         }
 
-        return SimpleAdapter(context, arrayList, R.layout.list_item_detail_activity, from, to)
+        return SimpleAdapter(context, arrayList, R.layout.list_item_detail_activity, keys, resources)
     }
 
     override fun onDestroyView() {

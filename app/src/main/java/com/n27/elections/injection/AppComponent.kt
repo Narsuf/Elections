@@ -1,6 +1,6 @@
 package com.n27.elections.injection
 
-import com.n27.core.data.api.CoreNetModule
+import com.n27.core.data.api.injection.CoreNetModule
 import com.n27.core.presentation.injection.CorePresentationModule
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.elections.data.api.injection.AppNetModule

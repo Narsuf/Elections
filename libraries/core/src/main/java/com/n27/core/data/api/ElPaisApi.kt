@@ -1,4 +1,4 @@
-package com.n27.regional_live.data.api
+package com.n27.core.data.api
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

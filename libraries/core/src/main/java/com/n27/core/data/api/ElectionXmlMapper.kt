@@ -1,16 +1,19 @@
-package com.n27.regional_live.data.api.mappers
+package com.n27.core.data.api
 
 import com.n27.core.data.models.Election
 import com.n27.core.data.models.Party
 import com.n27.core.data.models.Result
 import com.n27.core.data.room.PartyRaw
-import com.n27.regional_live.data.api.models.ElectionXml
 import org.simpleframework.xml.core.Persister
 
 internal fun String.toElection(parties: List<PartyRaw>) = Persister().read(ElectionXml::class.java, this)
     .toElection(parties)
 
-internal fun ElectionXml.toElection(parties: List<PartyRaw>) = Election(
+internal fun String.toElectionXml(electionId: String) = Persister()
+    .read(ElectionXml::class.java, this)
+    .apply { id = electionId }
+
+fun ElectionXml.toElection(parties: List<PartyRaw>) = Election(
     id = 0,
     name = chamberName,
     date = year,

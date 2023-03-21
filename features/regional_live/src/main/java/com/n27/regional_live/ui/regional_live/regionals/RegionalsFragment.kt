@@ -1,6 +1,7 @@
 package com.n27.regional_live.ui.regional_live.regionals
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.n27.core.Constants.KEY_ELECTION
+import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.data.models.Election
+import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
 import com.n27.regional_live.ui.regional_live.adapters.RegionalCardAdapter
@@ -20,10 +24,8 @@ import javax.inject.Inject
 class RegionalsFragment : Fragment() {
 
     private var _binding: FragmentRegionalsBinding? = null
-
-    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
-    @Inject lateinit var viewModel: RegionalsViewModel
+    @Inject internal lateinit var viewModel: RegionalsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentRegionalsBinding.inflate(inflater, container, false)
@@ -38,14 +40,28 @@ class RegionalsFragment : Fragment() {
 
     private fun renderState(state: RegionalsState) = when (state) {
         Loading -> binding.fragmentRegionalsText.text = "Loading"
-        is Success -> generateCards(state.elections)
+        is Success -> generateCards(state)
         is Failure -> binding.fragmentRegionalsText.text = "Error"
     }
 
-    private fun generateCards(elections: List<Election>) = with(binding) {
+    private fun generateCards(success: Success) = with(binding) {
         fragmentRegionalsText.isVisible = false
         fragmentRegionalsRecyclerView.isVisible = true
-        fragmentRegionalsRecyclerView.adapter = RegionalCardAdapter(elections) {}
+        fragmentRegionalsRecyclerView.adapter = RegionalCardAdapter(
+            success.elections,
+            success.parties
+        ) { election, id ->
+            navigateToDetail(election, id)
+        }
+    }
+
+    private fun navigateToDetail(election: Election, id: String?) {
+        val intent = Intent(activity, DetailActivity::class.java).apply {
+            putExtra(KEY_ELECTION, election)
+            putExtra(KEY_ELECTION_ID, id)
+        }
+
+        startActivity(intent)
     }
 
     override fun onAttach(context: Context) {
