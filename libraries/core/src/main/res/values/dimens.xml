@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Global spacings to be reused. -->
+    <dimen name="loosest_spacing">48dp</dimen>
     <dimen name="looser_spacing">32dp</dimen>
     <dimen name="loose_spacing">24dp</dimen>
     <dimen name="default_spacing">16dp</dimen>
