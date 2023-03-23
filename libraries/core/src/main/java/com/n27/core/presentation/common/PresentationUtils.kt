@@ -5,7 +5,6 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
 import com.n27.core.BuildConfig
-import java.math.BigDecimal
 import java.math.RoundingMode
 
 open class PresentationUtils {

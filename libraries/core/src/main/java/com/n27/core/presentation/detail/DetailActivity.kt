@@ -8,7 +8,6 @@ import android.widget.SimpleAdapter
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.google.android.material.progressindicator.LinearProgressIndicator.INDETERMINATE_ANIMATION_TYPE_CONTIGUOUS
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.KEY_CONGRESS
@@ -22,14 +21,14 @@ import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.common.PresentationUtils
-import com.n27.core.presentation.injection.DetailComponent
-import com.n27.core.presentation.injection.DetailComponentProvider
-import javax.inject.Inject
-import com.n27.core.presentation.detail.DetailState.Loading
 import com.n27.core.presentation.detail.DetailState.Failure
+import com.n27.core.presentation.detail.DetailState.Loading
 import com.n27.core.presentation.detail.DetailState.Success
 import com.n27.core.presentation.detail.binders.PartyColorBinder
+import com.n27.core.presentation.injection.DetailComponent
+import com.n27.core.presentation.injection.DetailComponentProvider
 import java.text.NumberFormat
+import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
@@ -56,8 +55,6 @@ class DetailActivity : AppCompatActivity() {
         requestElection()
     }
 
-    private fun requestElection() = viewModel.requestElection(currentElection, liveElectionId)
-
     private fun Bundle.deserialize() {
         election = getSerializable(KEY_ELECTION) as Election
         currentElection = election
@@ -74,6 +71,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun initObservers() { viewModel.viewState.observe(this, ::renderState) }
+
+    private fun requestElection() = viewModel.requestElection(currentElection, liveElectionId)
 
     private fun generateToolbarTitle() = "${currentElection.chamberName} (${currentElection.place} " +
             "${currentElection.date})"

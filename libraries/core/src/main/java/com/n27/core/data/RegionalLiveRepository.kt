@@ -1,14 +1,10 @@
 package com.n27.core.data
 
-import com.n27.core.data.models.Election
-import com.n27.core.data.room.ElectionDao
-import com.n27.core.extensions.toStringYear
 import com.n27.core.data.api.ElPaisApi
 import com.n27.core.data.api.ElectionXml
-import com.n27.core.data.api.toElection
 import com.n27.core.data.api.toElectionXml
-import com.n27.core.data.models.Party
-import com.n27.core.data.room.PartyRaw
+import com.n27.core.data.room.ElectionDao
+import com.n27.core.extensions.toStringYear
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

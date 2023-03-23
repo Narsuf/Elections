@@ -4,10 +4,10 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.FirebaseDatabase
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
-import com.n27.core.data.room.toElectionWithResultsAndParty
-import com.n27.core.data.room.toElections
 import com.n27.core.data.models.Election
 import com.n27.core.data.room.ElectionDao
+import com.n27.core.data.room.toElectionWithResultsAndParty
+import com.n27.core.data.room.toElections
 import com.n27.elections.data.api.ElectionApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

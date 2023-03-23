@@ -6,14 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.RegionalLiveRepository
 import com.n27.core.data.api.toElection
-import com.n27.core.data.api.toElectionXml
 import com.n27.core.data.models.Election
+import com.n27.core.presentation.detail.DetailState.Failure
+import com.n27.core.presentation.detail.DetailState.Loading
+import com.n27.core.presentation.detail.DetailState.Success
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.n27.core.presentation.detail.DetailState.Loading
-import com.n27.core.presentation.detail.DetailState.Failure
-import com.n27.core.presentation.detail.DetailState.Success
 
 class DetailViewModel @Inject constructor(
     private val repository: RegionalLiveRepository
