@@ -115,8 +115,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun showError(errorMsg: String?) = with(binding) {
-        setViewsVisibility(error = true)
-        detailErrorAnimation.playErrorAnimation()
+        if (!detailFrame.isVisible) {
+            setViewsVisibility(error = true)
+            detailErrorAnimation.playErrorAnimation()
+        } else {
+            setViewsVisibility(content = true)
+        }
 
         val error = when (errorMsg) {
             Constants.NO_INTERNET_CONNECTION -> R.string.no_internet_connection
