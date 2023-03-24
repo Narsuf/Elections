@@ -1,4 +1,4 @@
-package com.n27.core.data.api
+package com.n27.core.data.api.injection
 
 import dagger.Module
 import dagger.Provides

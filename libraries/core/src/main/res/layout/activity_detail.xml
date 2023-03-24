@@ -14,13 +14,148 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/app_name" />
 
-    <FrameLayout
-        android:id="@+id/detail_frame"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detailContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/default_spacing"
+            app:layout_constraintBottom_toTopOf="@id/detailChartGuideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_button_more_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/button_more_info_content"
+            android:src="@drawable/ic_vote"
+            app:layout_constraintBottom_toBottomOf="@id/pie_chart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/pie_chart"
+            app:tint="@color/white" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/detailChartGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.52" />
+
+        <Space
+            android:id="@+id/fragmentDetailSpace"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/looser_spacing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/floating_button_more_info" />
+
+        <TextView
+            android:id="@+id/fragmentDetailPartyTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/looser_spacing"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/party"
+            app:layout_constraintEnd_toStartOf="@id/fragmentDetailVotesTextView"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+
+        <TextView
+            android:id="@+id/fragmentDetailVotesTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_spacing"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/votes"
+            app:layout_constraintEnd_toStartOf="@id/fragmentDetailPercentageOfVotesTextView"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toEndOf="@id/fragmentDetailPartyTextView"
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+
+        <TextView
+            android:id="@+id/fragmentDetailPercentageOfVotesTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_spacing"
+            app:layout_constraintEnd_toStartOf="@id/fragmentDetailElectsTextView"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@id/fragmentDetailVotesTextView"
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+
+        <TextView
+            android:id="@+id/fragmentDetailElectsTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_spacing"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@string/elects"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@id/fragmentDetailPercentageOfVotesTextView"
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/default_spacing"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragmentDetailPartyTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/detailLoadingAnimation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading_votes" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/detailErrorAnimation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:lottie_rawRes="@raw/empty_box" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

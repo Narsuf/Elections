@@ -3,6 +3,7 @@ package com.n27.core.data
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.test.core.app.ApplicationProvider
+import com.n27.core.data.common.DataUtils
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test

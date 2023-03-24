@@ -15,7 +15,7 @@ class PresentationUtilsTests {
 
         assertEquals(
             utils.getPercentageWithTwoDecimals(partyVotes, totalVotes),
-            BigDecimal(33.33).setScale(2, RoundingMode.HALF_UP)
+            BigDecimal(33.33).setScale(2, RoundingMode.HALF_UP).toString()
         )
     }
 }

@@ -10,6 +10,7 @@
     <string name="button_more_info_content">Más información.</string>
     <string name="close">Cerrar</string>
     <string name="swap">Cambiar cámara</string>
+    <string name="reload">Actualizar</string>
 
     <!-- Errors. -->
     <string name="something_wrong">Oops! Algo ha ido mal.</string>

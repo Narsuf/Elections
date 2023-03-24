@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.extensions.observeOnLifecycle
+import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
@@ -37,9 +38,8 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    internal lateinit var binding: ActivityMainBinding
-
-    @Inject lateinit var viewModel: MainViewModel
+    @VisibleForTesting internal lateinit var binding: ActivityMainBinding
+    @Inject internal lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as ElectionsApplication).appComponent.inject(this)
@@ -47,26 +47,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //binding.toolbar.setup()
-        binding.setupViews()
+        binding.setUpViews()
         initObservers()
         viewModel.handleInteraction(ScreenOpened)
     }
 
-    /*private fun Toolbar.setup() {
-        inflateMenu(R.menu.menu_main)
-        setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_show_historical -> {
-                    vm.handleInteraction(ShowHistoric)
-                    true
-                }
-
-                else -> false
-            }
-        }
-    }*/
-
-    private fun ActivityMainBinding.setupViews() {
+    private fun ActivityMainBinding.setUpViews() {
         swipe.setOnRefreshListener { viewModel.handleInteraction(Refresh) }
         recyclerView.apply { layoutManager = LinearLayoutManager(context) }
         liveElectionsButton.setOnClickListener { viewModel.handleInteraction(LiveButtonClicked) }
@@ -80,36 +66,29 @@ class MainActivity : AppCompatActivity() {
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Idle -> Unit
-        Loading -> setViewsVisibility(loading = true)
+        Loading -> setViewsVisibility(animation = true)
         is Error -> showError(state.errorMessage)
         is Success -> showElections(state)
     }
 
     private fun setViewsVisibility(
+        animation: Boolean = false,
         loading: Boolean = false,
         error: Boolean = false,
         content: Boolean = false
     ) = with(binding) {
-        loadingAnimation.isVisible = loading
+        loadingAnimation.isVisible = animation
+        swipe.isRefreshing = loading
         errorAnimation.isVisible = error
         recyclerView.isVisible = content
     }
 
     private fun showError(errorMsg: String?) = with(binding) {
-        swipe.isRefreshing = false
-        setViewsVisibility(error = true)
-
-        errorAnimation.apply {
-            playAnimation()
-
-            addAnimatorUpdateListener {
-                val progress = it.animatedFraction
-
-                if (progress in 0.67F..0.68F) {
-                    removeAllUpdateListeners()
-                    pauseAnimation()
-                }
-            }
+        if (!recyclerView.isVisible) {
+            setViewsVisibility(error = true)
+            errorAnimation.playErrorAnimation()
+        } else {
+            setViewsVisibility(content = true)
         }
 
         val error = when (errorMsg) {
@@ -156,15 +135,15 @@ class MainActivity : AppCompatActivity() {
         (alertDialog.findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
     }
 
-    private fun onNavigateToDetail(event: NavigateToDetail) {
-        val myIntent = Intent(this, DetailActivity::class.java)
-        myIntent.putExtra(Constants.KEY_CONGRESS_ELECTION, event.congressElection)
-        myIntent.putExtra(Constants.KEY_SENATE_ELECTION, event.senateElection)
+    private fun onNavigateToLive() {
+        val myIntent = Intent(this, RegionalLiveActivity::class.java)
         startActivity(myIntent)
     }
 
-    private fun onNavigateToLive() {
-        val myIntent = Intent(this, RegionalLiveActivity::class.java)
+    private fun onNavigateToDetail(event: NavigateToDetail) {
+        val myIntent = Intent(this, DetailActivity::class.java)
+        myIntent.putExtra(Constants.KEY_ELECTION, event.congressElection)
+        myIntent.putExtra(Constants.KEY_SENATE_ELECTION, event.senateElection)
         startActivity(myIntent)
     }
 }

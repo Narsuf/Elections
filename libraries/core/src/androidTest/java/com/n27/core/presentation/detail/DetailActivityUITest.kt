@@ -24,7 +24,7 @@ class DetailActivityUITest {
     fun checkElectionDetailElements() {
         launchActivity()
 
-        assertToolbarTitle(congressElection.chamberName + " (" + congressElection.date + ")")
+        assertToolbarTitle("${congressElection.chamberName} (${congressElection.place} ${congressElection.date})")
 
         with(congressElection.results[0]) {
             assertListTexts(R.id.list_view, 0, listOf(
@@ -56,7 +56,7 @@ class DetailActivityUITest {
 
     private fun launchActivity() = ActivityScenario.launch<DetailActivity>(
         Intent(getInstrumentation().targetContext, DetailActivity::class.java).apply {
-            putExtra(Constants.KEY_CONGRESS_ELECTION, congressElection)
+            putExtra(Constants.KEY_ELECTION, congressElection)
             putExtra(Constants.KEY_SENATE_ELECTION, senateElection)
         }
     )
