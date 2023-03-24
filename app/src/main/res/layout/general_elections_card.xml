@@ -19,9 +19,9 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/loosest_spacing"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"/>
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/section_label"
@@ -29,11 +29,11 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/card_text_size_year_general_elections"
             android:textStyle="bold"
-            card_view:layout_constraintVertical_bias="0.8"
-            card_view:layout_constraintTop_toTopOf="@id/pie_chart"
             card_view:layout_constraintBottom_toBottomOf="@id/pie_chart"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent" />
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="@id/pie_chart"
+            card_view:layout_constraintVertical_bias="0.8" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

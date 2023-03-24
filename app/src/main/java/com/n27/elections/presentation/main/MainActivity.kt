@@ -47,26 +47,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //binding.toolbar.setup()
-        binding.setupViews()
+        binding.setUpViews()
         initObservers()
         viewModel.handleInteraction(ScreenOpened)
     }
 
-    /*private fun Toolbar.setup() {
-        inflateMenu(R.menu.menu_main)
-        setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_show_historical -> {
-                    vm.handleInteraction(ShowHistoric)
-                    true
-                }
-
-                else -> false
-            }
-        }
-    }*/
-
-    private fun ActivityMainBinding.setupViews() {
+    private fun ActivityMainBinding.setUpViews() {
         swipe.setOnRefreshListener { viewModel.handleInteraction(Refresh) }
         recyclerView.apply { layoutManager = LinearLayoutManager(context) }
         liveElectionsButton.setOnClickListener { viewModel.handleInteraction(LiveButtonClicked) }
@@ -80,25 +66,30 @@ class MainActivity : AppCompatActivity() {
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Idle -> Unit
-        Loading -> setViewsVisibility(loading = true)
+        Loading -> setViewsVisibility(animation = true)
         is Error -> showError(state.errorMessage)
         is Success -> showElections(state)
     }
 
     private fun setViewsVisibility(
+        animation: Boolean = false,
         loading: Boolean = false,
         error: Boolean = false,
         content: Boolean = false
     ) = with(binding) {
-        loadingAnimation.isVisible = loading
+        loadingAnimation.isVisible = animation
+        swipe.isRefreshing = loading
         errorAnimation.isVisible = error
         recyclerView.isVisible = content
     }
 
     private fun showError(errorMsg: String?) = with(binding) {
-        swipe.isRefreshing = false
-        setViewsVisibility(error = true)
-        errorAnimation.playErrorAnimation()
+        if (!recyclerView.isVisible) {
+            setViewsVisibility(error = true)
+            errorAnimation.playErrorAnimation()
+        } else {
+            setViewsVisibility(content = true)
+        }
 
         val error = when (errorMsg) {
             NO_INTERNET_CONNECTION -> R.string.no_internet_connection

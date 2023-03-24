@@ -19,7 +19,9 @@ class RegionalsViewModel @Inject constructor(
     private val state = MutableLiveData<RegionalsState>(Loading)
     internal val viewState: LiveData<RegionalsState> = state
 
-    fun requestElections() {
+    fun requestElections(initialLoading: Boolean = false) {
+        if (initialLoading) state.value = Loading
+
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             state.value = Failure(throwable)
         }
@@ -28,8 +30,7 @@ class RegionalsViewModel @Inject constructor(
             val elections = repository.getRegionalElections(2019)
 
             state.value = if (elections.isNotEmpty()) {
-                val parties = repository.getParties()
-                Success(elections, parties)
+                Success(elections, repository.getParties())
             } else {
                 Failure()
             }
