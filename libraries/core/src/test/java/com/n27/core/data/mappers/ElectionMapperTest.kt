@@ -1,7 +1,7 @@
 package com.n27.core.data.mappers
 
-import com.n27.core.data.room.toElection
-import com.n27.core.data.room.toElectionWithResultsAndParty
+import com.n27.core.data.room.mappers.toElection
+import com.n27.core.data.room.mappers.toElectionWithResultsAndParty
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionWithResultsAndParty
 import junit.framework.TestCase.assertEquals

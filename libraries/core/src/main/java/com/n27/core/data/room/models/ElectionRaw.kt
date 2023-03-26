@@ -1,4 +1,4 @@
-package com.n27.core.data.room
+package com.n27.core.data.room.models
 
 import androidx.room.Embedded
 import androidx.room.Entity

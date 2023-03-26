@@ -1,6 +1,10 @@
 package com.n27.core.data.room
 
 import androidx.room.*
+import com.n27.core.data.room.models.ElectionRaw
+import com.n27.core.data.room.models.ElectionWithResultsAndParty
+import com.n27.core.data.room.models.PartyRaw
+import com.n27.core.data.room.models.ResultRaw
 
 @Dao
 interface ElectionDao {

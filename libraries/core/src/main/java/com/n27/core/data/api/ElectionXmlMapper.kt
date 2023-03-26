@@ -3,7 +3,7 @@ package com.n27.core.data.api
 import com.n27.core.data.models.Election
 import com.n27.core.data.models.Party
 import com.n27.core.data.models.Result
-import com.n27.core.data.room.PartyRaw
+import com.n27.core.data.room.models.PartyRaw
 import org.simpleframework.xml.core.Persister
 
 internal fun String.toElection(parties: List<PartyRaw>) = Persister().read(ElectionXml::class.java, this)

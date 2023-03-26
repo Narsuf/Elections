@@ -1,10 +1,11 @@
-package com.n27.core.data.room
+package com.n27.core.data.room.mappers
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.GenericTypeIndicator
 import com.n27.core.data.models.Election
 import com.n27.core.data.models.Party
 import com.n27.core.data.models.Result
+import com.n27.core.data.room.models.*
 
 fun DataSnapshot.toElections() = getValue(object : GenericTypeIndicator<List<Election>>() { })
 
