@@ -1,0 +1,80 @@
+{
+  "regions": [
+    {
+      "id": "01",
+      "name": "Andalucía"
+    },
+    {
+      "id": "02",
+      "name": "Aragón"
+    },
+    {
+      "id": "03",
+      "name": "Asturias"
+    },
+    {
+      "id": "04",
+      "name": "Baleares"
+    },
+    {
+      "id": "05",
+      "name": "Canarias"
+    },
+    {
+      "id": "06",
+      "name": "Cantabria"
+    },
+    {
+      "id": "07",
+      "name": "Castilla La Mancha"
+    },
+    {
+      "id": "08",
+      "name": "Castilla y León"
+    },
+    {
+      "id": "09",
+      "name": "Cataluña"
+    },
+    {
+      "id": "10",
+      "name": "Extremadura"
+    },
+    {
+      "id": "11",
+      "name": "Galicia"
+    },
+    {
+      "id": "12",
+      "name": "Madrid"
+    },
+    {
+      "id": "13",
+      "name": "Navarra"
+    },
+    {
+      "id": "14",
+      "name": "País Vasco"
+    },
+    {
+      "id": "15",
+      "name": "Murcia"
+    },
+    {
+      "id": "16",
+      "name": "La Rioja"
+    },
+    {
+      "id": "17",
+      "name": "C. Valenciana"
+    },
+    {
+      "id": "18",
+      "name": "Ceuta"
+    },
+    {
+      "id": "19",
+      "name": "Melilla"
+    }
+  ]
+}

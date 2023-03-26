@@ -11,11 +11,23 @@ import javax.inject.Singleton
 @Singleton
 class ElPaisApi @Inject constructor(private val client: OkHttpClient) {
 
-    private val baseUrl = "http://rsl00.epimg.net/elecciones/"
+    private val year = 2019
+    private val baseUrl = "http://rsl00.epimg.net/elecciones/$year/"
 
-    suspend fun getRegionalElection(year: Int, id: String) = withContext(Dispatchers.IO) {
-        val url = "$baseUrl$year/autonomicas/$id/index.xml2"
+    suspend fun getRegionalElection(id: String) = getResult("$baseUrl/autonomicas/$id/index.xml2")
+    suspend fun getLocalAutonomy(regionId: String) = getResult("$baseUrl/municipales/$regionId/index.xml2")
+    suspend fun getLocalProvince(
+        regionId: String,
+        provinceId: String
+    ) = getResult("$baseUrl/municipales/$regionId/$provinceId.xml2")
 
+    suspend fun getLocalElection(
+        regionId: String,
+        provinceId: String,
+        municipalityId: String
+    ) = getResult("$baseUrl/municipales/$regionId/$provinceId/$municipalityId.xml2")
+
+    private suspend fun getResult(url: String) = withContext(Dispatchers.IO) {
         val request = Request.Builder()
             .url(url)
             .build()
@@ -27,14 +39,4 @@ class ElPaisApi @Inject constructor(private val client: OkHttpClient) {
             }
         }.getOrNull()
     }
-
-    /*@GET("{year}/municipales/{id}/index.xml2")
-    suspend fun getLocalAutonomy(@Path("year") year: Int, @Path("id") id: String): ElectionXml
-
-    @GET("{year}/municipales/{autonomyId}/{id}.xml2")
-    suspend fun getLocalProvince(
-        @Path("year") year: Int,
-        @Path("autonomyId") autonomyId: String,
-        @Path("id") id: String
-    ): ElectionXml*/
 }

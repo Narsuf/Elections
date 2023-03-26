@@ -30,7 +30,7 @@ class DetailViewModel @Inject constructor(
 
         viewModelScope.launch(exceptionHandler) {
             state.value = electionId?.let { id ->
-                repository.getRegionalElection(election.date.toInt(), id)
+                repository.getRegionalElection(id)
                     ?.let { Success(it.toElection(repository.getParties())) }
                     ?: Failure()
             } ?: Success(election)
