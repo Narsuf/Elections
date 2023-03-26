@@ -16,10 +16,6 @@ class AppNetModule {
 
     @Provides
     @Singleton
-    fun providesMoshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-
-    @Provides
-    @Singleton
     fun providesElectionApi(okHttpClient: OkHttpClient, moshi: Moshi): ElectionApi {
         return Builder().client(okHttpClient).baseUrl(BuildConfig.SERVER_URL)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))

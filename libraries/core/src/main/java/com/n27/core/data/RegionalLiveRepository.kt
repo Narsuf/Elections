@@ -1,37 +1,53 @@
 package com.n27.core.data
 
-import android.app.Application
-import android.content.Context
 import android.util.Log
 import com.n27.core.data.api.ElPaisApi
 import com.n27.core.data.api.ElectionXml
 import com.n27.core.data.api.toElectionXml
+import com.n27.core.data.json.JsonReader
+import com.n27.core.data.json.models.Regions
 import com.n27.core.data.room.ElectionDao
 import com.n27.core.extensions.toStringId
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okio.buffer
-import okio.source
 import org.intellij.lang.annotations.Language
 import org.json.JSONObject
-import java.io.IOException
-import java.io.InputStream
-import java.nio.charset.StandardCharsets
-import java.nio.charset.StandardCharsets.UTF_8
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RegionalLiveRepository @Inject constructor(
     private val service: ElPaisApi,
-    private val dao: ElectionDao
+    private val dao: ElectionDao,
+    private val jsonReader: JsonReader,
+    private val moshi: Moshi
 ) {
 
     suspend fun getRegionalElections(): List<ElectionXml> {
+        val elections = mutableListOf<ElectionXml>()
+
+        for (i in 1..17) {
+            getRegionalElection(i.toStringId())?.let {
+                elections.add(it.toElectionXml(i.toStringId()))
+            }
+        }
+
+        return elections
+    }
+
+    suspend fun getLocalRegions(): Regions? {
+        val jsonString = jsonReader.getStringJsonFromResource(res = "regions.json")
+        val adapter: JsonAdapter<Regions> = moshi.adapter(Regions::class.java)
+        return adapter.fromJson(jsonString)
+    }
+
+    suspend fun getLocalElections(): List<ElectionXml> {
         //val elections = mutableListOf<ElectionXml>()
-        val regions = JSONObject(loadJSON("regions.json"))
+        val regions = JSONObject(jsonReader.getStringJsonFromResource(res = "regions.json"))
             .getJSONArray("regions")
-        val provinceRegions = JSONObject(loadJSON("provinces.json"))
+        val provinceRegions = JSONObject(jsonReader.getStringJsonFromResource(res = "provinces.json"))
             .getJSONArray("provinces")
 
         for (z in 18 until provinceRegions.length()) {
@@ -72,14 +88,6 @@ class RegionalLiveRepository @Inject constructor(
 
         Log.e("json", "end")
         return emptyList()
-    }
-
-    suspend fun loadJSON(res: String) = withContext(Dispatchers.IO) {
-        runCatching {
-            val inputStream = javaClass.classLoader!!.getResourceAsStream(res)
-            val buffer = inputStream.source().buffer()
-            buffer.readString(UTF_8).apply { inputStream.close() }
-        }.getOrElse { "" }
     }
 
     suspend fun getRegionalElection(id: String) = service.getRegionalElection(id)

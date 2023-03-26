@@ -31,6 +31,8 @@ class RegionalsViewModel @Inject constructor(
 
         viewModelScope.launch(exceptionHandler) {
             val elections = repository.getRegionalElections()
+            val regions = repository.getLocalRegions()
+            println(regions)
 
             state.value = if (elections.isNotEmpty()) {
                 Success(elections, repository.getParties())

@@ -9,7 +9,7 @@ import org.simpleframework.xml.core.Persister
 internal fun String.toElection(parties: List<PartyRaw>) = Persister().read(ElectionXml::class.java, this)
     .toElection(parties)
 
-internal fun String.toElectionXml(electionId: String) = Persister()
+fun String.toElectionXml(electionId: String) = Persister()
     .read(ElectionXml::class.java, this)
     .apply { id = electionId }
 

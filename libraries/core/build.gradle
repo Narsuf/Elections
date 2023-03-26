@@ -72,6 +72,9 @@ dependencies {
     api "androidx.fragment:fragment-ktx:$fragmentVersion"
     api 'androidx.multidex:multidex:2.0.1'
 
+    // Moshi
+    api "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+
     // Lottie
     api 'com.airbnb.android:lottie:6.0.0'
 
