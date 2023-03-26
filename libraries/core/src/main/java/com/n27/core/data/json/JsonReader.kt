@@ -8,9 +8,9 @@ import java.nio.charset.StandardCharsets
 import javax.inject.Singleton
 
 @Singleton
-class JsonReader() {
+class JsonReader {
 
-    suspend fun getStringJsonFromResource(res: String) = withContext(Dispatchers.IO) {
+    suspend fun getStringJson(res: String) = withContext(Dispatchers.IO) {
         runCatching {
             val inputStream = javaClass.classLoader!!.getResourceAsStream(res)
             val buffer = inputStream.source().buffer()
