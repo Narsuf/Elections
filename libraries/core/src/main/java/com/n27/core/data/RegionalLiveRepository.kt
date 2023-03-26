@@ -34,7 +34,7 @@ class RegionalLiveRepository @Inject constructor(
         val provinceRegions = JSONObject(loadJSON("provinces.json"))
             .getJSONArray("provinces")
 
-        for (z in 1 until 2) {
+        for (z in 2 until 7) {
             val region = provinceRegions.getJSONObject(z)
             val provinces = region.getJSONArray(region.names()!!.getString(0))
             val regionId = regions.getJSONObject(z).getString("id")
