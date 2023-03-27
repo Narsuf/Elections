@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.adapters
+package com.n27.regional_live.ui.regional_live.regionals.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.PieChart
-import com.n27.core.data.api.ElectionXml
+import com.n27.core.data.api.models.ElectionXml
 import com.n27.core.data.api.toElection
 import com.n27.core.data.room.models.PartyRaw
 import com.n27.core.extensions.drawWithResults

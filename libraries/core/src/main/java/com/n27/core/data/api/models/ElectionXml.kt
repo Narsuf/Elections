@@ -1,4 +1,4 @@
-package com.n27.core.data.api
+package com.n27.core.data.api.models
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList

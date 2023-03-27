@@ -14,12 +14,12 @@ class ElPaisApi @Inject constructor(private val client: OkHttpClient) {
     private val year = 2019
     private val baseUrl = "http://rsl00.epimg.net/elecciones/$year/"
 
-    suspend fun getRegionalElection(id: String) = getResult("$baseUrl/autonomicas/$id/index.xml2")
-    suspend fun getLocalAutonomy(regionId: String) = getResult("$baseUrl/municipales/$regionId/index.xml2")
+    suspend fun getRegionalElection(id: String) = getResultOrNull("$baseUrl/autonomicas/$id/index.xml2")
+    suspend fun getLocalAutonomy(regionId: String) = getResultOrNull("$baseUrl/municipales/$regionId/index.xml2")
     suspend fun getLocalProvince(
         regionId: String,
         provinceId: String
-    ) = getResult("$baseUrl/municipales/$regionId/$provinceId.xml2")
+    ) = getResultOrNull("$baseUrl/municipales/$regionId/$provinceId.xml2")
 
     suspend fun getLocalElection(
         regionId: String,
@@ -32,11 +32,12 @@ class ElPaisApi @Inject constructor(private val client: OkHttpClient) {
             .url(url)
             .build()
 
-        runCatching {
-            client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) throw IOException("Error: $response")
-                response.body?.string()
-            }
-        }.getOrNull()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Error: $response")
+            response.body?.string()
+        }
     }
+
+    private suspend fun getResultOrNull(url: String) = runCatching { getResult(url) }.getOrNull()
+
 }

@@ -1,7 +1,7 @@
 package com.n27.core.presentation.injection
 
 import com.n27.core.presentation.detail.DetailActivity
-import com.n27.core.presentation.detail.DetailDialog
+import com.n27.core.presentation.detail.dialog.DetailDialog
 import dagger.Subcomponent
 import javax.inject.Scope
 

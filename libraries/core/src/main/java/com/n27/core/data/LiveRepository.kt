@@ -1,12 +1,14 @@
 package com.n27.core.data
 
 import com.n27.core.data.api.ElPaisApi
-import com.n27.core.data.api.ElectionXml
+import com.n27.core.data.api.models.ElectionXml
 import com.n27.core.data.api.toElectionXml
 import com.n27.core.data.json.JsonReader
 import com.n27.core.data.json.mappers.toMunicipalities
 import com.n27.core.data.json.mappers.toProvinces
-import com.n27.core.data.json.models.*
+import com.n27.core.data.json.models.Municipality
+import com.n27.core.data.json.models.Province
+import com.n27.core.data.json.models.Regions
 import com.n27.core.data.room.ElectionDao
 import com.n27.core.extensions.toStringId
 import com.squareup.moshi.JsonAdapter
@@ -18,7 +20,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RegionalLiveRepository @Inject constructor(
+class LiveRepository @Inject constructor(
     private val service: ElPaisApi,
     private val dao: ElectionDao,
     private val jsonReader: JsonReader,

@@ -1,4 +1,4 @@
-package com.n27.core.presentation.detail
+package com.n27.core.presentation.detail.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -14,6 +14,7 @@ import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.presentation.common.PresentationUtils
+import com.n27.core.presentation.detail.DetailActivity
 import java.text.NumberFormat.getIntegerInstance
 import javax.inject.Inject
 

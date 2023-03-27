@@ -1,5 +1,6 @@
 package com.n27.core.data.api
 
+import com.n27.core.data.api.models.ElectionXml
 import com.n27.core.data.models.Election
 import com.n27.core.data.models.Party
 import com.n27.core.data.models.Result

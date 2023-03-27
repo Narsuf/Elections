@@ -1,4 +1,4 @@
-package com.n27.elections.presentation.main.entities
+package com.n27.elections.presentation.entities
 
 internal sealed class MainInteraction {
 

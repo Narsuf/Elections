@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n27.core.data.RegionalLiveRepository
+import com.n27.core.data.LiveRepository
 import com.n27.core.data.api.toElection
 import com.n27.core.data.models.Election
 import com.n27.core.presentation.detail.DetailState.Failure
@@ -14,9 +14,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DetailViewModel @Inject constructor(
-    private val repository: RegionalLiveRepository
-) : ViewModel() {
+class DetailViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
 
     private val state = MutableLiveData<DetailState>(Loading)
     internal val viewState: LiveData<DetailState> = state

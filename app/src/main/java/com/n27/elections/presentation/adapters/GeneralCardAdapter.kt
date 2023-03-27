@@ -1,4 +1,4 @@
-package com.n27.elections.presentation.main.adapters
+package com.n27.elections.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
