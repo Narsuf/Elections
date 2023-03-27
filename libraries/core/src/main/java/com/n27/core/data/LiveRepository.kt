@@ -1,8 +1,10 @@
 package com.n27.core.data
 
+import com.n27.core.Constants
 import com.n27.core.data.api.ElPaisApi
 import com.n27.core.data.api.models.ElectionXml
 import com.n27.core.data.api.toElectionXml
+import com.n27.core.data.common.DataUtils
 import com.n27.core.data.json.JsonReader
 import com.n27.core.data.json.mappers.toMunicipalities
 import com.n27.core.data.json.mappers.toProvinces
@@ -24,10 +26,13 @@ class LiveRepository @Inject constructor(
     private val service: ElPaisApi,
     private val dao: ElectionDao,
     private val jsonReader: JsonReader,
-    private val moshi: Moshi
+    private val moshi: Moshi,
+    private val utils: DataUtils
 ) {
 
     suspend fun getRegionalElections(): List<ElectionXml> {
+        if (!utils.isConnectedToInternet()) throw Throwable(Constants.NO_INTERNET_CONNECTION)
+
         val elections = mutableListOf<ElectionXml>()
 
         for (i in 1..17) {

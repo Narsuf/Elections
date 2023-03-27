@@ -1,6 +1,5 @@
 package com.n27.regional_live.ui.regional_live.regionals
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,7 +24,6 @@ class RegionalsViewModel @Inject constructor(
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             state.value = Failure(throwable)
-            Log.e("error", throwable.toString())
         }
 
         viewModelScope.launch(exceptionHandler) {
