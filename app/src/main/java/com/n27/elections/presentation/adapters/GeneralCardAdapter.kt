@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.PieChart
 import com.n27.core.data.models.Election
 import com.n27.core.extensions.drawWithResults
-import com.n27.core.presentation.common.OnGeneralElectionClicked
 import com.n27.elections.R
+
+typealias OnGeneralElectionClicked = (congressElection: Election, senateElection: Election) -> Unit
 
 class GeneralCardAdapter(
     internal val congressElections: List<Election>,

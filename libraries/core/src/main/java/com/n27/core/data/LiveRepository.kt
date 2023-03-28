@@ -3,7 +3,7 @@ package com.n27.core.data
 import com.n27.core.Constants
 import com.n27.core.data.api.ElPaisApi
 import com.n27.core.data.api.models.ElectionXml
-import com.n27.core.data.api.toElectionXml
+import com.n27.core.data.api.mappers.toElectionXml
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.json.JsonReader
 import com.n27.core.data.json.mappers.toMunicipalities
@@ -12,6 +12,7 @@ import com.n27.core.data.json.models.Municipality
 import com.n27.core.data.json.models.Province
 import com.n27.core.data.json.models.Regions
 import com.n27.core.data.room.ElectionDao
+import com.n27.core.extensions.lowercaseNames
 import com.n27.core.extensions.toStringId
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
@@ -44,7 +45,7 @@ class LiveRepository @Inject constructor(
         return elections
     }
 
-    suspend fun getLocalRegions(): Regions? {
+    suspend fun getRegions(): Regions? {
         val jsonString = jsonReader.getStringJson(res = "regions.json")
         val adapter: JsonAdapter<Regions> = moshi.adapter(Regions::class.java)
         return adapter.fromJson(jsonString)
@@ -70,5 +71,5 @@ class LiveRepository @Inject constructor(
         municipalityId: String
     ) = service.getLocalElection(regionId, provinceId, municipalityId)
 
-    suspend fun getParties() = withContext(Dispatchers.IO) { dao.getParties() }
+    suspend fun getParties() = withContext(Dispatchers.IO) { dao.getParties().lowercaseNames() }
 }

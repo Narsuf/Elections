@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NOT_FIRST_LAUNCH
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.presentation.common.PresentationUtils
+import com.n27.core.presentation.PresentationUtils
 import com.n27.elections.ElectionsApplication
 import com.n27.elections.data.ElectionRepository
 import com.n27.elections.presentation.MainViewModel

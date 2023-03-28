@@ -7,11 +7,13 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.PieChart
 import com.n27.core.data.api.models.ElectionXml
-import com.n27.core.data.api.toElection
+import com.n27.core.data.api.mappers.toElection
+import com.n27.core.data.models.Election
 import com.n27.core.data.room.models.PartyRaw
 import com.n27.core.extensions.drawWithResults
-import com.n27.core.presentation.common.OnLiveElectionClicked
 import com.n27.regional_live.R
+
+typealias OnLiveElectionClicked = (election: Election, id: String?) -> Unit
 
 class RegionalCardAdapter(
     private val elections: List<ElectionXml>,

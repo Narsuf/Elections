@@ -20,7 +20,7 @@ import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.playErrorAnimation
-import com.n27.core.presentation.common.PresentationUtils
+import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailState.Failure
 import com.n27.core.presentation.detail.DetailState.Loading
 import com.n27.core.presentation.detail.DetailState.Success

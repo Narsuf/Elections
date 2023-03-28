@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
-import com.n27.core.data.api.toElection
+import com.n27.core.data.api.mappers.toElection
 import com.n27.core.data.models.Election
 import com.n27.core.presentation.detail.DetailState.Failure
 import com.n27.core.presentation.detail.DetailState.Loading

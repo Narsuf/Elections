@@ -5,7 +5,7 @@ import androidx.multidex.MultiDexApplication
 import androidx.room.Room
 import com.n27.core.data.json.JsonReader
 import com.n27.core.data.room.Database
-import com.n27.core.presentation.common.PresentationUtils
+import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
 import com.squareup.moshi.Moshi

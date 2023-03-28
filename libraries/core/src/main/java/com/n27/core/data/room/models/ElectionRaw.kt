@@ -23,7 +23,7 @@ data class ElectionRaw(
 @Entity(tableName = "parties")
 data class PartyRaw(
     @PrimaryKey val partyId: Long,
-    val name: String,
+    var name: String,
     val color: String
 )
 

@@ -1,4 +1,4 @@
-package com.n27.core.data.api
+package com.n27.core.data.api.mappers
 
 import com.n27.core.data.api.models.ElectionXml
 import com.n27.core.data.models.Election
@@ -10,7 +10,7 @@ import org.simpleframework.xml.core.Persister
 internal fun String.toElection(parties: List<PartyRaw>) = Persister().read(ElectionXml::class.java, this)
     .toElection(parties)
 
-fun String.toElectionXml(electionId: String) = Persister()
+fun String.toElectionXml(electionId: String): ElectionXml = Persister()
     .read(ElectionXml::class.java, this)
     .apply { id = electionId }
 
@@ -45,8 +45,8 @@ private fun ElectionXml.Results.Party.toParty(parties: List<PartyRaw>) = Party(
 )
 
 private fun ElectionXml.Results.Party.getColor(parties: List<PartyRaw>) =
-    parties.find { it.name == name }?.color
-    ?: parties.find { name.contains(it.name) }?.color
+    parties.find { it.name == name.lowercase() }?.color
+    ?: parties.find { name.lowercase().contains(it.name) }?.color
     ?: String.format("%06x", (0..0xFFFFFF).random())
 
 private fun getEmptyResult() = Result(

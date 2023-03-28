@@ -12,9 +12,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class RegionalsViewModel @Inject constructor(
-    private val repository: LiveRepository
-) : ViewModel() {
+class RegionalsViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
 
     private val state = MutableLiveData<RegionalsState>(Loading)
     internal val viewState: LiveData<RegionalsState> = state

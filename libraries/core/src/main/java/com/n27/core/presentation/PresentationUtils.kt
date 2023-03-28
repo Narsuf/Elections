@@ -1,4 +1,4 @@
-package com.n27.core.presentation.common
+package com.n27.core.presentation
 
 import com.google.firebase.analytics.ktx.ParametersBuilder
 import com.google.firebase.analytics.ktx.analytics
