@@ -19,39 +19,3 @@ data class ElectionRaw(
     val blankVotes: Int,
     val nullVotes: Int,
 )
-
-@Entity(tableName = "parties")
-data class PartyRaw(
-    @PrimaryKey val partyId: Long,
-    var name: String,
-    val color: String
-)
-
-@Entity(tableName = "results")
-data class ResultRaw(
-    @PrimaryKey val id: Long,
-    var resultPartyId: Long,
-    var resultElectionId: Long,
-    val elects: Int,
-    val votes: Int
-)
-
-data class ResultWithParty(
-    @Embedded val result: ResultRaw,
-    @Relation(
-        entity = PartyRaw::class,
-        parentColumn = "resultPartyId",
-        entityColumn = "partyId"
-    )
-    val party: PartyRaw
-)
-
-data class ElectionWithResultsAndParty(
-    @Embedded val election: ElectionRaw,
-    @Relation(
-        entity = ResultRaw::class,
-        parentColumn = "electionId",
-        entityColumn = "resultElectionId"
-    )
-    val results: List<ResultWithParty>
-)

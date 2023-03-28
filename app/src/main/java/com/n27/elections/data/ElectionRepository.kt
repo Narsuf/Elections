@@ -5,6 +5,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
+import com.n27.core.data.firebase.toElections
 import com.n27.core.data.models.Election
 import com.n27.core.data.room.ElectionDao
 import com.n27.core.data.room.mappers.toElectionWithResultsAndParty

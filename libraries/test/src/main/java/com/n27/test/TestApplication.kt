@@ -1,6 +1,7 @@
 package com.n27.test
 
 import android.app.Application
+import android.content.Context
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
 import com.n27.core.data.json.JsonReader
@@ -33,6 +34,10 @@ class FakeModule(val app: Application) {
     @Provides
     @Singleton
     fun provideApplication() = app
+
+    @Provides
+    @Singleton
+    fun provideContext(): Context = app.applicationContext
 
     @Provides
     @Singleton
