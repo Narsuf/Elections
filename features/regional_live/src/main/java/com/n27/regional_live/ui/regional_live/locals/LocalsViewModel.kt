@@ -13,6 +13,8 @@ import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.RequestEle
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEventBus
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -35,10 +37,7 @@ class LocalsViewModel @Inject constructor(
     private fun onEvent(event: LocalsEvent) {
         when (event) {
             is RequestElection -> requestElection(event.ids)
-            is ShowError -> {
-                Log.e("e","Error event received with success")
-                state.value = Failure(event.error)
-            }
+            is ShowError -> state.value = Failure(event.error)
         }
     }
 
@@ -58,12 +57,11 @@ class LocalsViewModel @Inject constructor(
     private fun requestElection(ids: LocalElectionIds) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             state.value = Failure(throwable.message)
-            Log.e("e","Event received but crashed because: ${throwable.message}")
         }
 
         viewModelScope.launch(exceptionHandler) {
-            Log.e("e","Event received with success")
-            state.value = ElectionResult(repository.getLocalElection(ids), ids)
+            val elections = repository.getLocalElection(ids)
+            state.value = ElectionResult(elections, ids)
         }
     }
 }

@@ -14,6 +14,7 @@ import com.n27.core.Constants
 import com.n27.core.Constants.KEY_REGION
 import com.n27.core.R
 import com.n27.core.data.json.models.Region
+import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.databinding.FragmentLocalsBinding
@@ -36,7 +37,6 @@ class LocalsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentLocalsBinding.inflate(inflater, container, false)
-
         binding.localsRecyclerView.apply { layoutManager = LinearLayoutManager(context) }
         initObservers()
         viewModel.requestRegions(initialLoading = true)

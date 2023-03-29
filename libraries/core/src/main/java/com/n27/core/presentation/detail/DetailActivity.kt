@@ -35,8 +35,8 @@ import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
-    @VisibleForTesting internal lateinit var binding: ActivityDetailBinding
     @VisibleForTesting internal var currentElection: Election? = null
+    @VisibleForTesting internal lateinit var binding: ActivityDetailBinding
     @Inject internal lateinit var viewModel: DetailViewModel
     @Inject internal lateinit var utils: PresentationUtils
     internal lateinit var detailComponent: DetailComponent
@@ -167,10 +167,8 @@ class DetailActivity : AppCompatActivity() {
             setOnItemClickListener { _, _, position, _ ->
                 pieChartActivityDetail.highlightValue(position.toFloat(), 0)
                 countDownTimer.start()
-                currentElection?.let {
-                    utils.track("party_clicked") {
-                        param("party", it.results[position].party.name)
-                    }
+                utils.track("party_clicked") {
+                    param("party", election.results[position].party.name)
                 }
             }
         }

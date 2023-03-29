@@ -53,8 +53,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
 
     internal fun requestElection(regionId: String?, provinceId: String?, municipalityId: String?) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            eventBus.trySend(ShowError(throwable.message))
-            Log.e("e","Sending error event")
+            state.value = Failure(throwable)
         }
 
         viewModelScope.launch(exceptionHandler) {
@@ -63,8 +62,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
             else
                 ShowError()
 
-            Log.e("e","Sending event")
-            eventBus.trySend(event)
+            eventBus.emit(event)
         }
     }
 }

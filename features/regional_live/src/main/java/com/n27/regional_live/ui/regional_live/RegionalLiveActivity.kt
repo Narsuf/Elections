@@ -18,7 +18,8 @@ class RegionalLiveActivity : AppCompatActivity() {
     internal lateinit var regionalLiveComponent: RegionalLiveComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        regionalLiveComponent = (applicationContext as RegionalLiveComponentProvider).provideRegionalLiveComponent()
+        regionalLiveComponent = (applicationContext as RegionalLiveComponentProvider)
+            .provideRegionalLiveComponent()
         regionalLiveComponent.inject(this)
         super.onCreate(savedInstanceState)
 
