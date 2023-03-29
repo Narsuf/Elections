@@ -28,7 +28,7 @@ class GeneralCardAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         // create a new view
         val card = LayoutInflater.from(parent.context)
-                .inflate(R.layout.general_elections_card, parent, false) as CardView
+                .inflate(R.layout.card_general_elections, parent, false) as CardView
 
         return MyViewHolder(card)
     }
@@ -41,9 +41,9 @@ class GeneralCardAdapter(
         val senateElection = senateElections[position]
         val card = holder.card
 
-        card.findViewById<TextView>(R.id.section_label).text = congressElection.date
+        card.findViewById<TextView>(R.id.year_card_general_elections).text = congressElection.date
         card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
-        (card.findViewById(R.id.pie_chart) as PieChart).drawWithResults(congressElection.results)
+        (card.findViewById(R.id.pie_chart_card_general_elections) as PieChart).drawWithResults(congressElection.results)
     }
 
     // Return the size of your dataset (invoked by the layout manager)

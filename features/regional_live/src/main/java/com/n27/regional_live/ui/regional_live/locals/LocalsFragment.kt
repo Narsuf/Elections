@@ -15,6 +15,7 @@ import com.n27.core.Constants
 import com.n27.core.R
 import com.n27.core.data.json.models.Region
 import com.n27.core.extensions.playErrorAnimation
+import com.n27.core.presentation.detail.dialog.DetailDialog
 import com.n27.regional_live.databinding.FragmentLocalsBinding
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
@@ -22,6 +23,7 @@ import com.n27.regional_live.ui.regional_live.locals.LocalsState.Failure
 import com.n27.regional_live.ui.regional_live.locals.LocalsState.Loading
 import com.n27.regional_live.ui.regional_live.locals.LocalsState.Success
 import com.n27.regional_live.ui.regional_live.locals.adapters.LocalsCardAdapter
+import com.n27.regional_live.ui.regional_live.locals.dialog.MunicipalitySelectionDialog
 import com.n27.regional_live.ui.regional_live.regionals.RegionalsViewModel
 import com.n27.regional_live.ui.regional_live.regionals.adapters.RegionalCardAdapter
 import javax.inject.Inject
@@ -70,7 +72,9 @@ class LocalsFragment : Fragment() {
         setViewsVisibility(content = true)
         binding.localsRecyclerView.adapter = LocalsCardAdapter(
             regions
-        ) { }
+        ) {
+            MunicipalitySelectionDialog().show(parentFragmentManager, "MunicipalitySelectionDialog")
+        }
     }
 
     private fun showError(errorMsg: String?) = with(binding) {

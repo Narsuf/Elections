@@ -6,14 +6,14 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/text_view_title"
+        android:id="@+id/title_dialog_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/default_spacing" />
 
     <ListView
-        android:id="@+id/list_view_general_information"
+        android:id="@+id/list_dialog_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/default_spacing"

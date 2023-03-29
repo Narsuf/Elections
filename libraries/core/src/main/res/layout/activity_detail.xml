@@ -6,7 +6,7 @@
     android:background="?attr/colorOnSecondary">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_activity_detail"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,91 +15,91 @@
         app:title="@string/app_name" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/detailContent"
+        android:id="@+id/content_activity_detail"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_activity_detail">
 
         <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pie_chart"
+            android:id="@+id/pie_chart_activity_detail"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/default_spacing"
-            app:layout_constraintBottom_toTopOf="@id/detailChartGuideline"
+            app:layout_constraintBottom_toTopOf="@id/chart_guideline_activity_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_button_more_info"
+            android:id="@+id/more_info_button_activity_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/button_more_info_content"
             android:src="@drawable/ic_vote"
-            app:layout_constraintBottom_toBottomOf="@id/pie_chart"
+            app:layout_constraintBottom_toBottomOf="@id/pie_chart_activity_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/pie_chart"
+            app:layout_constraintTop_toTopOf="@id/pie_chart_activity_detail"
             app:tint="@color/white" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/detailChartGuideline"
+            android:id="@+id/chart_guideline_activity_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.52" />
 
         <Space
-            android:id="@+id/fragmentDetailSpace"
+            android:id="@+id/mid_space_activity_detail"
             android:layout_width="0dp"
             android:layout_height="@dimen/looser_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/floating_button_more_info" />
+            app:layout_constraintTop_toBottomOf="@id/more_info_button_activity_detail" />
 
         <TextView
-            android:id="@+id/fragmentDetailPartyTextView"
+            android:id="@+id/party_name_activity_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/looser_spacing"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/party"
-            app:layout_constraintEnd_toStartOf="@id/fragmentDetailVotesTextView"
+            app:layout_constraintEnd_toStartOf="@id/votes_number_activity_detail"
             app:layout_constraintHorizontal_weight="5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+            app:layout_constraintTop_toBottomOf="@id/mid_space_activity_detail" />
 
         <TextView
-            android:id="@+id/fragmentDetailVotesTextView"
+            android:id="@+id/votes_number_activity_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_spacing"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/votes"
-            app:layout_constraintEnd_toStartOf="@id/fragmentDetailPercentageOfVotesTextView"
+            app:layout_constraintEnd_toStartOf="@id/votes_percentage_activity_detail"
             app:layout_constraintHorizontal_weight="4"
-            app:layout_constraintStart_toEndOf="@id/fragmentDetailPartyTextView"
-            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+            app:layout_constraintStart_toEndOf="@id/party_name_activity_detail"
+            app:layout_constraintTop_toBottomOf="@id/mid_space_activity_detail" />
 
         <TextView
-            android:id="@+id/fragmentDetailPercentageOfVotesTextView"
+            android:id="@+id/votes_percentage_activity_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/default_spacing"
-            app:layout_constraintEnd_toStartOf="@id/fragmentDetailElectsTextView"
+            app:layout_constraintEnd_toStartOf="@id/elects_number_activity_detail"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toEndOf="@id/fragmentDetailVotesTextView"
-            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+            app:layout_constraintStart_toEndOf="@id/votes_number_activity_detail"
+            app:layout_constraintTop_toBottomOf="@id/mid_space_activity_detail" />
 
         <TextView
-            android:id="@+id/fragmentDetailElectsTextView"
+            android:id="@+id/elects_number_activity_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/default_spacing"
@@ -109,47 +109,47 @@
             android:text="@string/elects"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toEndOf="@id/fragmentDetailPercentageOfVotesTextView"
-            app:layout_constraintTop_toBottomOf="@id/fragmentDetailSpace" />
+            app:layout_constraintStart_toEndOf="@id/votes_percentage_activity_detail"
+            app:layout_constraintTop_toBottomOf="@id/mid_space_activity_detail" />
 
         <ListView
-            android:id="@+id/list_view"
+            android:id="@+id/list_activity_detail"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/default_spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragmentDetailPartyTextView" />
+            app:layout_constraintTop_toBottomOf="@id/party_name_activity_detail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/detailLoadingAnimation"
+        android:id="@+id/loading_animation_activity_detail"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_activity_detail"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/loading_votes" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/detailErrorAnimation"
+        android:id="@+id/error_animation_activity_detail"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_activity_detail"
         app:lottie_rawRes="@raw/empty_box" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar_activity_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:indeterminate="true"

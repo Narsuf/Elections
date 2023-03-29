@@ -65,8 +65,8 @@ class DetailActivity : AppCompatActivity() {
 
     private fun ActivityDetailBinding.setUpViews() {
         setContentView(root)
-        setSupportActionBar(toolbar)
-        toolbar.title = generateToolbarTitle()
+        setSupportActionBar(toolbarActivityDetail)
+        toolbarActivityDetail.title = generateToolbarTitle()
         initializeCountDownTimer()
         setViewsVisibility(animation = true)
     }
@@ -81,7 +81,7 @@ class DetailActivity : AppCompatActivity() {
     private fun initializeCountDownTimer() {
         countDownTimer = object: CountDownTimer(1000, 1) {
             override fun onTick(millisUntilFinished: Long) {}
-            override fun onFinish() { binding.pieChart.highlightValue(-1F, -1) }
+            override fun onFinish() { binding.pieChartActivityDetail.highlightValue(-1F, -1) }
         }
     }
 
@@ -91,10 +91,10 @@ class DetailActivity : AppCompatActivity() {
         error: Boolean = false,
         content: Boolean = false
     ) = with(binding) {
-        detailLoadingAnimation.isVisible = animation
-        progressBar.isVisible = loading
-        detailErrorAnimation.isVisible = error
-        detailContent.isVisible = content
+        loadingAnimationActivityDetail.isVisible = animation
+        progressBarActivityDetail.isVisible = loading
+        errorAnimationActivityDetail.isVisible = error
+        contentActivityDetail.isVisible = content
     }
 
     private fun renderState(state: DetailState) = when (state) {
@@ -105,11 +105,11 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showLoading() = with(binding) {
         when {
-            detailErrorAnimation.isVisible -> setViewsVisibility(animation = true)
+            errorAnimationActivityDetail.isVisible -> setViewsVisibility(animation = true)
 
-            !detailLoadingAnimation.isVisible -> setViewsVisibility(
+            !loadingAnimationActivityDetail.isVisible -> setViewsVisibility(
                 loading = true,
-                content = detailContent.isVisible
+                content = contentActivityDetail.isVisible
             )
         }
     }
@@ -121,9 +121,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun showError(errorMsg: String?) = with(binding) {
-        if (!detailContent.isVisible) {
+        if (!contentActivityDetail.isVisible) {
             setViewsVisibility(error = true)
-            detailErrorAnimation.playErrorAnimation()
+            errorAnimationActivityDetail.playErrorAnimation()
         } else {
             setViewsVisibility(content = true)
         }
@@ -137,9 +137,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun ActivityDetailBinding.setContent() {
-        toolbar.title = generateToolbarTitle()
+        toolbarActivityDetail.title = generateToolbarTitle()
 
-        floatingButtonMoreInfo.setOnClickListener {
+        moreInfoButtonActivityDetail.setOnClickListener {
             DetailDialog()
                 .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
                 .show(supportFragmentManager, "DetailDialog")
@@ -149,13 +149,13 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
-        pieChart.drawWithResults(currentElection.results)
+        pieChartActivityDetail.drawWithResults(currentElection.results)
 
-        listView.apply {
+        listActivityDetail.apply {
             adapter = generateResultsAdapter().apply { viewBinder = PartyColorBinder() }
 
             setOnItemClickListener { _, _, position, _ ->
-                pieChart.highlightValue(position.toFloat(), 0)
+                pieChartActivityDetail.highlightValue(position.toFloat(), 0)
                 countDownTimer.start()
                 utils.track("party_clicked") { param("party", currentElection.results[position].party.name) }
             }
@@ -165,11 +165,11 @@ class DetailActivity : AppCompatActivity() {
     private fun generateResultsAdapter(): SimpleAdapter {
         val keys = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
         val resources = intArrayOf(
-            R.id.tvPartyColor,
-            R.id.tvPartyName,
-            R.id.tvNumberVotes,
-            R.id.tvVotesPercentage,
-            R.id.tvElects
+            R.id.color_list_item_activity_detail,
+            R.id.party_list_item_activity_detail,
+            R.id.votes_list_item_activity_detail,
+            R.id.percentage_list_item_activity_detail,
+            R.id.elects_list_item_activity_detail
         )
 
         val arrayList = ArrayList<Map<String, Any>>()
@@ -192,11 +192,11 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
-        return SimpleAdapter(this, arrayList, R.layout.list_item_detail_activity, keys, resources)
+        return SimpleAdapter(this, arrayList, R.layout.list_item_activity_detail, keys, resources)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_detail_activity, menu)
+        menuInflater.inflate(R.menu.menu_activity_detail, menu)
 
         menu.apply {
             findItem(R.id.action_swap).isVisible = senateElection != null

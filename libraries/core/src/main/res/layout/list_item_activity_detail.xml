@@ -5,7 +5,7 @@
     android:layout_height="@dimen/list_item_detail_activity_height">
 
     <TextView
-        android:id="@+id/tvPartyColor"
+        android:id="@+id/color_list_item_activity_detail"
         android:layout_width="@dimen/default_spacing"
         android:layout_height="0dp"
         android:layout_marginVertical="@dimen/tighter_spacing"
@@ -15,33 +15,33 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvPartyName"
+        android:id="@+id/party_list_item_activity_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/tighter_spacing"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvNumberVotes"
+        app:layout_constraintEnd_toStartOf="@id/votes_list_item_activity_detail"
         app:layout_constraintHorizontal_weight="5"
-        app:layout_constraintStart_toEndOf="@id/tvPartyColor"
+        app:layout_constraintStart_toEndOf="@id/color_list_item_activity_detail"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvNumberVotes"
+        android:id="@+id/votes_list_item_activity_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_spacing"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvVotesPercentage"
+        app:layout_constraintEnd_toStartOf="@id/percentage_list_item_activity_detail"
         app:layout_constraintHorizontal_weight="4"
-        app:layout_constraintStart_toEndOf="@id/tvPartyName"
+        app:layout_constraintStart_toEndOf="@id/party_list_item_activity_detail"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvVotesPercentage"
+        android:id="@+id/percentage_list_item_activity_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/default_spacing"
@@ -49,13 +49,13 @@
         android:gravity="end"
         android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvElects"
+        app:layout_constraintEnd_toStartOf="@id/elects_list_item_activity_detail"
         app:layout_constraintHorizontal_weight="3"
-        app:layout_constraintStart_toEndOf="@id/tvNumberVotes"
+        app:layout_constraintStart_toEndOf="@id/votes_list_item_activity_detail"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvElects"
+        android:id="@+id/elects_list_item_activity_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/default_spacing"
@@ -65,7 +65,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="3"
-        app:layout_constraintStart_toEndOf="@id/tvVotesPercentage"
+        app:layout_constraintStart_toEndOf="@id/percentage_list_item_activity_detail"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

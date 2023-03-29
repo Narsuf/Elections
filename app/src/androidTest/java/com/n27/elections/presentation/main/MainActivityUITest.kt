@@ -53,18 +53,17 @@ class MainActivityUITest {
 
         clickOn("CLOSE")
         assertToolbarTitle("Elections")
-        waitUntil { assertNotDisplayed(R.id.loading_animation) }
-        assertNotDisplayed(R.id.error_animation)
-        assertDisplayed(R.id.recyclerView)
+        waitUntil { assertNotDisplayed(R.id.loading_animation_activity_main) }
+        assertNotDisplayed(R.id.error_animation_activity_main)
+        assertDisplayed(R.id.recycler_activity_main)
 
         intents {
-            clickListItem(R.id.recyclerView, 0)
+            clickListItem(R.id.recycler_activity_main, 0)
             verifyIntent(DetailActivity::class.java.name)
         }
     }
 
     private fun launchActivity() = ActivityScenario.launch(MainActivity::class.java)
-
 
     @After
     @Throws(IOException::class)

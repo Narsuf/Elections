@@ -31,12 +31,12 @@ class DetailDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = activity as DetailActivity
         val layoutInflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val inflatedLayout = layoutInflater.inflate(R.layout.detail_dialog, null)
+        val inflatedLayout = layoutInflater.inflate(R.layout.dialog_detail, null)
         val window = AlertDialog.Builder(activity)
 
         election = arguments?.getSerializable(KEY_ELECTION) as Election
 
-        val textViewTitle = inflatedLayout.findViewById(R.id.text_view_title) as TextView
+        val textViewTitle = inflatedLayout.findViewById(R.id.title_dialog_detail) as TextView
         val concatenatedText = "${election.chamberName} ${election.place} ${election.date}"
         textViewTitle.text = concatenatedText
 
@@ -50,9 +50,13 @@ class DetailDialog : DialogFragment() {
 
     private fun setSimpleAdapter(inflatedLayout: View) {
         val keys = arrayOf("text", "number", "percentage")
-        val res = intArrayOf(R.id.text_view_text, R.id.text_view_number, R.id.text_view_percentage)
+        val res = intArrayOf(
+            R.id.text_list_item_dialog_detail,
+            R.id.number_list_item_dialog_detail,
+            R.id.percentage_list_item_dialog_detail
+        )
 
-        val textData = resources.getStringArray(R.array.detail_dialog_list_view_text)
+        val textData = resources.getStringArray(R.array.text_array_dialog_detail)
         val numberData = arrayOf(
             "",
             getIntegerInstance().format(election.totalElects),
@@ -80,9 +84,9 @@ class DetailDialog : DialogFragment() {
             arrayList.add(map)
         }
 
-        val adapter = SimpleAdapter(activity, arrayList, R.layout.list_item_detail_dialog, keys, res)
+        val adapter = SimpleAdapter(activity, arrayList, R.layout.list_item_dialog_detail, keys, res)
 
-        val listView = inflatedLayout.findViewById(R.id.list_view_general_information) as ListView
+        val listView = inflatedLayout.findViewById(R.id.list_dialog_detail) as ListView
         listView.adapter = adapter
     }
 

@@ -53,9 +53,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun ActivityMainBinding.setUpViews() {
-        swipe.setOnRefreshListener { viewModel.handleInteraction(Refresh) }
-        recyclerView.apply { layoutManager = LinearLayoutManager(context) }
-        liveElectionsButton.setOnClickListener { viewModel.handleInteraction(LiveButtonClicked) }
+        swipeActivityMain.setOnRefreshListener { viewModel.handleInteraction(Refresh) }
+        recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
+        liveElectionsButtonActivityMain.setOnClickListener { viewModel.handleInteraction(LiveButtonClicked) }
     }
 
     private fun initObservers() {
@@ -77,16 +77,16 @@ class MainActivity : AppCompatActivity() {
         error: Boolean = false,
         content: Boolean = false
     ) = with(binding) {
-        loadingAnimation.isVisible = animation
-        swipe.isRefreshing = loading
-        errorAnimation.isVisible = error
-        recyclerView.isVisible = content
+        loadingAnimationActivityMain.isVisible = animation
+        swipeActivityMain.isRefreshing = loading
+        errorAnimationActivityMain.isVisible = error
+        recyclerActivityMain.isVisible = content
     }
 
     private fun showError(errorMsg: String?) = with(binding) {
-        if (!recyclerView.isVisible) {
+        if (!recyclerActivityMain.isVisible) {
             setViewsVisibility(error = true)
-            errorAnimation.playErrorAnimation()
+            errorAnimationActivityMain.playErrorAnimation()
         } else {
             setViewsVisibility(content = true)
         }
@@ -100,10 +100,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showElections(state: Success) = with(binding) {
-        swipe.isRefreshing = false
+        swipeActivityMain.isRefreshing = false
         setViewsVisibility(content = true)
-        liveElectionsButton.isVisible = true
-        recyclerView.adapter = GeneralCardAdapter(
+        liveElectionsButtonActivityMain.isVisible = true
+        recyclerActivityMain.adapter = GeneralCardAdapter(
             state.elections.filter { it.chamberName == "Congreso" },
             state.elections.filter { it.chamberName == "Senado" },
             state.onElectionClicked

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="detail_dialog_list_view_text">
+    <string-array name="text_array_dialog_detail">
         <item>Escrutado:</item>
         <item>Escaños:</item>
         <item>Votos contabilizados:</item>
