@@ -6,7 +6,7 @@
 
     <Spinner
         android:id="@+id/dialogMunicipalitySelectionProvinceSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_spacing"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,8 +15,9 @@
 
     <Spinner
         android:id="@+id/dialogMunicipalitySelectionMunicipalitySpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_spacing"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

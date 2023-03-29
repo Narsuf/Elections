@@ -1,49 +1,69 @@
 package com.n27.regional_live.ui.regional_live.locals
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
-import com.n27.core.data.json.models.Region
-import com.n27.regional_live.ui.regional_live.locals.LocalsState.Failure
-import com.n27.regional_live.ui.regional_live.locals.LocalsState.Loading
-import com.n27.regional_live.ui.regional_live.locals.LocalsState.Success
-import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.ShowProvinces
+import com.n27.core.data.api.models.LocalElectionIds
+import com.n27.regional_live.ui.regional_live.locals.LocalsState.*
+import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent
+import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.RequestElection
+import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEventBus
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LocalsViewModel @Inject constructor(
     private val repository: LiveRepository,
-    private val eventBus: LocalsEventBus,
+    eventBus: LocalsEventBus
 ) : ViewModel() {
 
     private val state = MutableLiveData<LocalsState>(Loading)
     internal val viewState: LiveData<LocalsState> = state
 
-    fun requestRegions(initialLoading: Boolean = false) {
+    init {
+        eventBus.event
+            .onEach(::onEvent)
+            .launchIn(viewModelScope)
+    }
+
+    private fun onEvent(event: LocalsEvent) {
+        when (event) {
+            is RequestElection -> requestElection(event.ids)
+            is ShowError -> {
+                Log.e("e","Error event received with success")
+                state.value = Failure(event.error)
+            }
+        }
+    }
+
+    internal fun requestRegions(initialLoading: Boolean = false) {
         if (initialLoading) state.value = Loading
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Failure(throwable)
+            state.value = Failure(throwable.message)
         }
 
         viewModelScope.launch(exceptionHandler) {
             val regions = repository.getRegions()
-            state.value = regions?.let { Success(it.regions) } ?: Failure()
+            state.value = regions?.let { Regions(it.regions) } ?: Failure()
         }
     }
 
-    fun requestProvinces(region: Region) {
+    private fun requestElection(ids: LocalElectionIds) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Failure(throwable)
+            state.value = Failure(throwable.message)
+            Log.e("e","Event received but crashed because: ${throwable.message}")
         }
 
         viewModelScope.launch(exceptionHandler) {
-            val provinces = repository.getProvinces(region.name)
-            eventBus.trySend(ShowProvinces(provinces))
+            Log.e("e","Event received with success")
+            state.value = ElectionResult(repository.getLocalElection(ids), ids)
         }
     }
 }

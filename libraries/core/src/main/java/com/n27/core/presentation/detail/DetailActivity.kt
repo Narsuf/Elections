@@ -13,9 +13,11 @@ import com.n27.core.Constants
 import com.n27.core.Constants.KEY_CONGRESS
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
+import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.R
+import com.n27.core.data.api.models.LocalElectionIds
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.extensions.drawWithResults
@@ -34,14 +36,16 @@ import javax.inject.Inject
 class DetailActivity : AppCompatActivity() {
 
     @VisibleForTesting internal lateinit var binding: ActivityDetailBinding
-    @VisibleForTesting internal lateinit var currentElection: Election
+    @VisibleForTesting internal var currentElection: Election? = null
     @Inject internal lateinit var viewModel: DetailViewModel
     @Inject internal lateinit var utils: PresentationUtils
     internal lateinit var detailComponent: DetailComponent
     internal lateinit var countDownTimer: CountDownTimer
-    private lateinit var election: Election
+
+    private var election: Election? = null
     private var senateElection: Election? = null
     private var liveElectionId: String? = null
+    private var liveLocalElectionIds: LocalElectionIds? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         detailComponent = (applicationContext as DetailComponentProvider).provideDetailComponent()
@@ -57,26 +61,30 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun Bundle.deserialize() {
-        election = getSerializable(KEY_ELECTION) as Election
+        election = getSerializable(KEY_ELECTION) as? Election
         currentElection = election
         senateElection = getSerializable(KEY_SENATE_ELECTION) as? Election
         liveElectionId = getString(KEY_ELECTION_ID)
+        liveLocalElectionIds = getSerializable(KEY_LOCAL_ELECTION_IDS) as? LocalElectionIds
     }
 
     private fun ActivityDetailBinding.setUpViews() {
         setContentView(root)
         setSupportActionBar(toolbarActivityDetail)
-        toolbarActivityDetail.title = generateToolbarTitle()
+        generateToolbarTitle()?.let { toolbarActivityDetail.title = it }
         initializeCountDownTimer()
         setViewsVisibility(animation = true)
     }
 
     private fun initObservers() { viewModel.viewState.observe(this, ::renderState) }
 
-    private fun requestElection() = viewModel.requestElection(currentElection, liveElectionId)
+    private fun requestElection() {
+        viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds)
+    }
 
-    private fun generateToolbarTitle() = "${currentElection.chamberName} (${currentElection.place} " +
-            "${currentElection.date})"
+    private fun generateToolbarTitle() = currentElection?.let {
+        "${it.chamberName} (${it.place} ${it.date})"
+    }
 
     private fun initializeCountDownTimer() {
         countDownTimer = object: CountDownTimer(1000, 1) {
@@ -116,7 +124,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showContent(election: Election) {
         currentElection = election
-        binding.setContent()
+        binding.setContent(election)
         setViewsVisibility(content = true)
     }
 
@@ -136,33 +144,39 @@ class DetailActivity : AppCompatActivity() {
         Snackbar.make(root, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
-    private fun ActivityDetailBinding.setContent() {
+    private fun ActivityDetailBinding.setContent(election: Election) {
         toolbarActivityDetail.title = generateToolbarTitle()
 
         moreInfoButtonActivityDetail.setOnClickListener {
             DetailDialog()
-                .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
+                .also {
+                    it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) }
+                }
                 .show(supportFragmentManager, "DetailDialog")
 
             utils.track("results_info_clicked") {
-                param("election", "${currentElection.chamberName} (${currentElection.date})")
+                param("election", "${election.chamberName} (${election.date})")
             }
         }
 
-        pieChartActivityDetail.drawWithResults(currentElection.results)
+        pieChartActivityDetail.drawWithResults(election.results)
 
         listActivityDetail.apply {
-            adapter = generateResultsAdapter().apply { viewBinder = PartyColorBinder() }
+            adapter = generateResultsAdapter(election).apply { viewBinder = PartyColorBinder() }
 
             setOnItemClickListener { _, _, position, _ ->
                 pieChartActivityDetail.highlightValue(position.toFloat(), 0)
                 countDownTimer.start()
-                utils.track("party_clicked") { param("party", currentElection.results[position].party.name) }
+                currentElection?.let {
+                    utils.track("party_clicked") {
+                        param("party", it.results[position].party.name)
+                    }
+                }
             }
         }
     }
 
-    private fun generateResultsAdapter(): SimpleAdapter {
+    private fun generateResultsAdapter(election: Election): SimpleAdapter {
         val keys = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
         val resources = intArrayOf(
             R.id.color_list_item_activity_detail,
@@ -174,7 +188,7 @@ class DetailActivity : AppCompatActivity() {
 
         val arrayList = ArrayList<Map<String, Any>>()
 
-        with(currentElection) {
+        with(election) {
             for (r in results) {
                 val map = HashMap<String, Any>()
 
@@ -209,7 +223,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_swap -> {
-                when (currentElection.chamberName) {
+                when (currentElection?.chamberName) {
                     KEY_SENATE -> {
                         currentElection = election
                         requestElection()

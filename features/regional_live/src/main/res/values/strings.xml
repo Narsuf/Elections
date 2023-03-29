@@ -1,4 +1,5 @@
 <resources>
     <string name="regionals">Regionals</string>
     <string name="locals">Locals</string>
+    <string name="show_results">Show results</string>
 </resources>

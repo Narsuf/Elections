@@ -74,10 +74,9 @@ class RegionalsFragment : Fragment() {
         setViewsVisibility(content = true)
         binding.regionalsRecyclerView.adapter = RegionalCardAdapter(
             success.elections,
-            success.parties
-        ) { election, id ->
-            navigateToDetail(election, id)
-        }
+            success.parties,
+            ::navigateToDetail
+        )
     }
 
     private fun showError(errorMsg: String?) = with(binding) {

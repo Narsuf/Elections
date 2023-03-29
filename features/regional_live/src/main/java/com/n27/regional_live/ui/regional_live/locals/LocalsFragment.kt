@@ -1,6 +1,7 @@
 package com.n27.regional_live.ui.regional_live.locals
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
+import com.n27.core.Constants.KEY_REGION
 import com.n27.core.R
 import com.n27.core.data.json.models.Region
 import com.n27.core.extensions.playErrorAnimation
+import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.databinding.FragmentLocalsBinding
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
-import com.n27.regional_live.ui.regional_live.locals.LocalsState.Failure
-import com.n27.regional_live.ui.regional_live.locals.LocalsState.Loading
-import com.n27.regional_live.ui.regional_live.locals.LocalsState.Success
+import com.n27.regional_live.ui.regional_live.locals.LocalsState.*
 import com.n27.regional_live.ui.regional_live.locals.adapters.LocalsCardAdapter
 import com.n27.regional_live.ui.regional_live.locals.dialog.MunicipalitySelectionDialog
 import javax.inject.Inject
@@ -45,31 +46,36 @@ class LocalsFragment : Fragment() {
     private fun initObservers() { viewModel.viewState.observe(viewLifecycleOwner, ::renderState) }
 
     private fun renderState(state: LocalsState) = when (state) {
-        Loading -> setViewsVisibility(animation = true)
-        is Success -> generateCards(state.regions)
-        is Failure -> showError(state.throwable?.message)
+        Loading -> Unit
+        is Regions -> generateCards(state.regions)
+        is ElectionResult -> navigateToDetail(state)
+        is Failure -> showError(state.error)
     }
 
     private fun setViewsVisibility(
-        animation: Boolean = false,
-        swipe: Boolean = false,
         error: Boolean = false,
         content: Boolean = false
     ) = with(binding) {
-        localsLoadingAnimation.isVisible = animation
-        localsSwipe.isRefreshing = swipe
         localsErrorAnimation.isVisible = error
         localsRecyclerView.isVisible = content
     }
 
     private fun generateCards(regions: List<Region>) {
         setViewsVisibility(content = true)
-        binding.localsRecyclerView.adapter = LocalsCardAdapter(
-            regions
-        ) {
-            MunicipalitySelectionDialog().show(parentFragmentManager, "MunicipalitySelectionDialog")
-            viewModel.requestProvinces(it)
+        binding.localsRecyclerView.adapter = LocalsCardAdapter(regions) { region ->
+            MunicipalitySelectionDialog()
+                .also { it.arguments = Bundle().apply { putSerializable(KEY_REGION, region) } }
+                .show(parentFragmentManager, "MunicipalitySelectionDialog")
         }
+    }
+
+    private fun navigateToDetail(state: ElectionResult) {
+        val intent = Intent(activity, DetailActivity::class.java).apply {
+            putExtra(Constants.KEY_ELECTION, state.election)
+            putExtra(Constants.KEY_LOCAL_ELECTION_IDS, state.ids)
+        }
+
+        startActivity(intent)
     }
 
     private fun showError(errorMsg: String?) = with(binding) {

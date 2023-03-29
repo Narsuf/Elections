@@ -39,9 +39,11 @@ class ElectionRepository @Inject constructor(
             .takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase().apply { insertInDb() }
     }
 
-    private suspend fun getElectionsFromApi() = withContext(Dispatchers.IO) { service.getElections() }.elections
+    private suspend fun getElectionsFromApi() =
+        withContext(Dispatchers.IO) { service.getElections() }.elections
 
-    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }.toElections()
+    private suspend fun getElectionsFromDb() =
+        withContext(Dispatchers.IO) { dao.getElections() }.toElections()
 
     private suspend fun getElectionsFromFirebase() = withContext(Dispatchers.IO) {
         suspendCoroutine { continuation ->

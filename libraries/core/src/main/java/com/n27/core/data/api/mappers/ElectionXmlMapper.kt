@@ -7,12 +7,11 @@ import com.n27.core.data.models.Result
 import com.n27.core.data.room.models.PartyRaw
 import org.simpleframework.xml.core.Persister
 
-internal fun String.toElection(parties: List<PartyRaw>) = Persister().read(ElectionXml::class.java, this)
-    .toElection(parties)
+internal fun String.toElection(parties: List<PartyRaw>) = toElectionXml().toElection(parties)
 
-fun String.toElectionXml(electionId: String): ElectionXml = Persister()
+fun String.toElectionXml(electionId: String? = null): ElectionXml = Persister()
     .read(ElectionXml::class.java, this)
-    .apply { id = electionId }
+    .apply { electionId?.let { id = it } }
 
 fun ElectionXml.toElection(parties: List<PartyRaw>) = Election(
     id = 0,

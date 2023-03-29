@@ -1,5 +1,6 @@
 package com.n27.core.data.api
 
+import com.n27.core.data.api.models.LocalElectionIds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -22,10 +23,8 @@ class ElPaisApi @Inject constructor(private val client: OkHttpClient) {
     ) = getResultOrNull("$baseUrl/municipales/$regionId/$provinceId.xml2")
 
     suspend fun getLocalElection(
-        regionId: String,
-        provinceId: String,
-        municipalityId: String
-    ) = getResult("$baseUrl/municipales/$regionId/$provinceId/$municipalityId.xml2")
+        ids: LocalElectionIds
+    ) = getResult("$baseUrl/municipales/${ids.region}/${ids.province}/${ids.municipality}.xml2")
 
     private suspend fun getResult(url: String) = withContext(Dispatchers.IO) {
         val request = Request.Builder()
