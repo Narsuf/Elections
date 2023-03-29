@@ -1,6 +1,5 @@
 package com.n27.regional_live.ui.regional_live.locals.dialog
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

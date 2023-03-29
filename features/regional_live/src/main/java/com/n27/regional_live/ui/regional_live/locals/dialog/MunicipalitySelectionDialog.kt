@@ -3,8 +3,6 @@ package com.n27.regional_live.ui.regional_live.locals.dialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -12,17 +10,10 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
-import com.n27.core.Constants
-import com.n27.core.Constants.KEY_ELECTION
-import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_REGION
-import com.n27.core.data.api.models.LocalElectionIds
 import com.n27.core.data.json.models.Municipality
 import com.n27.core.data.json.models.Province
 import com.n27.core.data.json.models.Region
-import com.n27.core.data.models.Election
-import com.n27.core.extensions.observeOnLifecycle
-import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.R
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity

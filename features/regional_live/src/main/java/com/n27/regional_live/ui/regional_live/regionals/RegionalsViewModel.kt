@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Failure
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Loading
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Success
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject

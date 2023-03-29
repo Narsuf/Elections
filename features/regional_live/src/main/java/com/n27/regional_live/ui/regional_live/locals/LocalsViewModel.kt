@@ -1,6 +1,5 @@
 package com.n27.regional_live.ui.regional_live.locals
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,8 +12,6 @@ import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.RequestEle
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEventBus
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

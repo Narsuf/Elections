@@ -21,18 +21,10 @@ import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
 import com.n27.elections.presentation.entities.MainEvent
-import com.n27.elections.presentation.entities.MainEvent.NavigateToDetail
-import com.n27.elections.presentation.entities.MainEvent.NavigateToLive
-import com.n27.elections.presentation.entities.MainEvent.ShowDisclaimer
-import com.n27.elections.presentation.entities.MainInteraction.DialogDismissed
-import com.n27.elections.presentation.entities.MainInteraction.LiveButtonClicked
-import com.n27.elections.presentation.entities.MainInteraction.Refresh
-import com.n27.elections.presentation.entities.MainInteraction.ScreenOpened
+import com.n27.elections.presentation.entities.MainEvent.*
+import com.n27.elections.presentation.entities.MainInteraction.*
 import com.n27.elections.presentation.entities.MainState
-import com.n27.elections.presentation.entities.MainState.Error
-import com.n27.elections.presentation.entities.MainState.Idle
-import com.n27.elections.presentation.entities.MainState.Loading
-import com.n27.elections.presentation.entities.MainState.Success
+import com.n27.elections.presentation.entities.MainState.*
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
 import javax.inject.Inject
 

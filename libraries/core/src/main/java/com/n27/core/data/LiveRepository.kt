@@ -1,6 +1,5 @@
 package com.n27.core.data
 
-import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.api.ElPaisApi
 import com.n27.core.data.api.mappers.toElection
