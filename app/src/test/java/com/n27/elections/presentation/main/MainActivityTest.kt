@@ -21,16 +21,16 @@ class MainActivityTest {
         val state = getMainSuccess()
 
         launchActivity().onActivity { activity ->
-            val binding = activity.binding
+            with(activity.binding) {
+                assertEquals(toolbarActivityMain.title, activity.resources.getString(R.string.app_name))
 
-            assertEquals(binding.toolbar.title, activity.resources.getString(R.string.app_name))
+                activity.renderState(state)
 
-            activity.renderState(state)
-
-            val recyclerAdapter = binding.recyclerView.adapter!! as GeneralElectionsCardAdapter
-            assertTrue(state.elections.containsAll(recyclerAdapter.congressElections))
-            assertTrue(state.elections.containsAll(recyclerAdapter.senateElections))
-            assertEquals(recyclerAdapter.onElectionClicked, state.onElectionClicked)
+                val recyclerAdapter = recyclerActivityMain.adapter!! as GeneralElectionsCardAdapter
+                assertTrue(state.elections.containsAll(recyclerAdapter.congressElections))
+                assertTrue(state.elections.containsAll(recyclerAdapter.senateElections))
+                assertEquals(recyclerAdapter.onElectionClicked, state.onElectionClicked)
+            }
         }
     }
 
@@ -38,7 +38,7 @@ class MainActivityTest {
     fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
             // Loading is triggered automatically.
-            assertTrue(activity.binding.loadingAnimation.isVisible)
+            assertTrue(activity.binding.loadingAnimationActivityMain.isVisible)
         }
     }
 
@@ -56,15 +56,15 @@ class MainActivityTest {
 
     private fun checkError(state: Error) {
         launchActivity().onActivity { activity ->
-            val binding = activity.binding
+            with(activity.binding) {
+                assertTrue(loadingAnimationActivityMain.isVisible)
+                assertFalse(errorAnimationActivityMain.isVisible)
 
-            assertTrue(binding.loadingAnimation.isVisible)
-            assertFalse(binding.errorAnimation.isVisible)
+                activity.renderState(state)
 
-            activity.renderState(state)
-
-            assertFalse(binding.loadingAnimation.isVisible)
-            assertTrue(binding.errorAnimation.isVisible)
+                assertFalse(loadingAnimationActivityMain.isVisible)
+                assertTrue(errorAnimationActivityMain.isVisible)
+            }
         }
     }
 

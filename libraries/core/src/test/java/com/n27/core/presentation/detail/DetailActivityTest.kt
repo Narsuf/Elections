@@ -22,39 +22,42 @@ class DetailActivityTest {
     fun launchDetailActivity() {
         launchActivity().onActivity { activity ->
             with(activity) {
+                val swap = binding.toolbarActivityDetail.menu.getItem(0)
+                val pieChart = binding.pieChartActivityDetail
+
                 // Congress results loaded
                 checkCongress()
 
                 // Swap option clicked
-                onOptionsItemSelected(binding.toolbar.menu.getItem(0))
+                onOptionsItemSelected(swap)
                 checkSenate()
 
                 // Swap option clicked again
-                onOptionsItemSelected(binding.toolbar.menu.getItem(0))
+                onOptionsItemSelected(swap)
                 checkCongress()
 
                 // Check highlight function
-                binding.listView.onItemClickListener?.onItemClick(null, null, 0, 0)
-                assertTrue(binding.pieChart.highlighted.isNotEmpty())
+                binding.listActivityDetail.onItemClickListener?.onItemClick(null, null, 0, 0)
+                assertTrue(pieChart.highlighted.isNotEmpty())
 
                 // Still highlighted
                 countDownTimer.onTick(1)
-                assertTrue(binding.pieChart.highlighted.isNotEmpty())
+                assertTrue(pieChart.highlighted.isNotEmpty())
 
                 // Not highlighted anymore
                 countDownTimer.onFinish()
-                assertNull(binding.pieChart.highlighted)
+                assertNull(pieChart.highlighted)
             }
         }
     }
 
     private fun DetailActivity.checkCongress() {
-        assertTrue(binding.toolbar.title.contains("Congreso"))
+        assertTrue(binding.toolbarActivityDetail.title.contains("Congreso"))
         assertEquals(congressElection.id, currentElection.id)
     }
 
     private fun DetailActivity.checkSenate() {
-        assertTrue(binding.toolbar.title.contains("Senado"))
+        assertTrue(binding.toolbarActivityDetail.title.contains("Senado"))
         assertEquals(senateElection.id, currentElection.id)
     }
 

@@ -4,36 +4,21 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.SimpleAdapter
-import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
-import com.n27.core.Constants
-import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.data.json.models.Municipality
 import com.n27.core.data.json.models.Province
-import com.n27.core.data.models.Election
-import com.n27.core.extensions.playErrorAnimation
-import com.n27.core.presentation.PresentationUtils
 import com.n27.regional_live.R
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
-import com.n27.regional_live.databinding.FragmentLocalsBinding
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
-import com.n27.regional_live.ui.regional_live.locals.LocalsState
-import com.n27.regional_live.ui.regional_live.locals.LocalsViewModel
 import com.n27.regional_live.ui.regional_live.locals.dialog.MunicipalityState.Failure
 import com.n27.regional_live.ui.regional_live.locals.dialog.MunicipalityState.Loading
 import com.n27.regional_live.ui.regional_live.locals.dialog.MunicipalityState.ProvincesReceived
 import com.n27.regional_live.ui.regional_live.locals.dialog.MunicipalityState.Success
-import java.text.NumberFormat.getIntegerInstance
 import javax.inject.Inject
 
 class MunicipalitySelectionDialog : DialogFragment() {
@@ -53,12 +38,6 @@ class MunicipalitySelectionDialog : DialogFragment() {
 
         binding.setUpViews()
         initObservers()
-
-        /*val provinces = arguments?.getSerializable(KE) as Election
-
-        val textViewTitle = inflatedLayout.findViewById(R.id.text_view_title) as TextView
-        val concatenatedText = "${election.chamberName} ${election.place} ${election.date}"
-        textViewTitle.text = concatenatedText*/
 
         return AlertDialog.Builder(activity).apply {
             setView(binding.root)

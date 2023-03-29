@@ -4,15 +4,13 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.ListView
 import android.widget.SimpleAdapter
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.R
 import com.n27.core.data.models.Election
+import com.n27.core.databinding.DialogDetailBinding
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailActivity
 import java.text.NumberFormat.getIntegerInstance
@@ -20,7 +18,8 @@ import javax.inject.Inject
 
 class DetailDialog : DialogFragment() {
 
-    private lateinit var election: Election
+    private var _binding: DialogDetailBinding? = null
+    private val binding get() = _binding!!
     @Inject internal lateinit var utils: PresentationUtils
 
     override fun onAttach(context: Context) {
@@ -29,26 +28,21 @@ class DetailDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val activity = activity as DetailActivity
-        val layoutInflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val inflatedLayout = layoutInflater.inflate(R.layout.dialog_detail, null)
-        val window = AlertDialog.Builder(activity)
+        _binding = DialogDetailBinding.inflate(layoutInflater)
 
-        election = arguments?.getSerializable(KEY_ELECTION) as Election
+        val election = arguments?.getSerializable(KEY_ELECTION) as Election
 
-        val textViewTitle = inflatedLayout.findViewById(R.id.title_dialog_detail) as TextView
         val concatenatedText = "${election.chamberName} ${election.place} ${election.date}"
-        textViewTitle.text = concatenatedText
+        binding.titleDialogDetail.text = concatenatedText
+        binding.listDialogDetail.setSimpleAdapter(election)
 
-        setSimpleAdapter(inflatedLayout)
-
-        return window.apply {
-            setView(inflatedLayout)
+        return AlertDialog.Builder(activity).apply {
+            setView(binding.root)
             setPositiveButton(resources.getString(R.string.close), null)
         }.create()
     }
 
-    private fun setSimpleAdapter(inflatedLayout: View) {
+    private fun ListView.setSimpleAdapter(election: Election) = with(election) {
         val keys = arrayOf("text", "number", "percentage")
         val res = intArrayOf(
             R.id.text_list_item_dialog_detail,
@@ -59,14 +53,14 @@ class DetailDialog : DialogFragment() {
         val textData = resources.getStringArray(R.array.text_array_dialog_detail)
         val numberData = arrayOf(
             "",
-            getIntegerInstance().format(election.totalElects),
-            getIntegerInstance().format(election.validVotes),
-            getIntegerInstance().format(election.abstentions),
-            getIntegerInstance().format(election.nullVotes),
-            getIntegerInstance().format(election.blankVotes)
+            getIntegerInstance().format(totalElects),
+            getIntegerInstance().format(validVotes),
+            getIntegerInstance().format(abstentions),
+            getIntegerInstance().format(nullVotes),
+            getIntegerInstance().format(blankVotes)
         )
 
-        val percentageData = election.getPercentageData()
+        val percentageData = getPercentageData()
 
         val arrayList = ArrayList<Map<String, Any>>()
 
@@ -84,10 +78,7 @@ class DetailDialog : DialogFragment() {
             arrayList.add(map)
         }
 
-        val adapter = SimpleAdapter(activity, arrayList, R.layout.list_item_dialog_detail, keys, res)
-
-        val listView = inflatedLayout.findViewById(R.id.list_dialog_detail) as ListView
-        listView.adapter = adapter
+        adapter = SimpleAdapter(activity, arrayList, R.layout.list_item_dialog_detail, keys, res)
     }
 
     private fun Election.getPercentageData(): Array<String> {
@@ -103,5 +94,10 @@ class DetailDialog : DialogFragment() {
                 getPercentageWithTwoDecimals(blankVotes, validVotes)
             )
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -9,7 +9,6 @@ import com.n27.core.data.json.models.Region
 import com.n27.regional_live.ui.regional_live.locals.LocalsState.Failure
 import com.n27.regional_live.ui.regional_live.locals.LocalsState.Loading
 import com.n27.regional_live.ui.regional_live.locals.LocalsState.Success
-import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.ShowProvinces
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEventBus
 import kotlinx.coroutines.CoroutineExceptionHandler

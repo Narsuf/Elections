@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
-import com.n27.regional_live.ui.regional_live.locals.LocalsState
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.ShowProvinces
 import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEventBus
