@@ -53,12 +53,12 @@ class DetailActivityTest {
 
     private fun DetailActivity.checkCongress() {
         assertTrue(binding.toolbarActivityDetail.title.contains("Congreso"))
-        assertEquals(congressElection.id, currentElection.id)
+        assertEquals(congressElection.id, currentElection?.id)
     }
 
     private fun DetailActivity.checkSenate() {
         assertTrue(binding.toolbarActivityDetail.title.contains("Senado"))
-        assertEquals(senateElection.id, currentElection.id)
+        assertEquals(senateElection.id, currentElection?.id)
     }
 
     private fun launchActivity() = ActivityScenario.launch<DetailActivity>(
