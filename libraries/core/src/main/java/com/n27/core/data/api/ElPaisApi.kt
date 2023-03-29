@@ -1,5 +1,6 @@
 package com.n27.core.data.api
 
+import com.n27.core.data.api.models.LocalElectionIds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -11,30 +12,31 @@ import javax.inject.Singleton
 @Singleton
 class ElPaisApi @Inject constructor(private val client: OkHttpClient) {
 
-    private val baseUrl = "http://rsl00.epimg.net/elecciones/"
+    private val year = 2019
+    private val baseUrl = "http://rsl00.epimg.net/elecciones/$year/"
 
-    suspend fun getRegionalElection(year: Int, id: String) = withContext(Dispatchers.IO) {
-        val url = "$baseUrl$year/autonomicas/$id/index.xml2"
+    suspend fun getRegionalElection(id: String) = getResultOrNull("$baseUrl/autonomicas/$id/index.xml2")
+    suspend fun getLocalAutonomy(regionId: String) = getResultOrNull("$baseUrl/municipales/$regionId/index.xml2")
+    suspend fun getLocalProvince(
+        regionId: String,
+        provinceId: String
+    ) = getResultOrNull("$baseUrl/municipales/$regionId/$provinceId.xml2")
 
+    suspend fun getLocalElection(
+        ids: LocalElectionIds
+    ) = getResult("$baseUrl/municipales/${ids.region}/${ids.province}/${ids.municipality}.xml2")
+
+    private suspend fun getResult(url: String) = withContext(Dispatchers.IO) {
         val request = Request.Builder()
             .url(url)
             .build()
 
-        runCatching {
-            client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) throw IOException("Error: $response")
-                response.body?.string()
-            }
-        }.getOrNull()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Error: $response")
+            response.body?.string()
+        }
     }
 
-    /*@GET("{year}/municipales/{id}/index.xml2")
-    suspend fun getLocalAutonomy(@Path("year") year: Int, @Path("id") id: String): ElectionXml
+    private suspend fun getResultOrNull(url: String) = runCatching { getResult(url) }.getOrNull()
 
-    @GET("{year}/municipales/{autonomyId}/{id}.xml2")
-    suspend fun getLocalProvince(
-        @Path("year") year: Int,
-        @Path("autonomyId") autonomyId: String,
-        @Path("id") id: String
-    ): ElectionXml*/
 }

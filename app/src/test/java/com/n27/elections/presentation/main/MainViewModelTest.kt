@@ -3,17 +3,17 @@ package com.n27.elections.presentation.main
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NOT_FIRST_LAUNCH
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.presentation.common.PresentationUtils
+import com.n27.core.presentation.PresentationUtils
 import com.n27.elections.ElectionsApplication
 import com.n27.elections.data.ElectionRepository
-import com.n27.elections.presentation.main.entities.MainEvent.*
-import com.n27.elections.presentation.main.entities.MainInteraction.*
-import com.n27.elections.presentation.main.entities.MainState.Error
-import com.n27.elections.presentation.main.entities.MainState.Success
+import com.n27.elections.presentation.MainViewModel
+import com.n27.elections.presentation.entities.MainEvent.*
+import com.n27.elections.presentation.entities.MainInteraction.*
+import com.n27.elections.presentation.entities.MainState.Error
+import com.n27.elections.presentation.entities.MainState.Success
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElections
 import com.n27.test.observers.FlowTestObserver
@@ -39,7 +39,6 @@ class MainViewModelTest {
 
     private lateinit var repository: ElectionRepository
     private lateinit var utils: PresentationUtils
-    private lateinit var crashlytics: FirebaseCrashlytics
     private lateinit var viewModel: MainViewModel
     private lateinit var sharedPreferences: SharedPreferences
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -48,12 +47,11 @@ class MainViewModelTest {
     fun init() = runTest {
         repository = mock(ElectionRepository::class.java)
         utils = mock(PresentationUtils::class.java)
-        crashlytics = mock(FirebaseCrashlytics::class.java)
         sharedPreferences = mock(SharedPreferences::class.java)
 
         `when`(repository.getElections()).thenReturn(getElections())
 
-        viewModel = MainViewModel(repository, utils, crashlytics, sharedPreferences)
+        viewModel = MainViewModel(repository, utils, sharedPreferences)
         Dispatchers.setMain(testDispatcher)
     }
 

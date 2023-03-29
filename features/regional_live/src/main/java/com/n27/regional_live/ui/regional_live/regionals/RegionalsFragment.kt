@@ -10,19 +10,17 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.n27.core.Constants
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
-import com.n27.regional_live.ui.regional_live.adapters.RegionalCardAdapter
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Failure
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Loading
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Success
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.*
+import com.n27.regional_live.ui.regional_live.regionals.adapters.RegionalCardAdapter
 import javax.inject.Inject
 
 class RegionalsFragment : Fragment() {
@@ -74,10 +72,9 @@ class RegionalsFragment : Fragment() {
         setViewsVisibility(content = true)
         binding.regionalsRecyclerView.adapter = RegionalCardAdapter(
             success.elections,
-            success.parties
-        ) { election, id ->
-            navigateToDetail(election, id)
-        }
+            success.parties,
+            ::navigateToDetail
+        )
     }
 
     private fun showError(errorMsg: String?) = with(binding) {
@@ -89,7 +86,7 @@ class RegionalsFragment : Fragment() {
         }
 
         val error = when (errorMsg) {
-            Constants.NO_INTERNET_CONNECTION -> R.string.no_internet_connection
+            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
             else -> R.string.something_wrong
         }
 

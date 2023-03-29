@@ -18,17 +18,18 @@ class RegionalLiveActivity : AppCompatActivity() {
     internal lateinit var regionalLiveComponent: RegionalLiveComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        regionalLiveComponent = (applicationContext as RegionalLiveComponentProvider).provideRegionalLiveComponent()
+        regionalLiveComponent = (applicationContext as RegionalLiveComponentProvider)
+            .provideRegionalLiveComponent()
         regionalLiveComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         binding = ActivityRegionalLiveBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbarActivityRegionalLive)
 
-        val navView: BottomNavigationView = binding.navView
+        val navView: BottomNavigationView = binding.navViewActivityRegionalLive
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val navController = findNavController(R.id.nav_host_fragment_activity_regional_live)
         // Passing each menu ID as a set of Ids because each menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_regionals, R.id.navigation_locals))
         setupActionBarWithNavController(navController, appBarConfiguration)

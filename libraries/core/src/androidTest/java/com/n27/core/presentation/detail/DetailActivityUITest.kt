@@ -27,7 +27,7 @@ class DetailActivityUITest {
         assertToolbarTitle("${congressElection.chamberName} (${congressElection.place} ${congressElection.date})")
 
         with(congressElection.results[0]) {
-            assertListTexts(R.id.list_view, 0, listOf(
+            assertListTexts(R.id.list_activity_detail, 0, listOf(
                 party.name,
                 getIntegerInstance().format(votes).toString(),
                 getIntegerInstance().format(elects).toString()
@@ -39,11 +39,11 @@ class DetailActivityUITest {
     fun clickOnFloatingButtonShouldOpenDialog() {
         launchActivity()
 
-        clickOn(R.id.floating_button_more_info)
+        clickOn(R.id.more_info_button_activity_detail)
 
         with(congressElection) {
-            assertDisplayed(R.id.text_view_title, "$chamberName $place $date")
-            assertListTextsWithDifferentPositions(R.id.list_view_general_information, listOf(
+            assertDisplayed(R.id.title_dialog_detail, "$chamberName $place $date")
+            assertListTextsWithDifferentPositions(R.id.list_dialog_detail, listOf(
                 "$scrutinized %",
                 getIntegerInstance().format(totalElects).toString(),
                 getIntegerInstance().format(validVotes).toString(),

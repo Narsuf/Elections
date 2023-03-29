@@ -23,22 +23,25 @@ object SpanActions {
                 val spannableString = textView.text as SpannableString
 
                 if (spannableString.isEmpty()) {
-                    // TextView is empty, nothing to do
+                    // TextView is empty, nothing to do.
                     throw NoMatchingViewException.Builder()
                         .includeViewHierarchy(true)
                         .withRootView(textView)
                         .build()
                 }
 
-                // Get the links inside the TextView and check if we find textToClick
+                // Get the links inside the TextView and check if we find textToClick.
                 val spans = spannableString.getSpans(0, spannableString.length, ClickableSpan::class.java)
+
                 if (spans.isNotEmpty()) {
                     var spanCandidate: ClickableSpan
+
                     for (span in spans) {
                         spanCandidate = span
                         val start = spannableString.getSpanStart(spanCandidate)
                         val end = spannableString.getSpanEnd(spanCandidate)
                         val sequence = spannableString.subSequence(start, end)
+
                         if (textToClick.toString() == sequence.toString()) {
                             span.onClick(textView)
                             return
@@ -46,7 +49,7 @@ object SpanActions {
                     }
                 }
 
-                // textToClick not found in TextView
+                // textToClick not found in TextView.
                 throw NoMatchingViewException.Builder()
                     .includeViewHierarchy(true)
                     .withRootView(textView)

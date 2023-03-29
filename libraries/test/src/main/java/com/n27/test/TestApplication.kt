@@ -1,12 +1,16 @@
 package com.n27.test
 
 import android.app.Application
+import android.content.Context
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
+import com.n27.core.data.json.JsonReader
 import com.n27.core.data.room.Database
-import com.n27.core.presentation.common.PresentationUtils
+import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -29,11 +33,11 @@ class FakeModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun providePresentationUtils(): PresentationUtils = PresentationUtils()
+    fun provideApplication() = app
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(): OkHttpClient = OkHttpClient.Builder().build()
+    fun provideContext(): Context = app.applicationContext
 
     @Provides
     @Singleton
@@ -48,5 +52,17 @@ class FakeModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun provideApplication() = app
+    fun providesJsonReader() = JsonReader()
+
+    @Provides
+    @Singleton
+    fun providesMoshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+    @Provides
+    @Singleton
+    fun providesOkHttpClient(): OkHttpClient = OkHttpClient.Builder().build()
+
+    @Provides
+    @Singleton
+    fun providePresentationUtils(): PresentationUtils = PresentationUtils()
 }

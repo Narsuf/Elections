@@ -13,18 +13,19 @@ import com.n27.core.Constants
 import com.n27.core.Constants.KEY_CONGRESS
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
+import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.R
+import com.n27.core.data.api.models.LocalElectionIds
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.playErrorAnimation
-import com.n27.core.presentation.common.PresentationUtils
-import com.n27.core.presentation.detail.DetailState.Failure
-import com.n27.core.presentation.detail.DetailState.Loading
-import com.n27.core.presentation.detail.DetailState.Success
+import com.n27.core.presentation.PresentationUtils
+import com.n27.core.presentation.detail.DetailState.*
 import com.n27.core.presentation.detail.binders.PartyColorBinder
+import com.n27.core.presentation.detail.dialog.DetailDialog
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
 import java.text.NumberFormat
@@ -32,15 +33,17 @@ import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
+    @VisibleForTesting internal var currentElection: Election? = null
     @VisibleForTesting internal lateinit var binding: ActivityDetailBinding
-    @VisibleForTesting internal lateinit var currentElection: Election
     @Inject internal lateinit var viewModel: DetailViewModel
     @Inject internal lateinit var utils: PresentationUtils
     internal lateinit var detailComponent: DetailComponent
     internal lateinit var countDownTimer: CountDownTimer
-    private lateinit var election: Election
+
+    private var election: Election? = null
     private var senateElection: Election? = null
     private var liveElectionId: String? = null
+    private var liveLocalElectionIds: LocalElectionIds? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         detailComponent = (applicationContext as DetailComponentProvider).provideDetailComponent()
@@ -56,31 +59,35 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun Bundle.deserialize() {
-        election = getSerializable(KEY_ELECTION) as Election
+        election = getSerializable(KEY_ELECTION) as? Election
         currentElection = election
         senateElection = getSerializable(KEY_SENATE_ELECTION) as? Election
         liveElectionId = getString(KEY_ELECTION_ID)
+        liveLocalElectionIds = getSerializable(KEY_LOCAL_ELECTION_IDS) as? LocalElectionIds
     }
 
     private fun ActivityDetailBinding.setUpViews() {
         setContentView(root)
-        setSupportActionBar(toolbar)
-        toolbar.title = generateToolbarTitle()
+        setSupportActionBar(toolbarActivityDetail)
+        generateToolbarTitle()?.let { toolbarActivityDetail.title = it }
         initializeCountDownTimer()
         setViewsVisibility(animation = true)
     }
 
     private fun initObservers() { viewModel.viewState.observe(this, ::renderState) }
 
-    private fun requestElection() = viewModel.requestElection(currentElection, liveElectionId)
+    private fun requestElection() {
+        viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds)
+    }
 
-    private fun generateToolbarTitle() = "${currentElection.chamberName} (${currentElection.place} " +
-            "${currentElection.date})"
+    private fun generateToolbarTitle() = currentElection?.let {
+        "${it.chamberName} (${it.place} ${it.date})"
+    }
 
     private fun initializeCountDownTimer() {
         countDownTimer = object: CountDownTimer(1000, 1) {
             override fun onTick(millisUntilFinished: Long) {}
-            override fun onFinish() { binding.pieChart.highlightValue(-1F, -1) }
+            override fun onFinish() { binding.pieChartActivityDetail.highlightValue(-1F, -1) }
         }
     }
 
@@ -90,10 +97,10 @@ class DetailActivity : AppCompatActivity() {
         error: Boolean = false,
         content: Boolean = false
     ) = with(binding) {
-        detailLoadingAnimation.isVisible = animation
-        progressBar.isVisible = loading
-        detailErrorAnimation.isVisible = error
-        detailContent.isVisible = content
+        loadingAnimationActivityDetail.isVisible = animation
+        progressBarActivityDetail.isVisible = loading
+        errorAnimationActivityDetail.isVisible = error
+        contentActivityDetail.isVisible = content
     }
 
     private fun renderState(state: DetailState) = when (state) {
@@ -104,25 +111,25 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showLoading() = with(binding) {
         when {
-            detailErrorAnimation.isVisible -> setViewsVisibility(animation = true)
+            errorAnimationActivityDetail.isVisible -> setViewsVisibility(animation = true)
 
-            !detailLoadingAnimation.isVisible -> setViewsVisibility(
+            !loadingAnimationActivityDetail.isVisible -> setViewsVisibility(
                 loading = true,
-                content = detailContent.isVisible
+                content = contentActivityDetail.isVisible
             )
         }
     }
 
     private fun showContent(election: Election) {
         currentElection = election
-        binding.setContent()
+        binding.setContent(election)
         setViewsVisibility(content = true)
     }
 
     private fun showError(errorMsg: String?) = with(binding) {
-        if (!detailContent.isVisible) {
+        if (!contentActivityDetail.isVisible) {
             setViewsVisibility(error = true)
-            detailErrorAnimation.playErrorAnimation()
+            errorAnimationActivityDetail.playErrorAnimation()
         } else {
             setViewsVisibility(content = true)
         }
@@ -135,45 +142,49 @@ class DetailActivity : AppCompatActivity() {
         Snackbar.make(root, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
-    private fun ActivityDetailBinding.setContent() {
-        toolbar.title = generateToolbarTitle()
+    private fun ActivityDetailBinding.setContent(election: Election) {
+        toolbarActivityDetail.title = generateToolbarTitle()
 
-        floatingButtonMoreInfo.setOnClickListener {
+        moreInfoButtonActivityDetail.setOnClickListener {
             DetailDialog()
-                .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
+                .also {
+                    it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) }
+                }
                 .show(supportFragmentManager, "DetailDialog")
 
             utils.track("results_info_clicked") {
-                param("election", "${currentElection.chamberName} (${currentElection.date})")
+                param("election", "${election.chamberName} (${election.date})")
             }
         }
 
-        pieChart.drawWithResults(currentElection.results)
+        pieChartActivityDetail.drawWithResults(election.results)
 
-        listView.apply {
-            adapter = generateResultsAdapter().apply { viewBinder = PartyColorBinder() }
+        listActivityDetail.apply {
+            adapter = generateResultsAdapter(election).apply { viewBinder = PartyColorBinder() }
 
             setOnItemClickListener { _, _, position, _ ->
-                pieChart.highlightValue(position.toFloat(), 0)
+                pieChartActivityDetail.highlightValue(position.toFloat(), 0)
                 countDownTimer.start()
-                utils.track("party_clicked") { param("party", currentElection.results[position].party.name) }
+                utils.track("party_clicked") {
+                    param("party", election.results[position].party.name)
+                }
             }
         }
     }
 
-    private fun generateResultsAdapter(): SimpleAdapter {
+    private fun generateResultsAdapter(election: Election): SimpleAdapter {
         val keys = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
         val resources = intArrayOf(
-            R.id.tvPartyColor,
-            R.id.tvPartyName,
-            R.id.tvNumberVotes,
-            R.id.tvVotesPercentage,
-            R.id.tvElects
+            R.id.color_list_item_activity_detail,
+            R.id.party_list_item_activity_detail,
+            R.id.votes_list_item_activity_detail,
+            R.id.percentage_list_item_activity_detail,
+            R.id.elects_list_item_activity_detail
         )
 
         val arrayList = ArrayList<Map<String, Any>>()
 
-        with(currentElection) {
+        with(election) {
             for (r in results) {
                 val map = HashMap<String, Any>()
 
@@ -191,15 +202,16 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
-        return SimpleAdapter(this, arrayList, R.layout.list_item_detail_activity, keys, resources)
+        return SimpleAdapter(this, arrayList, R.layout.list_item_activity_detail, keys, resources)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_detail_activity, menu)
+        menuInflater.inflate(R.menu.menu_activity_detail, menu)
 
         menu.apply {
             findItem(R.id.action_swap).isVisible = senateElection != null
-            findItem(R.id.action_reload).isVisible = liveElectionId != null
+            findItem(R.id.action_reload).isVisible =
+                liveElectionId != null || liveLocalElectionIds != null
         }
 
         return true
@@ -208,7 +220,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_swap -> {
-                when (currentElection.chamberName) {
+                when (currentElection?.chamberName) {
                     KEY_SENATE -> {
                         currentElection = election
                         requestElection()

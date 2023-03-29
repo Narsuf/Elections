@@ -2,9 +2,11 @@ package com.n27.core.data.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.n27.core.data.room.models.ElectionRaw
+import com.n27.core.data.room.models.PartyRaw
+import com.n27.core.data.room.models.ResultRaw
 
-@Database(entities = [ElectionRaw::class, PartyRaw::class, ResultRaw::class], version = 1,
-    exportSchema = false)
+@Database(entities = [ElectionRaw::class, PartyRaw::class, ResultRaw::class], version = 1, exportSchema = false)
 abstract class Database : RoomDatabase() {
     abstract fun electionDao(): ElectionDao
 }

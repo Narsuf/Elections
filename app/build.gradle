@@ -95,9 +95,6 @@ dependencies {
     // Dagger 2
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    // Moshi
-    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
-
     // Android Jetpack
 
         // Room

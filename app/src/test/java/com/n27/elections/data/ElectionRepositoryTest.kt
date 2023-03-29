@@ -1,12 +1,11 @@
 package com.n27.elections.data
 
 import androidx.test.core.app.ApplicationProvider
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.FirebaseDatabase
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.models.Election
 import com.n27.core.data.room.ElectionDao
-import com.n27.core.data.room.toElectionWithResultsAndParty
+import com.n27.core.data.room.mappers.toElectionWithResultsAndParty
 import com.n27.elections.data.api.ElectionApi
 import com.n27.elections.data.api.models.ApiResponse
 import com.n27.test.generators.getElections
@@ -30,9 +29,8 @@ class ElectionRepositoryTest {
     private lateinit var repository: ElectionRepository
     private lateinit var service: ElectionApi
     private lateinit var dao: ElectionDao
-    private lateinit var dataUtils: DataUtils
     private lateinit var firebaseDatabase: FirebaseDatabase
-    private lateinit var crashlytics: FirebaseCrashlytics
+    private lateinit var dataUtils: DataUtils
     private val exception = IndexOutOfBoundsException("Failed to connect to ")
     private val testDispatcher = UnconfinedTestDispatcher()
 
@@ -40,11 +38,10 @@ class ElectionRepositoryTest {
     fun setUp() {
         service = mock(ElectionApi::class.java)
         dao = mock(ElectionDao::class.java)
-        dataUtils = mock(DataUtils::class.java)
         firebaseDatabase = mock(FirebaseDatabase::class.java)
-        crashlytics = mock(FirebaseCrashlytics::class.java)
+        dataUtils = mock(DataUtils::class.java)
         dataUtils.context = ApplicationProvider.getApplicationContext()
-        repository = ElectionRepository(service, dao, dataUtils, firebaseDatabase, crashlytics)
+        repository = ElectionRepository(service, dao, firebaseDatabase, dataUtils)
         Dispatchers.setMain(testDispatcher)
     }
 

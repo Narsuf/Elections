@@ -2,4 +2,5 @@
 <resources>
     <string name="regionals">Autonómicas</string>
     <string name="locals">Municipales</string>
+    <string name="show_results">Ver resultados</string>
 </resources>

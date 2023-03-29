@@ -5,8 +5,9 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.R
-import com.n27.elections.presentation.main.adapters.GeneralCardAdapter
-import com.n27.elections.presentation.main.entities.MainState.Error
+import com.n27.elections.presentation.MainActivity
+import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
+import com.n27.elections.presentation.entities.MainState.Error
 import junit.framework.TestCase.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,16 +21,16 @@ class MainActivityTest {
         val state = getMainSuccess()
 
         launchActivity().onActivity { activity ->
-            val binding = activity.binding
+            with(activity.binding) {
+                assertEquals(toolbarActivityMain.title, activity.resources.getString(R.string.app_name))
 
-            assertEquals(binding.toolbar.title, activity.resources.getString(R.string.app_name))
+                activity.renderState(state)
 
-            activity.renderState(state)
-
-            val recyclerAdapter = binding.recyclerView.adapter!! as GeneralCardAdapter
-            assertTrue(state.elections.containsAll(recyclerAdapter.congressElections))
-            assertTrue(state.elections.containsAll(recyclerAdapter.senateElections))
-            assertEquals(recyclerAdapter.onElectionClicked, state.onElectionClicked)
+                val recyclerAdapter = recyclerActivityMain.adapter!! as GeneralElectionsCardAdapter
+                assertTrue(state.elections.containsAll(recyclerAdapter.congressElections))
+                assertTrue(state.elections.containsAll(recyclerAdapter.senateElections))
+                assertEquals(recyclerAdapter.onElectionClicked, state.onElectionClicked)
+            }
         }
     }
 
@@ -37,7 +38,7 @@ class MainActivityTest {
     fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
             // Loading is triggered automatically.
-            assertTrue(activity.binding.loadingAnimation.isVisible)
+            assertTrue(activity.binding.loadingAnimationActivityMain.isVisible)
         }
     }
 
@@ -55,15 +56,15 @@ class MainActivityTest {
 
     private fun checkError(state: Error) {
         launchActivity().onActivity { activity ->
-            val binding = activity.binding
+            with(activity.binding) {
+                assertTrue(loadingAnimationActivityMain.isVisible)
+                assertFalse(errorAnimationActivityMain.isVisible)
 
-            assertTrue(binding.loadingAnimation.isVisible)
-            assertFalse(binding.errorAnimation.isVisible)
+                activity.renderState(state)
 
-            activity.renderState(state)
-
-            assertFalse(binding.loadingAnimation.isVisible)
-            assertTrue(binding.errorAnimation.isVisible)
+                assertFalse(loadingAnimationActivityMain.isVisible)
+                assertTrue(errorAnimationActivityMain.isVisible)
+            }
         }
     }
 

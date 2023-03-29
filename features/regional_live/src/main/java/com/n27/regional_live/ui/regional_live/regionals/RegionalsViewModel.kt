@@ -4,17 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.n27.core.data.RegionalLiveRepository
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Failure
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Loading
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.Success
+import com.n27.core.data.LiveRepository
+import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class RegionalsViewModel @Inject constructor(
-    private val repository: RegionalLiveRepository
-) : ViewModel() {
+class RegionalsViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
 
     private val state = MutableLiveData<RegionalsState>(Loading)
     internal val viewState: LiveData<RegionalsState> = state
@@ -27,7 +23,7 @@ class RegionalsViewModel @Inject constructor(
         }
 
         viewModelScope.launch(exceptionHandler) {
-            val elections = repository.getRegionalElections(2019)
+            val elections = repository.getRegionalElections()
 
             state.value = if (elections.isNotEmpty()) {
                 Success(elections, repository.getParties())

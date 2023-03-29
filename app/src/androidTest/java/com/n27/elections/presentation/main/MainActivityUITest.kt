@@ -9,6 +9,7 @@ import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.adevinta.android.barista.interaction.BaristaListInteractions.clickListItem
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.R
+import com.n27.elections.presentation.MainActivity
 import com.n27.test.actions.SpanActions.clickClickableSpan
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
 import com.n27.test.conditions.instructions.waitUntil
@@ -52,18 +53,17 @@ class MainActivityUITest {
 
         clickOn("CLOSE")
         assertToolbarTitle("Elections")
-        waitUntil { assertNotDisplayed(R.id.loading_animation) }
-        assertNotDisplayed(R.id.error_animation)
-        assertDisplayed(R.id.recyclerView)
+        waitUntil { assertNotDisplayed(R.id.loading_animation_activity_main) }
+        assertNotDisplayed(R.id.error_animation_activity_main)
+        assertDisplayed(R.id.recycler_activity_main)
 
         intents {
-            clickListItem(R.id.recyclerView, 0)
+            clickListItem(R.id.recycler_activity_main, 0)
             verifyIntent(DetailActivity::class.java.name)
         }
     }
 
     private fun launchActivity() = ActivityScenario.launch(MainActivity::class.java)
-
 
     @After
     @Throws(IOException::class)

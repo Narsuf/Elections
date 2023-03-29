@@ -1,13 +1,15 @@
 package com.n27.elections.data
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
+import com.n27.core.data.firebase.toElections
 import com.n27.core.data.models.Election
 import com.n27.core.data.room.ElectionDao
-import com.n27.core.data.room.toElectionWithResultsAndParty
-import com.n27.core.data.room.toElections
+import com.n27.core.data.room.mappers.toElectionWithResultsAndParty
+import com.n27.core.data.room.mappers.toElections
 import com.n27.elections.data.api.ElectionApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,9 +22,8 @@ import kotlin.coroutines.suspendCoroutine
 class ElectionRepository @Inject constructor(
     private val service: ElectionApi,
     private val dao: ElectionDao,
-    private val dataUtils: DataUtils,
     private val firebaseDatabase: FirebaseDatabase,
-    private val crashlytics: FirebaseCrashlytics
+    private val dataUtils: DataUtils
 ) {
 
     internal suspend fun getElections() = if (dataUtils.isConnectedToInternet())
@@ -33,14 +34,16 @@ class ElectionRepository @Inject constructor(
     private suspend fun getElectionsRemotely() = runCatching {
         getElectionsFromApi().apply { insertInDb() }
     }.getOrElse {
-        crashlytics.recordException(Exception("Main service not responding"))
+        Firebase.crashlytics.recordException(Exception("Main service not responding"))
         getElectionsFromDb()
             .takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase().apply { insertInDb() }
     }
 
-    private suspend fun getElectionsFromApi() = withContext(Dispatchers.IO) { service.getElections() }.elections
+    private suspend fun getElectionsFromApi() =
+        withContext(Dispatchers.IO) { service.getElections() }.elections
 
-    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }.toElections()
+    private suspend fun getElectionsFromDb() =
+        withContext(Dispatchers.IO) { dao.getElections() }.toElections()
 
     private suspend fun getElectionsFromFirebase() = withContext(Dispatchers.IO) {
         suspendCoroutine { continuation ->
