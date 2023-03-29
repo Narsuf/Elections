@@ -74,6 +74,7 @@ class LocalsFragment : Fragment() {
             regions
         ) {
             MunicipalitySelectionDialog().show(parentFragmentManager, "MunicipalitySelectionDialog")
+            viewModel.requestProvinces(it)
         }
     }
 

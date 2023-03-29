@@ -12,11 +12,11 @@ import com.n27.elections.R
 
 typealias OnGeneralElectionClicked = (congressElection: Election, senateElection: Election) -> Unit
 
-class GeneralCardAdapter(
+class GeneralElectionsCardAdapter(
     internal val congressElections: List<Election>,
     internal val senateElections: List<Election>,
     internal val onElectionClicked: OnGeneralElectionClicked
-) : RecyclerView.Adapter<GeneralCardAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<GeneralElectionsCardAdapter.MyViewHolder>() {
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and

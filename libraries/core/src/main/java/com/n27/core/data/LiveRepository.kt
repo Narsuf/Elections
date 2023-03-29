@@ -57,7 +57,7 @@ class LiveRepository @Inject constructor(
         return jsonRegions.toProvinces(region)
     }
 
-    suspend fun getLocalMunicipalities(province: String): List<Municipality> {
+    suspend fun getMunicipalities(province: String): List<Municipality> {
         val jsonString = jsonReader.getStringJson(res = "municipalities.json")
         val jsonProvinces = JSONObject(jsonString).getJSONArray("provinces")
         return jsonProvinces.toMunicipalities(province)

@@ -19,7 +19,7 @@ import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
-import com.n27.elections.presentation.adapters.GeneralCardAdapter
+import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
 import com.n27.elections.presentation.entities.MainEvent
 import com.n27.elections.presentation.entities.MainEvent.NavigateToDetail
 import com.n27.elections.presentation.entities.MainEvent.NavigateToLive
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         swipeActivityMain.isRefreshing = false
         setViewsVisibility(content = true)
         liveElectionsButtonActivityMain.isVisible = true
-        recyclerActivityMain.adapter = GeneralCardAdapter(
+        recyclerActivityMain.adapter = GeneralElectionsCardAdapter(
             state.elections.filter { it.chamberName == "Congreso" },
             state.elections.filter { it.chamberName == "Senado" },
             state.onElectionClicked
