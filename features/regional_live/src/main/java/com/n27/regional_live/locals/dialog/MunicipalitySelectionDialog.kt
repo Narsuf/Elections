@@ -15,9 +15,12 @@ import com.n27.core.data.json.models.Municipality
 import com.n27.core.data.json.models.Province
 import com.n27.core.data.json.models.Region
 import com.n27.regional_live.R
-import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
 import com.n27.regional_live.RegionalLiveActivity
-import com.n27.regional_live.locals.dialog.MunicipalityState.*
+import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
+import com.n27.regional_live.locals.dialog.MunicipalityState.Failure
+import com.n27.regional_live.locals.dialog.MunicipalityState.Loading
+import com.n27.regional_live.locals.dialog.MunicipalityState.Municipalities
+import com.n27.regional_live.locals.dialog.MunicipalityState.Provinces
 import javax.inject.Inject
 
 class MunicipalitySelectionDialog : DialogFragment() {

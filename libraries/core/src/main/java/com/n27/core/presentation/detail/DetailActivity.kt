@@ -23,7 +23,9 @@ import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
-import com.n27.core.presentation.detail.DetailState.*
+import com.n27.core.presentation.detail.DetailState.Failure
+import com.n27.core.presentation.detail.DetailState.Loading
+import com.n27.core.presentation.detail.DetailState.Success
 import com.n27.core.presentation.detail.binders.PartyColorBinder
 import com.n27.core.presentation.detail.dialog.DetailDialog
 import com.n27.core.presentation.injection.DetailComponent
