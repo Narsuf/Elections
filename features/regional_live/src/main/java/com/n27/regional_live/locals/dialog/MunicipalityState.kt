@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.locals.dialog
+package com.n27.regional_live.locals.dialog
 
 import com.n27.core.data.json.models.Municipality
 import com.n27.core.data.json.models.Province

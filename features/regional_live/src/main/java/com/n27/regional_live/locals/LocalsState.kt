@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.locals
+package com.n27.regional_live.locals
 
 import com.n27.core.data.api.models.LocalElectionIds
 import com.n27.core.data.json.models.Region

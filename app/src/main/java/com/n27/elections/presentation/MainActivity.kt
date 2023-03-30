@@ -25,7 +25,7 @@ import com.n27.elections.presentation.entities.MainEvent.*
 import com.n27.elections.presentation.entities.MainInteraction.*
 import com.n27.elections.presentation.entities.MainState
 import com.n27.elections.presentation.entities.MainState.*
-import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
+import com.n27.regional_live.RegionalLiveActivity
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initObservers() {
         viewModel.viewState.observe(this, ::renderState)
-        viewModel.viewEvent.observeOnLifecycle(this, action = ::handleEvent)
+        viewModel.viewEvent.observeOnLifecycle(lifecycleOwner = this, action = ::handleEvent)
     }
 
     @VisibleForTesting

@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.locals.dialog
+package com.n27.regional_live.locals.dialog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,10 +8,10 @@ import com.n27.core.data.LiveRepository
 import com.n27.core.data.api.models.LocalElectionIds
 import com.n27.core.data.json.models.Province
 import com.n27.core.data.json.models.Region
-import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.RequestElection
-import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.ShowError
-import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEventBus
-import com.n27.regional_live.ui.regional_live.locals.dialog.MunicipalityState.*
+import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
+import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
+import com.n27.regional_live.locals.comm.LocalsEventBus
+import com.n27.regional_live.locals.dialog.MunicipalityState.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject

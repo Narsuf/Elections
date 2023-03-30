@@ -1,11 +1,11 @@
-package com.n27.regional_live.ui.regional_live.regionals
+package com.n27.regional_live.regionals
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.*
+import com.n27.regional_live.regionals.RegionalsState.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject

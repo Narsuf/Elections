@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.regionals
+package com.n27.regional_live.regionals
 
 import android.content.Context
 import android.content.Intent
@@ -18,9 +18,9 @@ import com.n27.core.data.models.Election
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
-import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
-import com.n27.regional_live.ui.regional_live.regionals.RegionalsState.*
-import com.n27.regional_live.ui.regional_live.regionals.adapters.RegionalCardAdapter
+import com.n27.regional_live.RegionalLiveActivity
+import com.n27.regional_live.regionals.RegionalsState.*
+import com.n27.regional_live.regionals.adapters.RegionalCardAdapter
 import javax.inject.Inject
 
 class RegionalsFragment : Fragment() {

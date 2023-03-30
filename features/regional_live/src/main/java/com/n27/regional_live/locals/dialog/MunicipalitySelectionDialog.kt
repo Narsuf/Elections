@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.locals.dialog
+package com.n27.regional_live.locals.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -16,8 +16,8 @@ import com.n27.core.data.json.models.Province
 import com.n27.core.data.json.models.Region
 import com.n27.regional_live.R
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
-import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
-import com.n27.regional_live.ui.regional_live.locals.dialog.MunicipalityState.*
+import com.n27.regional_live.RegionalLiveActivity
+import com.n27.regional_live.locals.dialog.MunicipalityState.*
 import javax.inject.Inject
 
 class MunicipalitySelectionDialog : DialogFragment() {

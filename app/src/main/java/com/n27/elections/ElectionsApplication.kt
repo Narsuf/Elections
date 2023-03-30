@@ -7,7 +7,7 @@ import com.n27.core.presentation.injection.DetailComponentProvider
 import com.n27.elections.injection.AppComponent
 import com.n27.elections.injection.AppModule
 import com.n27.elections.injection.DaggerAppComponent
-import com.n27.regional_live.ui.injection.RegionalLiveComponentProvider
+import com.n27.regional_live.injection.RegionalLiveComponentProvider
 import timber.log.Timber
 
 class ElectionsApplication : MultiDexApplication(), DetailComponentProvider, RegionalLiveComponentProvider {

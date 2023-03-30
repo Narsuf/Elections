@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.locals.adapters
+package com.n27.regional_live.locals.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

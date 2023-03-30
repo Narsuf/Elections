@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.locals
+package com.n27.regional_live.locals
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.api.models.LocalElectionIds
-import com.n27.regional_live.ui.regional_live.locals.LocalsState.*
-import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent
-import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.RequestElection
-import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEvent.ShowError
-import com.n27.regional_live.ui.regional_live.locals.comm.LocalsEventBus
+import com.n27.regional_live.locals.LocalsState.*
+import com.n27.regional_live.locals.comm.LocalsEvent
+import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
+import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
+import com.n27.regional_live.locals.comm.LocalsEventBus
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

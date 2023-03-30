@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.locals
+package com.n27.regional_live.locals
 
 import android.content.Context
 import android.content.Intent
@@ -17,10 +17,10 @@ import com.n27.core.data.json.models.Region
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.databinding.FragmentLocalsBinding
-import com.n27.regional_live.ui.regional_live.RegionalLiveActivity
-import com.n27.regional_live.ui.regional_live.locals.LocalsState.*
-import com.n27.regional_live.ui.regional_live.locals.adapters.LocalsCardAdapter
-import com.n27.regional_live.ui.regional_live.locals.dialog.MunicipalitySelectionDialog
+import com.n27.regional_live.RegionalLiveActivity
+import com.n27.regional_live.locals.LocalsState.*
+import com.n27.regional_live.locals.adapters.LocalsCardAdapter
+import com.n27.regional_live.locals.dialog.MunicipalitySelectionDialog
 import javax.inject.Inject
 
 class LocalsFragment : Fragment() {

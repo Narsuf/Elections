@@ -1,4 +1,4 @@
-package com.n27.regional_live.ui.regional_live.regionals
+package com.n27.regional_live.regionals
 
 import com.n27.core.data.api.models.ElectionXml
 import com.n27.core.data.room.models.PartyRaw
