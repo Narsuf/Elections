@@ -11,9 +11,9 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants.KEY_REGION
-import com.n27.core.data.json.models.Municipality
-import com.n27.core.data.json.models.Province
-import com.n27.core.data.json.models.Region
+import com.n27.core.data.local.json.models.Municipality
+import com.n27.core.data.local.json.models.Province
+import com.n27.core.data.local.json.models.Region
 import com.n27.regional_live.R
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding

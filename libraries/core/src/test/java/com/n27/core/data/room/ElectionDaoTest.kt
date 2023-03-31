@@ -3,8 +3,10 @@ package com.n27.core.data.room
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.n27.core.data.room.mappers.toElection
-import com.n27.core.data.room.mappers.toElectionWithResultsAndParty
+import com.n27.core.data.local.room.Database
+import com.n27.core.data.local.room.ElectionDao
+import com.n27.core.data.local.room.mappers.toElection
+import com.n27.core.data.local.room.mappers.toElectionWithResultsAndParty
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
 import junit.framework.TestCase.assertEquals

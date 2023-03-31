@@ -18,7 +18,7 @@ import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.R
-import com.n27.core.data.api.models.LocalElectionIds
+import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.extensions.drawWithResults

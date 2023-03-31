@@ -1,6 +1,6 @@
 package com.n27.regional_live.locals.comm
 
-import com.n27.core.data.api.models.LocalElectionIds
+import com.n27.core.data.remote.api.models.LocalElectionIds
 
 
 sealed class LocalsEvent {

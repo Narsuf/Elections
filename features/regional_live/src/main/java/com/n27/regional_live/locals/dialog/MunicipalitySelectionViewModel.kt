@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
-import com.n27.core.data.api.models.LocalElectionIds
-import com.n27.core.data.json.models.Province
-import com.n27.core.data.json.models.Region
+import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.data.local.json.models.Province
+import com.n27.core.data.local.json.models.Region
 import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.locals.comm.LocalsEventBus

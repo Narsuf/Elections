@@ -1,7 +1,7 @@
 package com.n27.regional_live.locals.dialog
 
-import com.n27.core.data.json.models.Municipality
-import com.n27.core.data.json.models.Province
+import com.n27.core.data.local.json.models.Municipality
+import com.n27.core.data.local.json.models.Province
 
 sealed class MunicipalityState {
 

@@ -1,7 +1,7 @@
 package com.n27.regional_live.regionals
 
-import com.n27.core.data.api.models.ElectionXml
-import com.n27.core.data.room.models.PartyRaw
+import com.n27.core.data.remote.api.models.ElectionXml
+import com.n27.core.data.local.room.models.PartyRaw
 
 sealed class RegionalsState {
 
