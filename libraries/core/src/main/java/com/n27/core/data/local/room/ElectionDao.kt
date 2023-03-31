@@ -32,13 +32,11 @@ interface ElectionDao {
         elections.forEach { insertElectionWithResultsAndParty(it) }
     }
 
-    private suspend fun insertElectionWithResultsAndParty(elections: ElectionWithResultsAndParty) {
-        val election = elections.election
-        val results = elections.results
+    private suspend fun insertElectionWithResultsAndParty(electionRaw: ElectionWithResultsAndParty) {
+        val election = electionRaw.election
+        insertElection(electionRaw.election)
 
-        insertElection(elections.election)
-
-        results.forEach {
+        electionRaw.results.forEach {
             val party = it.party
             insertParty(party)
 
