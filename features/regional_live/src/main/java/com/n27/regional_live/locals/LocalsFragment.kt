@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.KEY_REGION
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.data.json.models.Region
 import com.n27.core.extensions.playErrorAnimation
@@ -39,10 +40,14 @@ class LocalsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentLocalsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.localsRecyclerView.apply { layoutManager = LinearLayoutManager(context) }
         initObservers()
-        viewModel.requestRegions(initialLoading = true)
-        return binding.root
+        viewModel.requestRegions()
     }
 
     private fun initObservers() { viewModel.viewState.observe(viewLifecycleOwner, ::renderState) }
@@ -89,7 +94,7 @@ class LocalsFragment : Fragment() {
         }
 
         val error = when (errorMsg) {
-            Constants.NO_INTERNET_CONNECTION -> R.string.no_internet_connection
+            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
             else -> R.string.something_wrong
         }
 

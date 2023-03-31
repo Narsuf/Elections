@@ -3,18 +3,14 @@ package com.n27.elections.presentation.main
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
-import com.n27.core.Constants.KEY_SENATE
-import com.n27.core.Constants.NOT_FIRST_LAUNCH
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.presentation.PresentationUtils
 import com.n27.elections.ElectionsApplication
+import com.n27.elections.data.AppRepository
 import com.n27.elections.data.ElectionRepository
 import com.n27.elections.presentation.MainViewModel
 import com.n27.elections.presentation.entities.MainEvent.*
-import com.n27.elections.presentation.entities.MainInteraction.*
 import com.n27.elections.presentation.entities.MainState.Error
 import com.n27.elections.presentation.entities.MainState.Success
-import com.n27.test.generators.getElection
 import com.n27.test.generators.getElections
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals
@@ -37,31 +33,32 @@ import kotlin.system.measureTimeMillis
 @RunWith(RobolectricTestRunner::class)
 class MainViewModelTest {
 
-    private lateinit var repository: ElectionRepository
-    private lateinit var utils: PresentationUtils
+    private lateinit var appRepository: AppRepository
+    private lateinit var electionRepository: ElectionRepository
     private lateinit var viewModel: MainViewModel
     private lateinit var sharedPreferences: SharedPreferences
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun init() = runTest {
-        repository = mock(ElectionRepository::class.java)
-        utils = mock(PresentationUtils::class.java)
+        appRepository = mock(AppRepository::class.java)
+        electionRepository = mock(ElectionRepository::class.java)
         sharedPreferences = mock(SharedPreferences::class.java)
 
-        `when`(repository.getElections()).thenReturn(getElections())
+        `when`(appRepository.isFirstLaunch()).thenReturn(false)
+        `when`(electionRepository.getElections()).thenReturn(getElections())
 
-        viewModel = MainViewModel(repository, utils, sharedPreferences)
+        viewModel = MainViewModel(appRepository, electionRepository)
         Dispatchers.setMain(testDispatcher)
     }
 
     @Test
     fun `screen opened should emit success when succeeding`() = runTest {
         val totalExecutionTime = measureTimeMillis {
-            viewModel.handleInteraction(ScreenOpened)
+            viewModel.requestElections(initialLoading = true)
 
             assertEquals(
-                Success(getElections(), viewModel::onElectionClicked),
+                Success(getElections()),
                 viewModel.viewState.value
             )
         }
@@ -69,41 +66,41 @@ class MainViewModelTest {
         println("Total Execution Time: $totalExecutionTime ms")
     }
 
-    @Test
+    /*@Test
     fun `dialog dismissed should save on shared preferences`() = runTest {
         viewModel.sharedPreferences = ApplicationProvider.getApplicationContext<ElectionsApplication>()
             .getSharedPreferences("prefs", MODE_PRIVATE)
 
-        viewModel.handleInteraction(DialogDismissed)
+        viewModel.saveFirstLaunchFlag()
 
         assertTrue(viewModel.sharedPreferences.contains(NOT_FIRST_LAUNCH))
-    }
+    }*/
 
     @Test
     fun `refresh should emit success when succeeding`() = runTest {
-        viewModel.handleInteraction(Refresh)
+        viewModel.requestElections()
 
         assertEquals(
-            Success(getElections(), viewModel::onElectionClicked),
+            Success(getElections()),
             viewModel.viewState.value
         )
     }
 
     @Test
     fun `screen opened should emit network error when empty elections and no connection`() = runTest {
-        `when`(repository.getElections())
+        `when`(electionRepository.getElections())
             .thenThrow(IndexOutOfBoundsException((NO_INTERNET_CONNECTION)))
 
-        viewModel.handleInteraction(ScreenOpened)
+        viewModel.requestElections(initialLoading = true)
 
         assertEquals(Error(NO_INTERNET_CONNECTION), viewModel.viewState.value)
     }
 
     @Test
     fun `screen opened should emit error when empty elections`() = runTest {
-        `when`(repository.getElections()).thenThrow(IndexOutOfBoundsException())
+        `when`(electionRepository.getElections()).thenThrow(IndexOutOfBoundsException())
 
-        viewModel.handleInteraction(ScreenOpened)
+        viewModel.requestElections(initialLoading = true)
 
         assertEquals(Error(), viewModel.viewState.value)
     }
@@ -111,9 +108,9 @@ class MainViewModelTest {
     @Test
     fun `screen opened should emit error when failing`() = runTest {
         val exception = IndexOutOfBoundsException()
-        `when`(repository.getElections()).thenThrow(exception)
+        `when`(electionRepository.getElections()).thenThrow(exception)
 
-        viewModel.handleInteraction(ScreenOpened)
+        viewModel.requestElections(initialLoading = true)
 
         assertEquals(Error(), viewModel.viewState.value)
     }
@@ -121,8 +118,9 @@ class MainViewModelTest {
     @Test
     fun `first launch should emit show disclaimer`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
+        `when`(appRepository.isFirstLaunch()).thenReturn(true)
 
-        viewModel.handleInteraction(ScreenOpened)
+        viewModel.requestElections(initialLoading = true)
 
         observer.assertValues(ShowDisclaimer)
         observer.close()
@@ -131,23 +129,10 @@ class MainViewModelTest {
     @Test
     fun `not first launch should not emit show disclaimer`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
-        `when`(sharedPreferences.contains(NOT_FIRST_LAUNCH)).thenReturn(true)
 
-        viewModel.handleInteraction(ScreenOpened)
+        viewModel.requestElections(initialLoading = true)
 
         observer.assertValues()
-        observer.close()
-    }
-
-    @Test
-    fun `election clicked should emit navigate to detail event`() = runTest {
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
-        val congressElection = getElection()
-        val senateElection = getElection(KEY_SENATE)
-
-        viewModel.onElectionClicked(congressElection, senateElection)
-
-        observer.assertValues(NavigateToDetail(congressElection, senateElection))
         observer.close()
     }
 }

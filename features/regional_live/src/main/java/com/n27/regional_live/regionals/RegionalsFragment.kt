@@ -20,6 +20,7 @@ import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.regionals.RegionalsState.Failure
+import com.n27.regional_live.regionals.RegionalsState.InitialLoading
 import com.n27.regional_live.regionals.RegionalsState.Loading
 import com.n27.regional_live.regionals.RegionalsState.Success
 import com.n27.regional_live.regionals.adapters.RegionalCardAdapter
@@ -38,11 +39,14 @@ class RegionalsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentRegionalsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.setUpViews()
         initObservers()
         viewModel.requestElections(initialLoading = true)
-        return binding.root
     }
 
     private fun FragmentRegionalsBinding.setUpViews() {
@@ -53,19 +57,20 @@ class RegionalsFragment : Fragment() {
     private fun initObservers() { viewModel.viewState.observe(viewLifecycleOwner, ::renderState) }
 
     private fun renderState(state: RegionalsState) = when (state) {
-        Loading -> setViewsVisibility(animation = true)
+        InitialLoading -> setViewsVisibility(initialLoading = true)
+        Loading -> Unit
         is Success -> generateCards(state)
         is Failure -> showError(state.throwable?.message)
     }
 
     private fun setViewsVisibility(
-        animation: Boolean = false,
-        swipe: Boolean = false,
+        initialLoading: Boolean = false,
+        loading: Boolean = false,
         error: Boolean = false,
         content: Boolean = false
     ) = with(binding) {
-        regionalsLoadingAnimation.isVisible = animation
-        regionalsSwipe.isRefreshing = swipe
+        regionalsLoadingAnimation.isVisible = initialLoading
+        regionalsSwipe.isRefreshing = loading
         regionalsErrorAnimation.isVisible = error
         regionalsRecyclerView.isVisible = content
     }

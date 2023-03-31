@@ -28,6 +28,10 @@ class LocalsViewModel @Inject constructor(
     private val state = MutableLiveData<LocalsState>(Loading)
     internal val viewState: LiveData<LocalsState> = state
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        state.value = Failure(throwable.message)
+    }
+
     init {
         eventBus.event
             .onEach(::onEvent)
@@ -41,13 +45,7 @@ class LocalsViewModel @Inject constructor(
         }
     }
 
-    internal fun requestRegions(initialLoading: Boolean = false) {
-        if (initialLoading) state.value = Loading
-
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Failure(throwable.message)
-        }
-
+    internal fun requestRegions() {
         viewModelScope.launch(exceptionHandler) {
             val regions = repository.getRegions()
             state.value = regions?.let { Regions(it.regions) } ?: Failure()
@@ -55,10 +53,6 @@ class LocalsViewModel @Inject constructor(
     }
 
     private fun requestElection(ids: LocalElectionIds) {
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Failure(throwable.message)
-        }
-
         viewModelScope.launch(exceptionHandler) {
             val elections = repository.getLocalElection(ids)
             state.value = ElectionResult(elections, ids)

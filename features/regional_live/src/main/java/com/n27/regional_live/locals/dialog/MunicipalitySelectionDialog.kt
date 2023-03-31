@@ -40,15 +40,12 @@ class MunicipalitySelectionDialog : DialogFragment() {
         (activity as RegionalLiveActivity).regionalLiveComponent.inject(this)
     }
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogMunicipalitySelectionBinding.inflate(layoutInflater)
-
         binding.setUpViews()
         initObservers()
         region = arguments?.getSerializable(KEY_REGION) as Region
         viewModel.requestProvinces(region)
-
         return AlertDialog.Builder(activity).apply {
             setView(binding.root)
             setPositiveButton(resources.getString(R.string.show_results)) { _, _ ->

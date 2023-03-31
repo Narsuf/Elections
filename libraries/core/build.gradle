@@ -104,6 +104,9 @@ dependencies {
         api "androidx.room:room-ktx:$roomVersion"
         kapt "androidx.room:room-compiler:$roomVersion"
 
+        // LiveData
+        api 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+
     // MPAndroidChart
     api 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 

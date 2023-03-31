@@ -35,8 +35,8 @@ class ElectionRepository @Inject constructor(
         getElectionsFromApi().apply { insertInDb() }
     }.getOrElse {
         Firebase.crashlytics.recordException(Exception("Main service not responding"))
-        getElectionsFromDb()
-            .takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase().apply { insertInDb() }
+        getElectionsFromDb().takeIf { it.isNotEmpty() }
+            ?: getElectionsFromFirebase().apply { insertInDb() }
     }
 
     private suspend fun getElectionsFromApi() =

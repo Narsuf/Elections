@@ -15,7 +15,10 @@ import com.n27.regional_live.locals.dialog.MunicipalityState.Failure
 import com.n27.regional_live.locals.dialog.MunicipalityState.Loading
 import com.n27.regional_live.locals.dialog.MunicipalityState.Municipalities
 import com.n27.regional_live.locals.dialog.MunicipalityState.Provinces
+import com.n27.regional_live.regionals.RegionalsState
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,11 +30,11 @@ class MunicipalitySelectionViewModel @Inject constructor(
     private val state = MutableLiveData<MunicipalityState>(Loading)
     internal val viewState: LiveData<MunicipalityState> = state
 
-    internal fun requestProvinces(region: Region?) {
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Failure(throwable)
-        }
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        state.value = Failure(throwable)
+    }
 
+    internal fun requestProvinces(region: Region?) {
         viewModelScope.launch(exceptionHandler) {
             state.value = region?.let {
                 val provinces = repository.getProvinces(region.name)
@@ -41,10 +44,6 @@ class MunicipalitySelectionViewModel @Inject constructor(
     }
 
     internal fun requestMunicipalities(province: Province?) {
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Failure(throwable)
-        }
-
         viewModelScope.launch(exceptionHandler) {
             state.value = province?.let {
                 val provinces = repository.getMunicipalities(province.name)
@@ -54,10 +53,6 @@ class MunicipalitySelectionViewModel @Inject constructor(
     }
 
     internal fun requestElection(regionId: String?, provinceId: String?, municipalityId: String?) {
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.value = Failure(throwable)
-        }
-
         viewModelScope.launch(exceptionHandler) {
             val event = if (regionId != null && provinceId != null && municipalityId != null)
                 RequestElection(LocalElectionIds(regionId, provinceId, municipalityId))
