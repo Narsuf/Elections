@@ -9,15 +9,12 @@ import com.n27.core.data.local.room.models.ResultRaw
 @Dao
 interface ElectionDao {
 
-    @Transaction
     @Query("SELECT * FROM elections")
     suspend fun getElections(): List<ElectionWithResultsAndParty>
 
-    @Transaction
     @Query("SELECT * FROM elections WHERE electionId = :id")
     suspend fun getElection(id: Long): ElectionWithResultsAndParty
 
-    @Transaction
     @Query("SELECT * FROM parties")
     suspend fun getParties(): List<PartyRaw>
 
@@ -30,13 +27,16 @@ interface ElectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertResult(election: ResultRaw)
 
-    suspend fun insertElectionWithResultsAndParty(
-        electionWithResultsAndParty: ElectionWithResultsAndParty
-    ) {
-        val election = electionWithResultsAndParty.election
-        val results = electionWithResultsAndParty.results
+    @Transaction
+    suspend fun insertElectionsWithResultsAndParty(elections: List<ElectionWithResultsAndParty>) {
+        elections.forEach { insertElectionWithResultsAndParty(it) }
+    }
 
-        insertElection(electionWithResultsAndParty.election)
+    private suspend fun insertElectionWithResultsAndParty(elections: ElectionWithResultsAndParty) {
+        val election = elections.election
+        val results = elections.results
+
+        insertElection(elections.election)
 
         results.forEach {
             val party = it.party

@@ -35,15 +35,12 @@ class ElectionRepository @Inject constructor(
         getElectionsFromApi().apply { insertInDb() }
     }.getOrElse {
         Firebase.crashlytics.recordException(Exception("Main service not responding"))
-        getElectionsFromDb().takeIf { it.isNotEmpty() }
-            ?: getElectionsFromFirebase().apply { insertInDb() }
+        getElectionsFromDb().takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase().apply { insertInDb() }
     }
 
-    private suspend fun getElectionsFromApi() =
-        withContext(Dispatchers.IO) { service.getElections() }.elections
+    private suspend fun getElectionsFromApi() = withContext(Dispatchers.IO) { service.getElections() }.elections
 
-    private suspend fun getElectionsFromDb() =
-        withContext(Dispatchers.IO) { dao.getElections() }.toElections()
+    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }.toElections()
 
     private suspend fun getElectionsFromFirebase() = withContext(Dispatchers.IO) {
         suspendCoroutine { continuation ->
@@ -53,9 +50,8 @@ class ElectionRepository @Inject constructor(
         }
     }.toElections() ?: throw Throwable("Empty response from Firebase")
 
-    private suspend fun List<Election>.insertInDb() = withContext(Dispatchers.IO) {
-        forEach {
-            dao.insertElectionWithResultsAndParty(it.toElectionWithResultsAndParty())
-        }
+    private suspend fun List<Election>.insertInDb() {
+        val elections = map { it.toElectionWithResultsAndParty() }
+        withContext(Dispatchers.IO) { dao.insertElectionsWithResultsAndParty(elections) }
     }
 }

@@ -63,10 +63,10 @@ class ElectionRepositoryTest {
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenReturn(apiElections)
 
-        val expectedInsert = apiElections.elections[0].toElectionWithResultsAndParty()
+        val expectedInsert = apiElections.elections.map { it.toElectionWithResultsAndParty() }
 
         assertEquals(repository.getElections(), apiElections.elections)
-        verify(dao, times(1)).insertElectionWithResultsAndParty(expectedInsert)
+        verify(dao, times(1)).insertElectionsWithResultsAndParty(expectedInsert)
 
     }
 
