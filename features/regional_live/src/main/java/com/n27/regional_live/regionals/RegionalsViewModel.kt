@@ -2,7 +2,6 @@ package com.n27.regional_live.regionals
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
 import com.n27.regional_live.regionals.RegionalsState.Failure
@@ -16,7 +15,7 @@ import javax.inject.Inject
 class RegionalsViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
 
     private val state = MutableLiveData<RegionalsState>(InitialLoading)
-    internal val viewState = state.distinctUntilChanged()
+    internal val viewState = state
 
     internal fun requestElections(initialLoading: Boolean = false) {
         if (!initialLoading) state.value = Loading

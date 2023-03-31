@@ -1,10 +1,6 @@
 package com.n27.elections.presentation.main
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import androidx.test.core.app.ApplicationProvider
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.elections.ElectionsApplication
 import com.n27.elections.data.AppRepository
 import com.n27.elections.data.ElectionRepository
 import com.n27.elections.presentation.MainViewModel
@@ -14,7 +10,6 @@ import com.n27.elections.presentation.entities.MainState.Success
 import com.n27.test.generators.getElections
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.plus
@@ -36,14 +31,12 @@ class MainViewModelTest {
     private lateinit var appRepository: AppRepository
     private lateinit var electionRepository: ElectionRepository
     private lateinit var viewModel: MainViewModel
-    private lateinit var sharedPreferences: SharedPreferences
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun init() = runTest {
         appRepository = mock(AppRepository::class.java)
         electionRepository = mock(ElectionRepository::class.java)
-        sharedPreferences = mock(SharedPreferences::class.java)
 
         `when`(appRepository.isFirstLaunch()).thenReturn(false)
         `when`(electionRepository.getElections()).thenReturn(getElections())
@@ -66,6 +59,7 @@ class MainViewModelTest {
         println("Total Execution Time: $totalExecutionTime ms")
     }
 
+    // TODO: This needs to be tested in AppRepository.
     /*@Test
     fun `dialog dismissed should save on shared preferences`() = runTest {
         viewModel.sharedPreferences = ApplicationProvider.getApplicationContext<ElectionsApplication>()

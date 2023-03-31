@@ -8,6 +8,7 @@ import android.widget.SimpleAdapter
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.distinctUntilChanged
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.KEY_CONGRESS
@@ -74,7 +75,7 @@ class DetailActivity : AppCompatActivity() {
         initializeCountDownTimer()
     }
 
-    private fun initObservers() { viewModel.viewState.observe(this, ::renderState) }
+    private fun initObservers() { viewModel.viewState.distinctUntilChanged().observe(this, ::renderState) }
 
     private fun requestElection() { viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds) }
 

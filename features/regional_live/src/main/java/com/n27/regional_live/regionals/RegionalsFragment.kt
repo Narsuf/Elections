@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.distinctUntilChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants.KEY_ELECTION
@@ -54,7 +55,9 @@ class RegionalsFragment : Fragment() {
         regionalsRecyclerView.apply { layoutManager = LinearLayoutManager(context) }
     }
 
-    private fun initObservers() { viewModel.viewState.observe(viewLifecycleOwner, ::renderState) }
+    private fun initObservers() {
+        viewModel.viewState.distinctUntilChanged().observe(viewLifecycleOwner, ::renderState)
+    }
 
     private fun renderState(state: RegionalsState) = when (state) {
         InitialLoading -> setViewsVisibility(initialLoading = true)

@@ -1,7 +1,6 @@
 package com.n27.elections.presentation.entities
 
 import com.n27.core.data.models.Election
-import com.n27.elections.presentation.adapters.OnGeneralElectionClicked
 
 sealed class MainState {
 

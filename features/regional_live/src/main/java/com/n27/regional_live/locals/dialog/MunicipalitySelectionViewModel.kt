@@ -15,10 +15,7 @@ import com.n27.regional_live.locals.dialog.MunicipalityState.Failure
 import com.n27.regional_live.locals.dialog.MunicipalityState.Loading
 import com.n27.regional_live.locals.dialog.MunicipalityState.Municipalities
 import com.n27.regional_live.locals.dialog.MunicipalityState.Provinces
-import com.n27.regional_live.regionals.RegionalsState
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -2,7 +2,6 @@ package com.n27.core.presentation.detail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.api.models.LocalElectionIds
@@ -18,7 +17,7 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
 
     private val state = MutableLiveData<DetailState>(InitialLoading)
-    internal val viewState = state.distinctUntilChanged()
+    internal val viewState = state
 
     fun requestElection(
         election: Election?,
