@@ -1,6 +1,8 @@
 package com.n27.core.data.api.mappers
 
 import com.n27.core.data.api.models.ElectionXml
+import com.n27.core.data.api.models.PartyXml
+import com.n27.core.data.api.models.ResultsXml
 import com.n27.core.data.models.Election
 import com.n27.core.data.models.Party
 import com.n27.core.data.models.Result
@@ -9,7 +11,7 @@ import org.simpleframework.xml.core.Persister
 
 internal fun String.toElection(parties: List<PartyRaw>) = toElectionXml().toElection(parties)
 
-fun String.toElectionXml(electionId: String? = null): ElectionXml = Persister()
+internal fun String.toElectionXml(electionId: String? = null): ElectionXml = Persister()
     .read(ElectionXml::class.java, this)
     .apply { electionId?.let { id = it } }
 
@@ -26,39 +28,4 @@ fun ElectionXml.toElection(parties: List<PartyRaw>) = Election(
     blankVotes = votes?.blank?.votes ?: 0,
     nullVotes = votes?.notValid?.votes ?: 0,
     results = results?.parties?.map { it.toResult(parties) } ?: listOf(getEmptyResult())
-)
-
-private fun ElectionXml.Results.Party.toResult(parties: List<PartyRaw>) = Result(
-    id = 0,
-    partyId = id,
-    electionId = 0,
-    elects = elects,
-    votes = votes,
-    party = toParty(parties)
-)
-
-private fun ElectionXml.Results.Party.toParty(parties: List<PartyRaw>) = Party(
-    id = id,
-    name = name,
-    color = getColor(parties)
-)
-
-private fun ElectionXml.Results.Party.getColor(parties: List<PartyRaw>) =
-    parties.find { it.name == name.lowercase() }?.color
-    ?: parties.find { name.lowercase().contains(it.name) }?.color
-    ?: String.format("%06x", (0..0xFFFFFF).random())
-
-private fun getEmptyResult() = Result(
-    id = 0,
-    partyId = 0,
-    electionId = 0,
-    elects = 0,
-    votes = 0,
-    party = getEmptyParty()
-)
-
-private fun getEmptyParty() = Party(
-    id = 0,
-    name = "",
-    color = ""
 )
