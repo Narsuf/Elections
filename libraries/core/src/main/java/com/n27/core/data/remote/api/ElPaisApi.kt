@@ -16,11 +16,13 @@ class ElPaisApi @Inject constructor(private val client: OkHttpClient) {
     private val baseUrl = "http://rsl00.epimg.net/elecciones/$year/"
 
     suspend fun getRegionalElection(id: String) = getResultOrNull("$baseUrl/autonomicas/$id/index.xml2")
-    suspend fun getLocalAutonomy(regionId: String) = getResultOrNull("$baseUrl/municipales/$regionId/index.xml2")
+
+    /*suspend fun getLocalAutonomy(regionId: String) = getResultOrNull("$baseUrl/municipales/$regionId/index.xml2")
+
     suspend fun getLocalProvince(
         regionId: String,
         provinceId: String
-    ) = getResultOrNull("$baseUrl/municipales/$regionId/$provinceId.xml2")
+    ) = getResultOrNull("$baseUrl/municipales/$regionId/$provinceId.xml2")*/
 
     suspend fun getLocalElection(
         ids: LocalElectionIds

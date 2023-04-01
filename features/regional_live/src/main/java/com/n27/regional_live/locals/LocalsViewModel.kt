@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.regional_live.locals.LocalsState.ElectionResult
-import com.n27.regional_live.locals.LocalsState.Failure
-import com.n27.regional_live.locals.LocalsState.Loading
-import com.n27.regional_live.locals.LocalsState.Regions
+import com.n27.regional_live.locals.LocalsState.*
 import com.n27.regional_live.locals.comm.LocalsEvent
 import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.locals.comm.LocalsEvent.ShowError

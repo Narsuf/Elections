@@ -20,10 +20,7 @@ import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentLocalsBinding
-import com.n27.regional_live.locals.LocalsState.ElectionResult
-import com.n27.regional_live.locals.LocalsState.Failure
-import com.n27.regional_live.locals.LocalsState.Loading
-import com.n27.regional_live.locals.LocalsState.Regions
+import com.n27.regional_live.locals.LocalsState.*
 import com.n27.regional_live.locals.adapters.LocalsCardAdapter
 import com.n27.regional_live.locals.dialog.MunicipalitySelectionDialog
 import javax.inject.Inject

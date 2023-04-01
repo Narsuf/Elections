@@ -18,10 +18,7 @@ import com.n27.core.extensions.observeOnLifecycle
 import com.n27.regional_live.R
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
-import com.n27.regional_live.locals.dialog.MunicipalityState.Failure
-import com.n27.regional_live.locals.dialog.MunicipalityState.Loading
-import com.n27.regional_live.locals.dialog.MunicipalityState.Municipalities
-import com.n27.regional_live.locals.dialog.MunicipalityState.Provinces
+import com.n27.regional_live.locals.dialog.MunicipalityState.*
 import javax.inject.Inject
 
 class MunicipalitySelectionDialog : DialogFragment() {
@@ -92,7 +89,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
 
     private fun initObservers() {
         viewModel.viewState.observeOnLifecycle(
-            this,
+            lifecycleOwner = this,
             distinctUntilChanged = true,
             action = ::renderState
         )

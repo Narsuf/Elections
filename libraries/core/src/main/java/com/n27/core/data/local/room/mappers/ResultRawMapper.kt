@@ -1,7 +1,7 @@
 package com.n27.core.data.local.room.mappers
 
-import com.n27.core.data.models.Result
 import com.n27.core.data.local.room.models.ResultRaw
+import com.n27.core.data.models.Result
 
 internal fun Result.toResultRaw() = ResultRaw(
     id = id,

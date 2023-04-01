@@ -1,8 +1,8 @@
 package com.n27.core.data.remote.api.mappers
 
-import com.n27.core.data.remote.api.models.ElectionXml
-import com.n27.core.data.models.Election
 import com.n27.core.data.local.room.models.PartyRaw
+import com.n27.core.data.models.Election
+import com.n27.core.data.remote.api.models.ElectionXml
 import org.simpleframework.xml.core.Persister
 
 internal fun String.toElection(parties: List<PartyRaw>) = toElectionXml().toElection(parties)

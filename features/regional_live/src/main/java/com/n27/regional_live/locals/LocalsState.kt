@@ -1,8 +1,8 @@
 package com.n27.regional_live.locals
 
-import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.data.local.json.models.Region
 import com.n27.core.data.models.Election
+import com.n27.core.data.remote.api.models.LocalElectionIds
 
 sealed class LocalsState {
 

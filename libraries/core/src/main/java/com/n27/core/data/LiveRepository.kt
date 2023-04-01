@@ -1,11 +1,6 @@
 package com.n27.core.data
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.remote.api.ElPaisApi
-import com.n27.core.data.remote.api.mappers.toElection
-import com.n27.core.data.remote.api.mappers.toElectionXml
-import com.n27.core.data.remote.api.models.ElectionXml
-import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.local.json.mappers.toMunicipalities
@@ -13,8 +8,13 @@ import com.n27.core.data.local.json.mappers.toProvinces
 import com.n27.core.data.local.json.models.Municipality
 import com.n27.core.data.local.json.models.Province
 import com.n27.core.data.local.json.models.Regions
-import com.n27.core.data.models.Election
 import com.n27.core.data.local.room.ElectionDao
+import com.n27.core.data.models.Election
+import com.n27.core.data.remote.api.ElPaisApi
+import com.n27.core.data.remote.api.mappers.toElection
+import com.n27.core.data.remote.api.mappers.toElectionXml
+import com.n27.core.data.remote.api.models.ElectionXml
+import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.extensions.lowercaseNames
 import com.n27.core.extensions.toStringId
 import com.squareup.moshi.JsonAdapter
@@ -80,11 +80,9 @@ class LiveRepository @Inject constructor(
         return jsonProvinces.toMunicipalities(province)
     }
 
-    suspend fun getRegionalElectionFromApi(id: String) = service.getRegionalElection(id)
+    suspend fun getParties() = withContext(Dispatchers.IO) { dao.getParties() }.lowercaseNames()
 
-    suspend fun getParties() = withContext(Dispatchers.IO) { dao.getParties().lowercaseNames() }
+    private suspend fun getRegionalElectionFromApi(id: String) = service.getRegionalElection(id)
 
-    private suspend fun getLocalElectionFromApi(
-        ids: LocalElectionIds
-    ) = service.getLocalElection(ids)
+    private suspend fun getLocalElectionFromApi(ids: LocalElectionIds) = service.getLocalElection(ids)
 }
