@@ -5,13 +5,8 @@ import androidx.test.core.app.ApplicationProvider
 import com.n27.core.data.local.room.mappers.toElection
 import com.n27.core.data.local.room.mappers.toElections
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
-import com.n27.core.extensions.sortByDateAndFormat
-import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
-import com.n27.test.generators.getElections
-import com.n27.test.generators.getElectionsWithResultsAndParty
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
