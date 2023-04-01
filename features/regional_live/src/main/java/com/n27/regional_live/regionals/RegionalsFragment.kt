@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.distinctUntilChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants.KEY_ELECTION
@@ -16,6 +15,7 @@ import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.data.models.Election
+import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
@@ -56,7 +56,11 @@ class RegionalsFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.viewState.distinctUntilChanged().observe(viewLifecycleOwner, ::renderState)
+        viewModel.viewState.observeOnLifecycle(
+            viewLifecycleOwner,
+            distinctUntilChanged = true,
+            action = ::renderState
+        )
     }
 
     private fun renderState(state: RegionalsState) = when (state) {

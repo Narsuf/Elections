@@ -14,6 +14,7 @@ import com.n27.core.Constants.KEY_REGION
 import com.n27.core.data.local.json.models.Municipality
 import com.n27.core.data.local.json.models.Province
 import com.n27.core.data.local.json.models.Region
+import com.n27.core.extensions.observeOnLifecycle
 import com.n27.regional_live.R
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
@@ -89,7 +90,13 @@ class MunicipalitySelectionDialog : DialogFragment() {
             }
     }
 
-    private fun initObservers() { viewModel.viewState.observe(this, ::renderState) }
+    private fun initObservers() {
+        viewModel.viewState.observeOnLifecycle(
+            this,
+            distinctUntilChanged = true,
+            action = ::renderState
+        )
+    }
 
     private fun renderState(state: MunicipalityState) = when (state) {
         Loading -> Unit

@@ -8,7 +8,6 @@ import android.widget.SimpleAdapter
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.distinctUntilChanged
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants
 import com.n27.core.Constants.KEY_CONGRESS
@@ -22,6 +21,7 @@ import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.extensions.drawWithResults
+import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailState.Failure
@@ -75,7 +75,13 @@ class DetailActivity : AppCompatActivity() {
         initializeCountDownTimer()
     }
 
-    private fun initObservers() { viewModel.viewState.distinctUntilChanged().observe(this, ::renderState) }
+    private fun initObservers() {
+        viewModel.viewState.observeOnLifecycle(
+            lifecycleOwner = this,
+            distinctUntilChanged = true,
+            action = ::renderState
+        )
+    }
 
     private fun requestElection() { viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds) }
 

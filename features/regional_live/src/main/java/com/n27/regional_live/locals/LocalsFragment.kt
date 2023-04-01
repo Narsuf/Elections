@@ -15,6 +15,7 @@ import com.n27.core.Constants.KEY_REGION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.data.local.json.models.Region
+import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
@@ -50,7 +51,13 @@ class LocalsFragment : Fragment() {
         viewModel.requestRegions()
     }
 
-    private fun initObservers() { viewModel.viewState.observe(viewLifecycleOwner, ::renderState) }
+    private fun initObservers() {
+        viewModel.viewState.observeOnLifecycle(
+            viewLifecycleOwner,
+            distinctUntilChanged = true,
+            action = ::renderState
+        )
+    }
 
     private fun renderState(state: LocalsState) = when (state) {
         Loading -> Unit

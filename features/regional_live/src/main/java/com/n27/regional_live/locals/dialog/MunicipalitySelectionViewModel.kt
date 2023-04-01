@@ -1,7 +1,5 @@
 package com.n27.regional_live.locals.dialog
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
@@ -16,6 +14,8 @@ import com.n27.regional_live.locals.dialog.MunicipalityState.Loading
 import com.n27.regional_live.locals.dialog.MunicipalityState.Municipalities
 import com.n27.regional_live.locals.dialog.MunicipalityState.Provinces
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,28 +24,32 @@ class MunicipalitySelectionViewModel @Inject constructor(
     private val eventBus: LocalsEventBus
 ) : ViewModel() {
 
-    private val state = MutableLiveData<MunicipalityState>(Loading)
-    internal val viewState: LiveData<MunicipalityState> = state
+    private val state = MutableStateFlow<MunicipalityState>(Loading)
+    internal val viewState = state.asStateFlow()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        state.value = Failure(throwable)
+        state.tryEmit(Failure(throwable))
     }
 
     internal fun requestProvinces(region: Region?) {
         viewModelScope.launch(exceptionHandler) {
-            state.value = region?.let {
+            val resultState = region?.let {
                 val provinces = repository.getProvinces(region.name)
                 Provinces(provinces)
             } ?: Failure()
+
+            state.emit(resultState)
         }
     }
 
     internal fun requestMunicipalities(province: Province?) {
         viewModelScope.launch(exceptionHandler) {
-            state.value = province?.let {
+            val resultState = province?.let {
                 val provinces = repository.getMunicipalities(province.name)
                 Municipalities(provinces)
             } ?: Failure()
+
+            state.emit(resultState)
         }
     }
 
