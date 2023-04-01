@@ -1,6 +1,6 @@
 package com.n27.core.data.injection
 
-import com.n27.core.data.json.JsonReader
+import com.n27.core.data.local.json.JsonReader
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

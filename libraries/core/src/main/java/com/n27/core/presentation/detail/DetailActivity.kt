@@ -17,13 +17,17 @@ import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.R
-import com.n27.core.data.api.models.LocalElectionIds
 import com.n27.core.data.models.Election
+import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.extensions.drawWithResults
+import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
-import com.n27.core.presentation.detail.DetailState.*
+import com.n27.core.presentation.detail.DetailState.Failure
+import com.n27.core.presentation.detail.DetailState.InitialLoading
+import com.n27.core.presentation.detail.DetailState.Loading
+import com.n27.core.presentation.detail.DetailState.Success
 import com.n27.core.presentation.detail.binders.PartyColorBinder
 import com.n27.core.presentation.detail.dialog.DetailDialog
 import com.n27.core.presentation.injection.DetailComponent
@@ -50,10 +54,8 @@ class DetailActivity : AppCompatActivity() {
         detailComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
-
         intent.extras?.deserialize()
         binding.setUpViews()
-
         initObservers()
         requestElection()
     }
@@ -71,18 +73,19 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbarActivityDetail)
         generateToolbarTitle()?.let { toolbarActivityDetail.title = it }
         initializeCountDownTimer()
-        setViewsVisibility(animation = true)
     }
 
-    private fun initObservers() { viewModel.viewState.observe(this, ::renderState) }
-
-    private fun requestElection() {
-        viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds)
+    private fun initObservers() {
+        viewModel.viewState.observeOnLifecycle(
+            lifecycleOwner = this,
+            distinctUntilChanged = true,
+            action = ::renderState
+        )
     }
 
-    private fun generateToolbarTitle() = currentElection?.let {
-        "${it.chamberName} (${it.place} ${it.date})"
-    }
+    private fun requestElection() { viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds) }
+
+    private fun generateToolbarTitle() = currentElection?.let { "${it.chamberName} (${it.place} ${it.date})" }
 
     private fun initializeCountDownTimer() {
         countDownTimer = object: CountDownTimer(1000, 1) {
@@ -104,6 +107,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun renderState(state: DetailState) = when (state) {
+        InitialLoading -> setViewsVisibility(animation = true)
         Loading -> showLoading()
         is Success -> showContent(state.election)
         is Failure -> showError(state.error)
@@ -112,7 +116,6 @@ class DetailActivity : AppCompatActivity() {
     private fun showLoading() = with(binding) {
         when {
             errorAnimationActivityDetail.isVisible -> setViewsVisibility(animation = true)
-
             !loadingAnimationActivityDetail.isVisible -> setViewsVisibility(
                 loading = true,
                 content = contentActivityDetail.isVisible

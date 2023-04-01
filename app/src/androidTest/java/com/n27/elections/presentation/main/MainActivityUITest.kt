@@ -2,6 +2,8 @@ package com.n27.elections.presentation.main
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.swipeDown
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
@@ -10,6 +12,7 @@ import com.adevinta.android.barista.interaction.BaristaListInteractions.clickLis
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.R
 import com.n27.elections.presentation.MainActivity
+import com.n27.regional_live.RegionalLiveActivity
 import com.n27.test.actions.SpanActions.clickClickableSpan
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
 import com.n27.test.conditions.instructions.waitUntil
@@ -36,9 +39,17 @@ class MainActivityUITest {
     }
 
     @Test
-    fun clickOnElectionShouldNavigateToDetail() {
+    fun checkActivity() {
         launchActivity()
 
+        checkFirstLaunchDialog()
+        checkContent()
+        onView(withId(R.id.swipe_activity_main)).perform(swipeDown())
+        checkContent()
+        checkNavigation()
+    }
+
+    private fun checkFirstLaunchDialog() {
         intents {
             mockIntent()
 
@@ -52,14 +63,23 @@ class MainActivityUITest {
         }
 
         clickOn("CLOSE")
-        assertToolbarTitle("Elections")
-        waitUntil { assertNotDisplayed(R.id.loading_animation_activity_main) }
-        assertNotDisplayed(R.id.error_animation_activity_main)
-        assertDisplayed(R.id.recycler_activity_main)
+    }
 
+    private fun checkContent() {
+        assertToolbarTitle("Elections")
+        waitUntil { assertDisplayed(R.id.recycler_activity_main) }
+        assertNotDisplayed(R.id.loading_animation_activity_main)
+        assertNotDisplayed(R.id.error_animation_activity_main)
+    }
+
+    private fun checkNavigation() {
         intents {
+            mockIntent()
             clickListItem(R.id.recycler_activity_main, 0)
             verifyIntent(DetailActivity::class.java.name)
+
+            clickOn(R.id.live_elections_button_activity_main)
+            verifyIntent(RegionalLiveActivity::class.java.name)
         }
     }
 

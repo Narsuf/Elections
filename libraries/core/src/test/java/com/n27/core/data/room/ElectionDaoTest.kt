@@ -1,10 +1,11 @@
 package com.n27.core.data.room
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.n27.core.data.room.mappers.toElection
-import com.n27.core.data.room.mappers.toElectionWithResultsAndParty
+import com.n27.core.data.local.room.Database
+import com.n27.core.data.local.room.ElectionDao
+import com.n27.core.data.local.room.mappers.toElection
+import com.n27.core.data.local.room.mappers.toElectionWithResultsAndParty
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
 import junit.framework.TestCase.assertEquals
@@ -16,7 +17,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -26,9 +26,6 @@ class ElectionDaoTest {
 
     private lateinit var electionDao: ElectionDao
     private lateinit var db: Database
-
-    @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @ExperimentalCoroutinesApi
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -46,19 +43,17 @@ class ElectionDaoTest {
     }
 
     @After
-    fun closeDb() {
-        db.close()
-    }
+    fun closeDb() { db.close() }
 
     @ExperimentalCoroutinesApi
     @Test
+    @Throws(Exception::class)
     fun writeElectionsAndRead() = runTest {
-        val elections = generateElections().map { it.toElectionWithResultsAndParty() }
+        generateElections()
+            .map { it.toElectionWithResultsAndParty() }
+            .let { electionDao.insertElectionsWithResultsAndParty(it) }
 
-        elections.forEach { electionDao.insertElectionWithResultsAndParty(it) }
-
-        val dbElections = electionDao.getElections()
-            .map { it.toElection().sortResultsByElectsAndVotes() }
+        val dbElections = electionDao.getElections().map { it.toElection().sortResultsByElectsAndVotes() }
 
         dbElections.forEach { election ->
             val dbElection = electionDao.getElection(election.id)

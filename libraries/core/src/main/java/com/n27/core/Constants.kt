@@ -15,6 +15,6 @@ object Constants {
     //endregion
 
     //region SharedPrefs
-    const val NOT_FIRST_LAUNCH = "NOT_FIRST_LAUNCH"
+    const val LAUNCHED = "LAUNCHED"
     //endregion
 }
