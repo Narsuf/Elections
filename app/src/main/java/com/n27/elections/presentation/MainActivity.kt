@@ -63,7 +63,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        viewModel.viewState.distinctUntilChanged().observe(this, ::renderState)
+        viewModel.viewState.observeOnLifecycle(
+            lifecycleOwner = this,
+            distinctUntilChanged = true,
+            action = ::renderState
+        )
         viewModel.viewEvent.observeOnLifecycle(lifecycleOwner = this, action = ::handleEvent)
     }
 

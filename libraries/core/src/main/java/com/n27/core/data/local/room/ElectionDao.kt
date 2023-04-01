@@ -9,9 +9,11 @@ import com.n27.core.data.local.room.models.ResultRaw
 @Dao
 interface ElectionDao {
 
+    @Transaction
     @Query("SELECT * FROM elections")
     suspend fun getElections(): List<ElectionWithResultsAndParty>
 
+    @Transaction
     @Query("SELECT * FROM elections WHERE electionId = :id")
     suspend fun getElection(id: Long): ElectionWithResultsAndParty
 

@@ -1,6 +1,5 @@
 package com.n27.elections.presentation
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
@@ -19,6 +18,8 @@ import com.n27.elections.presentation.entities.MainState.Success
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,8 +29,8 @@ class MainViewModel @Inject constructor(
     private val electionRepository: ElectionRepository
 ) : ViewModel() {
 
-    private val state = MutableLiveData<MainState>(InitialLoading)
-    internal val viewState = state
+    private val state = MutableStateFlow<MainState>(InitialLoading)
+    internal val viewState = state.asStateFlow()
 
     private val event = Channel<MainEvent>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewEvent = event.receiveAsFlow()
@@ -40,16 +41,13 @@ class MainViewModel @Inject constructor(
     }
 
     internal fun requestElections(initialLoading: Boolean = false) {
-        if (!initialLoading) state.value = Loading
-
         viewModelScope.launch(exceptionHandler) {
+            if (!initialLoading) state.emit(Loading)
             if (appRepository.isFirstLaunch()) event.send(ShowDisclaimer)
-
             val sortedElections = electionRepository.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
-
-            state.value = Success(sortedElections)
+            state.emit(Success(sortedElections))
         }
     }
 
