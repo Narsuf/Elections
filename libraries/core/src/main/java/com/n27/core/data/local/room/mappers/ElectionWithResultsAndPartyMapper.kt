@@ -2,10 +2,12 @@ package com.n27.core.data.local.room.mappers
 
 import com.n27.core.data.local.room.models.ElectionWithResultsAndParty
 import com.n27.core.data.models.Election
+import com.n27.core.extensions.sortByDateAndFormat
+import com.n27.core.extensions.sortResultsByElectsAndVotes
 
-fun List<ElectionWithResultsAndParty>.toElections() = map { it.toElection() }
+fun List<ElectionWithResultsAndParty>.toElections() = map { it.toElection() }.sortByDateAndFormat()
 
-fun ElectionWithResultsAndParty.toElection() = Election(
+internal fun ElectionWithResultsAndParty.toElection() = Election(
     id = election.electionId,
     name = election.name,
     date = election.date,
@@ -18,8 +20,7 @@ fun ElectionWithResultsAndParty.toElection() = Election(
     blankVotes = election.blankVotes,
     nullVotes = election.nullVotes,
     results = results.map { it.toResult(election.electionId) }
-
-)
+).sortResultsByElectsAndVotes()
 
 fun List<Election>.toElectionsWithResultsAndParty() = map { it.toElectionWithResultsAndParty() }
 

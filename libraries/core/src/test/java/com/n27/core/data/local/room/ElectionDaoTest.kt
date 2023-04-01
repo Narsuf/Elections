@@ -5,8 +5,11 @@ import androidx.test.core.app.ApplicationProvider
 import com.n27.core.data.local.room.mappers.toElection
 import com.n27.core.data.local.room.mappers.toElections
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
+import com.n27.core.extensions.sortByDateAndFormat
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
+import com.n27.test.generators.getElections
+import com.n27.test.generators.getElectionsWithResultsAndParty
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
@@ -48,16 +51,17 @@ class ElectionDaoTest {
     @Test
     @Throws(Exception::class)
     fun writeElectionsAndRead() = runTest {
-        electionDao.insertElectionsWithResultsAndParty(generateElections().toElectionsWithResultsAndParty())
+        val elections = generateElections()
+        electionDao.insertElectionsWithResultsAndParty(elections.toElectionsWithResultsAndParty())
+        val dbElections = electionDao.getElections().toElections()
 
-        val dbElections = electionDao.getElections().toElections().map { it.sortResultsByElectsAndVotes() }
+        assertEquals(elections, dbElections)
 
-        dbElections.forEach { election ->
-            val dbElection = electionDao.getElection(election.id)
-                .toElection()
-                .sortResultsByElectsAndVotes()
+        dbElections.forEach { electionRaw ->
+            val election = elections.first { it.id == electionRaw.id }
+            val dbElection = electionDao.getElection(electionRaw.id).toElection()
 
-            assertTrue(dbElections.contains(election))
+            assertEquals(dbElection, electionRaw)
             assertEquals(dbElection, election)
         }
     }

@@ -10,7 +10,10 @@ import com.n27.core.data.local.room.mappers.toElections
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.firebase.toElections
+import com.n27.core.extensions.sortByDateAndFormat
+import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.elections.data.api.ElectionApi
+import com.n27.elections.data.api.mappers.toElections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -43,7 +46,7 @@ class ElectionRepository @Inject constructor(
 
     private suspend fun getElectionsFromApi() = flow { emit(service.getElections()) }
         .flowOn(Dispatchers.IO)
-        .map { it.elections }
+        .map { it.toElections() }
         .onEach { it.insertInDb() }
         .first()
 

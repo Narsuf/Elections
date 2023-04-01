@@ -8,7 +8,7 @@ import org.junit.Test
 internal class ElectionWithResultsAndPartyMapperTest {
 
     @Test
-    fun `should return expected election`() {
+    fun `should return expected elections`() {
         val expected = getElections()
         val actual = getElectionsWithResultsAndParty().toElections()
 
@@ -16,7 +16,7 @@ internal class ElectionWithResultsAndPartyMapperTest {
     }
 
     @Test
-    fun `should return expected electionWithResultsAndParty`() {
+    fun `should return expected electionsWithResultsAndParty`() {
         val expected = getElectionsWithResultsAndParty()
         val actual = getElections().toElectionsWithResultsAndParty()
 
