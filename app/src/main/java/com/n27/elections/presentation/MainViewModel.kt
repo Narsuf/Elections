@@ -11,7 +11,10 @@ import com.n27.elections.data.repositories.ElectionRepository
 import com.n27.elections.presentation.entities.MainEvent
 import com.n27.elections.presentation.entities.MainEvent.ShowDisclaimer
 import com.n27.elections.presentation.entities.MainState
-import com.n27.elections.presentation.entities.MainState.*
+import com.n27.elections.presentation.entities.MainState.Error
+import com.n27.elections.presentation.entities.MainState.InitialLoading
+import com.n27.elections.presentation.entities.MainState.Loading
+import com.n27.elections.presentation.entities.MainState.Success
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel

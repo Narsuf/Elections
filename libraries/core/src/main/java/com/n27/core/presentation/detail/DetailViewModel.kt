@@ -5,7 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.core.presentation.detail.DetailState.*
+import com.n27.core.presentation.detail.DetailState.Failure
+import com.n27.core.presentation.detail.DetailState.InitialLoading
+import com.n27.core.presentation.detail.DetailState.Loading
+import com.n27.core.presentation.detail.DetailState.Success
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

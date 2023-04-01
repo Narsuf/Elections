@@ -7,9 +7,7 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
-import com.n27.elections.presentation.entities.MainState
 import com.n27.elections.presentation.entities.MainState.Error
-import com.n27.elections.presentation.entities.MainState.Loading
 import junit.framework.TestCase.*
 import org.junit.Test
 import org.junit.runner.RunWith

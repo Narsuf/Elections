@@ -4,7 +4,6 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.repositories.AppRepository
 import com.n27.elections.data.repositories.ElectionRepository
 import com.n27.elections.presentation.entities.MainEvent.*
-import com.n27.elections.presentation.entities.MainState
 import com.n27.elections.presentation.entities.MainState.Error
 import com.n27.elections.presentation.entities.MainState.InitialLoading
 import com.n27.elections.presentation.entities.MainState.Success
@@ -15,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -49,7 +47,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `screen opened should emit initial loading when initialized`() = runTest {
+    fun `view model initialized should emit initial loading`() = runTest {
         viewModel.requestElections()
 
         assertEquals(InitialLoading, viewModel.viewState.value)

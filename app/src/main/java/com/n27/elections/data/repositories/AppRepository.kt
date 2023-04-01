@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import com.n27.core.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 import javax.inject.Singleton
 

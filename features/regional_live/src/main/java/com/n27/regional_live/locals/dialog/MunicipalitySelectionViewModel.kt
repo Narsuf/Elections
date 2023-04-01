@@ -9,7 +9,10 @@ import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.locals.comm.LocalsEventBus
-import com.n27.regional_live.locals.dialog.MunicipalityState.*
+import com.n27.regional_live.locals.dialog.MunicipalityState.Failure
+import com.n27.regional_live.locals.dialog.MunicipalityState.Loading
+import com.n27.regional_live.locals.dialog.MunicipalityState.Municipalities
+import com.n27.regional_live.locals.dialog.MunicipalityState.Provinces
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

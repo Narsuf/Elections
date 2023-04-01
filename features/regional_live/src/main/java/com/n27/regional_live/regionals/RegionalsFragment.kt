@@ -20,7 +20,10 @@ import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
-import com.n27.regional_live.regionals.RegionalsState.*
+import com.n27.regional_live.regionals.RegionalsState.Failure
+import com.n27.regional_live.regionals.RegionalsState.InitialLoading
+import com.n27.regional_live.regionals.RegionalsState.Loading
+import com.n27.regional_live.regionals.RegionalsState.Success
 import com.n27.regional_live.regionals.adapters.RegionalCardAdapter
 import javax.inject.Inject
 
