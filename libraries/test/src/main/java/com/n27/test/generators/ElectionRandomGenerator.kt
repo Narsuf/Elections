@@ -9,11 +9,13 @@ class ElectionRandomGenerator {
     companion object {
 
         private fun generateRand() = (0..288).random()
+
         private fun generateParty(partyId: Long = generateRand().toLong()) = Party(
             id = partyId,
             name = generateRand().toString(),
             color = generateRand().toString()
         )
+
         fun generateResult(electionId: Long = generateRand().toLong()): Result {
             val partyId = generateRand().toLong()
 
@@ -48,12 +50,12 @@ class ElectionRandomGenerator {
 
         fun generateElections(): List<Election> {
             val elections = mutableListOf<Election>()
-            val results = generateResults()
+            val generatedResults = generateResults()
 
             // Generate 100 elections to reduce error margin.
             for (i in 1..100) {
                 // This black magic here is needed to maintain healthy references.
-                val election = generateElection().copy(results = results.shuffled().take(10))
+                val election = generateElection().apply { results = generatedResults.shuffled().take(10) }
                 elections.add(election)
             }
 
@@ -65,8 +67,7 @@ class ElectionRandomGenerator {
             val parties = generateParties()
 
             for (i in 1..1000) {
-                val result = generateResult(electionId)
-                    .copy(party = parties.shuffled().take(1)[0])
+                val result = generateResult(electionId).copy(party = parties.shuffled().take(1)[0])
                 results.add(result)
             }
 

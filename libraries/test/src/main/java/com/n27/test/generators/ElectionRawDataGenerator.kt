@@ -6,7 +6,9 @@ import com.n27.core.data.local.room.models.PartyRaw
 import com.n27.core.data.local.room.models.ResultRaw
 import com.n27.core.data.local.room.models.ResultWithParty
 
-fun getElectionWithResultsAndParty() = ElectionWithResultsAndParty(
+fun getElectionsWithResultsAndParty() = listOf(getElectionWithResultsAndParty())
+
+private fun getElectionWithResultsAndParty() = ElectionWithResultsAndParty(
     election = getElectionRaw(),
     results = listOf(getResultWithParty())
 )

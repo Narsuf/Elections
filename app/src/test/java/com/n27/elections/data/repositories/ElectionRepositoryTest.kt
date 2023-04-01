@@ -5,7 +5,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.room.ElectionDao
-import com.n27.core.data.local.room.mappers.toElectionWithResultsAndParty
+import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.core.data.models.Election
 import com.n27.elections.data.api.ElectionApi
 import com.n27.elections.data.api.models.ApiResponse
@@ -51,7 +51,7 @@ class ElectionRepositoryTest {
         val daoElections = getElections()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.getElections()).thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
+        `when`(dao.getElections()).thenReturn(daoElections.toElectionsWithResultsAndParty())
 
         assertEquals(repository.getElections(), daoElections)
     }
@@ -63,7 +63,7 @@ class ElectionRepositoryTest {
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenReturn(apiElections)
 
-        val expectedInsert = apiElections.elections.map { it.toElectionWithResultsAndParty() }
+        val expectedInsert = apiElections.elections.toElectionsWithResultsAndParty()
 
         assertEquals(repository.getElections(), apiElections.elections)
         verify(dao, times(1)).insertElectionsWithResultsAndParty(expectedInsert)
@@ -76,7 +76,7 @@ class ElectionRepositoryTest {
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenThrow(exception)
-        `when`(dao.getElections()).thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
+        `when`(dao.getElections()).thenReturn(daoElections.toElectionsWithResultsAndParty())
 
         assertEquals(repository.getElections(), daoElections)
     }
@@ -86,7 +86,7 @@ class ElectionRepositoryTest {
         val daoElections = listOf<Election>()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.getElections()).thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
+        `when`(dao.getElections()).thenReturn(daoElections.toElectionsWithResultsAndParty())
 
         runCatching { repository.getElections() }.getOrElse { assertEquals(it.message, NO_INTERNET_CONNECTION) }
     }
@@ -97,7 +97,7 @@ class ElectionRepositoryTest {
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenThrow(exception)
-        `when`(dao.getElections()).thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
+        `when`(dao.getElections()).thenReturn(daoElections.toElectionsWithResultsAndParty())
 
         // Not proud of this test, but Firebase's API doesn't make it easy.
         runCatching { repository.getElections() }.getOrElse { assertTrue(it is NullPointerException) }

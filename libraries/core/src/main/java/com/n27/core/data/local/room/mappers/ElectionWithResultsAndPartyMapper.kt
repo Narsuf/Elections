@@ -5,7 +5,7 @@ import com.n27.core.data.models.Election
 
 fun List<ElectionWithResultsAndParty>.toElections() = map { it.toElection() }
 
-internal fun ElectionWithResultsAndParty.toElection() = Election(
+fun ElectionWithResultsAndParty.toElection() = Election(
     id = election.electionId,
     name = election.name,
     date = election.date,
@@ -21,7 +21,9 @@ internal fun ElectionWithResultsAndParty.toElection() = Election(
 
 )
 
-fun Election.toElectionWithResultsAndParty() = ElectionWithResultsAndParty(
+fun List<Election>.toElectionsWithResultsAndParty() = map { it.toElectionWithResultsAndParty() }
+
+private fun Election.toElectionWithResultsAndParty() = ElectionWithResultsAndParty(
     election = toElectionRaw(),
     results = results.map { it.toResultWithParty() }
 )

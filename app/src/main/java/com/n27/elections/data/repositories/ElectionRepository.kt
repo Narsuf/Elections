@@ -6,8 +6,8 @@ import com.google.firebase.ktx.Firebase
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.room.ElectionDao
-import com.n27.core.data.local.room.mappers.toElectionWithResultsAndParty
 import com.n27.core.data.local.room.mappers.toElections
+import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.firebase.toElections
 import com.n27.elections.data.api.ElectionApi
@@ -57,7 +57,6 @@ class ElectionRepository @Inject constructor(
             .first()
 
     private suspend fun List<Election>.insertInDb() {
-        val elections = map { it.toElectionWithResultsAndParty() }
-        withContext(Dispatchers.IO) { dao.insertElectionsWithResultsAndParty(elections) }
+        withContext(Dispatchers.IO) { dao.insertElectionsWithResultsAndParty(toElectionsWithResultsAndParty()) }
     }
 }

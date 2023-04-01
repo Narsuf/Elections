@@ -1,11 +1,10 @@
-package com.n27.core.data.room
+package com.n27.core.data.local.room
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.n27.core.data.local.room.Database
-import com.n27.core.data.local.room.ElectionDao
 import com.n27.core.data.local.room.mappers.toElection
-import com.n27.core.data.local.room.mappers.toElectionWithResultsAndParty
+import com.n27.core.data.local.room.mappers.toElections
+import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
 import junit.framework.TestCase.assertEquals
@@ -49,11 +48,9 @@ class ElectionDaoTest {
     @Test
     @Throws(Exception::class)
     fun writeElectionsAndRead() = runTest {
-        generateElections()
-            .map { it.toElectionWithResultsAndParty() }
-            .let { electionDao.insertElectionsWithResultsAndParty(it) }
+        electionDao.insertElectionsWithResultsAndParty(generateElections().toElectionsWithResultsAndParty())
 
-        val dbElections = electionDao.getElections().map { it.toElection().sortResultsByElectsAndVotes() }
+        val dbElections = electionDao.getElections().toElections().map { it.sortResultsByElectsAndVotes() }
 
         dbElections.forEach { election ->
             val dbElection = electionDao.getElection(election.id)
