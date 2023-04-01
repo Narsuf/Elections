@@ -75,7 +75,7 @@ class ElectionRandomGenerator {
             return results.distinctBy { it.id }
         }
 
-        private fun generateParties(): List<Party> {
+        fun generateParties(): List<Party> {
             val parties = mutableListOf<Party>()
 
             for (i in 0..100) { parties.add(generateParty()) }

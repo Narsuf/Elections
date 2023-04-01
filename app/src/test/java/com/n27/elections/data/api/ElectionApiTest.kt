@@ -1,5 +1,6 @@
 package com.n27.elections.data.api
 
+import com.n27.core.data.local.json.JsonReader
 import com.n27.elections.data.api.models.ApiResponse
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElections
@@ -10,15 +11,12 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okio.buffer
-import okio.source
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
-import java.nio.charset.StandardCharsets
 
 class ElectionApiTest {
 
@@ -55,11 +53,10 @@ class ElectionApiTest {
         assertEquals(response, apiResponse)
     }
 
-    private fun enqueueResponse(resource: String) {
-        val inputStream = javaClass.classLoader!!.getResourceAsStream(resource)
-        val source = inputStream.source().buffer()
+    private suspend fun enqueueResponse(resource: String) {
+        val json = JsonReader().getStringJson(resource)
         val mockResponse = MockResponse()
-        mockWebServer.enqueue(mockResponse.setBody(source.readString(StandardCharsets.UTF_8)))
+        mockWebServer.enqueue(mockResponse.setBody(json))
     }
 
     @After

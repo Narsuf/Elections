@@ -5,13 +5,11 @@ import androidx.test.core.app.ApplicationProvider
 import com.n27.core.data.local.room.mappers.toElection
 import com.n27.core.data.local.room.mappers.toElections
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
+import com.n27.core.data.local.room.mappers.toPartyRaw
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
+import com.n27.test.generators.ElectionRandomGenerator.Companion.generateParties
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -24,10 +22,6 @@ class ElectionDaoTest {
     private lateinit var electionDao: ElectionDao
     private lateinit var db: Database
 
-    @ExperimentalCoroutinesApi
-    private val testDispatcher = UnconfinedTestDispatcher()
-
-    @ExperimentalCoroutinesApi
     @Before
     fun createDb() {
         db = Room.inMemoryDatabaseBuilder(ApplicationProvider
@@ -36,16 +30,13 @@ class ElectionDaoTest {
                 .build()
 
         electionDao = db.electionDao()
-        Dispatchers.setMain(testDispatcher)
     }
 
     @After
     fun closeDb() { db.close() }
 
-    @ExperimentalCoroutinesApi
     @Test
-    @Throws(Exception::class)
-    fun writeElectionsAndRead() = runTest {
+    fun writeElectionsAndRead() = runBlocking {
         val elections = generateElections()
         electionDao.insertElectionsWithResultsAndParty(elections.toElectionsWithResultsAndParty())
         val dbElections = electionDao.getElections().toElections()
@@ -59,5 +50,13 @@ class ElectionDaoTest {
             assertEquals(dbElection, electionRaw)
             assertEquals(dbElection, election)
         }
+    }
+
+    @Test
+    fun getParties() = runBlocking {
+        val parties = generateParties().map { it.toPartyRaw() }.sortedBy { it.partyId }
+        parties.forEach { electionDao.insertParty(it) }
+
+        assertEquals(parties, electionDao.getParties())
     }
 }
