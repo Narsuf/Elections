@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ElPaisApi @Inject constructor(private val client: OkHttpClient, baseUrl: String) {
+class ElPaisApi @Inject constructor(baseUrl: String, private val client: OkHttpClient) {
 
     private val year = 2019
     private val baseUrl = "$baseUrl/$year/"

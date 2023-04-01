@@ -44,9 +44,11 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(exceptionHandler) {
             if (!initialLoading) state.emit(Loading)
             if (appRepository.isFirstLaunch()) event.send(ShowDisclaimer)
+
             val sortedElections = electionRepository.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
+
             state.emit(Success(sortedElections))
         }
     }
