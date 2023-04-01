@@ -5,7 +5,7 @@ import com.n27.core.data.models.Election
 import com.n27.core.extensions.sortByDateAndFormat
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 
-fun List<ElectionWithResultsAndParty>.toElections() = map { it.toElection() }.sortByDateAndFormat()
+fun List<ElectionWithResultsAndParty>.toElections() = map { it.toElection() }
 
 internal fun ElectionWithResultsAndParty.toElection() = Election(
     id = election.electionId,
@@ -20,7 +20,7 @@ internal fun ElectionWithResultsAndParty.toElection() = Election(
     blankVotes = election.blankVotes,
     nullVotes = election.nullVotes,
     results = results.map { it.toResult(election.electionId) }
-).sortResultsByElectsAndVotes()
+)
 
 fun List<Election>.toElectionsWithResultsAndParty() = map { it.toElectionWithResultsAndParty() }
 

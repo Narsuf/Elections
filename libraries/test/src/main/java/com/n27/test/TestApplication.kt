@@ -65,4 +65,8 @@ class FakeModule(val app: Application) {
     @Provides
     @Singleton
     fun providePresentationUtils(): PresentationUtils = PresentationUtils()
+
+    @Provides
+    @Singleton
+    fun provideBaseUrl() = ""
 }

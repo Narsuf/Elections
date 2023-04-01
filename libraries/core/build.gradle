@@ -49,7 +49,14 @@ android {
     }
 
     buildTypes {
-        debug { testCoverageEnabled true }
+        release {
+            buildConfigField "String", "EL_PAIS_API_URL", '"http://rsl00.epimg.net/elecciones"'
+        }
+
+        debug {
+            testCoverageEnabled true
+            buildConfigField "String", "EL_PAIS_API_URL", '"http://127.0.0.1:8080"'
+        }
     }
 
     buildFeatures { viewBinding true }
@@ -113,6 +120,7 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     androidTestImplementation project(':libraries:test')

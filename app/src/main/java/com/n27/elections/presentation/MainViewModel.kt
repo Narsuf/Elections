@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
+import com.n27.core.extensions.sortByDateAndFormat
+import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.elections.data.repositories.AppRepository
 import com.n27.elections.data.repositories.ElectionRepository
 import com.n27.elections.presentation.entities.MainEvent
@@ -42,7 +44,10 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(exceptionHandler) {
             if (!initialLoading) state.emit(Loading)
             if (appRepository.isFirstLaunch()) event.send(ShowDisclaimer)
-            state.emit(Success(electionRepository.getElections()))
+            val sortedElections = electionRepository.getElections()
+                .map { it.sortResultsByElectsAndVotes() }
+                .sortByDateAndFormat()
+            state.emit(Success(sortedElections))
         }
     }
 

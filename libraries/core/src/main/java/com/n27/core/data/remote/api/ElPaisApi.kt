@@ -1,5 +1,7 @@
 package com.n27.core.data.remote.api
 
+import androidx.annotation.VisibleForTesting
+import com.n27.core.BuildConfig
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -10,10 +12,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ElPaisApi @Inject constructor(private val client: OkHttpClient) {
+class ElPaisApi @Inject constructor(private val client: OkHttpClient, baseUrl: String) {
 
     private val year = 2019
-    private val baseUrl = "http://rsl00.epimg.net/elecciones/$year/"
+    private val baseUrl = "$baseUrl/$year/"
 
     suspend fun getRegionalElection(id: String) = getResultOrNull("$baseUrl/autonomicas/$id/index.xml2")
 

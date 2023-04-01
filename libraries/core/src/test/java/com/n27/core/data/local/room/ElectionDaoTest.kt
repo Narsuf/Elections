@@ -6,6 +6,8 @@ import com.n27.core.data.local.room.mappers.toElection
 import com.n27.core.data.local.room.mappers.toElections
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.core.data.local.room.mappers.toPartyRaw
+import com.n27.core.extensions.sortByDateAndFormat
+import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateParties
 import junit.framework.TestCase.assertEquals
@@ -39,13 +41,18 @@ class ElectionDaoTest {
     fun writeElectionsAndRead() = runBlocking {
         val elections = generateElections()
         electionDao.insertElectionsWithResultsAndParty(elections.toElectionsWithResultsAndParty())
-        val dbElections = electionDao.getElections().toElections()
+        val dbElections = electionDao.getElections()
+            .toElections()
+            .map { it.sortResultsByElectsAndVotes() }
+            .sortByDateAndFormat()
 
         assertEquals(elections, dbElections)
 
         dbElections.forEach { electionRaw ->
             val election = elections.first { it.id == electionRaw.id }
-            val dbElection = electionDao.getElection(electionRaw.id).toElection()
+            val dbElection = electionDao.getElection(electionRaw.id)
+                .toElection()
+                .sortResultsByElectsAndVotes()
 
             assertEquals(dbElection, electionRaw)
             assertEquals(dbElection, election)

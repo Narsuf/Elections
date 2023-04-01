@@ -20,14 +20,14 @@ import java.io.IOException
 
 class ElectionApiTest {
 
-    private lateinit var apiInterface: ElectionApi
+    private lateinit var api: ElectionApi
     private lateinit var mockWebServer: MockWebServer
 
     @Before
     fun init() {
         mockWebServer = MockWebServer()
         mockWebServer.start()
-        apiInterface = Retrofit.Builder().client(OkHttpClient.Builder().build())
+        api = Retrofit.Builder().client(OkHttpClient.Builder().build())
             .baseUrl(mockWebServer.url("/"))
             .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(KotlinJsonAdapterFactory()).build()))
             .build().create(ElectionApi::class.java)
@@ -37,7 +37,7 @@ class ElectionApiTest {
     fun getApiElections() = runBlocking {
         enqueueResponse("elections-test.json")
 
-        val response = apiInterface.getElections()
+        val response = api.getElections()
 
         assertEquals(response, ApiResponse(getElections()))
     }
@@ -48,15 +48,14 @@ class ElectionApiTest {
 
         enqueueResponse("election-test.json")
 
-        val response = apiInterface.getElection(1)
+        val response = api.getElection(1)
 
         assertEquals(response, apiResponse)
     }
 
     private suspend fun enqueueResponse(resource: String) {
         val json = JsonReader().getStringJson(resource)
-        val mockResponse = MockResponse()
-        mockWebServer.enqueue(mockResponse.setBody(json))
+        mockWebServer.enqueue(MockResponse().setBody(json))
     }
 
     @After
