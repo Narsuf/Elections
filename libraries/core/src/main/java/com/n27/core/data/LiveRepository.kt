@@ -51,12 +51,12 @@ class LiveRepository @Inject constructor(
 
     suspend fun getRegionalElection(id: String): Election {
         errorIfNoConnection()
-        return getRegionalElectionFromApi(id)?.toElection(getParties()) ?: throw Throwable()
+        return getRegionalElectionFromApi(id)?.toElection(getParties()) ?: throw Throwable("Empty response")
     }
 
     suspend fun getLocalElection(ids: LocalElectionIds): Election {
         errorIfNoConnection()
-        return getLocalElectionFromApi(ids)?.toElection(getParties()) ?: throw Throwable()
+        return getLocalElectionFromApi(ids)?.toElection(getParties()) ?: throw Throwable("Empty response")
     }
 
     suspend fun getRegions(): Regions? {

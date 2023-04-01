@@ -40,8 +40,8 @@ private fun getResultRaw() = ResultRaw(
     votes = 7215530
 )
 
-fun getPartyRaw() = PartyRaw(
+fun getPartyRaw(name: String = "PP") = PartyRaw(
     partyId = 1,
-    name = "PP",
+    name,
     color = "006EC7"
 )

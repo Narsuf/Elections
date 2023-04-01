@@ -1,6 +1,5 @@
 package com.n27.elections.data.repositories
 
-import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
@@ -12,18 +11,13 @@ import com.n27.elections.data.api.models.ApiResponse
 import com.n27.test.generators.getElections
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
 
-@ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
 class ElectionRepositoryTest {
 
@@ -33,7 +27,6 @@ class ElectionRepositoryTest {
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var dataUtils: DataUtils
     private val exception = IndexOutOfBoundsException("Failed to connect to ")
-    private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setUp() {
@@ -41,13 +34,11 @@ class ElectionRepositoryTest {
         dao = mock(ElectionDao::class.java)
         firebaseDatabase = mock(FirebaseDatabase::class.java)
         dataUtils = mock(DataUtils::class.java)
-        dataUtils.context = ApplicationProvider.getApplicationContext()
         repository = ElectionRepository(service, dao, firebaseDatabase, dataUtils)
-        Dispatchers.setMain(testDispatcher)
     }
 
     @Test
-    fun loadElectionsFromDb() = runTest {
+    fun loadElectionsFromDb() = runBlocking {
         val daoElections = getElections()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
@@ -57,7 +48,7 @@ class ElectionRepositoryTest {
     }
 
     @Test
-    fun loadElectionsFromApi() = runTest {
+    fun loadElectionsFromApi() = runBlocking {
         val apiElections = ApiResponse(getElections())
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
@@ -67,11 +58,10 @@ class ElectionRepositoryTest {
 
         assertEquals(repository.getElections(), apiElections.elections)
         verify(dao, times(1)).insertElectionsWithResultsAndParty(expectedInsert)
-
     }
 
     @Test
-    fun loadElectionsFromDbWhenApiFails() = runTest {
+    fun loadElectionsFromDbWhenApiFails() = runBlocking {
         val daoElections = getElections()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
@@ -82,7 +72,7 @@ class ElectionRepositoryTest {
     }
 
     @Test
-    fun loadElectionsFromDbWhenNoInternetButDbEmpty() = runTest {
+    fun loadElectionsFromDbWhenNoInternetButDbEmpty(): Unit = runBlocking {
         val daoElections = listOf<Election>()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
@@ -92,7 +82,7 @@ class ElectionRepositoryTest {
     }
 
     @Test
-    fun `try load elections from firebase when fallback but empty db`() = runTest {
+    fun `try load elections from firebase when fallback but empty db`(): Unit = runBlocking {
         val daoElections = listOf<Election>()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
