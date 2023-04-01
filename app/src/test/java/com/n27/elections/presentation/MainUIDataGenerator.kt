@@ -1,4 +1,4 @@
-package com.n27.elections.presentation.main
+package com.n27.elections.presentation
 
 import com.n27.elections.presentation.entities.MainState.Error
 import com.n27.elections.presentation.entities.MainState.Success

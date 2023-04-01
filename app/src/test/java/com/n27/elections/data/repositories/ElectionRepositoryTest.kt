@@ -1,7 +1,8 @@
-package com.n27.elections.data
+package com.n27.elections.data.repositories
 
 import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.database.FirebaseDatabase
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.room.ElectionDao
 import com.n27.core.data.local.room.mappers.toElectionWithResultsAndParty
@@ -50,8 +51,7 @@ class ElectionRepositoryTest {
         val daoElections = getElections()
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.getElections())
-            .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
+        `when`(dao.getElections()).thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         assertEquals(repository.getElections(), daoElections)
     }
@@ -76,10 +76,19 @@ class ElectionRepositoryTest {
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenThrow(exception)
-        `when`(dao.getElections())
-            .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
+        `when`(dao.getElections()).thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
         assertEquals(repository.getElections(), daoElections)
+    }
+
+    @Test
+    fun loadElectionsFromDbWhenNoInternetButDbEmpty() = runTest {
+        val daoElections = listOf<Election>()
+
+        `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
+        `when`(dao.getElections()).thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
+
+        runCatching { repository.getElections() }.getOrElse { assertEquals(it.message, NO_INTERNET_CONNECTION) }
     }
 
     @Test
@@ -88,14 +97,9 @@ class ElectionRepositoryTest {
 
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getElections()).thenThrow(exception)
-        `when`(dao.getElections())
-            .thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
+        `when`(dao.getElections()).thenReturn(daoElections.map { it.toElectionWithResultsAndParty() })
 
-        try {
-            repository.getElections()
-        } catch(e: Exception) {
-            // Not proud of this test, but Firebase's API doesn't make it easy.
-            assertTrue(e is NullPointerException)
-        }
+        // Not proud of this test, but Firebase's API doesn't make it easy.
+        runCatching { repository.getElections() }.getOrElse { assertTrue(it is NullPointerException) }
     }
 }

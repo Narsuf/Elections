@@ -6,8 +6,8 @@ import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.n27.core.extensions.sortByDateAndFormat
 import com.n27.core.extensions.sortResultsByElectsAndVotes
-import com.n27.elections.data.AppRepository
-import com.n27.elections.data.ElectionRepository
+import com.n27.elections.data.repositories.AppRepository
+import com.n27.elections.data.repositories.ElectionRepository
 import com.n27.elections.presentation.entities.MainEvent
 import com.n27.elections.presentation.entities.MainEvent.ShowDisclaimer
 import com.n27.elections.presentation.entities.MainState
@@ -49,6 +49,6 @@ class MainViewModel @Inject constructor(
     }
 
     internal fun saveFirstLaunchFlag() {
-        viewModelScope.launch(exceptionHandler) { appRepository.saveFirstLaunch() }
+        viewModelScope.launch(exceptionHandler) { appRepository.saveFirstLaunchFlag() }
     }
 }

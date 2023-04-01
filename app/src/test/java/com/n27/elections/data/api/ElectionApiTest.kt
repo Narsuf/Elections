@@ -29,11 +29,9 @@ class ElectionApiTest {
     fun init() {
         mockWebServer = MockWebServer()
         mockWebServer.start()
-
         apiInterface = Retrofit.Builder().client(OkHttpClient.Builder().build())
             .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(MoshiConverterFactory
-                .create(Moshi.Builder().add(KotlinJsonAdapterFactory()).build()))
+            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(KotlinJsonAdapterFactory()).build()))
             .build().create(ElectionApi::class.java)
     }
 
@@ -66,7 +64,5 @@ class ElectionApiTest {
 
     @After
     @Throws(IOException::class)
-    fun teardown() {
-        mockWebServer.shutdown()
-    }
+    fun teardown() { mockWebServer.shutdown() }
 }

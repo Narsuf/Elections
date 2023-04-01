@@ -1,4 +1,4 @@
-package com.n27.elections.data
+package com.n27.elections.data.repositories
 
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.database.FirebaseDatabase
