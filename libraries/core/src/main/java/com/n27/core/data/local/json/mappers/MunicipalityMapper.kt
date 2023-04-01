@@ -7,9 +7,12 @@ import com.n27.core.extensions.map
 import org.json.JSONArray
 import org.json.JSONObject
 
-fun JSONArray.toMunicipalities(province: String) = first { it.getKey() == province }
+fun String.toMunicipalities(province: String) = toProvincesJSONArray()
+    .first { it.getKey() == province }
     ?.getJSONArray(province)?.toMunicipalitiesList()
     ?: emptyList()
+
+private fun String.toProvincesJSONArray() = JSONObject(this).getJSONArray("provinces")
 
 private fun JSONArray.toMunicipalitiesList() = map { it.toMunicipality() }
 

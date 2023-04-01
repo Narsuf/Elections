@@ -1,0 +1,12 @@
+{
+  "regions": [
+    {
+      "id": "01",
+      "name": "Andalucía"
+    },
+    {
+      "id": "19",
+      "name": "Melilla"
+    }
+  ]
+}

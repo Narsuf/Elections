@@ -68,17 +68,13 @@ class LiveRepository @Inject constructor(
         return adapter.fromJson(jsonString)
     }
 
-    suspend fun getProvinces(region: String): List<Province> {
-        val jsonString = jsonReader.getStringJson(res = "provinces.json")
-        val jsonRegions = JSONObject(jsonString).getJSONArray("regions")
-        return jsonRegions.toProvinces(region)
-    }
+    suspend fun getProvinces(region: String) = jsonReader
+        .getStringJson(res = "provinces.json")
+        .toProvinces(region)
 
-    suspend fun getMunicipalities(province: String): List<Municipality> {
-        val jsonString = jsonReader.getStringJson(res = "municipalities.json")
-        val jsonProvinces = JSONObject(jsonString).getJSONArray("provinces")
-        return jsonProvinces.toMunicipalities(province)
-    }
+    suspend fun getMunicipalities(province: String) = jsonReader
+        .getStringJson(res = "municipalities.json")
+        .toMunicipalities(province)
 
     suspend fun getParties() = withContext(Dispatchers.IO) { dao.getParties() }.lowercaseNames()
 
