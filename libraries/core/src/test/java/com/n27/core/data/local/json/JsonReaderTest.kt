@@ -1,7 +1,6 @@
 package com.n27.core.data.local.json
 
 import kotlinx.coroutines.runBlocking
-import org.intellij.lang.annotations.Language
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

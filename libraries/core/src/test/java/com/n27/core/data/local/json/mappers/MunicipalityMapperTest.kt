@@ -2,7 +2,6 @@ package com.n27.core.data.local.json.mappers
 
 import com.n27.core.data.local.json.JsonReader
 import com.n27.test.generators.getMunicipalities
-import com.n27.test.generators.getProvinces
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test

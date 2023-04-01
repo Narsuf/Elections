@@ -5,8 +5,6 @@ import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.local.json.mappers.toMunicipalities
 import com.n27.core.data.local.json.mappers.toProvinces
-import com.n27.core.data.local.json.models.Municipality
-import com.n27.core.data.local.json.models.Province
 import com.n27.core.data.local.json.models.Regions
 import com.n27.core.data.local.room.ElectionDao
 import com.n27.core.data.models.Election
@@ -21,7 +19,6 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
 

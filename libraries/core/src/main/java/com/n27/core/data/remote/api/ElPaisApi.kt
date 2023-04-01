@@ -1,7 +1,5 @@
 package com.n27.core.data.remote.api
 
-import androidx.annotation.VisibleForTesting
-import com.n27.core.BuildConfig
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

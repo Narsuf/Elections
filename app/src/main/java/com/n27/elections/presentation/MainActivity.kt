@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             else -> R.string.something_wrong
         }
 
-        Snackbar.make(mainContent, getString(error), Snackbar.LENGTH_LONG).show()
+        Snackbar.make(root, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
     private fun showElections(state: Success) = with(binding) {

@@ -2,8 +2,6 @@ package com.n27.core.data.local.room.mappers
 
 import com.n27.core.data.local.room.models.ElectionWithResultsAndParty
 import com.n27.core.data.models.Election
-import com.n27.core.extensions.sortByDateAndFormat
-import com.n27.core.extensions.sortResultsByElectsAndVotes
 
 fun List<ElectionWithResultsAndParty>.toElections() = map { it.toElection() }
 
