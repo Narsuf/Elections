@@ -18,7 +18,7 @@ import java.text.NumberFormat.getIntegerInstance
 class DetailActivityUITest {
 
     private val congressElection = getElection()
-    private val senateElection = getElection(KEY_SENATE)
+    private val senateElection = getElection(chamberName = KEY_SENATE)
 
     @Test
     fun checkElectionDetailElements() {
