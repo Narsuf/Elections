@@ -40,6 +40,8 @@ private fun getResultRaw() = ResultRaw(
     votes = 7215530
 )
 
+fun getPartiesRaw() = listOf(getPartyRaw())
+
 fun getPartyRaw(name: String = "PP") = PartyRaw(
     partyId = 1,
     name,
