@@ -1,6 +1,5 @@
 package com.n27.core.presentation.detail
 
-import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
@@ -8,8 +7,6 @@ import com.n27.core.presentation.detail.DetailState.Failure
 import com.n27.core.presentation.detail.DetailState.InitialLoading
 import com.n27.core.presentation.detail.DetailState.Success
 import com.n27.test.generators.getElection
-import com.n27.test.generators.getElections
-import junit.framework.TestCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -19,16 +16,11 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-import org.robolectric.RobolectricTestRunner
-import kotlin.system.measureTimeMillis
 
 @ExperimentalCoroutinesApi
-@RunWith(RobolectricTestRunner::class)
 class DetailViewModelTest {
 
     private lateinit var repository: LiveRepository

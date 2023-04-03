@@ -5,7 +5,6 @@ import com.n27.core.extensions.lowercaseNames
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getPartiesRaw
 import com.n27.test.generators.getParty
-import com.n27.test.generators.getPartyRaw
 import com.n27.test.generators.getResult
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

@@ -27,11 +27,15 @@ class DetailActivityUITest {
         assertToolbarTitle("${congressElection.chamberName} (${congressElection.place} ${congressElection.date})")
 
         with(congressElection.results[0]) {
-            assertListTexts(R.id.list_activity_detail, 0, listOf(
-                party.name,
-                getIntegerInstance().format(votes).toString(),
-                getIntegerInstance().format(elects).toString()
-            ))
+            assertListTexts(
+                listId = R.id.list_activity_detail,
+                position = 0,
+                texts = listOf(
+                    party.name,
+                    getIntegerInstance().format(votes).toString(),
+                    getIntegerInstance().format(elects).toString()
+                )
+            )
         }
     }
 
