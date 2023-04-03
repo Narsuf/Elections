@@ -3,9 +3,9 @@ package com.n27.core.presentation.detail
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.core.presentation.detail.DetailState.Failure
-import com.n27.core.presentation.detail.DetailState.InitialLoading
-import com.n27.core.presentation.detail.DetailState.Success
+import com.n27.core.presentation.detail.entities.DetailState.Error
+import com.n27.core.presentation.detail.entities.DetailState.InitialLoading
+import com.n27.core.presentation.detail.entities.DetailState.Content
 import com.n27.test.generators.getElection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -44,7 +44,7 @@ class DetailViewModelTest {
         viewModel.requestElection(getElection(), null, null)
         runCurrent()
 
-        assertEquals(Success(getElection()), viewModel.viewState.value)
+        assertEquals(Content(getElection()), viewModel.viewState.value)
     }
 
     @Test
@@ -54,7 +54,7 @@ class DetailViewModelTest {
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
-        assertEquals(Success(getElection()), viewModel.viewState.value)
+        assertEquals(Content(getElection()), viewModel.viewState.value)
     }
 
     @Test
@@ -65,24 +65,24 @@ class DetailViewModelTest {
         viewModel.requestElection(null, null, ids)
         runCurrent()
 
-        assertEquals(Success(getElection()), viewModel.viewState.value)
+        assertEquals(Content(getElection()), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit failure when all fields null`() = runTest {
+    fun `requestElection should emit error when all fields null`() = runTest {
         viewModel.requestElection(null, null, null)
         runCurrent()
 
-        assertEquals(Failure(), viewModel.viewState.value)
+        assertEquals(Error(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit failure when exception occurs`() = runTest {
+    fun `requestElection should emit error when exception occurs`() = runTest {
         `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
 
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
-        assertEquals(Failure(NO_INTERNET_CONNECTION), viewModel.viewState.value)
+        assertEquals(Error(NO_INTERNET_CONNECTION), viewModel.viewState.value)
     }
 }

@@ -1,5 +1,5 @@
 package com.n27.core.presentation.detail
 
-import com.n27.core.presentation.detail.DetailState.Failure
+import com.n27.core.presentation.detail.entities.DetailState.Error
 
-fun getDetailFailure(error: String? = null) = Failure(error)
+fun getDetailFailure(error: String? = null) = Error(error)

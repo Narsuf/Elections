@@ -11,6 +11,7 @@ import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.locals.comm.LocalsEventBus
 import com.n27.regional_live.locals.entities.LocalsAction
 import com.n27.regional_live.locals.entities.LocalsAction.NavigateToDetail
+import com.n27.regional_live.locals.entities.LocalsAction.ShowErrorSnackbar
 import com.n27.regional_live.locals.entities.LocalsState
 import com.n27.regional_live.locals.entities.LocalsState.*
 import kotlinx.coroutines.channels.BufferOverflow
@@ -36,16 +37,14 @@ class LocalsViewModel @Inject constructor(
     }
 
     internal fun requestRegions() {
-        viewModelScope.launchCatching(::error) {
+        viewModelScope.launchCatching(::errorState) {
             val regions = repository.getRegions()
             val stateResult = regions?.let { Content(it.regions) } ?: Error()
             state.emit(stateResult)
         }
     }
 
-    private suspend fun error(throwable: Throwable) {
-        state.emit(Error(throwable.message))
-    }
+    private suspend fun errorState(throwable: Throwable) { state.emit(Error(throwable.message)) }
 
     private suspend fun onEvent(event: LocalsEvent) {
         when (event) {
@@ -55,9 +54,13 @@ class LocalsViewModel @Inject constructor(
     }
 
     private fun requestElection(ids: LocalElectionIds) {
-        viewModelScope.launchCatching(::error) {
+        viewModelScope.launchCatching(::errorAction) {
             val elections = repository.getLocalElection(ids)
             action.send(NavigateToDetail(elections, ids))
         }
+    }
+
+    private suspend fun errorAction(throwable: Throwable) {
+        action.send(ShowErrorSnackbar(throwable.message))
     }
 }

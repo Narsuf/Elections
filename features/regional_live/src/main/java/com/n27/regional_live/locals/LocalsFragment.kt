@@ -29,6 +29,7 @@ import com.n27.regional_live.locals.adapters.LocalsCardAdapter
 import com.n27.regional_live.locals.dialog.MunicipalitySelectionDialog
 import com.n27.regional_live.locals.entities.LocalsAction
 import com.n27.regional_live.locals.entities.LocalsAction.NavigateToDetail
+import com.n27.regional_live.locals.entities.LocalsAction.ShowErrorSnackbar
 import com.n27.regional_live.locals.entities.LocalsState
 import javax.inject.Inject
 
@@ -90,24 +91,24 @@ class LocalsFragment : Fragment() {
         }
     }
 
-    private fun showError(errorMsg: String?) = with(binding) {
-        if (!localsRecyclerView.isVisible) {
-            setViewsVisibility(error = true)
-            localsErrorAnimation.playErrorAnimation()
-        } else {
-            setViewsVisibility(content = true)
-        }
+    private fun showError(errorMsg: String?) {
+        setViewsVisibility(error = true)
+        binding.localsErrorAnimation.playErrorAnimation()
+        showSnackbar(errorMsg)
+    }
 
+    private fun showSnackbar(errorMsg: String?) {
         val error = when (errorMsg) {
             NO_INTERNET_CONNECTION -> R.string.no_internet_connection
             else -> R.string.something_wrong
         }
 
-        Snackbar.make(root, getString(error), Snackbar.LENGTH_LONG).show()
+        Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
     private fun handleAction(action: LocalsAction) = when (action) {
         is NavigateToDetail -> navigateToDetail(action)
+        is ShowErrorSnackbar -> showSnackbar(action.error)
     }
 
     private fun navigateToDetail(action: NavigateToDetail) {

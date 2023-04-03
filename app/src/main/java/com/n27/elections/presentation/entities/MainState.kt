@@ -6,6 +6,6 @@ sealed class MainState {
 
     object InitialLoading : MainState()
     object Loading : MainState()
-    data class Success(val elections: List<Election>) : MainState()
+    data class Content(val elections: List<Election>) : MainState()
     data class Error(val errorMessage: String? = null) : MainState()
 }

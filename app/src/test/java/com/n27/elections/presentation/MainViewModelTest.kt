@@ -3,10 +3,10 @@ package com.n27.elections.presentation
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.repositories.AppRepository
 import com.n27.elections.data.repositories.ElectionRepository
-import com.n27.elections.presentation.entities.MainEvent.*
+import com.n27.elections.presentation.entities.MainAction.*
 import com.n27.elections.presentation.entities.MainState.Error
 import com.n27.elections.presentation.entities.MainState.InitialLoading
-import com.n27.elections.presentation.entities.MainState.Success
+import com.n27.elections.presentation.entities.MainState.Content
 import com.n27.test.generators.getElections
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals
@@ -57,7 +57,7 @@ class MainViewModelTest {
             viewModel.requestElections(initialLoading = true)
             runCurrent()
 
-            assertEquals(Success(getElections()), viewModel.viewState.value)
+            assertEquals(Content(getElections()), viewModel.viewState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
@@ -68,7 +68,7 @@ class MainViewModelTest {
         viewModel.requestElections()
         runCurrent()
 
-        assertEquals(Success(getElections()), viewModel.viewState.value)
+        assertEquals(Content(getElections()), viewModel.viewState.value)
     }
 
     @Test
@@ -83,7 +83,7 @@ class MainViewModelTest {
 
     @Test
     fun `first launch should emit show disclaimer`() = runTest {
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         `when`(appRepository.isFirstLaunch()).thenReturn(true)
 
         viewModel.requestElections()
@@ -95,7 +95,7 @@ class MainViewModelTest {
 
     @Test
     fun `not first launch should not emit show disclaimer`() = runTest {
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
 
         viewModel.requestElections()
         runCurrent()

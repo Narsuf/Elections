@@ -6,17 +6,20 @@ import com.n27.core.data.LiveRepository
 import com.n27.core.data.local.json.models.Province
 import com.n27.core.data.local.json.models.Region
 import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.extensions.launchCatching
 import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.locals.comm.LocalsEventBus
-import com.n27.regional_live.locals.dialog.MunicipalityState.Failure
-import com.n27.regional_live.locals.dialog.MunicipalityState.Loading
-import com.n27.regional_live.locals.dialog.MunicipalityState.Municipalities
-import com.n27.regional_live.locals.dialog.MunicipalityState.Provinces
-import kotlinx.coroutines.CoroutineExceptionHandler
+import com.n27.regional_live.locals.dialog.entities.MunicipalityAction
+import com.n27.regional_live.locals.dialog.entities.MunicipalityAction.*
+import com.n27.regional_live.locals.dialog.entities.MunicipalityState
+import com.n27.regional_live.locals.dialog.entities.MunicipalityState.Idle
+import com.n27.regional_live.locals.dialog.entities.MunicipalityState.Content
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class MunicipalitySelectionViewModel @Inject constructor(
@@ -24,37 +27,34 @@ class MunicipalitySelectionViewModel @Inject constructor(
     private val eventBus: LocalsEventBus
 ) : ViewModel() {
 
-    private val state = MutableStateFlow<MunicipalityState>(Loading)
+    private val state = MutableStateFlow<MunicipalityState>(Idle)
     internal val viewState = state.asStateFlow()
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        state.tryEmit(Failure(throwable))
-    }
+    private val action = Channel<MunicipalityAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
+    internal val viewAction = action.receiveAsFlow()
 
     internal fun requestProvinces(region: Region?) {
-        viewModelScope.launch(exceptionHandler) {
-            val resultState = region?.let {
+        viewModelScope.launchCatching(::error) {
+            region?.let {
                 val provinces = repository.getProvinces(region.name)
-                Provinces(provinces)
-            } ?: Failure()
-
-            state.emit(resultState)
+                state.emit(Content(provinces))
+            } ?: action.send(ShowErrorSnackbar())
         }
     }
 
     internal fun requestMunicipalities(province: Province?) {
-        viewModelScope.launch(exceptionHandler) {
-            val resultState = province?.let {
+        viewModelScope.launchCatching(::error) {
+            val resultAction = province?.let {
                 val provinces = repository.getMunicipalities(province.name)
-                Municipalities(provinces)
-            } ?: Failure()
+                PopulateMunicipalitiesSpinner(provinces)
+            } ?: ShowErrorSnackbar()
 
-            state.emit(resultState)
+            action.send(resultAction)
         }
     }
 
     internal fun requestElection(regionId: String?, provinceId: String?, municipalityId: String?) {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launchCatching(::error) {
             val event = if (regionId != null && provinceId != null && municipalityId != null)
                 RequestElection(LocalElectionIds(regionId, provinceId, municipalityId))
             else
@@ -62,5 +62,9 @@ class MunicipalitySelectionViewModel @Inject constructor(
 
             eventBus.emit(event)
         }
+    }
+
+    private suspend fun error(throwable: Throwable) {
+        action.send(ShowErrorSnackbar(throwable.message))
     }
 }

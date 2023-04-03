@@ -22,13 +22,14 @@ import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
-import com.n27.elections.presentation.entities.MainEvent
-import com.n27.elections.presentation.entities.MainEvent.ShowDisclaimer
+import com.n27.elections.presentation.entities.MainAction
+import com.n27.elections.presentation.entities.MainAction.ShowDisclaimer
+import com.n27.elections.presentation.entities.MainAction.ShowErrorSnackbar
 import com.n27.elections.presentation.entities.MainState
 import com.n27.elections.presentation.entities.MainState.Error
 import com.n27.elections.presentation.entities.MainState.InitialLoading
 import com.n27.elections.presentation.entities.MainState.Loading
-import com.n27.elections.presentation.entities.MainState.Success
+import com.n27.elections.presentation.entities.MainState.Content
 import com.n27.regional_live.RegionalLiveActivity
 import javax.inject.Inject
 
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             distinctUntilChanged = true,
             action = ::renderState
         )
-        viewModel.viewEvent.observeOnLifecycle(lifecycleOwner = this, action = ::handleEvent)
+        viewModel.viewAction.observeOnLifecycle(lifecycleOwner = this, action = ::handleAction)
     }
 
     @VisibleForTesting
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         InitialLoading -> setViewsVisibility(initialLoading = true)
         Loading -> Unit
         is Error -> showError(state.errorMessage)
-        is Success -> showElections(state)
+        is Content -> showElections(state)
     }
 
     private fun setViewsVisibility(
@@ -90,23 +91,22 @@ class MainActivity : AppCompatActivity() {
         recyclerActivityMain.isVisible = content
     }
 
-    private fun showError(errorMsg: String?) = with(binding) {
-        if (!recyclerActivityMain.isVisible) {
-            setViewsVisibility(error = true)
-            errorAnimationActivityMain.playErrorAnimation()
-        } else {
-            setViewsVisibility(content = true)
-        }
-
-        val error = when (errorMsg) {
-            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
-            else -> R.string.something_wrong
-        }
-
-        Snackbar.make(root, getString(error), Snackbar.LENGTH_LONG).show()
+    private fun showError(errorMsg: String?) {
+        setViewsVisibility(error = true)
+        binding.errorAnimationActivityMain.playErrorAnimation()
+        showSnackbar(errorMsg)
     }
 
-    private fun showElections(state: Success) = with(binding) {
+    private fun showSnackbar(errorMsg: String?) {
+        val error = when (errorMsg) {
+            NO_INTERNET_CONNECTION -> com.n27.core.R.string.no_internet_connection
+            else -> com.n27.core.R.string.something_wrong
+        }
+
+        Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun showElections(state: Content) = with(binding) {
         swipeActivityMain.isRefreshing = false
         setViewsVisibility(content = true)
         liveElectionsButtonActivityMain.isVisible = true
@@ -129,8 +129,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(myIntent)
     }
 
-    private fun handleEvent(event: MainEvent) = when (event) {
+    private fun handleAction(action: MainAction) = when (action) {
         is ShowDisclaimer -> onShowDisclaimer()
+        is ShowErrorSnackbar -> showSnackbar(action.error)
     }
 
     private fun onShowDisclaimer() {

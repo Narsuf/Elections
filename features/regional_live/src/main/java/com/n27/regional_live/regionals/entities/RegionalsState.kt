@@ -1,4 +1,4 @@
-package com.n27.regional_live.regionals
+package com.n27.regional_live.regionals.entities
 
 import com.n27.core.data.local.room.models.PartyRaw
 import com.n27.core.data.remote.api.models.ElectionXml
@@ -7,6 +7,6 @@ sealed class RegionalsState {
 
     object InitialLoading : RegionalsState()
     object Loading : RegionalsState()
-    data class Success(val elections: List<ElectionXml>, val parties: List<PartyRaw>) : RegionalsState()
-    data class Failure(val throwable: Throwable? = null) : RegionalsState()
+    data class Content(val elections: List<ElectionXml>, val parties: List<PartyRaw>) : RegionalsState()
+    data class Error(val error: String? = null) : RegionalsState()
 }

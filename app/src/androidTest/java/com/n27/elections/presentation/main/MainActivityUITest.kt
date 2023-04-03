@@ -1,6 +1,5 @@
 package com.n27.elections.presentation.main
 
-import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeDown
@@ -44,8 +43,6 @@ class MainActivityUITest {
         launchActivity()
 
         checkFirstLaunchDialog()
-        checkContent()
-        onView(withId(R.id.swipe_activity_main)).perform(swipeDown())
         checkContent()
         checkNavigation()
     }

@@ -10,8 +10,8 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
-import com.n27.core.presentation.detail.DetailState.InitialLoading
-import com.n27.core.presentation.detail.DetailState.Loading
+import com.n27.core.presentation.detail.entities.DetailState.InitialLoading
+import com.n27.core.presentation.detail.entities.DetailState.Loading
 import com.n27.test.generators.getElection
 import junit.framework.TestCase.*
 import org.junit.Test
@@ -69,16 +69,6 @@ class DetailActivityTest {
             with(activity) {
                 renderState(getDetailFailure())
                 binding.assertVisibilities(error = true)
-            }
-        }
-    }
-
-    @Test
-    fun checkErrorViewStateAfterContent() {
-        launchActivity().onActivity { activity ->
-            with(activity) {
-                renderState(getDetailFailure())
-                binding.assertVisibilities(content = true)
             }
         }
     }

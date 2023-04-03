@@ -56,21 +56,6 @@ class MainActivityTest {
         checkError(state)
     }
 
-    @Test
-    fun checkErrorViewStateWithContentVisible() {
-        val success = getMainSuccess()
-        val error = getMainError()
-
-        launchActivity().onActivity { activity ->
-            with(activity) {
-                renderState(success)
-                renderState(error)
-
-                binding.assertVisibilities(content = true)
-            }
-        }
-    }
-
     private fun checkError(state: Error) {
         launchActivity().onActivity { activity ->
             with(activity.binding) {
