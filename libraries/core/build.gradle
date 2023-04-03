@@ -55,7 +55,7 @@ android {
 
         debug {
             testCoverageEnabled true
-            buildConfigField "String", "EL_PAIS_API_URL", '"http://rsl00.epimg.net/elecciones"'
+            buildConfigField "String", "EL_PAIS_API_URL", '"http://127.0.0.1:8080"'
         }
     }
 

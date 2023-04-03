@@ -47,6 +47,7 @@ class RegionalActivityUITest {
         assertDisplayedAtPosition(R.id.localsRecyclerView, 9, R.id.region_name_card_local_election, "Extremadura")
         assertDisplayedAtPosition(R.id.localsRecyclerView, 18, R.id.region_name_card_local_election, "Melilla")
 
+        // Open and check dialog
         clickOn("La Rioja")
         assertDisplayed("La Rioja")
         assertDisplayed("Ábalos")
