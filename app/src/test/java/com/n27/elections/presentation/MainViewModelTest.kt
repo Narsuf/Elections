@@ -48,13 +48,11 @@ class MainViewModelTest {
 
     @Test
     fun `view model initialized should emit initial loading`() = runTest {
-        viewModel.requestElections()
-
         assertEquals(InitialLoading, viewModel.viewState.value)
     }
 
     @Test
-    fun `screen opened should emit success when succeeding`() = runTest {
+    fun `requestElections should emit success when succeeding`() = runTest {
         val totalExecutionTime = measureTimeMillis {
             viewModel.requestElections(initialLoading = true)
             runCurrent()
@@ -74,7 +72,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `screen opened should emit error when an exception occurs`() = runTest {
+    fun `requestElections should emit error when an exception occurs`() = runTest {
         `when`(electionRepository.getElections()).thenThrow(IndexOutOfBoundsException((NO_INTERNET_CONNECTION)))
 
         viewModel.requestElections()

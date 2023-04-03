@@ -10,6 +10,7 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
+import com.n27.core.presentation.detail.DetailState.InitialLoading
 import com.n27.core.presentation.detail.DetailState.Loading
 import com.n27.test.generators.getElection
 import junit.framework.TestCase.*
@@ -22,6 +23,16 @@ class DetailActivityTest {
 
     private val congressElection = getElection()
     private val senateElection = getElection(chamberName = KEY_SENATE)
+
+    @Test
+    fun checkInitialLoadingViewState() {
+        launchActivity().onActivity { activity ->
+            with(activity) {
+                renderState(InitialLoading)
+                binding.assertVisibilities(animation = true)
+            }
+        }
+    }
 
     @Test
     fun checkLoadingViewState() {

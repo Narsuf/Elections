@@ -23,15 +23,14 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
     fun requestElection(
         election: Election?,
         electionId: String?,
-        localElectionIds: LocalElectionIds?,
-        initialLoading: Boolean
+        localElectionIds: LocalElectionIds?
     ) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             state.tryEmit(Failure(throwable.message))
         }
 
         viewModelScope.launch(exceptionHandler) {
-            if (initialLoading) state.emit(Loading)
+            state.emit(Loading)
 
             val resultState = when {
                 localElectionIds != null -> Success(repository.getLocalElection(localElectionIds))

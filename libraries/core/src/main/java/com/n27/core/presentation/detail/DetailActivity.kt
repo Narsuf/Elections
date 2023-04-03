@@ -58,7 +58,7 @@ class DetailActivity : AppCompatActivity() {
         intent.extras?.deserialize()
         binding.setUpViews()
         initObservers()
-        requestElection(initialLoading = true)
+        requestElection()
     }
 
     private fun Bundle.deserialize() {
@@ -84,9 +84,7 @@ class DetailActivity : AppCompatActivity() {
         )
     }
 
-    private fun requestElection(initialLoading: Boolean = false) {
-        viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds, initialLoading)
-    }
+    private fun requestElection() { viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds) }
 
     private fun generateToolbarTitle() = currentElection?.let { "${it.chamberName} (${it.place} ${it.date})" }
 
@@ -111,7 +109,7 @@ class DetailActivity : AppCompatActivity() {
 
     @VisibleForTesting
     internal fun renderState(state: DetailState) = when (state) {
-        InitialLoading -> Unit
+        InitialLoading -> setViewsVisibility(animation = true)
         Loading -> showLoading()
         is Success -> showContent(state.election)
         is Failure -> showError(state.error)
