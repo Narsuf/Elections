@@ -5,14 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.extensions.launchCatching
 import com.n27.core.presentation.detail.DetailState.Failure
 import com.n27.core.presentation.detail.DetailState.InitialLoading
 import com.n27.core.presentation.detail.DetailState.Loading
 import com.n27.core.presentation.detail.DetailState.Success
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
@@ -20,16 +19,12 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
     private val state = MutableStateFlow<DetailState>(InitialLoading)
     internal val viewState = state.asStateFlow()
 
-    fun requestElection(
+    internal fun requestElection(
         election: Election?,
         electionId: String?,
         localElectionIds: LocalElectionIds?
     ) {
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            state.tryEmit(Failure(throwable.message))
-        }
-
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launchCatching(::error) {
             state.emit(Loading)
 
             val resultState = when {
@@ -41,5 +36,9 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
 
             state.emit(resultState)
         }
+    }
+
+    private suspend fun error(throwable: Throwable) {
+        state.emit(Failure(throwable.message))
     }
 }

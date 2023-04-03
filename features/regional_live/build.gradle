@@ -72,8 +72,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
+    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
+
     testImplementation project(':libraries:test')
-    testImplementation "junit:junit:4.13.2"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "androidx.test:core:$testVersion"
     testImplementation "androidx.arch.core:core-testing:$archTestVersion"

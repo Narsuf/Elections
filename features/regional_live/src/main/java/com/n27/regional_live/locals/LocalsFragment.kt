@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.n27.core.Constants
+import com.n27.core.Constants.KEY_ELECTION
+import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_REGION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
@@ -20,18 +22,20 @@ import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentLocalsBinding
-import com.n27.regional_live.locals.LocalsState.ElectionResult
-import com.n27.regional_live.locals.LocalsState.Failure
-import com.n27.regional_live.locals.LocalsState.Loading
-import com.n27.regional_live.locals.LocalsState.Regions
+import com.n27.regional_live.locals.entities.LocalsState.Error
+import com.n27.regional_live.locals.entities.LocalsState.Loading
+import com.n27.regional_live.locals.entities.LocalsState.Content
 import com.n27.regional_live.locals.adapters.LocalsCardAdapter
 import com.n27.regional_live.locals.dialog.MunicipalitySelectionDialog
+import com.n27.regional_live.locals.entities.LocalsAction
+import com.n27.regional_live.locals.entities.LocalsAction.NavigateToDetail
+import com.n27.regional_live.locals.entities.LocalsState
 import javax.inject.Inject
 
 class LocalsFragment : Fragment() {
 
     private var _binding: FragmentLocalsBinding? = null
-    private val binding get() = _binding!!
+    @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: LocalsViewModel
 
     override fun onAttach(context: Context) {
@@ -57,13 +61,16 @@ class LocalsFragment : Fragment() {
             distinctUntilChanged = true,
             action = ::renderState
         )
+        viewModel.viewAction.observeOnLifecycle(
+            lifecycleOwner = viewLifecycleOwner,
+            action = ::handleAction
+        )
     }
 
     private fun renderState(state: LocalsState) = when (state) {
         Loading -> Unit
-        is Regions -> generateCards(state.regions)
-        is ElectionResult -> navigateToDetail(state)
-        is Failure -> showError(state.error)
+        is Content -> generateCards(state.regions)
+        is Error -> showError(state.error)
     }
 
     private fun setViewsVisibility(
@@ -83,15 +90,6 @@ class LocalsFragment : Fragment() {
         }
     }
 
-    private fun navigateToDetail(state: ElectionResult) {
-        val intent = Intent(activity, DetailActivity::class.java).apply {
-            putExtra(Constants.KEY_ELECTION, state.election)
-            putExtra(Constants.KEY_LOCAL_ELECTION_IDS, state.ids)
-        }
-
-        startActivity(intent)
-    }
-
     private fun showError(errorMsg: String?) = with(binding) {
         if (!localsRecyclerView.isVisible) {
             setViewsVisibility(error = true)
@@ -106,6 +104,19 @@ class LocalsFragment : Fragment() {
         }
 
         Snackbar.make(root, getString(error), Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun handleAction(action: LocalsAction) = when (action) {
+        is NavigateToDetail -> navigateToDetail(action)
+    }
+
+    private fun navigateToDetail(action: NavigateToDetail) {
+        val intent = Intent(activity, DetailActivity::class.java).apply {
+            putExtra(KEY_ELECTION, action.election)
+            putExtra(KEY_LOCAL_ELECTION_IDS, action.ids)
+        }
+
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
