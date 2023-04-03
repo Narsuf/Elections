@@ -9,6 +9,8 @@ import com.n27.core.data.local.room.Database
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
+import com.n27.regional_live.injection.RegionalLiveComponent
+import com.n27.regional_live.injection.RegionalLiveComponentProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Component
@@ -17,16 +19,20 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
-class TestApplication : MultiDexApplication(), DetailComponentProvider {
+class TestApplication : MultiDexApplication(), DetailComponentProvider, RegionalLiveComponentProvider {
 
     override fun provideDetailComponent(): TestApplicationComponent = DaggerTestApplicationComponent.builder()
+        .fakeModule(FakeModule(this))
+        .build()
+
+    override fun provideRegionalLiveComponent(): TestApplicationComponent = DaggerTestApplicationComponent.builder()
         .fakeModule(FakeModule(this))
         .build()
 }
 
 @Singleton
 @Component(modules = [FakeModule::class])
-interface TestApplicationComponent : DetailComponent
+interface TestApplicationComponent : DetailComponent, RegionalLiveComponent
 
 @Module
 class FakeModule(val app: Application) {

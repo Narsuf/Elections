@@ -1,6 +1,7 @@
 package com.n27.elections.presentation.main
 
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -83,7 +84,7 @@ class MainActivityUITest {
         }
     }
 
-    private fun launchActivity() = ActivityScenario.launch(MainActivity::class.java)
+    private fun launchActivity() = launch(MainActivity::class.java)
 
     @After
     @Throws(IOException::class)

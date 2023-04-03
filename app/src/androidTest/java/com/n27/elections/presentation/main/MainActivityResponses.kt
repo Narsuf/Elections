@@ -5,6 +5,7 @@ import org.intellij.lang.annotations.Language
 internal interface MainActivityResponses {
 
     companion object {
+
         @Language("json")
         val elections = """
             {
