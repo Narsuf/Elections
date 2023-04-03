@@ -62,7 +62,7 @@
         android:layout_marginEnd="@dimen/loose_spacing"
         android:layout_marginBottom="@dimen/loose_spacing"
         android:contentDescription="@string/live_elections"
-        android:src="@drawable/ic_vote"
+        android:src="@drawable/ic_live"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

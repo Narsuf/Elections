@@ -1,4 +1,4 @@
-package com.n27.test
+package com.n27.test.applications
 
 import android.app.Application
 import android.content.Context
@@ -9,8 +9,6 @@ import com.n27.core.data.local.room.Database
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
-import com.n27.regional_live.injection.RegionalLiveComponent
-import com.n27.regional_live.injection.RegionalLiveComponentProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Component
@@ -19,23 +17,20 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
-class TestApplication : MultiDexApplication(), DetailComponentProvider, RegionalLiveComponentProvider {
+class DetailTestApplication : MultiDexApplication(), DetailComponentProvider {
 
-    override fun provideDetailComponent(): TestApplicationComponent = DaggerTestApplicationComponent.builder()
-        .fakeModule(FakeModule(this))
-        .build()
-
-    override fun provideRegionalLiveComponent(): TestApplicationComponent = DaggerTestApplicationComponent.builder()
-        .fakeModule(FakeModule(this))
+    override fun provideDetailComponent(): DetailTestApplicationComponent = DaggerDetailTestApplicationComponent
+        .builder()
+        .detailFakeModule(DetailFakeModule(this))
         .build()
 }
 
 @Singleton
-@Component(modules = [FakeModule::class])
-interface TestApplicationComponent : DetailComponent, RegionalLiveComponent
+@Component(modules = [DetailFakeModule::class])
+interface DetailTestApplicationComponent : DetailComponent
 
 @Module
-class FakeModule(val app: Application) {
+class DetailFakeModule(val app: Application) {
 
     @Provides
     @Singleton
