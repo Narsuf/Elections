@@ -6,7 +6,9 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.n27.core.Constants
+import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_SENATE
+import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.R
 import com.n27.test.assertions.ListAssertions.assertListTexts
 import com.n27.test.assertions.ListAssertions.assertListTextsWithDifferentPositions
@@ -60,8 +62,8 @@ class DetailActivityUITest {
 
     private fun launchActivity() = ActivityScenario.launch<DetailActivity>(
         Intent(getInstrumentation().targetContext, DetailActivity::class.java).apply {
-            putExtra(Constants.KEY_ELECTION, congressElection)
-            putExtra(Constants.KEY_SENATE_ELECTION, senateElection)
+            putExtra(KEY_ELECTION, congressElection)
+            putExtra(KEY_SENATE_ELECTION, senateElection)
         }
     )
 }

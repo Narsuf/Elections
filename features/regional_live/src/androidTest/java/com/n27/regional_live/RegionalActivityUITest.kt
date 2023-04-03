@@ -1,8 +1,14 @@
 package com.n27.regional_live
 
 import androidx.test.core.app.ActivityScenario.launch
+import com.adevinta.android.barista.assertion.BaristaListAssertions.assertDisplayedAtPosition
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
+import com.n27.core.presentation.detail.DetailActivity
 import com.n27.test.conditions.instructions.waitUntil
+import com.n27.test.intents.intents
+import com.n27.test.intents.mockIntent
+import com.n27.test.intents.verifyIntent
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -17,19 +23,38 @@ class RegionalActivityUITest {
     @Before
     @Throws(IOException::class, InterruptedException::class)
     fun setup() {
-        for (i in 0..16) {
-            mockWebServer.enqueue(
-                MockResponse().setBody(RegionalActivityResponses.regionalElection)
-            )
-        }
-
+        for (i in 0..15) mockWebServer.enqueue(MockResponse().setResponseCode(500))
+        mockWebServer.enqueue(MockResponse().setBody(RegionalActivityResponses.regionalElection))
+        mockWebServer.enqueue(MockResponse().setBody(RegionalActivityResponses.localElection))
         mockWebServer.start(8080)
     }
 
     @Test
     fun checkRegionalContent() {
         launchActivity()
+
         waitUntil { assertDisplayed(R.id.regionalsRecyclerView) }
+        assertDisplayedAtPosition(R.id.regionalsRecyclerView, 0, R.id.card_region_name, "Aragón")
+    }
+
+    @Test
+    fun checkLocalContent() {
+        launchActivity()
+
+        clickOn("Locals")
+        waitUntil { assertDisplayed(R.id.localsRecyclerView) }
+        assertDisplayedAtPosition(R.id.localsRecyclerView, 0, R.id.region_name_card_local_election, "Andalucía")
+        assertDisplayedAtPosition(R.id.localsRecyclerView, 9, R.id.region_name_card_local_election, "Extremadura")
+        assertDisplayedAtPosition(R.id.localsRecyclerView, 18, R.id.region_name_card_local_election, "Melilla")
+
+        clickOn("La Rioja")
+        assertDisplayed("La Rioja")
+        assertDisplayed("Ábalos")
+
+        intents {
+            clickOn("SHOW RESULTS")
+            verifyIntent(DetailActivity::class.java.name)
+        }
     }
 
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)
