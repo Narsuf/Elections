@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +31,7 @@ import javax.inject.Inject
 class RegionalsFragment : Fragment() {
 
     private var _binding: FragmentRegionalsBinding? = null
-    private val binding get() = _binding!!
+    @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: RegionalsViewModel
 
     override fun onAttach(context: Context) {
