@@ -3,6 +3,7 @@
 
     <application
         android:name="com.n27.test.TestApplication"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".RegionalLiveActivity" />
     </application>

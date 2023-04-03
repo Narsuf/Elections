@@ -1,17 +1,14 @@
 package com.n27.regional_live
 
-import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.n27.test.conditions.instructions.waitUntil
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.io.IOException
-import java.lang.Thread.sleep
 
 class RegionalActivityUITest {
 
@@ -20,14 +17,19 @@ class RegionalActivityUITest {
     @Before
     @Throws(IOException::class, InterruptedException::class)
     fun setup() {
-        mockWebServer.enqueue(MockResponse().setBody(RegionalActivityResponses.regionalElection))
+        for (i in 0..16) {
+            mockWebServer.enqueue(
+                MockResponse().setBody(RegionalActivityResponses.regionalElection)
+            )
+        }
+
         mockWebServer.start(8080)
     }
 
     @Test
     fun checkRegionalContent() {
         launchActivity()
-        sleep(10000)
+        waitUntil { assertDisplayed(R.id.regionalsRecyclerView) }
     }
 
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)

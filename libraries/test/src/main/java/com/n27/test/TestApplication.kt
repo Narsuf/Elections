@@ -74,5 +74,5 @@ class FakeModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun provideBaseUrl() = ""
+    fun provideBaseUrl() = "http://127.0.0.1:8080"
 }
