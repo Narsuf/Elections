@@ -17,6 +17,14 @@ import org.robolectric.RobolectricTestRunner
 class MainActivityTest {
 
     @Test
+    fun checkInitialLoadingViewState() {
+        launchActivity().onActivity { activity ->
+            // Initial loading is triggered automatically.
+            activity.binding.assertVisibilities(loading = true)
+        }
+    }
+
+    @Test
     fun checkSuccessViewState() {
         val state = getMainSuccess()
 
@@ -33,14 +41,6 @@ class MainActivityTest {
                 assertTrue(state.elections.containsAll(recyclerAdapter.senateElections))
                 assertEquals(recyclerAdapter.onElectionClicked, ::navigateToDetail)
             }
-        }
-    }
-
-    @Test
-    fun checkInitialLoadingViewState() {
-        launchActivity().onActivity { activity ->
-            // Initial loading is triggered automatically.
-            activity.binding.assertVisibilities(loading = true)
         }
     }
 

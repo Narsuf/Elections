@@ -16,6 +16,7 @@ import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.api.models.LocalElectionIds
@@ -57,7 +58,7 @@ class DetailActivity : AppCompatActivity() {
         intent.extras?.deserialize()
         binding.setUpViews()
         initObservers()
-        requestElection()
+        requestElection(initialLoading = true)
     }
 
     private fun Bundle.deserialize() {
@@ -83,7 +84,9 @@ class DetailActivity : AppCompatActivity() {
         )
     }
 
-    private fun requestElection() { viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds) }
+    private fun requestElection(initialLoading: Boolean = false) {
+        viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds, initialLoading)
+    }
 
     private fun generateToolbarTitle() = currentElection?.let { "${it.chamberName} (${it.place} ${it.date})" }
 
@@ -106,8 +109,9 @@ class DetailActivity : AppCompatActivity() {
         contentActivityDetail.isVisible = content
     }
 
-    private fun renderState(state: DetailState) = when (state) {
-        InitialLoading -> setViewsVisibility(animation = true)
+    @VisibleForTesting
+    internal fun renderState(state: DetailState) = when (state) {
+        InitialLoading -> Unit
         Loading -> showLoading()
         is Success -> showContent(state.election)
         is Failure -> showError(state.error)
@@ -138,7 +142,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         val error = when (errorMsg) {
-            Constants.NO_INTERNET_CONNECTION -> R.string.no_internet_connection
+            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
             else -> R.string.something_wrong
         }
 
@@ -150,9 +154,7 @@ class DetailActivity : AppCompatActivity() {
 
         moreInfoButtonActivityDetail.setOnClickListener {
             DetailDialog()
-                .also {
-                    it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) }
-                }
+                .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
                 .show(supportFragmentManager, "DetailDialog")
 
             utils.track("results_info_clicked") {

@@ -1,4 +1,4 @@
-package com.n27.core.presentation.common
+package com.n27.core.presentation
 
 import com.n27.core.presentation.PresentationUtils
 import org.junit.Assert.assertEquals

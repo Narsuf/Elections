@@ -1,11 +1,16 @@
 package com.n27.core.presentation.detail
 
 import android.content.Intent
+import androidx.core.view.isVisible
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import com.n27.core.Constants.KEY_ELECTION
+import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
+import com.n27.core.data.models.Election
+import com.n27.core.databinding.ActivityDetailBinding
+import com.n27.core.presentation.detail.DetailState.Loading
 import com.n27.test.generators.getElection
 import junit.framework.TestCase.*
 import org.junit.Test
@@ -19,11 +24,72 @@ class DetailActivityTest {
     private val senateElection = getElection(chamberName = KEY_SENATE)
 
     @Test
-    fun launchDetailActivity() {
+    fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
             with(activity) {
+                renderState(Loading)
+                binding.assertVisibilities(loading = true, content = true)
+            }
+        }
+    }
+
+    @Test
+    fun checkLoadingViewStateAfterError() {
+        launchActivity(election = null).onActivity { activity ->
+            with(activity) {
+                renderState(getDetailFailure())
+                renderState(Loading)
+                binding.assertVisibilities(animation = true)
+            }
+        }
+    }
+
+    @Test
+    fun checkContentViewState() {
+        launchActivity().onActivity { activity ->
+            // Content is triggered automatically.
+            activity.binding.assertVisibilities(content = true)
+        }
+    }
+
+    @Test
+    fun checkErrorViewState() {
+        launchActivity(election = null).onActivity { activity ->
+            with(activity) {
+                renderState(getDetailFailure())
+                binding.assertVisibilities(error = true)
+            }
+        }
+    }
+
+    @Test
+    fun checkErrorViewStateAfterContent() {
+        launchActivity().onActivity { activity ->
+            with(activity) {
+                renderState(getDetailFailure())
+                binding.assertVisibilities(content = true)
+            }
+        }
+    }
+
+    private fun ActivityDetailBinding.assertVisibilities(
+        animation: Boolean = false,
+        loading: Boolean = false,
+        error: Boolean = false,
+        content: Boolean = false
+    ) {
+        assertEquals(loadingAnimationActivityDetail.isVisible, animation)
+        assertEquals(progressBarActivityDetail.isVisible, loading)
+        assertEquals(errorAnimationActivityDetail.isVisible, error)
+        assertEquals(contentActivityDetail.isVisible, content)
+    }
+
+    @Test
+    fun checkSwap() {
+        launchActivity(senateElection = senateElection).onActivity { activity ->
+            with(activity) {
                 val swap = binding.toolbarActivityDetail.menu.getItem(0)
-                val pieChart = binding.pieChartActivityDetail
+                assertTrue(swap.isVisible)
 
                 // Congress results loaded
                 checkCongress()
@@ -35,6 +101,49 @@ class DetailActivityTest {
                 // Swap option clicked again
                 onOptionsItemSelected(swap)
                 checkCongress()
+            }
+        }
+    }
+
+    private fun DetailActivity.checkCongress() {
+        assertTrue(binding.toolbarActivityDetail.title.contains("Congreso"))
+        assertEquals(congressElection.id, currentElection?.id)
+    }
+
+    private fun DetailActivity.checkSenate() {
+        assertTrue(binding.toolbarActivityDetail.title.contains("Senado"))
+        assertEquals(senateElection.id, currentElection?.id)
+    }
+
+    @Test
+    fun swapNotVisibleWhenNoSenateElection() {
+        launchActivity().onActivity { activity ->
+            val swap = activity.binding.toolbarActivityDetail.menu.getItem(0)
+            assertFalse(swap.isVisible)
+        }
+    }
+
+    @Test
+    fun checkRefresh() {
+        launchActivity(liveElectionId = "01").onActivity { activity ->
+            val refresh = activity.binding.toolbarActivityDetail.menu.getItem(1)
+            assertTrue(refresh.isVisible)
+        }
+    }
+
+    @Test
+    fun refreshNotVisibleWhenNoLiveElectionId() {
+        launchActivity().onActivity { activity ->
+            val refresh = activity.binding.toolbarActivityDetail.menu.getItem(1)
+            assertFalse(refresh.isVisible)
+        }
+    }
+
+    @Test
+    fun checkHighlight() {
+        launchActivity().onActivity { activity ->
+            with(activity) {
+                val pieChart = binding.pieChartActivityDetail
 
                 // Check highlight function
                 binding.listActivityDetail.onItemClickListener?.onItemClick(null, null, 0, 0)
@@ -51,20 +160,15 @@ class DetailActivityTest {
         }
     }
 
-    private fun DetailActivity.checkCongress() {
-        assertTrue(binding.toolbarActivityDetail.title.contains("Congreso"))
-        assertEquals(congressElection.id, currentElection?.id)
-    }
-
-    private fun DetailActivity.checkSenate() {
-        assertTrue(binding.toolbarActivityDetail.title.contains("Senado"))
-        assertEquals(senateElection.id, currentElection?.id)
-    }
-
-    private fun launchActivity() = ActivityScenario.launch<DetailActivity>(
+    private fun launchActivity(
+        election: Election? = congressElection,
+        senateElection: Election? = null,
+        liveElectionId: String? = null
+    ) = ActivityScenario.launch<DetailActivity>(
         Intent(ApplicationProvider.getApplicationContext(), DetailActivity::class.java).apply {
-            putExtra(KEY_ELECTION, congressElection)
+            putExtra(KEY_ELECTION, election)
             putExtra(KEY_SENATE_ELECTION, senateElection)
+            putExtra(KEY_ELECTION_ID, liveElectionId)
         }
     )
 }
