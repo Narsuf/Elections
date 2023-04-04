@@ -4,8 +4,8 @@ import com.n27.core.data.models.Election
 
 sealed class DetailState {
 
-    object InitialLoading : DetailState()
     object Loading : DetailState()
+    object Refreshing : DetailState()
     data class Content(
         val election: Election,
         val arrayList: ArrayList<Map<String, Any>>,

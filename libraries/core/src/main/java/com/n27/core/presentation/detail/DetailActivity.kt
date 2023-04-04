@@ -30,10 +30,7 @@ import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
 import com.n27.core.presentation.detail.models.DetailState
-import com.n27.core.presentation.detail.models.DetailState.Content
-import com.n27.core.presentation.detail.models.DetailState.Error
-import com.n27.core.presentation.detail.models.DetailState.InitialLoading
-import com.n27.core.presentation.detail.models.DetailState.Loading
+import com.n27.core.presentation.detail.models.DetailState.*
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
 import javax.inject.Inject
@@ -103,6 +100,14 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    @VisibleForTesting
+    internal fun renderState(state: DetailState) = when (state) {
+        Loading -> setViewsVisibility(animation = true)
+        Refreshing -> Unit
+        is Content -> showContent(state)
+        is Error -> showError(state.error)
+    }
+
     private fun setViewsVisibility(
         animation: Boolean = false,
         loading: Boolean = false,
@@ -113,24 +118,6 @@ class DetailActivity : AppCompatActivity() {
         progressBarActivityDetail.isVisible = loading
         errorAnimationActivityDetail.isVisible = error
         contentActivityDetail.isVisible = content
-    }
-
-    @VisibleForTesting
-    internal fun renderState(state: DetailState) = when (state) {
-        InitialLoading -> setViewsVisibility(animation = true)
-        Loading -> showLoading()
-        is Content -> showContent(state)
-        is Error -> showError(state.error)
-    }
-
-    private fun showLoading() = with(binding) {
-        when {
-            errorAnimationActivityDetail.isVisible -> setViewsVisibility(animation = true)
-            !loadingAnimationActivityDetail.isVisible -> setViewsVisibility(
-                loading = true,
-                content = contentActivityDetail.isVisible
-            )
-        }
     }
 
     private fun showContent(content: Content) {

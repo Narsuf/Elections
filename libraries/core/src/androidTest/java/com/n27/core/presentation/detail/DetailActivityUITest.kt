@@ -19,7 +19,6 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Test
-import java.lang.Thread.sleep
 import java.text.NumberFormat.getIntegerInstance
 
 class DetailActivityUITest {

@@ -11,22 +11,19 @@ import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
 import com.n27.core.presentation.detail.models.DetailState
-import com.n27.core.presentation.detail.models.DetailState.Content
-import com.n27.core.presentation.detail.models.DetailState.Error
-import com.n27.core.presentation.detail.models.DetailState.InitialLoading
-import com.n27.core.presentation.detail.models.DetailState.Loading
+import com.n27.core.presentation.detail.models.DetailState.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
 
-    private val state = MutableStateFlow<DetailState>(InitialLoading)
+    private val state = MutableStateFlow<DetailState>(Loading)
     internal val viewState = state.asStateFlow()
+    private var lastState: DetailState = Loading
 
     private val action = Channel<DetailAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewAction = action.receiveAsFlow()
@@ -36,11 +33,15 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
         electionId: String?,
         localElectionIds: LocalElectionIds?
     ) {
+        lastState = state.value
+
         viewModelScope.launchCatching(::error) {
-            if (state.value is Content)
+            if (lastState is Content) {
                 action.send(ShowProgressBar)
-            else
+                state.emit(Refreshing)
+            } else {
                 state.emit(Loading)
+            }
 
             when {
                 localElectionIds != null -> state.emit(repository.getLocalElection(localElectionIds).toContent())
@@ -54,7 +55,7 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
     private suspend fun error(throwable: Throwable) { manageError(throwable.message) }
 
     private suspend fun manageError(error: String? = null) {
-        if (state.value is Content)
+        if (lastState is Content)
             action.send(ShowErrorSnackbar(error))
         else
             state.emit(Error(error))

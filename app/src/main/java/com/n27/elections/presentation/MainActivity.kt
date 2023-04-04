@@ -28,7 +28,6 @@ import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
 import com.n27.elections.presentation.models.MainState
 import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
-import com.n27.elections.presentation.models.MainState.InitialLoading
 import com.n27.elections.presentation.models.MainState.Loading
 import com.n27.regional_live.RegionalLiveActivity
 import javax.inject.Inject
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.setUpViews()
         initObservers()
-        viewModel.requestElections(initialLoading = true)
+        viewModel.requestElections()
     }
 
     private fun ActivityMainBinding.setUpViews() {
@@ -73,28 +72,27 @@ class MainActivity : AppCompatActivity() {
 
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
-        InitialLoading -> setViewsVisibility(initialLoading = true)
         Loading -> Unit
         is Error -> showError(state.errorMessage)
         is Content -> showElections(state)
-    }
-
-    private fun setViewsVisibility(
-        initialLoading: Boolean = false,
-        loading: Boolean = false,
-        error: Boolean = false,
-        content: Boolean = false
-    ) = with(binding) {
-        loadingAnimationActivityMain.isVisible = initialLoading
-        swipeActivityMain.isRefreshing = loading
-        errorAnimationActivityMain.isVisible = error
-        recyclerActivityMain.isVisible = content
     }
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)
         binding.errorAnimationActivityMain.playErrorAnimation()
         showSnackbar(errorMsg)
+    }
+
+    private fun setViewsVisibility(
+        animation: Boolean = false,
+        loading: Boolean = false,
+        error: Boolean = false,
+        content: Boolean = false
+    ) = with(binding) {
+        loadingAnimationActivityMain.isVisible = animation
+        swipeActivityMain.isRefreshing = loading
+        errorAnimationActivityMain.isVisible = error
+        recyclerActivityMain.isVisible = content
     }
 
     private fun showSnackbar(errorMsg: String?) {

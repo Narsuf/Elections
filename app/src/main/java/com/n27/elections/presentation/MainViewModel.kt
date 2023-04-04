@@ -13,10 +13,7 @@ import com.n27.elections.presentation.models.MainAction
 import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
 import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
 import com.n27.elections.presentation.models.MainState
-import com.n27.elections.presentation.models.MainState.Content
-import com.n27.elections.presentation.models.MainState.Error
-import com.n27.elections.presentation.models.MainState.InitialLoading
-import com.n27.elections.presentation.models.MainState.Loading
+import com.n27.elections.presentation.models.MainState.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,15 +26,18 @@ class MainViewModel @Inject constructor(
     private val electionRepository: ElectionRepository
 ) : ViewModel() {
 
-    private val state = MutableStateFlow<MainState>(InitialLoading)
+    private val state = MutableStateFlow<MainState>(Loading)
     internal val viewState = state.asStateFlow()
+    private var lastState: MainState = Loading
 
     private val action = Channel<MainAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewAction = action.receiveAsFlow()
 
-    internal fun requestElections(initialLoading: Boolean = false) {
+    internal fun requestElections() {
+        lastState = state.value
+
         viewModelScope.launchCatching(::error) {
-            if (!initialLoading) state.emit(Loading)
+            state.emit(Loading)
             if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
 
             val sortedElections = electionRepository.getElections()
@@ -58,7 +58,7 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun manageError(error: String? = null) {
-        if (state.value is Content)
+        if (lastState is Content)
             action.send(ShowErrorSnackbar(error))
         else
             state.emit(Error(error))
