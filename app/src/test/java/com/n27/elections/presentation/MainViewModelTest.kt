@@ -4,9 +4,7 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.repositories.AppRepository
 import com.n27.elections.data.repositories.ElectionRepository
 import com.n27.elections.presentation.models.MainAction.*
-import com.n27.elections.presentation.models.MainState.Content
-import com.n27.elections.presentation.models.MainState.Error
-import com.n27.elections.presentation.models.MainState.InitialLoading
+import com.n27.elections.presentation.models.MainState.*
 import com.n27.test.generators.getElections
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals
@@ -47,14 +45,14 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `view model initialized should emit initial loading`() = runTest {
-        assertEquals(InitialLoading, viewModel.viewState.value)
+    fun `view model initialized should emit loading`() = runTest {
+        assertEquals(Loading, viewModel.viewState.value)
     }
 
     @Test
     fun `requestElections should emit content when success`() = runTest {
         val totalExecutionTime = measureTimeMillis {
-            viewModel.requestElections(initialLoading = true)
+            viewModel.requestElections()
             runCurrent()
 
             assertEquals(Content(getElections()), viewModel.viewState.value)
