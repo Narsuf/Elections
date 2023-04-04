@@ -4,8 +4,7 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
-import com.n27.core.presentation.detail.models.DetailState.Error
-import com.n27.core.presentation.detail.models.DetailState.InitialLoading
+import com.n27.core.presentation.detail.models.DetailState.*
 import com.n27.test.generators.getElection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,8 +34,8 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `view model initialized should emit initial loading`() = runTest {
-        assertEquals(InitialLoading, viewModel.viewState.value)
+    fun `view model initialized should emit loading`() = runTest {
+        assertEquals(Loading, viewModel.viewState.value)
     }
 
     @Test
