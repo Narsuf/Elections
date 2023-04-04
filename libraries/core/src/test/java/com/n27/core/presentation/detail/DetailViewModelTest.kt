@@ -3,6 +3,7 @@ package com.n27.core.presentation.detail
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.InitialLoading
 import com.n27.test.generators.getElection

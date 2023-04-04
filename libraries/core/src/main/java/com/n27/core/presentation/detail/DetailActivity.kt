@@ -146,9 +146,7 @@ class DetailActivity : AppCompatActivity() {
                 .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
                 .show(supportFragmentManager, "DetailDialog")
 
-            utils.track("results_info_clicked") {
-                param("election", "$chamberName ($date)")
-            }
+            utils.track("results_info_clicked") { param("election", "$chamberName ($date)") }
         }
 
         pieChartActivityDetail.drawWithResults(results)

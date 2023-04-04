@@ -6,6 +6,7 @@ import com.n27.core.data.LiveRepository
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.extensions.launchCatching
+import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailState
