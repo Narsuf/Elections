@@ -9,6 +9,7 @@ import com.n27.core.extensions.launchCatching
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
@@ -17,6 +18,7 @@ import com.n27.core.presentation.detail.models.DetailState.Loading
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
@@ -35,7 +37,10 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
         localElectionIds: LocalElectionIds?
     ) {
         viewModelScope.launchCatching(::error) {
-            state.emit(Loading)
+            if (state.value is Content)
+                action.send(ShowProgressBar)
+            else
+                state.emit(Loading)
 
             when {
                 localElectionIds != null -> state.emit(repository.getLocalElection(localElectionIds).toContent())

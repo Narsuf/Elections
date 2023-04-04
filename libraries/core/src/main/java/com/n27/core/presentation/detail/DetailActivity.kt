@@ -28,6 +28,7 @@ import com.n27.core.presentation.detail.binders.PartyColorBinder
 import com.n27.core.presentation.detail.dialog.DetailDialog
 import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
@@ -189,7 +190,13 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun handleAction(action: DetailAction) = when(action) {
-        is ShowErrorSnackbar -> showSnackbar(action.error)
+        ShowProgressBar -> setViewsVisibility(loading = true, content = true)
+        is ShowErrorSnackbar -> hideLoadingAndShowSnackbar(action.error)
+    }
+
+    private fun hideLoadingAndShowSnackbar(error: String?) {
+        setViewsVisibility(content = true)
+        showSnackbar(error)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

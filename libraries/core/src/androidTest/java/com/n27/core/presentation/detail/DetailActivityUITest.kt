@@ -13,11 +13,13 @@ import com.n27.core.R
 import com.n27.test.assertions.ListAssertions.assertListTexts
 import com.n27.test.assertions.ListAssertions.assertListTextsWithDifferentPositions
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
+import com.n27.test.conditions.instructions.waitUntil
 import com.n27.test.generators.getElection
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Test
+import java.lang.Thread.sleep
 import java.text.NumberFormat.getIntegerInstance
 
 class DetailActivityUITest {
@@ -30,31 +32,6 @@ class DetailActivityUITest {
     fun checkElectionDetailElements() {
         launchActivity()
 
-        checkContent()
-    }
-
-    @Test
-    fun checkElectionDetailError() {
-        mockWebServer.start(8080)
-        launchActivity("01")
-
-        assertDisplayed(R.id.error_animation_activity_detail)
-        assertDisplayed("Oops! Something went wrong.")
-    }
-
-    @Test
-    fun checkElectionDetailRefresh() {
-        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.election))
-        mockWebServer.start(8080)
-        launchActivity("01")
-
-        checkContent()
-        clickOn(R.id.action_reload)
-        assertDisplayed("Oops! Something went wrong.")
-        checkContent()
-    }
-
-    private fun checkContent() {
         assertToolbarTitle("${congressElection.chamberName} (${congressElection.place} ${congressElection.date})")
 
         with(congressElection.results[0]) {
@@ -68,6 +45,42 @@ class DetailActivityUITest {
                 )
             )
         }
+    }
+
+    @Test
+    fun checkElectionDetailError() {
+        launchActivity("01")
+
+        assertDisplayed(R.id.error_animation_activity_detail)
+        waitUntil { assertDisplayed("Oops! Something went wrong.") }
+    }
+
+    @Test
+    fun checkElectionDetailRefresh() {
+        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.election))
+        mockWebServer.start(8080)
+        launchActivity("01")
+
+        checkRemoteContent()
+
+        clickOn(R.id.action_reload)
+        assertDisplayed(R.id.progress_bar_activity_detail)
+        waitUntil { assertDisplayed("Oops! Something went wrong.") }
+        checkRemoteContent()
+    }
+
+    private fun checkRemoteContent() {
+        assertToolbarTitle("Parlamento (Aragón 2019)")
+
+        assertListTexts(
+            listId = R.id.list_activity_detail,
+            position = 0,
+            texts = listOf(
+                "PSOE",
+                "203,933",
+                "24"
+            )
+        )
     }
 
     @Test
