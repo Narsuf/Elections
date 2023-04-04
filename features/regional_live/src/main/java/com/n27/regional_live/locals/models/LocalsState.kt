@@ -1,4 +1,4 @@
-package com.n27.regional_live.locals.entities
+package com.n27.regional_live.locals.models
 
 import com.n27.core.data.local.json.models.Region
 

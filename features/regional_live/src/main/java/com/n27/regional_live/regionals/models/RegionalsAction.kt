@@ -1,4 +1,4 @@
-package com.n27.regional_live.regionals.entities
+package com.n27.regional_live.regionals.models
 
 internal sealed class RegionalsAction {
 

@@ -1,4 +1,4 @@
-package com.n27.elections.presentation.entities
+package com.n27.elections.presentation.models
 
 import com.n27.core.data.models.Election
 

@@ -1,8 +1,7 @@
-package com.n27.regional_live.locals.entities
+package com.n27.regional_live.locals.models
 
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.regional_live.locals.dialog.entities.MunicipalityAction
 
 internal sealed class LocalsAction {
 

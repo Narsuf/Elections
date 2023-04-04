@@ -3,7 +3,7 @@ package com.n27.core.presentation.detail
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.extensions.divide
-import com.n27.core.presentation.detail.entities.DetailState.Content
+import com.n27.core.presentation.detail.models.DetailState.Content
 
 
 // TODO: Test.

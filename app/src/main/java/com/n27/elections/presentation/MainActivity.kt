@@ -22,14 +22,14 @@ import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
-import com.n27.elections.presentation.entities.MainAction
-import com.n27.elections.presentation.entities.MainAction.ShowDisclaimer
-import com.n27.elections.presentation.entities.MainAction.ShowErrorSnackbar
-import com.n27.elections.presentation.entities.MainState
-import com.n27.elections.presentation.entities.MainState.Error
-import com.n27.elections.presentation.entities.MainState.InitialLoading
-import com.n27.elections.presentation.entities.MainState.Loading
-import com.n27.elections.presentation.entities.MainState.Content
+import com.n27.elections.presentation.models.MainAction
+import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
+import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
+import com.n27.elections.presentation.models.MainState
+import com.n27.elections.presentation.models.MainState.Error
+import com.n27.elections.presentation.models.MainState.InitialLoading
+import com.n27.elections.presentation.models.MainState.Loading
+import com.n27.elections.presentation.models.MainState.Content
 import com.n27.regional_live.RegionalLiveActivity
 import javax.inject.Inject
 

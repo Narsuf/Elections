@@ -9,11 +9,11 @@ import com.n27.regional_live.locals.comm.LocalsEvent
 import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.locals.comm.LocalsEventBus
-import com.n27.regional_live.locals.entities.LocalsAction
-import com.n27.regional_live.locals.entities.LocalsAction.NavigateToDetail
-import com.n27.regional_live.locals.entities.LocalsAction.ShowErrorSnackbar
-import com.n27.regional_live.locals.entities.LocalsState
-import com.n27.regional_live.locals.entities.LocalsState.*
+import com.n27.regional_live.locals.models.LocalsAction
+import com.n27.regional_live.locals.models.LocalsAction.NavigateToDetail
+import com.n27.regional_live.locals.models.LocalsAction.ShowErrorSnackbar
+import com.n27.regional_live.locals.models.LocalsState
+import com.n27.regional_live.locals.models.LocalsState.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*

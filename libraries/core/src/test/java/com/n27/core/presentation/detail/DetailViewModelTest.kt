@@ -3,9 +3,8 @@ package com.n27.core.presentation.detail
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.core.presentation.detail.entities.DetailState.Error
-import com.n27.core.presentation.detail.entities.DetailState.InitialLoading
-import com.n27.core.presentation.detail.entities.DetailState.Content
+import com.n27.core.presentation.detail.models.DetailState.Error
+import com.n27.core.presentation.detail.models.DetailState.InitialLoading
 import com.n27.test.generators.getElection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

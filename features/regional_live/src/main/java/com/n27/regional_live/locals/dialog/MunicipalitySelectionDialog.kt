@@ -18,12 +18,12 @@ import com.n27.core.extensions.observeOnLifecycle
 import com.n27.regional_live.R
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
-import com.n27.regional_live.locals.dialog.entities.MunicipalityAction
-import com.n27.regional_live.locals.dialog.entities.MunicipalityAction.PopulateMunicipalitiesSpinner
-import com.n27.regional_live.locals.dialog.entities.MunicipalityAction.ShowErrorSnackbar
-import com.n27.regional_live.locals.dialog.entities.MunicipalityState
-import com.n27.regional_live.locals.dialog.entities.MunicipalityState.Idle
-import com.n27.regional_live.locals.dialog.entities.MunicipalityState.Content
+import com.n27.regional_live.locals.dialog.models.MunicipalityAction
+import com.n27.regional_live.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner
+import com.n27.regional_live.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
+import com.n27.regional_live.locals.dialog.models.MunicipalityState
+import com.n27.regional_live.locals.dialog.models.MunicipalityState.Idle
+import com.n27.regional_live.locals.dialog.models.MunicipalityState.Content
 import javax.inject.Inject
 
 class MunicipalitySelectionDialog : DialogFragment() {

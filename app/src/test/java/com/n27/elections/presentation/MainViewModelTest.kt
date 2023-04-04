@@ -3,10 +3,10 @@ package com.n27.elections.presentation
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.repositories.AppRepository
 import com.n27.elections.data.repositories.ElectionRepository
-import com.n27.elections.presentation.entities.MainAction.*
-import com.n27.elections.presentation.entities.MainState.Error
-import com.n27.elections.presentation.entities.MainState.InitialLoading
-import com.n27.elections.presentation.entities.MainState.Content
+import com.n27.elections.presentation.models.MainAction.*
+import com.n27.elections.presentation.models.MainState.Error
+import com.n27.elections.presentation.models.MainState.InitialLoading
+import com.n27.elections.presentation.models.MainState.Content
 import com.n27.test.generators.getElections
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals

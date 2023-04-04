@@ -21,14 +21,14 @@ import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
-import com.n27.regional_live.regionals.entities.RegionalsState.Error
-import com.n27.regional_live.regionals.entities.RegionalsState.InitialLoading
-import com.n27.regional_live.regionals.entities.RegionalsState.Loading
-import com.n27.regional_live.regionals.entities.RegionalsState.Content
+import com.n27.regional_live.regionals.models.RegionalsState.Error
+import com.n27.regional_live.regionals.models.RegionalsState.InitialLoading
+import com.n27.regional_live.regionals.models.RegionalsState.Loading
+import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.adapters.RegionalCardAdapter
-import com.n27.regional_live.regionals.entities.RegionalsAction
-import com.n27.regional_live.regionals.entities.RegionalsAction.ShowErrorSnackbar
-import com.n27.regional_live.regionals.entities.RegionalsState
+import com.n27.regional_live.regionals.models.RegionalsAction
+import com.n27.regional_live.regionals.models.RegionalsAction.ShowErrorSnackbar
+import com.n27.regional_live.regionals.models.RegionalsState
 import javax.inject.Inject
 
 class RegionalsFragment : Fragment() {

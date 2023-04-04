@@ -24,19 +24,17 @@ import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
-import com.n27.core.presentation.detail.entities.DetailState.Error
-import com.n27.core.presentation.detail.entities.DetailState.InitialLoading
-import com.n27.core.presentation.detail.entities.DetailState.Loading
-import com.n27.core.presentation.detail.entities.DetailState.Content
+import com.n27.core.presentation.detail.models.DetailState.Error
+import com.n27.core.presentation.detail.models.DetailState.InitialLoading
+import com.n27.core.presentation.detail.models.DetailState.Loading
+import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.binders.PartyColorBinder
 import com.n27.core.presentation.detail.dialog.DetailDialog
-import com.n27.core.presentation.detail.entities.DetailAction
-import com.n27.core.presentation.detail.entities.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.entities.DetailState
+import com.n27.core.presentation.detail.models.DetailAction
+import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
-import java.text.NumberFormat
-import java.text.NumberFormat.getIntegerInstance
 import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
