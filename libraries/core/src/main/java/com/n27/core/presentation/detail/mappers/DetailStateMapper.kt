@@ -1,12 +1,14 @@
 package com.n27.core.presentation.detail.mappers
 
+import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.extensions.divide
-import com.n27.core.presentation.detail.models.DetailState
+import com.n27.core.presentation.detail.models.DetailState.Content
+import java.text.NumberFormat.getIntegerInstance
 
 // TODO: Test.
-internal fun Election.toContent(): DetailState.Content {
+internal fun Election.toContent(): Content {
     val keys = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
     val resources = intArrayOf(
         R.id.color_list_item_activity_detail,
@@ -23,8 +25,8 @@ internal fun Election.toContent(): DetailState.Content {
 
         map[keys[0]] = "#" + r.party.color
         map[keys[1]] = r.party.name
-        map[keys[2]] = java.text.NumberFormat.getIntegerInstance().format(r.votes)
-        map[keys[3]] = if (chamberName == com.n27.core.Constants.KEY_SENATE)
+        map[keys[2]] = getIntegerInstance().format(r.votes)
+        map[keys[3]] = if (chamberName == KEY_SENATE)
             "- %"
         else
             r.votes.divide(validVotes) + " %"
@@ -34,5 +36,5 @@ internal fun Election.toContent(): DetailState.Content {
         arrayList.add(map)
     }
 
-    return DetailState.Content(this, arrayList, keys.toList(), resources.toList())
+    return Content(this, arrayList, keys.toList(), resources.toList())
 }
