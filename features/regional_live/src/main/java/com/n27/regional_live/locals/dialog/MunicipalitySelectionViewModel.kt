@@ -11,10 +11,11 @@ import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.locals.comm.LocalsEventBus
 import com.n27.regional_live.locals.dialog.models.MunicipalityAction
-import com.n27.regional_live.locals.dialog.models.MunicipalityAction.*
+import com.n27.regional_live.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner
+import com.n27.regional_live.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
 import com.n27.regional_live.locals.dialog.models.MunicipalityState
-import com.n27.regional_live.locals.dialog.models.MunicipalityState.Idle
 import com.n27.regional_live.locals.dialog.models.MunicipalityState.Content
+import com.n27.regional_live.locals.dialog.models.MunicipalityState.Idle
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -13,10 +13,16 @@ import com.n27.regional_live.locals.models.LocalsAction
 import com.n27.regional_live.locals.models.LocalsAction.NavigateToDetail
 import com.n27.regional_live.locals.models.LocalsAction.ShowErrorSnackbar
 import com.n27.regional_live.locals.models.LocalsState
-import com.n27.regional_live.locals.models.LocalsState.*
+import com.n27.regional_live.locals.models.LocalsState.Content
+import com.n27.regional_live.locals.models.LocalsState.Error
+import com.n27.regional_live.locals.models.LocalsState.Loading
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class LocalsViewModel @Inject constructor(

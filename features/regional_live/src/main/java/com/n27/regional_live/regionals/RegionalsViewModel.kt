@@ -7,10 +7,10 @@ import com.n27.core.extensions.launchCatching
 import com.n27.regional_live.regionals.models.RegionalsAction
 import com.n27.regional_live.regionals.models.RegionalsAction.ShowErrorSnackbar
 import com.n27.regional_live.regionals.models.RegionalsState
+import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
 import com.n27.regional_live.regionals.models.RegionalsState.InitialLoading
 import com.n27.regional_live.regionals.models.RegionalsState.Loading
-import com.n27.regional_live.regionals.models.RegionalsState.Content
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

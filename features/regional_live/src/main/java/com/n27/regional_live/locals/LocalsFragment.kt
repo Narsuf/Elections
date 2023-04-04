@@ -22,15 +22,15 @@ import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentLocalsBinding
-import com.n27.regional_live.locals.models.LocalsState.Error
-import com.n27.regional_live.locals.models.LocalsState.Loading
-import com.n27.regional_live.locals.models.LocalsState.Content
 import com.n27.regional_live.locals.adapters.LocalsCardAdapter
 import com.n27.regional_live.locals.dialog.MunicipalitySelectionDialog
 import com.n27.regional_live.locals.models.LocalsAction
 import com.n27.regional_live.locals.models.LocalsAction.NavigateToDetail
 import com.n27.regional_live.locals.models.LocalsAction.ShowErrorSnackbar
 import com.n27.regional_live.locals.models.LocalsState
+import com.n27.regional_live.locals.models.LocalsState.Content
+import com.n27.regional_live.locals.models.LocalsState.Error
+import com.n27.regional_live.locals.models.LocalsState.Loading
 import javax.inject.Inject
 
 class LocalsFragment : Fragment() {

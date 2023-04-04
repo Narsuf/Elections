@@ -22,8 +22,8 @@ import com.n27.regional_live.locals.dialog.models.MunicipalityAction
 import com.n27.regional_live.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner
 import com.n27.regional_live.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
 import com.n27.regional_live.locals.dialog.models.MunicipalityState
-import com.n27.regional_live.locals.dialog.models.MunicipalityState.Idle
 import com.n27.regional_live.locals.dialog.models.MunicipalityState.Content
+import com.n27.regional_live.locals.dialog.models.MunicipalityState.Idle
 import javax.inject.Inject
 
 class MunicipalitySelectionDialog : DialogFragment() {

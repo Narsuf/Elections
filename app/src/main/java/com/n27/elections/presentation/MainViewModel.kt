@@ -13,10 +13,10 @@ import com.n27.elections.presentation.models.MainAction
 import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
 import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
 import com.n27.elections.presentation.models.MainState
+import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
 import com.n27.elections.presentation.models.MainState.InitialLoading
 import com.n27.elections.presentation.models.MainState.Loading
-import com.n27.elections.presentation.models.MainState.Content
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
