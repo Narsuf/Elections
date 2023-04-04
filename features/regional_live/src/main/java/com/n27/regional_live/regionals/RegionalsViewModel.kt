@@ -9,7 +9,6 @@ import com.n27.regional_live.regionals.models.RegionalsAction.ShowErrorSnackbar
 import com.n27.regional_live.regionals.models.RegionalsState
 import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
-import com.n27.regional_live.regionals.models.RegionalsState.InitialLoading
 import com.n27.regional_live.regionals.models.RegionalsState.Loading
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
@@ -20,15 +19,18 @@ import javax.inject.Inject
 
 class RegionalsViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
 
-    private val state = MutableStateFlow<RegionalsState>(InitialLoading)
+    private val state = MutableStateFlow<RegionalsState>(Loading)
     internal val viewState = state.asStateFlow()
+    private var lastState: RegionalsState = Loading
 
     private val action = Channel<RegionalsAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewAction = action.receiveAsFlow()
 
-    internal fun requestElections(initialLoading: Boolean = false) {
+    internal fun requestElections() {
+        lastState = state.value
+
         viewModelScope.launchCatching(::error) {
-            if (!initialLoading) state.emit(Loading)
+            state.emit(Loading)
             val elections = repository.getRegionalElections()
 
             if (elections.isNotEmpty())
@@ -41,7 +43,7 @@ class RegionalsViewModel @Inject constructor(private val repository: LiveReposit
     private suspend fun error(throwable: Throwable) { manageError(throwable.message) }
 
     private suspend fun manageError(error: String? = null) {
-        if (state.value is Content)
+        if (lastState is Content)
             action.send(ShowErrorSnackbar(error))
         else
             state.emit(Error(error))

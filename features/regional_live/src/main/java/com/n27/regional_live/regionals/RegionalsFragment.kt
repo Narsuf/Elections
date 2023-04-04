@@ -11,11 +11,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
-import com.n27.core.data.models.Election
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
@@ -27,7 +25,6 @@ import com.n27.regional_live.regionals.models.RegionalsAction.ShowErrorSnackbar
 import com.n27.regional_live.regionals.models.RegionalsState
 import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
-import com.n27.regional_live.regionals.models.RegionalsState.InitialLoading
 import com.n27.regional_live.regionals.models.RegionalsState.Loading
 import javax.inject.Inject
 
@@ -51,7 +48,7 @@ class RegionalsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.setUpViews()
         initObservers()
-        viewModel.requestElections(initialLoading = true)
+        viewModel.requestElections()
     }
 
     private fun FragmentRegionalsBinding.setUpViews() {
@@ -72,10 +69,18 @@ class RegionalsFragment : Fragment() {
     }
 
     private fun renderState(state: RegionalsState) = when (state) {
-        InitialLoading -> setViewsVisibility(initialLoading = true)
         Loading -> Unit
         is Content -> generateCards(state)
         is Error -> showError(state.error)
+    }
+
+    private fun generateCards(success: Content) {
+        setViewsVisibility(content = true)
+        binding.regionalsRecyclerView.adapter = RegionalCardAdapter(
+            success.elections,
+            success.parties,
+            ::navigateToDetail
+        )
     }
 
     private fun setViewsVisibility(
@@ -88,15 +93,6 @@ class RegionalsFragment : Fragment() {
         regionalsSwipe.isRefreshing = loading
         regionalsErrorAnimation.isVisible = error
         regionalsRecyclerView.isVisible = content
-    }
-
-    private fun generateCards(success: Content) {
-        setViewsVisibility(content = true)
-        binding.regionalsRecyclerView.adapter = RegionalCardAdapter(
-            success.elections,
-            success.parties,
-            ::navigateToDetail
-        )
     }
 
     private fun navigateToDetail(id: String?) {
