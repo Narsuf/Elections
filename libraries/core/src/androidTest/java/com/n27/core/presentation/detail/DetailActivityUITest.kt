@@ -6,6 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.n27.core.Constants.KEY_ELECTION
+import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.R
@@ -13,20 +14,47 @@ import com.n27.test.assertions.ListAssertions.assertListTexts
 import com.n27.test.assertions.ListAssertions.assertListTextsWithDifferentPositions
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
 import com.n27.test.generators.getElection
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
 import org.junit.Test
 import java.text.NumberFormat.getIntegerInstance
 
 class DetailActivityUITest {
 
-    // TODO: Try to test error event.
-
     private val congressElection = getElection()
     private val senateElection = getElection(chamberName = KEY_SENATE)
+    private val mockWebServer = MockWebServer()
 
     @Test
     fun checkElectionDetailElements() {
         launchActivity()
 
+        checkContent()
+    }
+
+    @Test
+    fun checkElectionDetailError() {
+        mockWebServer.start(8080)
+        launchActivity("01")
+
+        assertDisplayed(R.id.error_animation_activity_detail)
+        assertDisplayed("Oops! Something went wrong.")
+    }
+
+    @Test
+    fun checkElectionDetailRefresh() {
+        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.election))
+        mockWebServer.start(8080)
+        launchActivity("01")
+
+        checkContent()
+        clickOn(R.id.action_reload)
+        assertDisplayed("Oops! Something went wrong.")
+        checkContent()
+    }
+
+    private fun checkContent() {
         assertToolbarTitle("${congressElection.chamberName} (${congressElection.place} ${congressElection.date})")
 
         with(congressElection.results[0]) {
@@ -61,10 +89,14 @@ class DetailActivityUITest {
         }
     }
 
-    private fun launchActivity() = ActivityScenario.launch<DetailActivity>(
+    private fun launchActivity(electionId: String? = null) = ActivityScenario.launch<DetailActivity>(
         Intent(getInstrumentation().targetContext, DetailActivity::class.java).apply {
             putExtra(KEY_ELECTION, congressElection)
             putExtra(KEY_SENATE_ELECTION, senateElection)
+            putExtra(KEY_ELECTION_ID, electionId)
         }
     )
+
+    @After
+    fun teardown() { mockWebServer.shutdown() }
 }

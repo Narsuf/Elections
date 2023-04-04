@@ -17,6 +17,7 @@ import com.n27.core.Constants.KEY_REGION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.data.local.json.models.Region
+import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
@@ -107,14 +108,13 @@ class LocalsFragment : Fragment() {
     }
 
     private fun handleAction(action: LocalsAction) = when (action) {
-        is NavigateToDetail -> navigateToDetail(action)
+        is NavigateToDetail -> navigateToDetail(action.ids)
         is ShowErrorSnackbar -> showSnackbar(action.error)
     }
 
-    private fun navigateToDetail(action: NavigateToDetail) {
+    private fun navigateToDetail(ids: LocalElectionIds) {
         val intent = Intent(activity, DetailActivity::class.java).apply {
-            putExtra(KEY_ELECTION, action.election)
-            putExtra(KEY_LOCAL_ELECTION_IDS, action.ids)
+            putExtra(KEY_LOCAL_ELECTION_IDS, ids)
         }
 
         startActivity(intent)

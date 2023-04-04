@@ -3,12 +3,7 @@ package com.n27.test.generators
 import com.n27.core.R
 import com.n27.core.presentation.detail.models.DetailState.Content
 
-fun getDetailContent() = Content(
-    election = getElection(),
-    arrayList = getArrayList(),
-    keys = getKeys(),
-    resources = getResources()
-)
+fun getDetailContent() = Content(getElection(), getArrayList(), getKeys(), getResources())
 
 private fun getKeys() = listOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
 

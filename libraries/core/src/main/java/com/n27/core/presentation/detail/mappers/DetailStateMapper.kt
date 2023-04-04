@@ -7,7 +7,6 @@ import com.n27.core.extensions.divide
 import com.n27.core.presentation.detail.models.DetailState.Content
 import java.text.NumberFormat.getIntegerInstance
 
-// TODO: Test.
 internal fun Election.toContent(): Content {
     val keys = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
     val resources = intArrayOf(

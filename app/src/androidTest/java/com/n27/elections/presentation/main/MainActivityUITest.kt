@@ -30,7 +30,6 @@ class MainActivityUITest {
     private val mockWebServer = MockWebServer()
 
     @Before
-    @Throws(IOException::class, InterruptedException::class)
     fun setup() {
         mockWebServer.enqueue(MockResponse().setBody(MainActivityResponses.elections))
         mockWebServer.start(8080)
@@ -82,6 +81,5 @@ class MainActivityUITest {
     private fun launchActivity() = launch(MainActivity::class.java)
 
     @After
-    @Throws(IOException::class)
     fun teardown() { mockWebServer.shutdown() }
 }

@@ -99,9 +99,8 @@ class RegionalsFragment : Fragment() {
         )
     }
 
-    private fun navigateToDetail(election: Election, id: String?) {
+    private fun navigateToDetail(id: String?) {
         val intent = Intent(activity, DetailActivity::class.java).apply {
-            putExtra(KEY_ELECTION, election)
             putExtra(KEY_ELECTION_ID, id)
         }
 

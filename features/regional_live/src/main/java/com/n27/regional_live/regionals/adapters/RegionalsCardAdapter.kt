@@ -13,7 +13,7 @@ import com.n27.core.data.remote.api.models.ElectionXml
 import com.n27.core.extensions.drawWithResults
 import com.n27.regional_live.R
 
-typealias OnLiveElectionClicked = (election: Election, id: String?) -> Unit
+typealias OnLiveElectionClicked = (id: String?) -> Unit
 
 class RegionalCardAdapter(
     private val elections: List<ElectionXml>,
@@ -37,7 +37,7 @@ class RegionalCardAdapter(
         val election = electionXml.toElection(parties)
 
         card.findViewById<TextView>(R.id.card_region_name).text = election.place
-        card.setOnClickListener { onElectionClicked(election, electionXml.id) }
+        card.setOnClickListener { onElectionClicked(electionXml.id) }
         (card.findViewById(R.id.card_regional_pie_chart) as PieChart).drawWithResults(election.results)
     }
 

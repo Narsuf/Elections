@@ -126,5 +126,6 @@ dependencies {
     androidTestImplementation project(':libraries:test')
     androidTestImplementation "androidx.test.ext:junit:$junitVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }
