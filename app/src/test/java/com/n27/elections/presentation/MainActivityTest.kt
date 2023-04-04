@@ -8,6 +8,7 @@ import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
 import com.n27.elections.presentation.models.MainState.Error
+import com.n27.elections.presentation.models.MainState.Loading
 import junit.framework.TestCase.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,10 +18,14 @@ import org.robolectric.RobolectricTestRunner
 class MainActivityTest {
 
     @Test
-    fun checkInitialLoadingViewState() {
+    fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
-            // Initial loading is triggered automatically.
-            activity.binding.assertVisibilities(loading = true)
+            with(activity) {
+                renderState(getMainContent())
+                renderState(Loading)
+
+                binding.assertVisibilities(content = true)
+            }
         }
     }
 

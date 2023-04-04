@@ -11,6 +11,8 @@ import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.presentation.detail.models.DetailState.Loading
+import com.n27.core.presentation.detail.models.DetailState.Refreshing
+import com.n27.test.generators.getDetailContent
 import com.n27.test.generators.getElection
 import junit.framework.TestCase.*
 import org.junit.Test
@@ -29,6 +31,17 @@ class DetailActivityTest {
             with(activity) {
                 renderState(Loading)
                 binding.assertVisibilities(animation = true)
+            }
+        }
+    }
+
+    @Test
+    fun checkRefreshViewState() {
+        launchActivity().onActivity { activity ->
+            with(activity) {
+                renderState(getDetailContent())
+                renderState(Refreshing)
+                binding.assertVisibilities(content = true)
             }
         }
     }

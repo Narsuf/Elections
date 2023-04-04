@@ -20,7 +20,6 @@ class RegionalActivityUITest {
     private val mockWebServer = MockWebServer()
 
     @Before
-    @Throws(IOException::class, InterruptedException::class)
     fun setup() {
         for (i in 0..15) mockWebServer.enqueue(MockResponse().setResponseCode(500))
         mockWebServer.enqueue(MockResponse().setBody(RegionalActivityResponses.regionalElection))
@@ -34,6 +33,11 @@ class RegionalActivityUITest {
 
         waitUntil { assertDisplayed(R.id.regionalsRecyclerView) }
         assertDisplayedAtPosition(R.id.regionalsRecyclerView, 0, R.id.card_region_name, "Aragón")
+
+        intents {
+            clickOn("Aragón")
+            verifyIntent(DetailActivity::class.java.name)
+        }
     }
 
     @Test
@@ -60,6 +64,5 @@ class RegionalActivityUITest {
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)
 
     @After
-    @Throws(IOException::class)
     fun teardown() { mockWebServer.shutdown() }
 }
