@@ -36,9 +36,12 @@ import com.n27.core.presentation.detail.entities.DetailState
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
 import java.text.NumberFormat
+import java.text.NumberFormat.getIntegerInstance
 import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
+
+    // TODO: Rename all layout ids.
 
     @VisibleForTesting internal var currentElection: Election? = null
     @VisibleForTesting internal lateinit var binding: ActivityDetailBinding
@@ -117,7 +120,7 @@ class DetailActivity : AppCompatActivity() {
     internal fun renderState(state: DetailState) = when (state) {
         InitialLoading -> setViewsVisibility(animation = true)
         Loading -> showLoading()
-        is Content -> showContent(state.election)
+        is Content -> showContent(state)
         is Error -> showError(state.error)
     }
 
@@ -131,13 +134,13 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun showContent(election: Election) {
-        currentElection = election
-        binding.setContent(election)
+    private fun showContent(content: Content) {
+        currentElection = content.election
+        binding.setContent(content)
         setViewsVisibility(content = true)
     }
 
-    private fun ActivityDetailBinding.setContent(election: Election) {
+    private fun ActivityDetailBinding.setContent(content: Content) = with(content.election) {
         toolbarActivityDetail.title = generateToolbarTitle()
 
         moreInfoButtonActivityDetail.setOnClickListener {
@@ -146,57 +149,33 @@ class DetailActivity : AppCompatActivity() {
                 .show(supportFragmentManager, "DetailDialog")
 
             utils.track("results_info_clicked") {
-                param("election", "${election.chamberName} (${election.date})")
+                param("election", "$chamberName ($date)")
             }
         }
 
-        pieChartActivityDetail.drawWithResults(election.results)
+        pieChartActivityDetail.drawWithResults(results)
 
         listActivityDetail.apply {
-            adapter = generateResultsAdapter(election).apply { viewBinder = PartyColorBinder() }
+            adapter = generateResultsAdapter(content).apply { viewBinder = PartyColorBinder() }
 
             setOnItemClickListener { _, _, position, _ ->
                 pieChartActivityDetail.highlightValue(position.toFloat(), 0)
                 countDownTimer.start()
                 utils.track("party_clicked") {
-                    param("party", election.results[position].party.name)
+                    param("party", results[position].party.name)
                 }
             }
         }
     }
 
-    private fun generateResultsAdapter(election: Election): SimpleAdapter {
-        val keys = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
-        val resources = intArrayOf(
-            R.id.color_list_item_activity_detail,
-            R.id.party_list_item_activity_detail,
-            R.id.votes_list_item_activity_detail,
-            R.id.percentage_list_item_activity_detail,
-            R.id.elects_list_item_activity_detail
-        )
+    private fun generateResultsAdapter(content: Content) = SimpleAdapter(
+        this,
+        content.arrayList,
+        R.layout.list_item_activity_detail,
+        content.keys.toTypedArray(),
+        content.resources.toIntArray()
+    )
 
-        val arrayList = ArrayList<Map<String, Any>>()
-
-        with(election) {
-            for (r in results) {
-                val map = HashMap<String, Any>()
-
-                map[keys[0]] = "#" + r.party.color
-                map[keys[1]] = r.party.name
-                map[keys[2]] = NumberFormat.getIntegerInstance().format(r.votes)
-                map[keys[3]] = if (chamberName == KEY_SENATE)
-                    "- %"
-                else
-                    utils.getPercentageWithTwoDecimals(r.votes, validVotes) + " %"
-
-                map[keys[4]] = r.elects
-
-                arrayList.add(map)
-            }
-        }
-
-        return SimpleAdapter(this, arrayList, R.layout.list_item_activity_detail, keys, resources)
-    }
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)

@@ -40,32 +40,32 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `requestElection should emit success when election not null`() = runTest {
+    fun `requestElection should emit content when election not null`() = runTest {
         viewModel.requestElection(getElection(), null, null)
         runCurrent()
 
-        assertEquals(Content(getElection()), viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit success when electionId not null`() = runTest {
+    fun `requestElection should emit content when electionId not null`() = runTest {
         `when`(repository.getRegionalElection(anyString())).thenReturn(getElection())
 
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
-        assertEquals(Content(getElection()), viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit success when electionIds not null`() = runTest {
+    fun `requestElection should emit content when electionIds not null`() = runTest {
         val ids = LocalElectionIds("01", "01", "01")
         `when`(repository.getLocalElection(ids)).thenReturn(getElection())
 
         viewModel.requestElection(null, null, ids)
         runCurrent()
 
-        assertEquals(Content(getElection()), viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test

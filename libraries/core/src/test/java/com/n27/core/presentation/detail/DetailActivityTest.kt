@@ -48,7 +48,7 @@ class DetailActivityTest {
     fun checkLoadingViewStateAfterError() {
         launchActivity(election = null).onActivity { activity ->
             with(activity) {
-                renderState(getDetailFailure())
+                renderState(getDetailError())
                 renderState(Loading)
                 binding.assertVisibilities(animation = true)
             }
@@ -67,7 +67,7 @@ class DetailActivityTest {
     fun checkErrorViewState() {
         launchActivity(election = null).onActivity { activity ->
             with(activity) {
-                renderState(getDetailFailure())
+                renderState(getDetailError())
                 binding.assertVisibilities(error = true)
             }
         }

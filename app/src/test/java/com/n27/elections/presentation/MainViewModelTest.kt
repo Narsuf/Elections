@@ -52,7 +52,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `requestElections should emit success when succeeding`() = runTest {
+    fun `requestElections should emit content when success`() = runTest {
         val totalExecutionTime = measureTimeMillis {
             viewModel.requestElections(initialLoading = true)
             runCurrent()
@@ -64,7 +64,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `refresh should emit success when succeeding`() = runTest {
+    fun `refresh should emit content when success`() = runTest {
         viewModel.requestElections()
         runCurrent()
 

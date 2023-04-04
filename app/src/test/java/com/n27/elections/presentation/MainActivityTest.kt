@@ -25,8 +25,8 @@ class MainActivityTest {
     }
 
     @Test
-    fun checkSuccessViewState() {
-        val state = getMainSuccess()
+    fun checkContentViewState() {
+        val state = getMainContent()
 
         launchActivity().onActivity { activity ->
             with(activity) {

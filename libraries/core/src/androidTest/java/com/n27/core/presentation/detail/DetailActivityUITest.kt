@@ -18,6 +18,8 @@ import java.text.NumberFormat.getIntegerInstance
 
 class DetailActivityUITest {
 
+    // TODO: Try to test error event.
+
     private val congressElection = getElection()
     private val senateElection = getElection(chamberName = KEY_SENATE)
 

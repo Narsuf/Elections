@@ -99,8 +99,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSnackbar(errorMsg: String?) {
         val error = when (errorMsg) {
-            NO_INTERNET_CONNECTION -> com.n27.core.R.string.no_internet_connection
-            else -> com.n27.core.R.string.something_wrong
+            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
+            else -> R.string.something_wrong
         }
 
         Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()

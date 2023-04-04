@@ -37,9 +37,9 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
             state.emit(Loading)
 
             when {
-                localElectionIds != null -> state.emit(Content(repository.getLocalElection(localElectionIds)))
-                electionId != null -> state.emit(Content(repository.getRegionalElection(electionId)))
-                election != null -> state.emit(Content(election))
+                localElectionIds != null -> state.emit(repository.getLocalElection(localElectionIds).toContent())
+                electionId != null -> state.emit(repository.getRegionalElection(electionId).toContent())
+                election != null -> state.emit(election.toContent())
                 else -> manageError()
             }
         }

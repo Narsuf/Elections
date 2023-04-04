@@ -11,6 +11,7 @@ import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.DialogDetailBinding
+import com.n27.core.extensions.divide
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailActivity
 import java.text.NumberFormat.getIntegerInstance
@@ -88,10 +89,10 @@ class DetailDialog : DialogFragment() {
             arrayOf(
                 scrutinized.toString(),
                 "",
-                getPercentageWithTwoDecimals(validVotes, census),
-                getPercentageWithTwoDecimals(abstentions, census),
-                getPercentageWithTwoDecimals(nullVotes, validVotes),
-                getPercentageWithTwoDecimals(blankVotes, validVotes)
+                validVotes.divide(census),
+                abstentions.divide(census),
+                nullVotes.divide(validVotes),
+                blankVotes.divide(validVotes)
             )
         }
     }
