@@ -7,7 +7,7 @@ internal interface DetailActivityResponses {
     companion object {
 
         @Language("xml")
-        val election = """
+        val regionalElection = """
             <escrutinio_sitio>
                 <num_a_elegir>67</num_a_elegir>
                 <id>02</id>

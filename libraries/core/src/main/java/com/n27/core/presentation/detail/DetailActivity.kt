@@ -37,8 +37,6 @@ import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
-    // TODO: Rename all layout ids.
-
     @VisibleForTesting internal var currentElection: Election? = null
     @VisibleForTesting internal lateinit var binding: ActivityDetailBinding
     @Inject internal lateinit var viewModel: DetailViewModel
@@ -50,6 +48,8 @@ class DetailActivity : AppCompatActivity() {
     private var senateElection: Election? = null
     private var liveElectionId: String? = null
     private var liveLocalElectionIds: LocalElectionIds? = null
+
+    // TODO: Rename all layout ids.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         detailComponent = (applicationContext as DetailComponentProvider).provideDetailComponent()
@@ -176,7 +176,8 @@ class DetailActivity : AppCompatActivity() {
         Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
-    private fun handleAction(action: DetailAction) = when(action) {
+    @VisibleForTesting
+    internal fun handleAction(action: DetailAction) = when(action) {
         ShowProgressBar -> setViewsVisibility(loading = true, content = true)
         is ShowErrorSnackbar -> hideLoadingAndShowSnackbar(action.error)
     }

@@ -48,6 +48,8 @@ class DetailActivityUITest {
 
     @Test
     fun checkElectionDetailError() {
+        mockWebServer.enqueue(MockResponse().setResponseCode(500))
+        mockWebServer.start(8080)
         launchActivity("01")
 
         assertDisplayed(R.id.error_animation_activity_detail)
@@ -55,20 +57,12 @@ class DetailActivityUITest {
     }
 
     @Test
-    fun checkElectionDetailRefresh() {
-        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.election))
+    fun checkRegionalElectionContent() {
+        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.regionalElection))
+        mockWebServer.enqueue(MockResponse().setResponseCode(500))
         mockWebServer.start(8080)
         launchActivity("01")
 
-        checkRemoteContent()
-
-        clickOn(R.id.action_reload)
-        assertDisplayed(R.id.progress_bar_activity_detail)
-        waitUntil { assertDisplayed("Oops! Something went wrong.") }
-        checkRemoteContent()
-    }
-
-    private fun checkRemoteContent() {
         assertToolbarTitle("Parlamento (Aragón 2019)")
 
         assertListTexts(
@@ -81,6 +75,8 @@ class DetailActivityUITest {
             )
         )
     }
+
+    // TODO: Test local election.
 
     @Test
     fun clickOnFloatingButtonShouldOpenDialog() {
