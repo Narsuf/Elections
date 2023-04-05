@@ -59,7 +59,6 @@ class DetailActivityUITest {
     @Test
     fun checkRegionalElectionContent() {
         mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.regionalElection))
-        mockWebServer.enqueue(MockResponse().setResponseCode(500))
         mockWebServer.start(8080)
         launchActivity("01")
 
