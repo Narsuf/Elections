@@ -63,7 +63,15 @@ class DetailActivityUITest {
         launchActivity("01")
 
         assertToolbarTitle("Parlamento (Aragón 2019)")
+        checkRegionalContent()
 
+        clickOn(R.id.action_reload)
+
+        assertDisplayed(R.id.progress_bar_activity_detail)
+        checkRegionalContent()
+    }
+
+    private fun checkRegionalContent() {
         assertListTexts(
             listId = R.id.list_activity_detail,
             position = 0,

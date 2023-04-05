@@ -4,10 +4,14 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
+import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
 import com.n27.core.presentation.detail.models.DetailState.*
 import com.n27.test.generators.getElection
+import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -83,5 +87,36 @@ class DetailViewModelTest {
         runCurrent()
 
         assertEquals(Error(NO_INTERNET_CONNECTION), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `should ShowErrorSnackbar when exception occurs and lastState is content`() = runTest {
+        `when`(repository.getRegionalElection(anyString())).thenReturn(getElection())
+        viewModel.requestElection(null, "01", null)
+        runCurrent()
+
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
+
+        `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
+        viewModel.requestElection(null, "01", null)
+        runCurrent()
+
+        observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
+        observer.close()
+    }
+
+    @Test
+    fun `should ShowProgressBar when requestElection is called and lastState is content`() = runTest {
+        `when`(repository.getRegionalElection(anyString())).thenReturn(getElection())
+        viewModel.requestElection(null, "01", null)
+        runCurrent()
+
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
+
+        viewModel.requestElection(null, "01", null)
+        runCurrent()
+
+        observer.assertValue(ShowProgressBar)
+        observer.close()
     }
 }

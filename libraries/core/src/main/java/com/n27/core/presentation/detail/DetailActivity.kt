@@ -145,9 +145,7 @@ class DetailActivity : AppCompatActivity() {
             setOnItemClickListener { _, _, position, _ ->
                 pieChartActivityDetail.highlightValue(position.toFloat(), 0)
                 countDownTimer.start()
-                utils.track("party_clicked") {
-                    param("party", results[position].party.name)
-                }
+                utils.track("party_clicked") { param("party", results[position].party.name) }
             }
         }
     }

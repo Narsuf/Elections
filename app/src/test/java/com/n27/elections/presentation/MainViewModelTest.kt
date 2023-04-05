@@ -101,4 +101,19 @@ class MainViewModelTest {
         observer.assertValues()
         observer.close()
     }
+
+    @Test
+    fun `should ShowErrorSnackbar when exception occurs and lastState is content`() = runTest {
+        viewModel.requestElections()
+        runCurrent()
+
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
+
+        `when`(electionRepository.getElections()).thenThrow(IndexOutOfBoundsException((NO_INTERNET_CONNECTION)))
+        viewModel.requestElections()
+        runCurrent()
+
+        observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
+        observer.close()
+    }
 }
