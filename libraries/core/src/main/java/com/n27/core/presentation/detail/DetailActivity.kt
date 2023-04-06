@@ -29,11 +29,13 @@ import com.n27.core.presentation.detail.dialog.DetailDialog
 import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
+import com.n27.core.presentation.detail.models.DetailContentState
+import com.n27.core.presentation.detail.models.DetailContentState.Empty
+import com.n27.core.presentation.detail.models.DetailContentState.WithData
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
-import com.n27.core.presentation.detail.models.DetailState.Refreshing
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
 import javax.inject.Inject
@@ -79,6 +81,11 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
+        viewModel.viewContentState.observeOnLifecycle(
+            lifecycleOwner = this,
+            distinctUntilChanged = true,
+            action = ::renderContentState
+        )
         viewModel.viewState.observeOnLifecycle(
             lifecycleOwner = this,
             distinctUntilChanged = true,
@@ -102,10 +109,52 @@ class DetailActivity : AppCompatActivity() {
     }
 
     @VisibleForTesting
+    internal fun renderContentState(state: DetailContentState) = when (state) {
+        Empty -> Unit
+        is WithData -> drawContent(state)
+    }
+
+    private fun drawContent(withData: WithData) {
+        currentElection = withData.election
+        binding.setContent(withData)
+    }
+
+    private fun ActivityDetailBinding.setContent(withData: WithData) = with(withData.election) {
+        toolbarActivityDetail.title = generateToolbarTitle()
+
+        moreInfoButtonActivityDetail.setOnClickListener {
+            DetailDialog()
+                .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
+                .show(supportFragmentManager, "DetailDialog")
+
+            utils.track("results_info_clicked") { param("election", "$chamberName ($date)") }
+        }
+
+        pieChartActivityDetail.drawWithResults(results)
+
+        listActivityDetail.apply {
+            adapter = generateResultsAdapter(withData).apply { viewBinder = PartyColorBinder() }
+
+            setOnItemClickListener { _, _, position, _ ->
+                pieChartActivityDetail.highlightValue(position.toFloat(), 0)
+                countDownTimer.start()
+                utils.track("party_clicked") { param("party", results[position].party.name) }
+            }
+        }
+    }
+
+    private fun generateResultsAdapter(withData: WithData) = SimpleAdapter(
+        this,
+        withData.arrayList,
+        R.layout.list_item_activity_detail,
+        withData.keys.toTypedArray(),
+        withData.resources.toIntArray()
+    )
+
+    @VisibleForTesting
     internal fun renderState(state: DetailState) = when (state) {
         Loading -> setViewsVisibility(animation = true)
-        Refreshing -> Unit
-        is Content -> showContent(state)
+        is Content -> setViewsVisibility(content = true)
         is Error -> showError(state.error)
     }
 
@@ -120,45 +169,6 @@ class DetailActivity : AppCompatActivity() {
         errorAnimationActivityDetail.isVisible = error
         contentActivityDetail.isVisible = content
     }
-
-    private fun showContent(content: Content) {
-        currentElection = content.election
-        binding.setContent(content)
-        setViewsVisibility(content = true)
-    }
-
-    private fun ActivityDetailBinding.setContent(content: Content) = with(content.election) {
-        toolbarActivityDetail.title = generateToolbarTitle()
-
-        moreInfoButtonActivityDetail.setOnClickListener {
-            DetailDialog()
-                .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
-                .show(supportFragmentManager, "DetailDialog")
-
-            utils.track("results_info_clicked") { param("election", "$chamberName ($date)") }
-        }
-
-        pieChartActivityDetail.drawWithResults(results)
-
-        listActivityDetail.apply {
-            adapter = generateResultsAdapter(content).apply { viewBinder = PartyColorBinder() }
-
-            setOnItemClickListener { _, _, position, _ ->
-                pieChartActivityDetail.highlightValue(position.toFloat(), 0)
-                countDownTimer.start()
-                utils.track("party_clicked") { param("party", results[position].party.name) }
-            }
-        }
-    }
-
-    private fun generateResultsAdapter(content: Content) = SimpleAdapter(
-        this,
-        content.arrayList,
-        R.layout.list_item_activity_detail,
-        content.keys.toTypedArray(),
-        content.resources.toIntArray()
-    )
-
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)

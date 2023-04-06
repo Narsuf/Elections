@@ -6,15 +6,16 @@ import com.n27.core.data.LiveRepository
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.extensions.launchCatching
-import com.n27.core.presentation.detail.mappers.toContent
+import com.n27.core.presentation.detail.mappers.toWithData
 import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
+import com.n27.core.presentation.detail.models.DetailContentState
+import com.n27.core.presentation.detail.models.DetailContentState.Empty
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
-import com.n27.core.presentation.detail.models.DetailState.Refreshing
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +24,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
+
+    private val contentState = MutableStateFlow<DetailContentState>(Empty)
+    internal val viewContentState = contentState.asStateFlow()
 
     private val state = MutableStateFlow<DetailState>(Loading)
     internal val viewState = state.asStateFlow()
@@ -39,18 +43,23 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
         lastState = state.value
 
         viewModelScope.launchCatching(::error) {
-            if (lastState is Content) {
+            if (lastState is Content)
                 action.send(ShowProgressBar)
-                state.emit(Refreshing)
-            } else {
+            else
                 state.emit(Loading)
-            }
 
-            when {
-                localElectionIds != null -> state.emit(repository.getLocalElection(localElectionIds).toContent())
-                electionId != null -> state.emit(repository.getRegionalElection(electionId).toContent())
-                election != null -> state.emit(election.toContent())
-                else -> manageError()
+            if (localElectionIds == null && electionId == null && election == null) {
+                manageError()
+            } else {
+                val resultState = when {
+                    localElectionIds != null -> repository.getLocalElection(localElectionIds).toWithData()
+                    electionId != null -> repository.getRegionalElection(electionId).toWithData()
+                    election != null -> election.toWithData()
+                    else -> Empty
+                }
+
+                contentState.emit(resultState)
+                state.emit(Content)
             }
         }
     }

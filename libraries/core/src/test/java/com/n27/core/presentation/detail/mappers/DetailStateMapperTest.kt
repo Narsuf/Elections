@@ -8,9 +8,9 @@ import org.junit.Test
 class DetailStateMapperTest {
 
     @Test
-    fun `should return expected content`() {
+    fun `should return expected WithData`() {
         val expected = getDetailContent()
-        val actual = getElection().toContent()
+        val actual = getElection().toWithData()
 
         assertEquals(expected, actual)
     }

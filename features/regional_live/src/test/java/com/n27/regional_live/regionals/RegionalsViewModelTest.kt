@@ -64,7 +64,7 @@ class RegionalsViewModelTest {
     }
 
     @Test
-    fun `exception should emit ShowErrorSnackbar when lastState is Content`() = runTest {
+    fun `exception should emit ShowErrorSnackbar when lastState was Content`() = runTest {
         viewModel.requestElections()
         runCurrent()
 

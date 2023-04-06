@@ -12,8 +12,9 @@ import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
+import com.n27.core.presentation.detail.models.DetailState
+import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Loading
-import com.n27.core.presentation.detail.models.DetailState.Refreshing
 import com.n27.test.generators.getDetailContent
 import com.n27.test.generators.getElection
 import junit.framework.TestCase.*
@@ -67,17 +68,6 @@ class DetailActivityTest {
     }
 
     @Test
-    fun checkRefreshViewState() {
-        launchActivity().onActivity { activity ->
-            with(activity) {
-                renderState(getDetailContent())
-                renderState(Refreshing)
-                binding.assertVisibilities(content = true)
-            }
-        }
-    }
-
-    @Test
     fun checkShowProgressBar() {
         launchActivity(election = null).onActivity { activity ->
             with(activity) {
@@ -88,7 +78,7 @@ class DetailActivityTest {
                 binding.assertVisibilities(content = true)
 
                 handleAction(ShowProgressBar)
-                renderState(getDetailContent())
+                renderState(Content)
                 binding.assertVisibilities(content = true)
             }
         }
