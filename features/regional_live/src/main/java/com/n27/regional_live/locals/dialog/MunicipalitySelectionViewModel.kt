@@ -15,7 +15,7 @@ import com.n27.regional_live.locals.dialog.models.MunicipalityAction.PopulateMun
 import com.n27.regional_live.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
 import com.n27.regional_live.locals.dialog.models.MunicipalityState
 import com.n27.regional_live.locals.dialog.models.MunicipalityState.Content
-import com.n27.regional_live.locals.dialog.models.MunicipalityState.Idle
+import com.n27.regional_live.locals.dialog.models.MunicipalityState.Empty
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
     private val eventBus: LocalsEventBus
 ) : ViewModel() {
 
-    private val state = MutableStateFlow<MunicipalityState>(Idle)
+    private val state = MutableStateFlow<MunicipalityState>(Empty)
     internal val viewState = state.asStateFlow()
 
     private val action = Channel<MunicipalityAction>(capacity = 1, BufferOverflow.DROP_OLDEST)

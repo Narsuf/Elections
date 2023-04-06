@@ -4,6 +4,6 @@ import com.n27.core.data.local.json.models.Province
 
 sealed class MunicipalityState {
 
-    object Idle : MunicipalityState()
+    object Empty : MunicipalityState()
     data class Content(val provinces: List<Province>) : MunicipalityState()
 }

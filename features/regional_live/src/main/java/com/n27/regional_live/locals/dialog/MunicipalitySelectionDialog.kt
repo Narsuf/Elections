@@ -23,7 +23,7 @@ import com.n27.regional_live.locals.dialog.models.MunicipalityAction.PopulateMun
 import com.n27.regional_live.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
 import com.n27.regional_live.locals.dialog.models.MunicipalityState
 import com.n27.regional_live.locals.dialog.models.MunicipalityState.Content
-import com.n27.regional_live.locals.dialog.models.MunicipalityState.Idle
+import com.n27.regional_live.locals.dialog.models.MunicipalityState.Empty
 import javax.inject.Inject
 
 class MunicipalitySelectionDialog : DialogFragment() {
@@ -105,7 +105,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
     }
 
     private fun renderState(state: MunicipalityState) = when (state) {
-        Idle -> Unit
+        Empty -> Unit
         is Content -> populateProvincesSpinner(state.provinces)
     }
 
