@@ -6,7 +6,8 @@ import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
-import com.n27.core.presentation.detail.models.DetailState.*
+import com.n27.core.presentation.detail.models.DetailState.Error
+import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers

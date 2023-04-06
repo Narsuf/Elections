@@ -30,7 +30,10 @@ import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
 import com.n27.core.presentation.detail.models.DetailState
-import com.n27.core.presentation.detail.models.DetailState.*
+import com.n27.core.presentation.detail.models.DetailState.Content
+import com.n27.core.presentation.detail.models.DetailState.Error
+import com.n27.core.presentation.detail.models.DetailState.Loading
+import com.n27.core.presentation.detail.models.DetailState.Refreshing
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
 import javax.inject.Inject

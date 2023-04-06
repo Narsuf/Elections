@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_REGION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
