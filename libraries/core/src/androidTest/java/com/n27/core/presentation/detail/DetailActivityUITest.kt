@@ -7,9 +7,11 @@ import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assert
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
+import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.R
+import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.test.assertions.ListAssertions.assertListTexts
 import com.n27.test.assertions.ListAssertions.assertListTextsWithDifferentPositions
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
@@ -83,7 +85,23 @@ class DetailActivityUITest {
         )
     }
 
-    // TODO: Test local election.
+    @Test
+    fun checkLocalElectionContent() {
+        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.localElection))
+        mockWebServer.start(8080)
+        launchActivity(electionIds = LocalElectionIds("01", "01", "01"))
+
+        assertToolbarTitle("Ayuntamiento (Abla 2019)")
+        assertListTexts(
+            listId = R.id.list_activity_detail,
+            position = 0,
+            texts = listOf(
+                "PP",
+                "454",
+                "5"
+            )
+        )
+    }
 
     @Test
     fun clickOnFloatingButtonShouldOpenDialog() {
@@ -104,11 +122,15 @@ class DetailActivityUITest {
         }
     }
 
-    private fun launchActivity(electionId: String? = null) = ActivityScenario.launch<DetailActivity>(
+    private fun launchActivity(
+        electionId: String? = null,
+        electionIds: LocalElectionIds? = null
+    ) = ActivityScenario.launch<DetailActivity>(
         Intent(getInstrumentation().targetContext, DetailActivity::class.java).apply {
             putExtra(KEY_ELECTION, congressElection)
             putExtra(KEY_SENATE_ELECTION, senateElection)
             putExtra(KEY_ELECTION_ID, electionId)
+            putExtra(KEY_LOCAL_ELECTION_IDS, electionIds)
         }
     )
 
