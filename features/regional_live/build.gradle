@@ -78,6 +78,8 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "androidx.test:core:$testVersion"
     testImplementation "androidx.arch.core:core-testing:$archTestVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
 
     androidTestImplementation project(':libraries:test')
     androidTestImplementation "androidx.test.ext:junit:$junitVersion"

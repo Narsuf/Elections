@@ -43,9 +43,11 @@ class RegionalsViewModel @Inject constructor(private val repository: LiveReposit
     private suspend fun error(throwable: Throwable) { manageError(throwable.message) }
 
     private suspend fun manageError(error: String? = null) {
-        if (lastState is Content)
+        if (lastState is Content) {
             action.send(ShowErrorSnackbar(error))
-        else
+            state.emit(lastState)
+        } else {
             state.emit(Error(error))
+        }
     }
 }
