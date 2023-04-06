@@ -6,6 +6,10 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.R
 import com.n27.regional_live.RegionalLiveActivity
+import com.n27.regional_live.locals.models.LocalsState
+import com.n27.regional_live.locals.models.LocalsState.Error
+import com.n27.regional_live.locals.models.LocalsState.Loading
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,7 +22,29 @@ class LocalsFragmentTest {
     fun checkContentViewState() {
         launchActivity().navigateToLocals().onActivity { activity ->
             val fragment = activity.getFragment()
+            // Content is automatically triggered.
             assertTrue(fragment.binding.recyclerFragmentLocals.isVisible)
+        }
+    }
+
+    @Test
+    fun checkLoadingViewState() {
+        launchActivity().navigateToLocals().onActivity { activity ->
+            with(activity.getFragment()) {
+                renderState(Loading)
+                assertTrue(binding.recyclerFragmentLocals.isVisible)
+            }
+        }
+    }
+
+    @Test
+    fun checkErrorViewState() {
+        launchActivity().navigateToLocals().onActivity { activity ->
+            with(activity.getFragment()) {
+                renderState(Error())
+                assertFalse(binding.recyclerFragmentLocals.isVisible)
+                assertTrue(binding.errorFragmentLocals.isVisible)
+            }
         }
     }
 

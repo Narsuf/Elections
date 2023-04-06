@@ -4,6 +4,8 @@ import androidx.core.view.isVisible
 import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
+import com.n27.regional_live.regionals.models.RegionalsState
+import com.n27.regional_live.regionals.models.RegionalsState.Error
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,6 +19,26 @@ class RegionalsFragmentTest {
         launchActivity().onActivity { activity ->
             val fragment = activity.getFragment()
             fragment.binding.assertVisibilities(loading = true)
+        }
+    }
+
+    @Test
+    fun checkContentViewState() {
+        launchActivity().onActivity { activity ->
+            with(activity.getFragment()) {
+                renderState(getRegionalsContent())
+                binding.assertVisibilities(content = true)
+            }
+        }
+    }
+
+    @Test
+    fun checkErrorViewState() {
+        launchActivity().onActivity { activity ->
+            with(activity.getFragment()) {
+                renderState(Error())
+                binding.assertVisibilities(error = true)
+            }
         }
     }
 

@@ -68,7 +68,8 @@ class RegionalsFragment : Fragment() {
         )
     }
 
-    private fun renderState(state: RegionalsState) = when (state) {
+    @VisibleForTesting
+    internal fun renderState(state: RegionalsState) = when (state) {
         Loading -> Unit
         is Content -> generateCards(state)
         is Error -> showError(state.error)

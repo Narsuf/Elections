@@ -18,16 +18,15 @@ class RegionalActivityUITest {
 
     private val mockWebServer = MockWebServer()
 
-    @Before
-    fun setup() {
+    private fun prepareSuccessfulResponses() {
         for (i in 0..15) mockWebServer.enqueue(MockResponse().setResponseCode(500))
         mockWebServer.enqueue(MockResponse().setBody(RegionalActivityResponses.regionalElection))
-        mockWebServer.enqueue(MockResponse().setBody(RegionalActivityResponses.localElection))
-        mockWebServer.start(8080)
     }
 
     @Test
     fun checkRegionalContent() {
+        prepareSuccessfulResponses()
+        mockWebServer.start(8080)
         launchActivity()
 
         waitUntil { assertDisplayed(R.id.recycler_fragment_regionals) }
@@ -40,14 +39,14 @@ class RegionalActivityUITest {
     }
 
     @Test
-    fun checkLocalContent() {
+    fun checkLocalSuccess() {
+        prepareSuccessfulResponses()
+        mockWebServer.enqueue(MockResponse().setBody(RegionalActivityResponses.localElection))
+        mockWebServer.start(8080)
         launchActivity()
 
         clickOn("Locals")
-        waitUntil { assertDisplayed(R.id.recycler_fragment_locals) }
-        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 0, R.id.region_name_card_local_election, "Andalucía")
-        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 9, R.id.region_name_card_local_election, "Extremadura")
-        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 18, R.id.region_name_card_local_election, "Melilla")
+        checkLocalContent()
 
         // Open and check dialog
         clickOn("La Rioja")
@@ -58,6 +57,33 @@ class RegionalActivityUITest {
             clickOn("SHOW RESULTS")
             verifyIntent(DetailActivity::class.java.name)
         }
+    }
+
+    @Test
+    fun checkLocalError() {
+        prepareSuccessfulResponses()
+        mockWebServer.enqueue(MockResponse().setResponseCode(500))
+        mockWebServer.start(8080)
+        launchActivity()
+
+        clickOn("Locals")
+        checkLocalContent()
+
+        // Open and check dialog
+        clickOn("La Rioja")
+        assertDisplayed("La Rioja")
+        assertDisplayed("Ábalos")
+
+
+        clickOn("SHOW RESULTS")
+        waitUntil { assertDisplayed("Oops! Something went wrong.") }
+    }
+
+    private fun checkLocalContent() {
+        waitUntil { assertDisplayed(R.id.recycler_fragment_locals) }
+        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 0, R.id.region_name_card_local_election, "Andalucía")
+        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 9, R.id.region_name_card_local_election, "Extremadura")
+        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 18, R.id.region_name_card_local_election, "Melilla")
     }
 
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)
