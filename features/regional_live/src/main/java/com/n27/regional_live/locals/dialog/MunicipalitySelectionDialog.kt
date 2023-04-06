@@ -62,7 +62,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
     }
 
     private fun DialogMunicipalitySelectionBinding.setUpViews() {
-        dialogMunicipalitySelectionProvinceSpinner.onItemSelectedListener =
+        provincesDialogMunicipalitySelection.onItemSelectedListener =
             object : OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>,
@@ -77,7 +77,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-        dialogMunicipalitySelectionMunicipalitySpinner.onItemSelectedListener =
+        municipalitiesDialogMunicipalitySelection.onItemSelectedListener =
             object : OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>,
@@ -120,7 +120,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
             provincesNames
         )
 
-        binding.dialogMunicipalitySelectionProvinceSpinner.adapter = adapter
+        binding.provincesDialogMunicipalitySelection.adapter = adapter
     }
 
     private fun handleAction(action: MunicipalityAction) = when(action) {
@@ -139,7 +139,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
             municipalitiesNames
         )
 
-        binding.dialogMunicipalitySelectionMunicipalitySpinner.adapter = adapter
+        binding.municipalitiesDialogMunicipalitySelection.adapter = adapter
     }
 
     override fun onDestroyView() {

@@ -18,7 +18,7 @@ class LocalsFragmentTest {
     fun checkContentViewState() {
         launchActivity().navigateToLocals().onActivity { activity ->
             val fragment = activity.getFragment()
-            assertTrue(fragment.binding.localsRecyclerView.isVisible)
+            assertTrue(fragment.binding.recyclerFragmentLocals.isVisible)
         }
     }
 

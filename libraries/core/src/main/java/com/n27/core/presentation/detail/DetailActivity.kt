@@ -52,8 +52,6 @@ class DetailActivity : AppCompatActivity() {
     private var liveElectionId: String? = null
     private var liveLocalElectionIds: LocalElectionIds? = null
 
-    // TODO: Rename all layout ids.
-
     override fun onCreate(savedInstanceState: Bundle?) {
         detailComponent = (applicationContext as DetailComponentProvider).provideDetailComponent()
         detailComponent.inject(this)

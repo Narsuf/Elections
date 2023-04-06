@@ -35,9 +35,9 @@ class RegionalCardAdapter(
         val electionXml = elections[position]
         val election = electionXml.toElection(parties)
 
-        card.findViewById<TextView>(R.id.card_region_name).text = election.place
+        card.findViewById<TextView>(R.id.name_card_regional_election).text = election.place
         card.setOnClickListener { onElectionClicked(electionXml.id) }
-        (card.findViewById(R.id.card_regional_pie_chart) as PieChart).drawWithResults(election.results)
+        (card.findViewById(R.id.chart_card_regional_election) as PieChart).drawWithResults(election.results)
     }
 
     override fun getItemCount() = elections.size

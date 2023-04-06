@@ -7,7 +7,7 @@
     tools:context=".regionals.RegionalsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/regionalsSwipe"
+        android:id="@+id/swipe_fragment_regionals"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/regionalsRecyclerView"
+            android:id="@+id/recycler_fragment_regionals"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"

@@ -30,8 +30,8 @@ class RegionalActivityUITest {
     fun checkRegionalContent() {
         launchActivity()
 
-        waitUntil { assertDisplayed(R.id.regionalsRecyclerView) }
-        assertDisplayedAtPosition(R.id.regionalsRecyclerView, 0, R.id.card_region_name, "Aragón")
+        waitUntil { assertDisplayed(R.id.recycler_fragment_regionals) }
+        assertDisplayedAtPosition(R.id.recycler_fragment_regionals, 0, R.id.name_card_regional_election, "Aragón")
 
         intents {
             clickOn("Aragón")
@@ -44,10 +44,10 @@ class RegionalActivityUITest {
         launchActivity()
 
         clickOn("Locals")
-        waitUntil { assertDisplayed(R.id.localsRecyclerView) }
-        assertDisplayedAtPosition(R.id.localsRecyclerView, 0, R.id.region_name_card_local_election, "Andalucía")
-        assertDisplayedAtPosition(R.id.localsRecyclerView, 9, R.id.region_name_card_local_election, "Extremadura")
-        assertDisplayedAtPosition(R.id.localsRecyclerView, 18, R.id.region_name_card_local_election, "Melilla")
+        waitUntil { assertDisplayed(R.id.recycler_fragment_locals) }
+        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 0, R.id.region_name_card_local_election, "Andalucía")
+        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 9, R.id.region_name_card_local_election, "Extremadura")
+        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 18, R.id.region_name_card_local_election, "Melilla")
 
         // Open and check dialog
         clickOn("La Rioja")

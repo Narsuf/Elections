@@ -51,7 +51,7 @@ class LocalsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.localsRecyclerView.apply { layoutManager = LinearLayoutManager(context) }
+        binding.recyclerFragmentLocals.apply { layoutManager = LinearLayoutManager(context) }
         initObservers()
         viewModel.requestRegions()
     }
@@ -78,13 +78,13 @@ class LocalsFragment : Fragment() {
         error: Boolean = false,
         content: Boolean = false
     ) = with(binding) {
-        localsErrorAnimation.isVisible = error
-        localsRecyclerView.isVisible = content
+        errorFragmentLocals.isVisible = error
+        recyclerFragmentLocals.isVisible = content
     }
 
     private fun generateCards(regions: List<Region>) {
         setViewsVisibility(content = true)
-        binding.localsRecyclerView.adapter = LocalsCardAdapter(regions) { region ->
+        binding.recyclerFragmentLocals.adapter = LocalsCardAdapter(regions) { region ->
             MunicipalitySelectionDialog()
                 .also { it.arguments = Bundle().apply { putSerializable(KEY_REGION, region) } }
                 .show(parentFragmentManager, "MunicipalitySelectionDialog")
@@ -93,7 +93,7 @@ class LocalsFragment : Fragment() {
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)
-        binding.localsErrorAnimation.playErrorAnimation()
+        binding.errorFragmentLocals.playErrorAnimation()
         showSnackbar(errorMsg)
     }
 

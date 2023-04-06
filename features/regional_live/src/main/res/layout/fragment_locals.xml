@@ -7,7 +7,7 @@
     tools:context=".locals.LocalsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/localsRecyclerView"
+        android:id="@+id/recycler_fragment_locals"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/localsErrorAnimation"
+        android:id="@+id/error_fragment_locals"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"

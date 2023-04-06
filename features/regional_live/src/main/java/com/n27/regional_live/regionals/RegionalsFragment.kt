@@ -52,8 +52,8 @@ class RegionalsFragment : Fragment() {
     }
 
     private fun FragmentRegionalsBinding.setUpViews() {
-        regionalsSwipe.setOnRefreshListener { viewModel.requestElections() }
-        regionalsRecyclerView.apply { layoutManager = LinearLayoutManager(context) }
+        swipeFragmentRegionals.setOnRefreshListener { viewModel.requestElections() }
+        recyclerFragmentRegionals.apply { layoutManager = LinearLayoutManager(context) }
     }
 
     private fun initObservers() {
@@ -76,7 +76,7 @@ class RegionalsFragment : Fragment() {
 
     private fun generateCards(success: Content) {
         setViewsVisibility(content = true)
-        binding.regionalsRecyclerView.adapter = RegionalCardAdapter(
+        binding.recyclerFragmentRegionals.adapter = RegionalCardAdapter(
             success.elections,
             success.parties,
             ::navigateToDetail
@@ -90,9 +90,9 @@ class RegionalsFragment : Fragment() {
         content: Boolean = false
     ) = with(binding) {
         regionalsLoadingAnimation.isVisible = initialLoading
-        regionalsSwipe.isRefreshing = loading
+        swipeFragmentRegionals.isRefreshing = loading
         regionalsErrorAnimation.isVisible = error
-        regionalsRecyclerView.isVisible = content
+        recyclerFragmentRegionals.isVisible = content
     }
 
     private fun navigateToDetail(id: String?) {

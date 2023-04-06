@@ -27,7 +27,7 @@ class RegionalsFragmentTest {
     ) {
         assertEquals(regionalsLoadingAnimation.isVisible, loading)
         assertEquals(regionalsErrorAnimation.isVisible, error)
-        assertEquals(regionalsRecyclerView.isVisible, content)
+        assertEquals(recyclerFragmentRegionals.isVisible, content)
     }
 
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)
