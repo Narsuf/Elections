@@ -30,7 +30,7 @@ interface ElectionDao {
     suspend fun insertResult(election: ResultRaw)
 
     @Transaction
-    suspend fun insertElectionsWithResultsAndParty(elections: List<ElectionWithResultsAndParty>) {
+    suspend fun insertElections(elections: List<ElectionWithResultsAndParty>) {
         elections.forEach { insertElectionWithResultsAndParty(it) }
     }
 

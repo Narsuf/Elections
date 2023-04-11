@@ -1,11 +1,9 @@
 package com.n27.test.generators
 
 import com.n27.core.R
-import com.n27.core.presentation.detail.models.DetailContentState
-import com.n27.core.presentation.detail.models.DetailContentState.WithData
 import com.n27.core.presentation.detail.models.DetailState.Content
 
-fun getDetailContent() = WithData(getElection(), getArrayList(), getKeys(), getResources())
+fun getDetailContent() = Content(getElection(), getArrayList(), getKeys(), getResources())
 
 private fun getKeys() = listOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
 
@@ -18,8 +16,6 @@ private fun getMap() = mutableMapOf<String, Any>().apply {
     put(getKeys()[3], "28.46 %")
     put(getKeys()[4], 123)
 }.toMap()
-
-
 
 private fun getResources() = listOf(
     R.id.color_list_item_activity_detail,

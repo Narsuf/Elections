@@ -10,7 +10,7 @@ class DetailStateMapperTest {
     @Test
     fun `should return expected WithData`() {
         val expected = getDetailContent()
-        val actual = getElection().toWithData()
+        val actual = getElection().toContent()
 
         assertEquals(expected, actual)
     }

@@ -12,11 +12,6 @@ import com.n27.core.data.models.Election
 import com.n27.core.data.remote.firebase.toElections
 import com.n27.elections.data.api.ElectionApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -27,36 +22,33 @@ class ElectionRepository @Inject constructor(
     private val service: ElectionApi,
     private val dao: ElectionDao,
     private val firebaseDatabase: FirebaseDatabase,
-    private val dataUtils: DataUtils
+    private val utils: DataUtils
 ) {
 
-    internal suspend fun getElections() = if (dataUtils.isConnectedToInternet())
+    internal suspend fun getElections() = if (utils.isConnectedToInternet())
         getElectionsRemotely()
     else
-        getElectionsFromDb().takeIf { it.isNotEmpty() } ?: throw Throwable(NO_INTERNET_CONNECTION)
+        getElectionsFromDb() ?: throw Throwable(NO_INTERNET_CONNECTION)
 
     private suspend fun getElectionsRemotely() = runCatching { getElectionsFromApi() }
         .getOrElse {
             Firebase.crashlytics.recordException(Exception("Main service not responding"))
-            getElectionsFromDb().takeIf { it.isNotEmpty() } ?: getElectionsFromFirebase()
+            getElectionsFromDb() ?: getElectionsFromFirebase()
         }
 
-    private suspend fun getElectionsFromApi() = flow { emit(service.getElections()) }
-        .flowOn(Dispatchers.IO)
-        .map { it.elections }
-        .onEach { it.insertInDb() }
-        .first()
+    private suspend fun getElectionsFromApi() = withContext(Dispatchers.IO) { service.getElections() }
+        .elections
+        .apply { insertInDb() }
 
-    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }.toElections()
+    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }
+        .toElections()
+        .takeIf { it.isNotEmpty() }
 
     private suspend fun getElectionsFromFirebase() =
-        flow { emit(firebaseDatabase.getReference("elections").get().await()) }
-            .flowOn(Dispatchers.IO)
-            .map { it.toElections() ?: throw Throwable("Empty response from Firebase") }
-            .onEach { it.insertInDb() }
-            .first()
+        withContext(Dispatchers.IO) { firebaseDatabase.getReference("elections").get().await() }
+            .run { toElections() ?: throw Throwable("Empty response from Firebase") }
 
     private suspend fun List<Election>.insertInDb() {
-        withContext(Dispatchers.IO) { dao.insertElectionsWithResultsAndParty(toElectionsWithResultsAndParty()) }
+        withContext(Dispatchers.IO) { dao.insertElections(toElectionsWithResultsAndParty()) }
     }
 }

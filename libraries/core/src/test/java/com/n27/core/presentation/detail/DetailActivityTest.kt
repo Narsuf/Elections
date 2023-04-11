@@ -12,8 +12,6 @@ import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
-import com.n27.core.presentation.detail.models.DetailState
-import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getDetailContent
 import com.n27.test.generators.getElection
@@ -78,7 +76,7 @@ class DetailActivityTest {
                 binding.assertVisibilities(content = true)
 
                 handleAction(ShowProgressBar)
-                renderState(Content)
+                renderState(getDetailContent())
                 binding.assertVisibilities(content = true)
             }
         }

@@ -38,31 +38,28 @@ class MainViewModel @Inject constructor(
     internal fun requestElections() {
         lastState = state.value
 
-        viewModelScope.launchCatching(::error) {
+        viewModelScope.launchCatching(::handleError) {
             state.emit(Loading)
             if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
 
             val sortedElections = electionRepository.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
-
             state.emit(Content(sortedElections))
         }
     }
 
     internal fun saveFirstLaunchFlag() {
-        viewModelScope.launchCatching(::error) { appRepository.saveFirstLaunchFlag() }
+        viewModelScope.launchCatching(::handleError) { appRepository.saveFirstLaunchFlag() }
     }
 
-    private suspend fun error(throwable: Throwable) {
+    private suspend fun handleError(throwable: Throwable) {
         Firebase.crashlytics.recordException(throwable)
-        manageError(throwable.message)
+
+        if (lastState is Content)
+            action.send(ShowErrorSnackbar(throwable.message))
+        else
+            state.emit(Error(throwable.message))
     }
 
-    private suspend fun manageError(error: String? = null) {
-        if (lastState is Content)
-            action.send(ShowErrorSnackbar(error))
-        else
-            state.emit(Error(error))
-    }
 }

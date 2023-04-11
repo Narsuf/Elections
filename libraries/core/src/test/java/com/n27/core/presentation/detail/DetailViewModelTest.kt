@@ -3,10 +3,9 @@ package com.n27.core.presentation.detail
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.core.presentation.detail.mappers.toWithData
+import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
-import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
@@ -50,8 +49,7 @@ class DetailViewModelTest {
         viewModel.requestElection(getElection(), null, null)
         runCurrent()
 
-        assertEquals(Content, viewModel.viewState.value)
-        assertEquals(getElection().toWithData(), viewModel.viewContentState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -59,8 +57,7 @@ class DetailViewModelTest {
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
-        assertEquals(Content, viewModel.viewState.value)
-        assertEquals(getElection().toWithData(), viewModel.viewContentState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -70,8 +67,7 @@ class DetailViewModelTest {
         viewModel.requestElection(null, null, ids)
         runCurrent()
 
-        assertEquals(Content, viewModel.viewState.value)
-        assertEquals(getElection().toWithData(), viewModel.viewContentState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -104,8 +100,7 @@ class DetailViewModelTest {
 
         observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
         observer.close()
-        assertEquals(Content, viewModel.viewState.value)
-        assertEquals(getElection().toWithData(), viewModel.viewContentState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -119,7 +114,6 @@ class DetailViewModelTest {
 
         observer.assertValue(ShowProgressBar)
         observer.close()
-        assertEquals(Content, viewModel.viewState.value)
-        assertEquals(getElection().toWithData(), viewModel.viewContentState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 }
