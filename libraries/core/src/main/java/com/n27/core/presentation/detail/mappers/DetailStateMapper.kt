@@ -4,7 +4,6 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.R
 import com.n27.core.data.models.Election
 import com.n27.core.extensions.divide
-import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import java.text.NumberFormat.getIntegerInstance
 

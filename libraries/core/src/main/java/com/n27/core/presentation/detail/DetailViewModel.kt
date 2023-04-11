@@ -47,16 +47,15 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
                 localElectionIds != null -> state.emit(repository.getLocalElection(localElectionIds).toContent())
                 electionId != null -> state.emit(repository.getRegionalElection(electionId).toContent())
                 election != null -> state.emit(election.toContent())
-                else -> handleError(Throwable())
+                else -> handleError()
             }
         }
     }
 
-    private suspend fun handleError(throwable: Throwable) {
+    private suspend fun handleError(throwable: Throwable? = null) {
         if (lastState is Content)
-            action.send(ShowErrorSnackbar(throwable.message))
+            action.send(ShowErrorSnackbar(throwable?.message))
         else
-            state.value = Error(throwable.message)
+            state.emit(Error(throwable?.message))
     }
-
 }

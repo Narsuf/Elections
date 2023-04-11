@@ -6,7 +6,6 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.R
 import com.n27.regional_live.RegionalLiveActivity
-import com.n27.regional_live.locals.models.LocalsState
 import com.n27.regional_live.locals.models.LocalsState.Error
 import com.n27.regional_live.locals.models.LocalsState.Loading
 import org.junit.Assert.assertFalse

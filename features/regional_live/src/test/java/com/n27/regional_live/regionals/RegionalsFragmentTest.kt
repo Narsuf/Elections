@@ -4,7 +4,6 @@ import androidx.core.view.isVisible
 import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
-import com.n27.regional_live.regionals.models.RegionalsState
 import com.n27.regional_live.regionals.models.RegionalsState.Error
 import org.junit.Assert.*
 import org.junit.Test

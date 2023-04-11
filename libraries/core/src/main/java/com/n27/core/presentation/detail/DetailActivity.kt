@@ -104,13 +104,6 @@ class DetailActivity : AppCompatActivity() {
         is Error -> showError(state.error)
     }
 
-    private fun showLoading(isAnimation: Boolean) {
-        if (isAnimation)
-            setViewsVisibility(animation = true)
-        else
-            setViewsVisibility(loading = true, content = true)
-    }
-
     private fun setViewsVisibility(
         animation: Boolean = false,
         loading: Boolean = false,
@@ -194,8 +187,7 @@ class DetailActivity : AppCompatActivity() {
 
         menu.apply {
             findItem(R.id.action_swap).isVisible = senateElection != null
-            findItem(R.id.action_reload).isVisible =
-                liveElectionId != null || liveLocalElectionIds != null
+            findItem(R.id.action_reload).isVisible = liveElectionId != null || liveLocalElectionIds != null
         }
 
         return true
