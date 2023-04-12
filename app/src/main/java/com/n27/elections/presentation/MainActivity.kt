@@ -25,6 +25,9 @@ import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
 import com.n27.elections.presentation.models.MainAction
 import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
 import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
+import com.n27.elections.presentation.models.MainContentState
+import com.n27.elections.presentation.models.MainContentState.Empty
+import com.n27.elections.presentation.models.MainContentState.WithData
 import com.n27.elections.presentation.models.MainState
 import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
@@ -62,6 +65,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
+        viewModel.viewContentState.observeOnLifecycle(
+            lifecycleOwner = this,
+            distinctUntilChanged = true,
+            action = ::renderContentState
+        )
         viewModel.viewState.observeOnLifecycle(
             lifecycleOwner = this,
             distinctUntilChanged = true,
@@ -71,10 +79,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     @VisibleForTesting
+    internal fun renderContentState(state: MainContentState) = when (state) {
+        Empty -> Unit
+        is WithData -> showElections(state.elections)
+    }
+
+    private fun showElections(elections: List<Election>) = with(binding) {
+        recyclerActivityMain.adapter = GeneralElectionsCardAdapter(
+            elections.filter { it.chamberName == "Congreso" },
+            elections.filter { it.chamberName == "Senado" },
+            ::navigateToDetail
+        )
+
+        utils.track("main_activity_loaded") { param("state", "success") }
+    }
+
+    @VisibleForTesting
+    internal fun navigateToDetail(congressElection: Election, senateElection: Election) {
+        utils.track("election_clicked") { param("election", congressElection.date) }
+
+        val myIntent = Intent(this, DetailActivity::class.java)
+        myIntent.putExtra(Constants.KEY_ELECTION, congressElection)
+        myIntent.putExtra(Constants.KEY_SENATE_ELECTION, senateElection)
+        startActivity(myIntent)
+    }
+
+    @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Loading -> Unit
+        is Content ->  setViewsVisibility(content = true)
         is Error -> showError(state.errorMessage)
-        is Content -> showElections(state)
     }
 
     private fun showError(errorMsg: String?) {
@@ -93,6 +127,7 @@ class MainActivity : AppCompatActivity() {
         swipeActivityMain.isRefreshing = loading
         errorAnimationActivityMain.isVisible = error
         recyclerActivityMain.isVisible = content
+        liveElectionsButtonActivityMain.isVisible = content
     }
 
     private fun showSnackbar(errorMsg: String?) {
@@ -102,29 +137,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()
-    }
-
-    private fun showElections(state: Content) = with(binding) {
-        swipeActivityMain.isRefreshing = false
-        setViewsVisibility(content = true)
-        liveElectionsButtonActivityMain.isVisible = true
-        recyclerActivityMain.adapter = GeneralElectionsCardAdapter(
-            state.elections.filter { it.chamberName == "Congreso" },
-            state.elections.filter { it.chamberName == "Senado" },
-            ::navigateToDetail
-        )
-
-        utils.track("main_activity_loaded") { param("state", "success") }
-    }
-
-    @VisibleForTesting
-    internal fun navigateToDetail(congressElection: Election, senateElection: Election) {
-        utils.track("election_clicked") { param("election", congressElection.date) }
-
-        val myIntent = Intent(this, DetailActivity::class.java)
-        myIntent.putExtra(Constants.KEY_ELECTION, congressElection)
-        myIntent.putExtra(Constants.KEY_SENATE_ELECTION, senateElection)
-        startActivity(myIntent)
     }
 
     private fun handleAction(action: MainAction) = when (action) {

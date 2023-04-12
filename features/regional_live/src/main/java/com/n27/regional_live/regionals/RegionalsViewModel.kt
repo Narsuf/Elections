@@ -29,25 +29,18 @@ class RegionalsViewModel @Inject constructor(private val repository: LiveReposit
     internal fun requestElections() {
         lastState = state.value
 
-        viewModelScope.launchCatching(::error) {
+        viewModelScope.launchCatching(::handleError) {
             state.emit(Loading)
-            val elections = repository.getRegionalElections()
-
-            if (elections.isNotEmpty())
-                state.emit(Content(elections, repository.getParties()))
-            else
-                manageError()
+            state.emit(Content(repository.getRegionalElections(), repository.getParties()))
         }
     }
 
-    private suspend fun error(throwable: Throwable) { manageError(throwable.message) }
-
-    private suspend fun manageError(error: String? = null) {
+    private suspend fun handleError(throwable: Throwable? = null) {
         if (lastState is Content) {
-            action.send(ShowErrorSnackbar(error))
+            action.send(ShowErrorSnackbar(throwable?.message))
             state.emit(lastState)
         } else {
-            state.emit(Error(error))
+            state.emit(Error(throwable?.message))
         }
     }
 }

@@ -44,6 +44,9 @@ class LiveRepositoryTest {
         dao = mock(ElectionDao::class.java)
         jsonReader = mock(JsonReader::class.java)
         dataUtils = mock(DataUtils::class.java)
+
+        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
+
         repository = LiveRepository(service, dao, jsonReader, moshi, dataUtils)
     }
 
@@ -59,10 +62,18 @@ class LiveRepositoryTest {
             )
         }
 
-        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(service.getRegionalElection(anyString())).thenReturn(response)
 
         assertEquals(repository.getRegionalElections(), elections)
+    }
+
+    @Test
+    fun getRegionalElectionsEmpty(): Unit = runBlocking {
+        `when`(service.getRegionalElection(anyString())).thenReturn(null)
+
+        runCatching { repository.getRegionalElections() }.getOrElse {
+            assertEquals(it.message, "Bad response")
+        }
     }
 
     @Test
@@ -71,7 +82,6 @@ class LiveRepositoryTest {
         val parties = listOf(getPartyRaw(), getPartyRaw(name = "PSOE")).lowercaseNames()
         val election = response.toElection(parties)
 
-        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(dao.getParties()).thenReturn(parties)
         `when`(service.getRegionalElection(anyString())).thenReturn(response)
 
@@ -91,7 +101,6 @@ class LiveRepositoryTest {
 
     @Test
     fun getRegionalElectionWithEmptyResponse(): Unit = runBlocking {
-        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(dao.getParties()).thenReturn(listOf())
         `when`(service.getRegionalElection(anyString())).thenReturn(null)
 
@@ -106,7 +115,6 @@ class LiveRepositoryTest {
         val parties = listOf(getPartyRaw(), getPartyRaw(name = "PSOE-A")).lowercaseNames()
         val election = response.toElection(parties)
 
-        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(dao.getParties()).thenReturn(parties)
         `when`(service.getLocalElection(ids)).thenReturn(response)
 
@@ -126,7 +134,6 @@ class LiveRepositoryTest {
 
     @Test
     fun getLocalElectionWithEmptyResponse(): Unit = runBlocking {
-        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
         `when`(dao.getParties()).thenReturn(listOf())
         `when`(service.getLocalElection(ids)).thenReturn(null)
 

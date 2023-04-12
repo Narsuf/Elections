@@ -54,7 +54,7 @@ class RegionalsViewModelTest {
 
     @Test
     fun `requestElections should emit error when elections is empty`() = runTest {
-        `when`(repository.getRegionalElections()).thenReturn(listOf())
+        `when`(repository.getRegionalElections()).thenThrow(IndexOutOfBoundsException())
         val expected = Error()
 
         viewModel.requestElections()
@@ -68,7 +68,7 @@ class RegionalsViewModelTest {
         viewModel.requestElections()
         runCurrent()
 
-        `when`(repository.getRegionalElections()).thenReturn(listOf())
+        `when`(repository.getRegionalElections()).thenThrow(IndexOutOfBoundsException())
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val expected = Content(getElectionsXml(), getPartiesRaw())
         viewModel.requestElections()

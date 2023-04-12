@@ -4,6 +4,8 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.repositories.AppRepository
 import com.n27.elections.data.repositories.ElectionRepository
 import com.n27.elections.presentation.models.MainAction.*
+import com.n27.elections.presentation.models.MainContentState
+import com.n27.elections.presentation.models.MainContentState.WithData
 import com.n27.elections.presentation.models.MainState.*
 import com.n27.test.generators.getElections
 import com.n27.test.observers.FlowTestObserver
@@ -55,7 +57,8 @@ class MainViewModelTest {
             viewModel.requestElections()
             runCurrent()
 
-            assertEquals(Content(getElections()), viewModel.viewState.value)
+            assertEquals(WithData(getElections()), viewModel.viewContentState.value)
+            assertEquals(Content, viewModel.viewState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
@@ -66,7 +69,8 @@ class MainViewModelTest {
         viewModel.requestElections()
         runCurrent()
 
-        assertEquals(Content(getElections()), viewModel.viewState.value)
+        assertEquals(WithData(getElections()), viewModel.viewContentState.value)
+        assertEquals(Content, viewModel.viewState.value)
     }
 
     @Test
@@ -103,7 +107,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `should ShowErrorSnackbar when exception occurs and lastState is content`() = runTest {
+    fun `should ShowErrorSnackbar and Content when exception occurs and lastState is content`() = runTest {
         viewModel.requestElections()
         runCurrent()
 
@@ -115,5 +119,7 @@ class MainViewModelTest {
 
         observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
         observer.close()
+        assertEquals(WithData(getElections()), viewModel.viewContentState.value)
+        assertEquals(Content, viewModel.viewState.value)
     }
 }

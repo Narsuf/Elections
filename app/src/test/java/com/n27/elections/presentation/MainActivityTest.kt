@@ -7,6 +7,8 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
+import com.n27.elections.presentation.models.MainState
+import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
 import com.n27.elections.presentation.models.MainState.Loading
 import junit.framework.TestCase.*
@@ -21,7 +23,7 @@ class MainActivityTest {
     fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
             with(activity) {
-                renderState(getMainContent())
+                renderState(Content)
                 renderState(Loading)
 
                 binding.assertVisibilities(content = true)
@@ -37,7 +39,8 @@ class MainActivityTest {
             with(activity) {
                 assertEquals(binding.toolbarActivityMain.title, resources.getString(R.string.app_name))
 
-                renderState(state)
+                renderContentState(state)
+                renderState(Content)
 
                 binding.assertVisibilities(content = true)
 

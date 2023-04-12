@@ -46,7 +46,7 @@ class LiveRepository @Inject constructor(
             }
         }
 
-        return elections
+        return elections.takeIf { it.isNotEmpty() } ?: throw Throwable("Bad response")
     }
 
     suspend fun getRegionalElection(id: String): Election {
