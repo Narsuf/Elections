@@ -4,14 +4,14 @@ import com.n27.core.data.models.Election
 
 fun List<Election>.sortByDateAndFormat() = sortedByDescending { it.formatDateToDouble() }.map { it.formatDate() }
 
-private fun Election.formatDateToDouble(): Double {
+internal fun Election.formatDateToDouble(): Double {
     return if (date.length > 4)
         date.toDouble() / 10
     else
         date.toDouble()
 }
 
-private fun Election.formatDate(): Election {
+internal fun Election.formatDate(): Election {
     var newDate = date
 
     if (date.length > 4) {

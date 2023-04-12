@@ -8,6 +8,7 @@ import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
@@ -40,7 +41,7 @@ class DetailActivityTest {
     fun checkLoadingViewStateAfterError() {
         launchActivity(election = null).onActivity { activity ->
             with(activity) {
-                renderState(getDetailError())
+                renderState(getDetailError(NO_INTERNET_CONNECTION))
                 renderState(Loading)
                 binding.assertVisibilities(animation = true)
             }

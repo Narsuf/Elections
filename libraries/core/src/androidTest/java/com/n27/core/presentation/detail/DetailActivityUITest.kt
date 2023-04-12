@@ -91,7 +91,7 @@ class DetailActivityUITest {
         mockWebServer.start(8080)
         launchActivity(electionIds = LocalElectionIds("01", "01", "01"))
 
-        assertToolbarTitle("Ayuntamiento (Abla 2019)")
+        waitUntil { assertToolbarTitle("Ayuntamiento (Abla 2019)") }
         assertListTexts(
             listId = R.id.list_activity_detail,
             position = 0,
