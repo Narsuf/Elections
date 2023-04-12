@@ -8,12 +8,10 @@ import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
-import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailState.Loading
-import com.n27.test.generators.getDetailContent
 import com.n27.test.generators.getElection
 import junit.framework.TestCase.*
 import org.junit.Test

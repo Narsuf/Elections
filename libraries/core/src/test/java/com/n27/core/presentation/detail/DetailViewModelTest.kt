@@ -5,7 +5,6 @@ import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading

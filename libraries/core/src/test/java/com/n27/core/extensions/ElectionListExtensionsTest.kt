@@ -10,7 +10,6 @@ import com.n27.test.generators.getElection
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import org.junit.Test
-import kotlin.math.exp
 
 class ElectionListExtensionsTest {
 
