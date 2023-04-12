@@ -47,6 +47,7 @@ class ElectionRepository @Inject constructor(
     private suspend fun getElectionsFromFirebase() =
         withContext(Dispatchers.IO) { firebaseDatabase.getReference("elections").get().await() }
             .run { toElections() ?: throw Throwable("Empty response from Firebase") }
+            .apply { insertInDb() }
 
     private suspend fun List<Election>.insertInDb() {
         withContext(Dispatchers.IO) { dao.insertElections(toElectionsWithResultsAndParty()) }
