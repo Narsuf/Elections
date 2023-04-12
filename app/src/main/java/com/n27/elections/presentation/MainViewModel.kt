@@ -12,6 +12,9 @@ import com.n27.elections.data.repositories.ElectionRepository
 import com.n27.elections.presentation.models.MainAction
 import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
 import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
+import com.n27.elections.presentation.models.MainContentState
+import com.n27.elections.presentation.models.MainContentState.Empty
+import com.n27.elections.presentation.models.MainContentState.WithData
 import com.n27.elections.presentation.models.MainState
 import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
@@ -28,6 +31,9 @@ class MainViewModel @Inject constructor(
     private val electionRepository: ElectionRepository
 ) : ViewModel() {
 
+    private val contentState = MutableStateFlow<MainContentState>(Empty)
+    internal val viewContentState = contentState.asStateFlow()
+
     private val state = MutableStateFlow<MainState>(Loading)
     internal val viewState = state.asStateFlow()
     private var lastState: MainState = Loading
@@ -39,12 +45,14 @@ class MainViewModel @Inject constructor(
         lastState = state.value
 
         viewModelScope.launchCatching(::handleError) {
+            state.emit(Loading)
             if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
 
             val sortedElections = electionRepository.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
-            state.emit(Content(sortedElections))
+            contentState.emit(WithData(sortedElections))
+            state.emit(Content)
         }
     }
 
@@ -55,10 +63,12 @@ class MainViewModel @Inject constructor(
     private suspend fun handleError(throwable: Throwable) {
         Firebase.crashlytics.recordException(throwable)
 
-        if (lastState is Content)
+        if (lastState is Content) {
             action.send(ShowErrorSnackbar(throwable.message))
-        else
+            state.emit(Content)
+        } else {
             state.emit(Error(throwable.message))
+        }
     }
 
 }

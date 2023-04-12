@@ -35,7 +35,8 @@ class MainActivityTest {
             with(activity) {
                 assertEquals(binding.toolbarActivityMain.title, resources.getString(R.string.app_name))
 
-                renderState(state)
+                renderContentState(state)
+                renderState(Content)
 
                 binding.assertVisibilities(content = true)
 

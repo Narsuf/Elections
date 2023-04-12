@@ -5,6 +5,6 @@ import com.n27.core.data.models.Election
 sealed class MainState {
 
     object Loading : MainState()
-    data class Content(val elections: List<Election>) : MainState()
+    object Content : MainState()
     data class Error(val errorMessage: String? = null) : MainState()
 }
