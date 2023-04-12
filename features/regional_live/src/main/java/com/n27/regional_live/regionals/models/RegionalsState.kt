@@ -6,6 +6,6 @@ import com.n27.core.data.remote.api.models.ElectionXml
 sealed class RegionalsState {
 
     object Loading : RegionalsState()
-    data class Content(val elections: List<ElectionXml>, val parties: List<PartyRaw>) : RegionalsState()
+    object Content : RegionalsState()
     data class Error(val error: String? = null) : RegionalsState()
 }

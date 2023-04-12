@@ -6,6 +6,9 @@ import com.n27.core.data.LiveRepository
 import com.n27.core.extensions.launchCatching
 import com.n27.regional_live.regionals.models.RegionalsAction
 import com.n27.regional_live.regionals.models.RegionalsAction.ShowErrorSnackbar
+import com.n27.regional_live.regionals.models.RegionalsContentState
+import com.n27.regional_live.regionals.models.RegionalsContentState.Empty
+import com.n27.regional_live.regionals.models.RegionalsContentState.WithData
 import com.n27.regional_live.regionals.models.RegionalsState
 import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
@@ -19,6 +22,9 @@ import javax.inject.Inject
 
 class RegionalsViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
 
+    private val contentState = MutableStateFlow<RegionalsContentState>(Empty)
+    internal val viewContentState = contentState.asStateFlow()
+
     private val state = MutableStateFlow<RegionalsState>(Loading)
     internal val viewState = state.asStateFlow()
     private var lastState: RegionalsState = Loading
@@ -31,16 +37,17 @@ class RegionalsViewModel @Inject constructor(private val repository: LiveReposit
 
         viewModelScope.launchCatching(::handleError) {
             state.emit(Loading)
-            state.emit(Content(repository.getRegionalElections(), repository.getParties()))
+            contentState.emit(WithData(repository.getRegionalElections(), repository.getParties()))
+            state.emit(Content)
         }
     }
 
-    private suspend fun handleError(throwable: Throwable? = null) {
+    private suspend fun handleError(throwable: Throwable) {
         if (lastState is Content) {
-            action.send(ShowErrorSnackbar(throwable?.message))
-            state.emit(lastState)
+            action.send(ShowErrorSnackbar(throwable.message))
+            state.emit(Content)
         } else {
-            state.emit(Error(throwable?.message))
+            state.emit(Error(throwable.message))
         }
     }
 }

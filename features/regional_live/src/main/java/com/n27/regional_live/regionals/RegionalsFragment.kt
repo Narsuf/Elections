@@ -22,6 +22,9 @@ import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.regionals.adapters.RegionalCardAdapter
 import com.n27.regional_live.regionals.models.RegionalsAction
 import com.n27.regional_live.regionals.models.RegionalsAction.ShowErrorSnackbar
+import com.n27.regional_live.regionals.models.RegionalsContentState
+import com.n27.regional_live.regionals.models.RegionalsContentState.Empty
+import com.n27.regional_live.regionals.models.RegionalsContentState.WithData
 import com.n27.regional_live.regionals.models.RegionalsState
 import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
@@ -57,6 +60,11 @@ class RegionalsFragment : Fragment() {
     }
 
     private fun initObservers() {
+        viewModel.viewContentState.observeOnLifecycle(
+            viewLifecycleOwner,
+            distinctUntilChanged = true,
+            action = ::renderContentState
+        )
         viewModel.viewState.observeOnLifecycle(
             viewLifecycleOwner,
             distinctUntilChanged = true,
@@ -69,19 +77,33 @@ class RegionalsFragment : Fragment() {
     }
 
     @VisibleForTesting
-    internal fun renderState(state: RegionalsState) = when (state) {
-        Loading -> Unit
-        is Content -> generateCards(state)
-        is Error -> showError(state.error)
+    internal fun renderContentState(state: RegionalsContentState) = when (state) {
+        Empty -> Unit
+        is WithData -> generateCards(state)
     }
 
-    private fun generateCards(success: Content) {
-        setViewsVisibility(content = true)
+    private fun generateCards(content: WithData) {
         binding.recyclerFragmentRegionals.adapter = RegionalCardAdapter(
-            success.elections,
-            success.parties,
+            content.elections,
+            content.parties,
             ::navigateToDetail
         )
+    }
+
+    @VisibleForTesting
+    internal fun navigateToDetail(id: String?) {
+        val intent = Intent(activity, DetailActivity::class.java).apply {
+            putExtra(KEY_ELECTION_ID, id)
+        }
+
+        startActivity(intent)
+    }
+
+    @VisibleForTesting
+    internal fun renderState(state: RegionalsState) = when (state) {
+        Loading -> Unit
+        Content ->  setViewsVisibility(content = true)
+        is Error -> showError(state.error)
     }
 
     private fun setViewsVisibility(
@@ -94,14 +116,6 @@ class RegionalsFragment : Fragment() {
         swipeFragmentRegionals.isRefreshing = loading
         regionalsErrorAnimation.isVisible = error
         recyclerFragmentRegionals.isVisible = content
-    }
-
-    private fun navigateToDetail(id: String?) {
-        val intent = Intent(activity, DetailActivity::class.java).apply {
-            putExtra(KEY_ELECTION_ID, id)
-        }
-
-        startActivity(intent)
     }
 
     private fun showError(errorMsg: String?) {

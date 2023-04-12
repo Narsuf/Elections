@@ -104,8 +104,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    @VisibleForTesting
-    internal fun renderContentState(state: DetailContentState) = when (state) {
+    private fun renderContentState(state: DetailContentState) = when (state) {
         Empty -> Unit
         is WithData -> showElections(state)
     }

@@ -2,6 +2,8 @@ package com.n27.regional_live.regionals
 
 import com.n27.core.data.LiveRepository
 import com.n27.regional_live.regionals.models.RegionalsAction.ShowErrorSnackbar
+import com.n27.regional_live.regionals.models.RegionalsContentState
+import com.n27.regional_live.regionals.models.RegionalsContentState.WithData
 import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
 import com.n27.regional_live.regionals.models.RegionalsState.Loading
@@ -44,12 +46,13 @@ class RegionalsViewModelTest {
 
     @Test
     fun `requestElections should emit content when elections not empty`() = runTest {
-        val expected = Content(getElectionsXml(), getPartiesRaw())
+        val expected = WithData(getElectionsXml(), getPartiesRaw())
 
         viewModel.requestElections()
         runCurrent()
 
-        assertEquals(expected, viewModel.viewState.value)
+        assertEquals(expected, viewModel.viewContentState.value)
+        assertEquals(Content, viewModel.viewState.value)
     }
 
     @Test
@@ -70,12 +73,13 @@ class RegionalsViewModelTest {
 
         `when`(repository.getRegionalElections()).thenThrow(IndexOutOfBoundsException())
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
-        val expected = Content(getElectionsXml(), getPartiesRaw())
+        val expected = WithData(getElectionsXml(), getPartiesRaw())
         viewModel.requestElections()
         runCurrent()
 
         observer.assertValue(ShowErrorSnackbar(null))
         observer.close()
-        assertEquals(expected, viewModel.viewState.value)
+        assertEquals(expected, viewModel.viewContentState.value)
+        assertEquals(Content, viewModel.viewState.value)
     }
 }

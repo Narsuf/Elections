@@ -4,7 +4,11 @@ import androidx.core.view.isVisible
 import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
+import com.n27.regional_live.regionals.adapters.RegionalCardAdapter
+import com.n27.regional_live.regionals.models.RegionalsState
+import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
+import junit.framework.TestCase
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +29,7 @@ class RegionalsFragmentTest {
     fun checkContentViewState() {
         launchActivity().onActivity { activity ->
             with(activity.getFragment()) {
-                renderState(getRegionalsContent())
+                renderState(Content)
                 binding.assertVisibilities(content = true)
             }
         }
@@ -37,6 +41,25 @@ class RegionalsFragmentTest {
             with(activity.getFragment()) {
                 renderState(Error())
                 binding.assertVisibilities(error = true)
+            }
+        }
+    }
+
+    @Test
+    fun checkWithData() {
+        val state = getRegionalsContent()
+
+        launchActivity().onActivity { activity ->
+            with(activity.getFragment()) {
+                renderContentState(state)
+                renderState(Content)
+
+                binding.assertVisibilities(content = true)
+
+                val recyclerAdapter = binding.recyclerFragmentRegionals.adapter!! as RegionalCardAdapter
+                TestCase.assertTrue(state.elections.containsAll(recyclerAdapter.elections))
+                TestCase.assertTrue(state.parties.containsAll(recyclerAdapter.parties))
+                TestCase.assertEquals(recyclerAdapter.onElectionClicked, ::navigateToDetail)
             }
         }
     }
