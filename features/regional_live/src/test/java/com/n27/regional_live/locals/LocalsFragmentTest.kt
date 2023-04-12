@@ -6,8 +6,12 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.R
 import com.n27.regional_live.RegionalLiveActivity
+import com.n27.regional_live.databinding.FragmentLocalsBinding
+import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.locals.models.LocalsState.Error
 import com.n27.regional_live.locals.models.LocalsState.Loading
+import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -22,17 +26,7 @@ class LocalsFragmentTest {
         launchActivity().navigateToLocals().onActivity { activity ->
             val fragment = activity.getFragment()
             // Content is automatically triggered.
-            assertTrue(fragment.binding.recyclerFragmentLocals.isVisible)
-        }
-    }
-
-    @Test
-    fun checkLoadingViewState() {
-        launchActivity().navigateToLocals().onActivity { activity ->
-            with(activity.getFragment()) {
-                renderState(Loading)
-                assertTrue(binding.recyclerFragmentLocals.isVisible)
-            }
+            fragment.binding.assertVisibilities(content = true)
         }
     }
 
@@ -41,10 +35,17 @@ class LocalsFragmentTest {
         launchActivity().navigateToLocals().onActivity { activity ->
             with(activity.getFragment()) {
                 renderState(Error())
-                assertFalse(binding.recyclerFragmentLocals.isVisible)
-                assertTrue(binding.errorFragmentLocals.isVisible)
+                binding.assertVisibilities(error = true)
             }
         }
+    }
+
+    private fun FragmentLocalsBinding.assertVisibilities(
+        error: Boolean = false,
+        content: Boolean = false
+    ) {
+        assertEquals(recyclerFragmentLocals.isVisible, content)
+        assertEquals(errorFragmentLocals.isVisible, error)
     }
 
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)

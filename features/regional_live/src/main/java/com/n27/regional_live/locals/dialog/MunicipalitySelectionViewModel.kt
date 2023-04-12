@@ -59,7 +59,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
             val event = if (regionId != null && provinceId != null && municipalityId != null)
                 RequestElection(LocalElectionIds(regionId, provinceId, municipalityId))
             else
-                ShowError()
+                ShowError
 
             eventBus.emit(event)
         }

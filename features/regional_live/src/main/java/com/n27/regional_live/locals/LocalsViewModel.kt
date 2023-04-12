@@ -43,19 +43,18 @@ class LocalsViewModel @Inject constructor(
     }
 
     internal fun requestRegions() {
-        viewModelScope.launchCatching(::errorState) {
-            val regions = repository.getRegions()
-            val stateResult = regions?.let { Content(it.regions) } ?: Error()
-            state.emit(stateResult)
+        viewModelScope.launchCatching(::handleError) {
+            val regions = repository.getRegions().regions
+            state.emit(Content(regions))
         }
     }
 
-    private suspend fun errorState(throwable: Throwable) { state.emit(Error(throwable.message)) }
+    private suspend fun handleError(throwable: Throwable) { state.emit(Error(throwable.message)) }
 
     private suspend fun onEvent(event: LocalsEvent) {
         when (event) {
             is RequestElection -> requestElection(event.ids)
-            is ShowError -> state.emit(Error(event.error))
+            is ShowError -> errorAction()
         }
     }
 
@@ -66,7 +65,7 @@ class LocalsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun errorAction(throwable: Throwable) {
-        action.send(ShowErrorSnackbar(throwable.message))
+    private suspend fun errorAction(throwable: Throwable? = null) {
+        action.send(ShowErrorSnackbar(throwable?.message))
     }
 }

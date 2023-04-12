@@ -42,7 +42,8 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
         lastState = state.value
 
         viewModelScope.launchCatching(::handleError) {
-            state.emit(Loading(isAnimation = lastState !is Content))
+            val isAnimation = lastState !is Content
+            state.emit(Loading(isAnimation))
 
             val result = when {
                 localElectionIds != null -> repository.getLocalElection(localElectionIds).toContent()
