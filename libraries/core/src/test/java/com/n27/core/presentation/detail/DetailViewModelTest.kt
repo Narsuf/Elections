@@ -89,7 +89,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `should ShowErrorSnackbar when exception occurs and lastState is content`() = runTest {
+    fun `should ShowErrorSnackbar and Content when exception occurs and lastState is content`() = runTest {
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
@@ -104,7 +104,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `should ShowProgressBar and emit Content when requestElection is called and lastState was content`() = runTest {
+    fun `should ShowProgressBar and Content when requestElection is called and lastState was content`() = runTest {
         viewModel.requestElection(null, "01", null)
         runCurrent()
 

@@ -21,13 +21,9 @@ class MainActivityTest {
 
     @Test
     fun checkLoadingViewState() {
-        launchActivity().onActivity { activity ->
-            with(activity) {
-                renderState(Content)
-                renderState(Loading)
-
-                binding.assertVisibilities(content = true)
-            }
+        launchActivity().onActivity {
+            it.renderState(Loading)
+            it.binding.assertVisibilities(loading = true)
         }
     }
 
@@ -39,8 +35,7 @@ class MainActivityTest {
             with(activity) {
                 assertEquals(binding.toolbarActivityMain.title, resources.getString(R.string.app_name))
 
-                renderContentState(state)
-                renderState(Content)
+                renderState(state)
 
                 binding.assertVisibilities(content = true)
 
@@ -84,6 +79,8 @@ class MainActivityTest {
         assertEquals(loadingAnimationActivityMain.isVisible, loading)
         assertEquals(errorAnimationActivityMain.isVisible, error)
         assertEquals(recyclerActivityMain.isVisible, content)
+        assertEquals(liveElectionsButtonActivityMain.isVisible, content)
+        assertFalse(swipeActivityMain.isRefreshing)
     }
 
     private fun launchActivity(): ActivityScenario<MainActivity> = launch(MainActivity::class.java)
