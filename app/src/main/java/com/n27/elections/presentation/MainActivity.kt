@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Loading -> Unit
-        is Content -> setViewsVisibility(content = true)
+        Content -> setViewsVisibility(content = true)
         is Error -> showError(state.errorMessage)
     }
 

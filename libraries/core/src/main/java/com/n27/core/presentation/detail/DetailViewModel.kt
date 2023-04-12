@@ -9,7 +9,8 @@ import com.n27.core.extensions.launchCatching
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
+import com.n27.core.presentation.detail.models.DetailContentState
+import com.n27.core.presentation.detail.models.DetailContentState.Empty
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
@@ -23,9 +24,12 @@ import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
 
-    private val state = MutableStateFlow<DetailState>(Loading)
+    private val contentState = MutableStateFlow<DetailContentState>(Empty)
+    internal val viewContentState = contentState.asStateFlow()
+
+    private val state = MutableStateFlow<DetailState>(Loading())
     internal val viewState = state.asStateFlow()
-    private var lastState: DetailState = Loading
+    private var lastState: DetailState = Loading()
 
     private val action = Channel<DetailAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewAction = action.receiveAsFlow()
@@ -38,24 +42,28 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
         lastState = state.value
 
         viewModelScope.launchCatching(::handleError) {
-            if (lastState is Content)
-                action.send(ShowProgressBar)
-            else
-                state.emit(Loading)
+            state.emit(Loading(isAnimation = lastState !is Content))
 
-            when {
-                localElectionIds != null -> state.emit(repository.getLocalElection(localElectionIds).toContent())
-                electionId != null -> state.emit(repository.getRegionalElection(electionId).toContent())
-                election != null -> state.emit(election.toContent())
-                else -> handleError()
+            val result = when {
+                localElectionIds != null -> repository.getLocalElection(localElectionIds).toContent()
+                electionId != null -> repository.getRegionalElection(electionId).toContent()
+                election != null -> election.toContent()
+                else -> null
             }
+
+            result?.let {
+                contentState.emit(it)
+                state.emit(Content)
+            } ?: handleError()
         }
     }
 
     private suspend fun handleError(throwable: Throwable? = null) {
-        if (lastState is Content)
+        if (lastState is Content) {
             action.send(ShowErrorSnackbar(throwable?.message))
-        else
+            state.emit(Content)
+        } else {
             state.emit(Error(throwable?.message))
+        }
     }
 }

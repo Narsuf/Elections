@@ -12,7 +12,6 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getDetailContent
 import com.n27.test.generators.getElection
@@ -31,18 +30,7 @@ class DetailActivityTest {
     fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
             with(activity) {
-                renderState(Loading)
-                binding.assertVisibilities(animation = true)
-            }
-        }
-    }
-
-    @Test
-    fun checkLoadingViewStateAfterError() {
-        launchActivity(election = null).onActivity { activity ->
-            with(activity) {
-                renderState(getDetailError(NO_INTERNET_CONNECTION))
-                renderState(Loading)
+                renderState(Loading())
                 binding.assertVisibilities(animation = true)
             }
         }
@@ -70,14 +58,10 @@ class DetailActivityTest {
     fun checkShowProgressBar() {
         launchActivity(election = null).onActivity { activity ->
             with(activity) {
-                handleAction(ShowProgressBar)
+                renderState(Loading(isAnimation = false))
                 binding.assertVisibilities(loading = true, content = true)
 
                 handleAction(ShowErrorSnackbar(null))
-                binding.assertVisibilities(content = true)
-
-                handleAction(ShowProgressBar)
-                renderState(getDetailContent())
                 binding.assertVisibilities(content = true)
             }
         }

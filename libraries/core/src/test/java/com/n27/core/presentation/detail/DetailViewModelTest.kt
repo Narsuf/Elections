@@ -5,7 +5,8 @@ import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.models.DetailAction.ShowProgressBar
+import com.n27.core.presentation.detail.models.DetailState
+import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
@@ -41,7 +42,7 @@ class DetailViewModelTest {
 
     @Test
     fun `view model initialized should emit loading`() = runTest {
-        assertEquals(Loading, viewModel.viewState.value)
+        assertEquals(Loading(), viewModel.viewState.value)
     }
 
     @Test
@@ -49,7 +50,8 @@ class DetailViewModelTest {
         viewModel.requestElection(getElection(), null, null)
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
+        assertEquals(Content, viewModel.viewState.value)
     }
 
     @Test
@@ -57,7 +59,8 @@ class DetailViewModelTest {
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
+        assertEquals(Content, viewModel.viewState.value)
     }
 
     @Test
@@ -67,7 +70,8 @@ class DetailViewModelTest {
         viewModel.requestElection(null, null, ids)
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
+        assertEquals(Content, viewModel.viewState.value)
     }
 
     @Test
@@ -100,20 +104,7 @@ class DetailViewModelTest {
 
         observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
         observer.close()
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
-    }
-
-    @Test
-    fun `should ShowProgressBar and Content when requestElection is called and lastState was content`() = runTest {
-        viewModel.requestElection(null, "01", null)
-        runCurrent()
-
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
-        viewModel.requestElection(null, "01", null)
-        runCurrent()
-
-        observer.assertValue(ShowProgressBar)
-        observer.close()
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
+        assertEquals(Content, viewModel.viewState.value)
     }
 }
