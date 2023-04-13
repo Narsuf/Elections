@@ -2,7 +2,6 @@ package com.n27.regional_live.regionals
 
 import com.n27.core.data.LiveRepository
 import com.n27.regional_live.regionals.models.RegionalsAction.ShowErrorSnackbar
-import com.n27.regional_live.regionals.models.RegionalsContentState
 import com.n27.regional_live.regionals.models.RegionalsContentState.WithData
 import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error

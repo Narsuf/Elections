@@ -6,7 +6,6 @@ import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.locals.comm.LocalsEventBus
-import com.n27.regional_live.locals.models.LocalsAction
 import com.n27.regional_live.locals.models.LocalsAction.NavigateToDetail
 import com.n27.regional_live.locals.models.LocalsAction.ShowErrorSnackbar
 import com.n27.regional_live.locals.models.LocalsState.Content

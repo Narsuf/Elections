@@ -5,10 +5,8 @@ import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.regionals.adapters.RegionalCardAdapter
-import com.n27.regional_live.regionals.models.RegionalsState
 import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
-import junit.framework.TestCase
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith

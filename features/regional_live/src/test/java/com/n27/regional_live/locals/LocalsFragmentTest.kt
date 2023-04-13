@@ -7,13 +7,8 @@ import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.R
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentLocalsBinding
-import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.locals.models.LocalsState.Error
-import com.n27.regional_live.locals.models.LocalsState.Loading
-import org.junit.Assert
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
