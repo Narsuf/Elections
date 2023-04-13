@@ -22,7 +22,16 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         html.enabled(true)
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*_Impl*.*',
+            '**/*Binding*.*'
+    ]
     def debugTree = fileTree(
             dir: "${buildDir}/intermediates/javac/debug/classes",
             excludes: fileFilter
@@ -126,5 +135,6 @@ dependencies {
     androidTestImplementation project(':libraries:test')
     androidTestImplementation "androidx.test.ext:junit:$junitVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }

@@ -22,13 +22,16 @@ import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
-import com.n27.elections.presentation.entities.MainEvent
-import com.n27.elections.presentation.entities.MainEvent.ShowDisclaimer
-import com.n27.elections.presentation.entities.MainState
-import com.n27.elections.presentation.entities.MainState.Error
-import com.n27.elections.presentation.entities.MainState.InitialLoading
-import com.n27.elections.presentation.entities.MainState.Loading
-import com.n27.elections.presentation.entities.MainState.Success
+import com.n27.elections.presentation.models.MainAction
+import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
+import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
+import com.n27.elections.presentation.models.MainContentState
+import com.n27.elections.presentation.models.MainContentState.Empty
+import com.n27.elections.presentation.models.MainContentState.WithData
+import com.n27.elections.presentation.models.MainState
+import com.n27.elections.presentation.models.MainState.Content
+import com.n27.elections.presentation.models.MainState.Error
+import com.n27.elections.presentation.models.MainState.Loading
 import com.n27.regional_live.RegionalLiveActivity
 import javax.inject.Inject
 
@@ -44,14 +47,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.setUpViews()
         initObservers()
-        viewModel.requestElections(initialLoading = true)
+        viewModel.requestElections()
     }
 
     private fun ActivityMainBinding.setUpViews() {
         setContentView(binding.root)
         swipeActivityMain.setOnRefreshListener { viewModel.requestElections() }
         recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
-        liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() }
+        liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() } // TODO: Set feature flag and tooltip.
     }
 
     private fun navigateToLive() {
@@ -62,57 +65,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
+        viewModel.viewContentState.observeOnLifecycle(
+            lifecycleOwner = this,
+            distinctUntilChanged = true,
+            action = ::renderContentState
+        )
         viewModel.viewState.observeOnLifecycle(
             lifecycleOwner = this,
             distinctUntilChanged = true,
             action = ::renderState
         )
-        viewModel.viewEvent.observeOnLifecycle(lifecycleOwner = this, action = ::handleEvent)
+        viewModel.viewAction.observeOnLifecycle(lifecycleOwner = this, action = ::handleAction)
     }
 
     @VisibleForTesting
-    internal fun renderState(state: MainState) = when (state) {
-        InitialLoading -> setViewsVisibility(initialLoading = true)
-        Loading -> Unit
-        is Error -> showError(state.errorMessage)
-        is Success -> showElections(state)
+    internal fun renderContentState(state: MainContentState) = when (state) {
+        Empty -> Unit
+        is WithData -> showElections(state.elections)
     }
 
-    private fun setViewsVisibility(
-        initialLoading: Boolean = false,
-        loading: Boolean = false,
-        error: Boolean = false,
-        content: Boolean = false
-    ) = with(binding) {
-        loadingAnimationActivityMain.isVisible = initialLoading
-        swipeActivityMain.isRefreshing = loading
-        errorAnimationActivityMain.isVisible = error
-        recyclerActivityMain.isVisible = content
-    }
-
-    private fun showError(errorMsg: String?) = with(binding) {
-        if (!recyclerActivityMain.isVisible) {
-            setViewsVisibility(error = true)
-            errorAnimationActivityMain.playErrorAnimation()
-        } else {
-            setViewsVisibility(content = true)
-        }
-
-        val error = when (errorMsg) {
-            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
-            else -> R.string.something_wrong
-        }
-
-        Snackbar.make(root, getString(error), Snackbar.LENGTH_LONG).show()
-    }
-
-    private fun showElections(state: Success) = with(binding) {
-        swipeActivityMain.isRefreshing = false
-        setViewsVisibility(content = true)
-        liveElectionsButtonActivityMain.isVisible = true
+    private fun showElections(elections: List<Election>) = with(binding) {
         recyclerActivityMain.adapter = GeneralElectionsCardAdapter(
-            state.elections.filter { it.chamberName == "Congreso" },
-            state.elections.filter { it.chamberName == "Senado" },
+            elections.filter { it.chamberName == "Congreso" },
+            elections.filter { it.chamberName == "Senado" },
             ::navigateToDetail
         )
 
@@ -129,8 +104,44 @@ class MainActivity : AppCompatActivity() {
         startActivity(myIntent)
     }
 
-    private fun handleEvent(event: MainEvent) = when (event) {
+    @VisibleForTesting
+    internal fun renderState(state: MainState) = when (state) {
+        Loading -> Unit
+        Content -> setViewsVisibility(content = true)
+        is Error -> showError(state.errorMessage)
+    }
+
+    private fun setViewsVisibility(
+        animation: Boolean = false,
+        loading: Boolean = false,
+        error: Boolean = false,
+        content: Boolean = false
+    ) = with(binding) {
+        loadingAnimationActivityMain.isVisible = animation
+        swipeActivityMain.isRefreshing = loading
+        errorAnimationActivityMain.isVisible = error
+        recyclerActivityMain.isVisible = content
+        liveElectionsButtonActivityMain.isVisible = content
+    }
+
+    private fun showError(errorMsg: String?) {
+        setViewsVisibility(error = true)
+        binding.errorAnimationActivityMain.playErrorAnimation()
+        showSnackbar(errorMsg)
+    }
+
+    private fun showSnackbar(errorMsg: String?) {
+        val error = when (errorMsg) {
+            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
+            else -> R.string.something_wrong
+        }
+
+        Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun handleAction(action: MainAction) = when (action) {
         is ShowDisclaimer -> onShowDisclaimer()
+        is ShowErrorSnackbar -> showSnackbar(action.error)
     }
 
     private fun onShowDisclaimer() {

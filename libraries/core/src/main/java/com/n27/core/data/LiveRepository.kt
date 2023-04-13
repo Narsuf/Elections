@@ -46,7 +46,7 @@ class LiveRepository @Inject constructor(
             }
         }
 
-        return elections
+        return elections.takeIf { it.isNotEmpty() } ?: throw Throwable("Bad response")
     }
 
     suspend fun getRegionalElection(id: String): Election {
@@ -59,10 +59,10 @@ class LiveRepository @Inject constructor(
         return getLocalElectionFromApi(ids)?.toElection(getParties()) ?: throw Throwable("Empty response")
     }
 
-    suspend fun getRegions(): Regions? {
+    suspend fun getRegions(): Regions {
         val jsonString = jsonReader.getStringJson(res = "regions.json")
         val adapter: JsonAdapter<Regions> = moshi.adapter(Regions::class.java)
-        return adapter.fromJson(jsonString)
+        return adapter.fromJson(jsonString) ?: throw Throwable("Error reading regions.json")
     }
 
     suspend fun getProvinces(region: String) = jsonReader

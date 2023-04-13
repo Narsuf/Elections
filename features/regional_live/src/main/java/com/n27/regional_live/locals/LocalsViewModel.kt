@@ -4,20 +4,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.regional_live.locals.LocalsState.ElectionResult
-import com.n27.regional_live.locals.LocalsState.Failure
-import com.n27.regional_live.locals.LocalsState.Loading
-import com.n27.regional_live.locals.LocalsState.Regions
+import com.n27.core.extensions.launchCatching
 import com.n27.regional_live.locals.comm.LocalsEvent
 import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.locals.comm.LocalsEventBus
-import kotlinx.coroutines.CoroutineExceptionHandler
+import com.n27.regional_live.locals.models.LocalsAction
+import com.n27.regional_live.locals.models.LocalsAction.NavigateToDetail
+import com.n27.regional_live.locals.models.LocalsAction.ShowErrorSnackbar
+import com.n27.regional_live.locals.models.LocalsState
+import com.n27.regional_live.locals.models.LocalsState.Content
+import com.n27.regional_live.locals.models.LocalsState.Error
+import com.n27.regional_live.locals.models.LocalsState.Loading
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class LocalsViewModel @Inject constructor(
@@ -28,9 +33,8 @@ class LocalsViewModel @Inject constructor(
     private val state = MutableStateFlow<LocalsState>(Loading)
     internal val viewState = state.asStateFlow()
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        state.tryEmit(Failure(throwable.message))
-    }
+    private val action = Channel<LocalsAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
+    internal val viewAction = action.receiveAsFlow()
 
     init {
         eventBus.event
@@ -38,25 +42,30 @@ class LocalsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    private suspend fun onEvent(event: LocalsEvent) {
-        when (event) {
-            is RequestElection -> requestElection(event.ids)
-            is ShowError -> state.emit(Failure(event.error))
+    internal fun requestRegions() {
+        viewModelScope.launchCatching(::handleError) {
+            val regions = repository.getRegions().regions
+            state.emit(Content(regions))
         }
     }
 
-    internal fun requestRegions() {
-        viewModelScope.launch(exceptionHandler) {
-            val regions = repository.getRegions()
-            val stateResult = regions?.let { Regions(it.regions) } ?: Failure()
-            state.emit(stateResult)
+    private suspend fun handleError(throwable: Throwable) { state.emit(Error(throwable.message)) }
+
+    private suspend fun onEvent(event: LocalsEvent) {
+        when (event) {
+            is RequestElection -> requestElection(event.ids)
+            is ShowError -> errorAction()
         }
     }
 
     private fun requestElection(ids: LocalElectionIds) {
-        viewModelScope.launch(exceptionHandler) {
-            val elections = repository.getLocalElection(ids)
-            state.emit(ElectionResult(elections, ids))
+        viewModelScope.launchCatching(::errorAction) {
+            repository.getLocalElection(ids)
+            action.send(NavigateToDetail(ids))
         }
+    }
+
+    private suspend fun errorAction(throwable: Throwable? = null) {
+        action.send(ShowErrorSnackbar(throwable?.message))
     }
 }

@@ -1,4 +1,4 @@
-package com.n27.test
+package com.n27.test.applications
 
 import android.app.Application
 import android.content.Context
@@ -17,19 +17,20 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
-class TestApplication : MultiDexApplication(), DetailComponentProvider {
+class DetailTestApplication : MultiDexApplication(), DetailComponentProvider {
 
-    override fun provideDetailComponent(): TestApplicationComponent = DaggerTestApplicationComponent.builder()
-        .fakeModule(FakeModule(this))
+    override fun provideDetailComponent(): DetailTestApplicationComponent = DaggerDetailTestApplicationComponent
+        .builder()
+        .detailFakeModule(DetailFakeModule(this))
         .build()
 }
 
 @Singleton
-@Component(modules = [FakeModule::class])
-interface TestApplicationComponent : DetailComponent
+@Component(modules = [DetailFakeModule::class])
+interface DetailTestApplicationComponent : DetailComponent
 
 @Module
-class FakeModule(val app: Application) {
+class DetailFakeModule(val app: Application) {
 
     @Provides
     @Singleton
@@ -68,5 +69,5 @@ class FakeModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun provideBaseUrl() = ""
+    fun provideBaseUrl() = "http://127.0.0.1:8080"
 }

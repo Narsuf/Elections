@@ -3,6 +3,7 @@ package com.n27.core.extensions
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -36,5 +37,11 @@ class JSONArrayExtensionsTest {
         val first = array.first { it.getKey() == "id" }
 
         assertEquals(expected, first)
+    }
+
+    @Test
+    fun firstShouldReturnNull() {
+        val first = JSONArray().first { it.getKey() == "id" }
+        assertNull(first)
     }
 }

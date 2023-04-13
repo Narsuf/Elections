@@ -18,10 +18,12 @@ import com.n27.core.extensions.observeOnLifecycle
 import com.n27.regional_live.R
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
-import com.n27.regional_live.locals.dialog.MunicipalityState.Failure
-import com.n27.regional_live.locals.dialog.MunicipalityState.Loading
-import com.n27.regional_live.locals.dialog.MunicipalityState.Municipalities
-import com.n27.regional_live.locals.dialog.MunicipalityState.Provinces
+import com.n27.regional_live.locals.dialog.models.MunicipalityAction
+import com.n27.regional_live.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner
+import com.n27.regional_live.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
+import com.n27.regional_live.locals.dialog.models.MunicipalityState
+import com.n27.regional_live.locals.dialog.models.MunicipalityState.Content
+import com.n27.regional_live.locals.dialog.models.MunicipalityState.Empty
 import javax.inject.Inject
 
 class MunicipalitySelectionDialog : DialogFragment() {
@@ -60,7 +62,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
     }
 
     private fun DialogMunicipalitySelectionBinding.setUpViews() {
-        dialogMunicipalitySelectionProvinceSpinner.onItemSelectedListener =
+        provincesDialogMunicipalitySelection.onItemSelectedListener =
             object : OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>,
@@ -75,7 +77,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-        dialogMunicipalitySelectionMunicipalitySpinner.onItemSelectedListener =
+        municipalitiesDialogMunicipalitySelection.onItemSelectedListener =
             object : OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>,
@@ -96,13 +98,15 @@ class MunicipalitySelectionDialog : DialogFragment() {
             distinctUntilChanged = true,
             action = ::renderState
         )
+        viewModel.viewAction.observeOnLifecycle(
+            lifecycleOwner = this,
+            action = ::handleAction
+        )
     }
 
     private fun renderState(state: MunicipalityState) = when (state) {
-        Loading -> Unit
-        is Provinces -> populateProvincesSpinner(state.provinces)
-        is Municipalities -> populateMunicipalitiesSpinner(state.municipalities)
-        is Failure -> Snackbar.make(binding.root, getString(R.string.something_wrong), Snackbar.LENGTH_LONG).show()
+        Empty -> Unit
+        is Content -> populateProvincesSpinner(state.provinces)
     }
 
     private fun populateProvincesSpinner(provinces: List<Province>) {
@@ -116,7 +120,12 @@ class MunicipalitySelectionDialog : DialogFragment() {
             provincesNames
         )
 
-        binding.dialogMunicipalitySelectionProvinceSpinner.adapter = adapter
+        binding.provincesDialogMunicipalitySelection.adapter = adapter
+    }
+
+    private fun handleAction(action: MunicipalityAction) = when(action) {
+        is PopulateMunicipalitiesSpinner -> populateMunicipalitiesSpinner(action.municipalities)
+        is ShowErrorSnackbar -> Snackbar.make(binding.root, getString(R.string.something_wrong), Snackbar.LENGTH_LONG).show()
     }
 
     private fun populateMunicipalitiesSpinner(municipalities: List<Municipality>) {
@@ -130,7 +139,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
             municipalitiesNames
         )
 
-        binding.dialogMunicipalitySelectionMunicipalitySpinner.adapter = adapter
+        binding.municipalitiesDialogMunicipalitySelection.adapter = adapter
     }
 
     override fun onDestroyView() {

@@ -6,31 +6,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
-import com.n27.core.data.models.Election
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
-import com.n27.regional_live.regionals.RegionalsState.Failure
-import com.n27.regional_live.regionals.RegionalsState.InitialLoading
-import com.n27.regional_live.regionals.RegionalsState.Loading
-import com.n27.regional_live.regionals.RegionalsState.Success
 import com.n27.regional_live.regionals.adapters.RegionalCardAdapter
+import com.n27.regional_live.regionals.models.RegionalsAction
+import com.n27.regional_live.regionals.models.RegionalsAction.ShowErrorSnackbar
+import com.n27.regional_live.regionals.models.RegionalsContentState
+import com.n27.regional_live.regionals.models.RegionalsContentState.Empty
+import com.n27.regional_live.regionals.models.RegionalsContentState.WithData
+import com.n27.regional_live.regionals.models.RegionalsState
+import com.n27.regional_live.regionals.models.RegionalsState.Content
+import com.n27.regional_live.regionals.models.RegionalsState.Error
+import com.n27.regional_live.regionals.models.RegionalsState.Loading
 import javax.inject.Inject
 
 class RegionalsFragment : Fragment() {
 
     private var _binding: FragmentRegionalsBinding? = null
-    private val binding get() = _binding!!
+    @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: RegionalsViewModel
 
     override fun onAttach(context: Context) {
@@ -47,27 +51,59 @@ class RegionalsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.setUpViews()
         initObservers()
-        viewModel.requestElections(initialLoading = true)
+        viewModel.requestElections()
     }
 
     private fun FragmentRegionalsBinding.setUpViews() {
-        regionalsSwipe.setOnRefreshListener { viewModel.requestElections() }
-        regionalsRecyclerView.apply { layoutManager = LinearLayoutManager(context) }
+        swipeFragmentRegionals.setOnRefreshListener { viewModel.requestElections() }
+        recyclerFragmentRegionals.apply { layoutManager = LinearLayoutManager(context) }
     }
 
     private fun initObservers() {
+        viewModel.viewContentState.observeOnLifecycle(
+            viewLifecycleOwner,
+            distinctUntilChanged = true,
+            action = ::renderContentState
+        )
         viewModel.viewState.observeOnLifecycle(
             viewLifecycleOwner,
             distinctUntilChanged = true,
             action = ::renderState
         )
+        viewModel.viewAction.observeOnLifecycle(
+            lifecycleOwner = viewLifecycleOwner,
+            action = ::handleAction
+        )
     }
 
-    private fun renderState(state: RegionalsState) = when (state) {
-        InitialLoading -> setViewsVisibility(initialLoading = true)
+    @VisibleForTesting
+    internal fun renderContentState(state: RegionalsContentState) = when (state) {
+        Empty -> Unit
+        is WithData -> generateCards(state)
+    }
+
+    private fun generateCards(content: WithData) {
+        binding.recyclerFragmentRegionals.adapter = RegionalCardAdapter(
+            content.elections,
+            content.parties,
+            ::navigateToDetail
+        )
+    }
+
+    @VisibleForTesting
+    internal fun navigateToDetail(id: String?) {
+        val intent = Intent(activity, DetailActivity::class.java).apply {
+            putExtra(KEY_ELECTION_ID, id)
+        }
+
+        startActivity(intent)
+    }
+
+    @VisibleForTesting
+    internal fun renderState(state: RegionalsState) = when (state) {
         Loading -> Unit
-        is Success -> generateCards(state)
-        is Failure -> showError(state.throwable?.message)
+        Content ->  setViewsVisibility(content = true)
+        is Error -> showError(state.error)
     }
 
     private fun setViewsVisibility(
@@ -77,43 +113,28 @@ class RegionalsFragment : Fragment() {
         content: Boolean = false
     ) = with(binding) {
         regionalsLoadingAnimation.isVisible = initialLoading
-        regionalsSwipe.isRefreshing = loading
+        swipeFragmentRegionals.isRefreshing = loading
         regionalsErrorAnimation.isVisible = error
-        regionalsRecyclerView.isVisible = content
+        recyclerFragmentRegionals.isVisible = content
     }
 
-    private fun generateCards(success: Success) {
-        setViewsVisibility(content = true)
-        binding.regionalsRecyclerView.adapter = RegionalCardAdapter(
-            success.elections,
-            success.parties,
-            ::navigateToDetail
-        )
+    private fun showError(errorMsg: String?) {
+        setViewsVisibility(error = true)
+        binding.regionalsErrorAnimation.playErrorAnimation()
+        showSnackbar(errorMsg)
     }
 
-    private fun showError(errorMsg: String?) = with(binding) {
-        if (!regionalsRecyclerView.isVisible) {
-            setViewsVisibility(error = true)
-            regionalsErrorAnimation.playErrorAnimation()
-        } else {
-            setViewsVisibility(content = true)
-        }
-
+    private fun showSnackbar(errorMsg: String?) {
         val error = when (errorMsg) {
             NO_INTERNET_CONNECTION -> R.string.no_internet_connection
             else -> R.string.something_wrong
         }
 
-        Snackbar.make(root, getString(error), Snackbar.LENGTH_LONG).show()
+        Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()
     }
 
-    private fun navigateToDetail(election: Election, id: String?) {
-        val intent = Intent(activity, DetailActivity::class.java).apply {
-            putExtra(KEY_ELECTION, election)
-            putExtra(KEY_ELECTION_ID, id)
-        }
-
-        startActivity(intent)
+    private fun handleAction(action: RegionalsAction) = when(action) {
+        is ShowErrorSnackbar -> showSnackbar(action.error)
     }
 
     override fun onDestroyView() {

@@ -11,7 +11,7 @@ fun getRegions() = Regions(
     )
 )
 
-private fun getRegion(
+fun getRegion(
     id: String = "01",
     name: String = "Andalucía"
 ) = Region(id, name)
@@ -20,7 +20,7 @@ fun getProvinces() = listOf(
     getProvince(), getProvince("11", "Cádiz")
 )
 
-private fun getProvince(
+fun getProvince(
     id: String = "04",
     name: String = "Almería"
 ) = Province(id, name)

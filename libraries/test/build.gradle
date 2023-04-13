@@ -24,6 +24,7 @@ repositories {
 
 dependencies {
     compileOnly project(":libraries:core")
+    compileOnly project(":features:regional_live")
 
     // Dagger 2
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"

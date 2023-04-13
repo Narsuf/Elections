@@ -6,6 +6,8 @@ import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElectio
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateResult
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateResults
+import com.n27.test.generators.getElection
+import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import org.junit.Test
 
@@ -25,6 +27,27 @@ class ElectionListExtensionsTest {
 
             lastElection = it
         }
+    }
+
+    @Test
+    fun formatDateToDouble() {
+        var expected = getElection().formatDateToDouble()
+        assertEquals(expected, 2015.0)
+
+        expected = getElection(date = "20192").formatDateToDouble()
+        assertEquals(expected, 2019.2)
+    }
+
+    @Test
+    fun formatDate() {
+        var expected = getElection().formatDate()
+        assertEquals(expected.date, "2015")
+
+        expected = getElection(date = "20192").formatDate()
+        assertEquals(expected.date, "2019-10N")
+
+        expected = getElection(date = "20191").formatDate()
+        assertEquals(expected.date, "2019-28A")
     }
 
     @Test

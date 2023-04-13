@@ -3,10 +3,9 @@ package com.n27.elections.presentation
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.repositories.AppRepository
 import com.n27.elections.data.repositories.ElectionRepository
-import com.n27.elections.presentation.entities.MainEvent.*
-import com.n27.elections.presentation.entities.MainState.Error
-import com.n27.elections.presentation.entities.MainState.InitialLoading
-import com.n27.elections.presentation.entities.MainState.Success
+import com.n27.elections.presentation.models.MainAction.*
+import com.n27.elections.presentation.models.MainContentState.WithData
+import com.n27.elections.presentation.models.MainState.*
 import com.n27.test.generators.getElections
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals
@@ -47,28 +46,21 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `view model initialized should emit initial loading`() = runTest {
-        assertEquals(InitialLoading, viewModel.viewState.value)
+    fun `view model initialized should emit loading`() = runTest {
+        assertEquals(Loading, viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElections should emit success when succeeding`() = runTest {
+    fun `requestElections should emit content`() = runTest {
         val totalExecutionTime = measureTimeMillis {
-            viewModel.requestElections(initialLoading = true)
+            viewModel.requestElections()
             runCurrent()
 
-            assertEquals(Success(getElections()), viewModel.viewState.value)
+            assertEquals(WithData(getElections()), viewModel.viewContentState.value)
+            assertEquals(Content, viewModel.viewState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
-    }
-
-    @Test
-    fun `refresh should emit success when succeeding`() = runTest {
-        viewModel.requestElections()
-        runCurrent()
-
-        assertEquals(Success(getElections()), viewModel.viewState.value)
     }
 
     @Test
@@ -83,7 +75,7 @@ class MainViewModelTest {
 
     @Test
     fun `first launch should emit show disclaimer`() = runTest {
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         `when`(appRepository.isFirstLaunch()).thenReturn(true)
 
         viewModel.requestElections()
@@ -95,12 +87,29 @@ class MainViewModelTest {
 
     @Test
     fun `not first launch should not emit show disclaimer`() = runTest {
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewEvent)
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
 
         viewModel.requestElections()
         runCurrent()
 
         observer.assertValues()
         observer.close()
+    }
+
+    @Test
+    fun `should ShowErrorSnackbar and Content when exception occurs and lastState is content`() = runTest {
+        viewModel.requestElections()
+        runCurrent()
+
+        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
+
+        `when`(electionRepository.getElections()).thenThrow(IndexOutOfBoundsException((NO_INTERNET_CONNECTION)))
+        viewModel.requestElections()
+        runCurrent()
+
+        observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
+        observer.close()
+        assertEquals(WithData(getElections()), viewModel.viewContentState.value)
+        assertEquals(Content, viewModel.viewState.value)
     }
 }

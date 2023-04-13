@@ -22,7 +22,15 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         html.enabled(true)
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Binding*.*'
+    ]
     def debugTree = fileTree(
             dir: "${buildDir}/intermediates/javac/debug/classes",
             excludes: fileFilter
@@ -72,8 +80,17 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
-    testImplementation "junit:junit:4.13.2"
+    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
 
+    testImplementation project(':libraries:test')
+    testImplementation "androidx.test:core:$testVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+
+    androidTestImplementation project(':libraries:test')
     androidTestImplementation "androidx.test.ext:junit:$junitVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
 }

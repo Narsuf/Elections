@@ -29,7 +29,7 @@ class LocalsCardAdapter(
 
         val region = regions[position]
 
-        card.findViewById<TextView>(R.id.card_municipality_name).text = region.name
+        card.findViewById<TextView>(R.id.region_name_card_local_election).text = region.name
         card.setOnClickListener { onRegionClicked(region) }
     }
 

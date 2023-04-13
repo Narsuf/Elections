@@ -1,6 +1,7 @@
 package com.n27.test.observers
 
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -13,6 +14,12 @@ class FlowTestObserver<T>(scope: CoroutineScope, flow: Flow<T>) : Closeable {
 
     private val job: Job = scope.launch {
         flow.collect { _values.add(it) }
+    }
+
+    fun assertValue(value: T): FlowTestObserver<T> {
+        assertTrue(_values.isNotEmpty())
+        assertEquals(value, _values.last())
+        return this
     }
 
     fun assertValues(vararg values: T): FlowTestObserver<T> {

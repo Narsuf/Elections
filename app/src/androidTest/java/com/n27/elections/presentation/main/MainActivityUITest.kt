@@ -1,9 +1,7 @@
 package com.n27.elections.presentation.main
 
-import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.swipeDown
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
@@ -25,14 +23,12 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.io.IOException
 
 class MainActivityUITest {
 
     private val mockWebServer = MockWebServer()
 
     @Before
-    @Throws(IOException::class, InterruptedException::class)
     fun setup() {
         mockWebServer.enqueue(MockResponse().setBody(MainActivityResponses.elections))
         mockWebServer.start(8080)
@@ -43,8 +39,6 @@ class MainActivityUITest {
         launchActivity()
 
         checkFirstLaunchDialog()
-        checkContent()
-        onView(withId(R.id.swipe_activity_main)).perform(swipeDown())
         checkContent()
         checkNavigation()
     }
@@ -83,9 +77,8 @@ class MainActivityUITest {
         }
     }
 
-    private fun launchActivity() = ActivityScenario.launch(MainActivity::class.java)
+    private fun launchActivity() = launch(MainActivity::class.java)
 
     @After
-    @Throws(IOException::class)
     fun teardown() { mockWebServer.shutdown() }
 }

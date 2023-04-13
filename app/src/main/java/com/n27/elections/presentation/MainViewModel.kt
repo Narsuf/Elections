@@ -4,18 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
+import com.n27.core.extensions.launchCatching
 import com.n27.core.extensions.sortByDateAndFormat
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.elections.data.repositories.AppRepository
 import com.n27.elections.data.repositories.ElectionRepository
-import com.n27.elections.presentation.entities.MainEvent
-import com.n27.elections.presentation.entities.MainEvent.ShowDisclaimer
-import com.n27.elections.presentation.entities.MainState
-import com.n27.elections.presentation.entities.MainState.Error
-import com.n27.elections.presentation.entities.MainState.InitialLoading
-import com.n27.elections.presentation.entities.MainState.Loading
-import com.n27.elections.presentation.entities.MainState.Success
-import kotlinx.coroutines.CoroutineExceptionHandler
+import com.n27.elections.presentation.models.MainAction
+import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
+import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
+import com.n27.elections.presentation.models.MainContentState
+import com.n27.elections.presentation.models.MainContentState.Empty
+import com.n27.elections.presentation.models.MainContentState.WithData
+import com.n27.elections.presentation.models.MainState
+import com.n27.elections.presentation.models.MainState.Content
+import com.n27.elections.presentation.models.MainState.Error
+import com.n27.elections.presentation.models.MainState.Loading
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,31 +32,44 @@ class MainViewModel @Inject constructor(
     private val electionRepository: ElectionRepository
 ) : ViewModel() {
 
-    private val state = MutableStateFlow<MainState>(InitialLoading)
+    private val contentState = MutableStateFlow<MainContentState>(Empty)
+    internal val viewContentState = contentState.asStateFlow()
+
+    private val state = MutableStateFlow<MainState>(Loading)
     internal val viewState = state.asStateFlow()
+    private var lastState: MainState = Loading
 
-    private val event = Channel<MainEvent>(capacity = 1, BufferOverflow.DROP_OLDEST)
-    internal val viewEvent = event.receiveAsFlow()
+    private val action = Channel<MainAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
+    internal val viewAction = action.receiveAsFlow()
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Firebase.crashlytics.recordException(throwable)
-        state.tryEmit(Error(throwable.message))
-    }
+    internal fun requestElections() {
+        lastState = state.value
 
-    internal fun requestElections(initialLoading: Boolean = false) {
-        viewModelScope.launch(exceptionHandler) {
-            if (!initialLoading) state.emit(Loading)
-            if (appRepository.isFirstLaunch()) event.send(ShowDisclaimer)
+        viewModelScope.launchCatching(::handleError) {
+            state.emit(Loading)
+            if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
 
             val sortedElections = electionRepository.getElections()
                 .map { it.sortResultsByElectsAndVotes() }
                 .sortByDateAndFormat()
-
-            state.emit(Success(sortedElections))
+            contentState.emit(WithData(sortedElections))
+            state.emit(Content)
         }
     }
 
     internal fun saveFirstLaunchFlag() {
-        viewModelScope.launch(exceptionHandler) { appRepository.saveFirstLaunchFlag() }
+        viewModelScope.launch { appRepository.saveFirstLaunchFlag() }
     }
+
+    private suspend fun handleError(throwable: Throwable) {
+        Firebase.crashlytics.recordException(throwable)
+
+        if (lastState is Content) {
+            action.send(ShowErrorSnackbar(throwable.message))
+            state.emit(Content)
+        } else {
+            state.emit(Error(throwable.message))
+        }
+    }
+
 }

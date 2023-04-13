@@ -10,8 +10,8 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.data.models.Election
 import com.n27.core.databinding.ActivityDetailBinding
-import com.n27.core.presentation.detail.DetailState.InitialLoading
-import com.n27.core.presentation.detail.DetailState.Loading
+import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
 import junit.framework.TestCase.*
 import org.junit.Test
@@ -25,32 +25,21 @@ class DetailActivityTest {
     private val senateElection = getElection(chamberName = KEY_SENATE)
 
     @Test
-    fun checkInitialLoadingViewState() {
-        launchActivity().onActivity { activity ->
-            with(activity) {
-                renderState(InitialLoading)
-                binding.assertVisibilities(animation = true)
-            }
-        }
-    }
-
-    @Test
     fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
             with(activity) {
-                renderState(Loading)
-                binding.assertVisibilities(loading = true, content = true)
+                renderState(Loading())
+                binding.assertVisibilities(animation = true)
             }
         }
     }
 
     @Test
-    fun checkLoadingViewStateAfterError() {
+    fun checkErrorViewState() {
         launchActivity(election = null).onActivity { activity ->
             with(activity) {
-                renderState(getDetailFailure())
-                renderState(Loading)
-                binding.assertVisibilities(animation = true)
+                renderState(getDetailError())
+                binding.assertVisibilities(error = true)
             }
         }
     }
@@ -64,20 +53,13 @@ class DetailActivityTest {
     }
 
     @Test
-    fun checkErrorViewState() {
+    fun checkShowProgressBar() {
         launchActivity(election = null).onActivity { activity ->
             with(activity) {
-                renderState(getDetailFailure())
-                binding.assertVisibilities(error = true)
-            }
-        }
-    }
+                renderState(Loading(isAnimation = false))
+                binding.assertVisibilities(loading = true, content = true)
 
-    @Test
-    fun checkErrorViewStateAfterContent() {
-        launchActivity().onActivity { activity ->
-            with(activity) {
-                renderState(getDetailFailure())
+                handleAction(ShowErrorSnackbar(null))
                 binding.assertVisibilities(content = true)
             }
         }

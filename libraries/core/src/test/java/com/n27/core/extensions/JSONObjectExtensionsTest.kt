@@ -2,6 +2,7 @@ package com.n27.core.extensions
 
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -16,4 +17,7 @@ class JSONObjectExtensionsTest {
 
         assertEquals(expected, json.getKey())
     }
+
+    @Test
+    fun getNullKey() { assertNull(JSONObject().getKey()) }
 }
