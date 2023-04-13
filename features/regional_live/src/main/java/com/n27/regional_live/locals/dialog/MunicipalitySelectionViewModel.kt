@@ -21,6 +21,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MunicipalitySelectionViewModel @Inject constructor(
@@ -35,16 +36,16 @@ class MunicipalitySelectionViewModel @Inject constructor(
     internal val viewAction = action.receiveAsFlow()
 
     internal fun requestProvinces(region: Region?) {
-        viewModelScope.launchCatching(::error) {
+        viewModelScope.launchCatching(::handleError) {
             region?.let {
                 val provinces = repository.getProvinces(region.name)
                 state.emit(Content(provinces))
-            } ?: action.send(ShowErrorSnackbar())
+            } ?: handleError()
         }
     }
 
     internal fun requestMunicipalities(province: Province?) {
-        viewModelScope.launchCatching(::error) {
+        viewModelScope.launchCatching(::handleError) {
             val resultAction = province?.let {
                 val provinces = repository.getMunicipalities(province.name)
                 PopulateMunicipalitiesSpinner(provinces)
@@ -55,7 +56,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
     }
 
     internal fun requestElection(regionId: String?, provinceId: String?, municipalityId: String?) {
-        viewModelScope.launchCatching(::error) {
+        viewModelScope.launch {
             val event = if (regionId != null && provinceId != null && municipalityId != null)
                 RequestElection(LocalElectionIds(regionId, provinceId, municipalityId))
             else
@@ -65,7 +66,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
         }
     }
 
-    private suspend fun error(throwable: Throwable) {
-        action.send(ShowErrorSnackbar(throwable.message))
+    private suspend fun handleError(throwable: Throwable? = null) {
+        action.send(ShowErrorSnackbar(throwable?.message))
     }
 }

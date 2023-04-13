@@ -57,9 +57,9 @@ class RegionalsFragmentTest {
                 binding.assertVisibilities(content = true)
 
                 val recyclerAdapter = binding.recyclerFragmentRegionals.adapter!! as RegionalCardAdapter
-                TestCase.assertTrue(state.elections.containsAll(recyclerAdapter.elections))
-                TestCase.assertTrue(state.parties.containsAll(recyclerAdapter.parties))
-                TestCase.assertEquals(recyclerAdapter.onElectionClicked, ::navigateToDetail)
+                assertTrue(state.elections.containsAll(recyclerAdapter.elections))
+                assertTrue(state.parties.containsAll(recyclerAdapter.parties))
+                assertEquals(recyclerAdapter.onElectionClicked, ::navigateToDetail)
             }
         }
     }
