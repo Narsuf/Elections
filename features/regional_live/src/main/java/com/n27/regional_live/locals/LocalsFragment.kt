@@ -19,6 +19,7 @@ import com.n27.core.data.local.json.models.Region
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
+import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentLocalsBinding
@@ -38,6 +39,7 @@ class LocalsFragment : Fragment() {
     private var _binding: FragmentLocalsBinding? = null
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: LocalsViewModel
+    @Inject internal lateinit var utils: PresentationUtils
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -81,7 +83,11 @@ class LocalsFragment : Fragment() {
             MunicipalitySelectionDialog()
                 .also { it.arguments = Bundle().apply { putSerializable(KEY_REGION, region) } }
                 .show(parentFragmentManager, "MunicipalitySelectionDialog")
+
+            utils.track("locals_fragment_region_clicked") { param("region", region.name) }
         }
+
+        utils.track("locals_fragment_content_loaded")
     }
 
     private fun setViewsVisibility(
@@ -118,6 +124,10 @@ class LocalsFragment : Fragment() {
         }
 
         startActivity(intent)
+
+        utils.track("locals_fragment_municipality_selected") {
+            param("ids", "${ids.region}/${ids.province}/${ids.municipality}")
+        }
     }
 
     override fun onDestroyView() {

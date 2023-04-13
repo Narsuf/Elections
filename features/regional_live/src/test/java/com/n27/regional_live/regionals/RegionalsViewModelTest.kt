@@ -34,7 +34,7 @@ class RegionalsViewModelTest {
         repository = mock(LiveRepository::class.java)
         `when`(repository.getRegionalElections()).thenReturn(getElectionsXml())
         `when`(repository.getParties()).thenReturn(getPartiesRaw())
-        viewModel = RegionalsViewModel(repository)
+        viewModel = RegionalsViewModel(repository, null)
         Dispatchers.setMain(testDispatcher)
     }
 

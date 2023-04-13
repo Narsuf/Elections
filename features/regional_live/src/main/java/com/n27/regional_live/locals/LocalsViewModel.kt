@@ -2,6 +2,9 @@ package com.n27.regional_live.locals
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.extensions.launchCatching
@@ -27,6 +30,7 @@ import javax.inject.Inject
 
 class LocalsViewModel @Inject constructor(
     private val repository: LiveRepository,
+    private val crashlytics: FirebaseCrashlytics?,
     eventBus: LocalsEventBus
 ) : ViewModel() {
 
@@ -49,7 +53,10 @@ class LocalsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleError(throwable: Throwable) { state.emit(Error(throwable.message)) }
+    private suspend fun handleError(throwable: Throwable) {
+        crashlytics?.recordException(throwable)
+        state.emit(Error(throwable.message))
+    }
 
     private suspend fun onEvent(event: LocalsEvent) {
         when (event) {
@@ -66,6 +73,7 @@ class LocalsViewModel @Inject constructor(
     }
 
     private suspend fun errorAction(throwable: Throwable? = null) {
+        throwable?.let { crashlytics?.recordException(it) }
         action.send(ShowErrorSnackbar(throwable?.message))
     }
 }

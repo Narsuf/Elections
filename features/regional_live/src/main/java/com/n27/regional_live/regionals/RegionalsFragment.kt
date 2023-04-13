@@ -14,8 +14,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
+import com.n27.core.data.remote.api.models.ElectionXml
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
+import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.RegionalLiveActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
@@ -36,6 +38,7 @@ class RegionalsFragment : Fragment() {
     private var _binding: FragmentRegionalsBinding? = null
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: RegionalsViewModel
+    @Inject internal lateinit var utils: PresentationUtils
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,7 +58,10 @@ class RegionalsFragment : Fragment() {
     }
 
     private fun FragmentRegionalsBinding.setUpViews() {
-        swipeFragmentRegionals.setOnRefreshListener { viewModel.requestElections() }
+        swipeFragmentRegionals.setOnRefreshListener {
+            viewModel.requestElections()
+            utils.track("regionals_fragment_pulled_to_refresh")
+        }
         recyclerFragmentRegionals.apply { layoutManager = LinearLayoutManager(context) }
     }
 
@@ -88,15 +94,19 @@ class RegionalsFragment : Fragment() {
             content.parties,
             ::navigateToDetail
         )
+
+        utils.track("regionals_fragment_content_loaded")
     }
 
     @VisibleForTesting
-    internal fun navigateToDetail(id: String?) {
+    internal fun navigateToDetail(election: ElectionXml) {
         val intent = Intent(activity, DetailActivity::class.java).apply {
-            putExtra(KEY_ELECTION_ID, id)
+            putExtra(KEY_ELECTION_ID, election.id)
         }
 
         startActivity(intent)
+
+        utils.track("regionals_fragment_region_clicked") { param("region", election.place) }
     }
 
     @VisibleForTesting

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.local.room.Database
 import com.n27.core.presentation.PresentationUtils
@@ -70,4 +71,8 @@ class DetailFakeModule(val app: Application) {
     @Provides
     @Singleton
     fun provideBaseUrl() = "http://127.0.0.1:8080"
+
+    @Provides
+    @Singleton
+    fun provideFirebaseCrashlytics(): FirebaseCrashlytics? = null
 }

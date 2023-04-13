@@ -52,13 +52,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun ActivityMainBinding.setUpViews() {
         setContentView(binding.root)
-        swipeActivityMain.setOnRefreshListener { viewModel.requestElections() }
+        swipeActivityMain.setOnRefreshListener {
+            viewModel.requestElections()
+            utils.track("main_activity_pulled_to_refresh")
+        }
         recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
         liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() } // TODO: Set feature flag and tooltip.
     }
 
     private fun navigateToLive() {
-        utils.track("live_button_clicked")
+        utils.track("main_activity_live_button_clicked")
 
         val myIntent = Intent(this, RegionalLiveActivity::class.java)
         startActivity(myIntent)
@@ -91,12 +94,12 @@ class MainActivity : AppCompatActivity() {
             ::navigateToDetail
         )
 
-        utils.track("main_activity_loaded") { param("state", "success") }
+        utils.track("main_activity_content_loaded")
     }
 
     @VisibleForTesting
     internal fun navigateToDetail(congressElection: Election, senateElection: Election) {
-        utils.track("election_clicked") { param("election", congressElection.date) }
+        utils.track("main_activity_election_clicked") { param("election", congressElection.date) }
 
         val myIntent = Intent(this, DetailActivity::class.java)
         myIntent.putExtra(Constants.KEY_ELECTION, congressElection)
@@ -159,7 +162,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(getString(R.string.disclaimer_button), null)
             .setOnDismissListener {
                 viewModel.saveFirstLaunchFlag()
-                utils.track("dialog_dismissed")
+                utils.track("main_activity_dialog_dismissed")
             }
             .show()
 

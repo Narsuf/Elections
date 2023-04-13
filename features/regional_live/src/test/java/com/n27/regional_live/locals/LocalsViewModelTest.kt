@@ -41,7 +41,7 @@ class LocalsViewModelTest {
         eventBus = LocalsEventBus()
         `when`(repository.getRegions()).thenReturn(getRegions())
         Dispatchers.setMain(testDispatcher)
-        viewModel = LocalsViewModel(repository, eventBus)
+        viewModel = LocalsViewModel(repository, null, eventBus)
     }
 
     @Test

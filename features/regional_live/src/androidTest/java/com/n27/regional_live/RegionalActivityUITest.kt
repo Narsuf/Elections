@@ -73,7 +73,6 @@ class RegionalActivityUITest {
         assertDisplayed("La Rioja")
         assertDisplayed("Ábalos")
 
-
         clickOn("SHOW RESULTS")
         waitUntil { assertDisplayed("Oops! Something went wrong.") }
     }

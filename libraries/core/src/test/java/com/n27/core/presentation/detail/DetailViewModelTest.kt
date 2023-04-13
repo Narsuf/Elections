@@ -35,7 +35,7 @@ class DetailViewModelTest {
     fun init() = runTest {
         repository = mock(LiveRepository::class.java)
         `when`(repository.getRegionalElection(anyString())).thenReturn(getElection())
-        viewModel = DetailViewModel(repository)
+        viewModel = DetailViewModel(repository, null)
         Dispatchers.setMain(testDispatcher)
     }
 

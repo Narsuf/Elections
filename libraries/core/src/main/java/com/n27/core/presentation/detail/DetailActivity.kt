@@ -112,6 +112,7 @@ class DetailActivity : AppCompatActivity() {
     private fun showElections(content: WithData) {
         currentElection = content.election
         binding.setContent(content)
+        utils.track("detail_activity_content_loaded")
     }
 
     private fun ActivityDetailBinding.setContent(content: WithData) {
@@ -123,7 +124,9 @@ class DetailActivity : AppCompatActivity() {
                     .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
                     .show(supportFragmentManager, "DetailDialog")
 
-                utils.track("results_info_clicked") { param("election", "$chamberName ($date)") }
+                utils.track("detail_activity_results_info_clicked") {
+                    param("election", "$chamberName ($date)")
+                }
             }
 
             pieChartActivityDetail.drawWithResults(results)
@@ -134,7 +137,9 @@ class DetailActivity : AppCompatActivity() {
                 setOnItemClickListener { _, _, position, _ ->
                     pieChartActivityDetail.highlightValue(position.toFloat(), 0)
                     countDownTimer.start()
-                    utils.track("party_clicked") { param("party", results[position].party.name) }
+                    utils.track("detail_activity_party_clicked") {
+                        param("party", results[position].party.name)
+                    }
                 }
             }
         }
@@ -227,11 +232,16 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
 
+                utils.track("detail_activity_swap_clicked") {
+                    param("from", "${currentElection?.chamberName}")
+                }
+
                 true
             }
 
             R.id.action_reload -> {
                 requestElection()
+                utils.track("detail_activity_reload")
                 true
             }
 

@@ -2,6 +2,9 @@ package com.n27.regional_live.regionals
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.n27.core.data.LiveRepository
 import com.n27.core.extensions.launchCatching
 import com.n27.regional_live.regionals.models.RegionalsAction
@@ -20,7 +23,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
-class RegionalsViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
+class RegionalsViewModel @Inject constructor(
+    private val repository: LiveRepository,
+    private val crashlytics: FirebaseCrashlytics?
+) : ViewModel() {
 
     private val contentState = MutableStateFlow<RegionalsContentState>(Empty)
     internal val viewContentState = contentState.asStateFlow()
@@ -43,6 +49,8 @@ class RegionalsViewModel @Inject constructor(private val repository: LiveReposit
     }
 
     private suspend fun handleError(throwable: Throwable) {
+        crashlytics?.recordException(throwable)
+
         if (lastState is Content) {
             action.send(ShowErrorSnackbar(throwable.message))
             state.emit(Content)

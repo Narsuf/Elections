@@ -2,6 +2,9 @@ package com.n27.core.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.api.models.LocalElectionIds
@@ -22,7 +25,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
-class DetailViewModel @Inject constructor(private val repository: LiveRepository) : ViewModel() {
+class DetailViewModel @Inject constructor(
+    private val repository: LiveRepository,
+    private val crashlytics: FirebaseCrashlytics?
+) : ViewModel() {
 
     private val contentState = MutableStateFlow<DetailContentState>(Empty)
     internal val viewContentState = contentState.asStateFlow()
@@ -60,6 +66,8 @@ class DetailViewModel @Inject constructor(private val repository: LiveRepository
     }
 
     private suspend fun handleError(throwable: Throwable? = null) {
+        throwable?.let { crashlytics?.recordException(it) }
+
         if (lastState is Content) {
             action.send(ShowErrorSnackbar(throwable?.message))
             state.emit(Content)
