@@ -9,7 +9,6 @@ import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
 import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
-import com.n27.elections.presentation.models.MainState.Loading
 import junit.framework.TestCase.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +20,6 @@ class MainActivityTest {
     @Test
     fun checkLoadingViewState() {
         launchActivity().onActivity {
-            it.renderState(Loading)
             it.binding.assertVisibilities(loading = true)
         }
     }
@@ -62,10 +60,7 @@ class MainActivityTest {
     private fun checkError(state: Error) {
         launchActivity().onActivity { activity ->
             with(activity.binding) {
-                assertVisibilities(loading = true)
-
                 activity.renderState(state)
-
                 assertVisibilities(error = true)
             }
         }

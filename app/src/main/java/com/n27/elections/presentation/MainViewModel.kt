@@ -24,6 +24,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -57,7 +58,7 @@ class MainViewModel @Inject constructor(
     }
 
     internal fun saveFirstLaunchFlag() {
-        viewModelScope.launchCatching(::handleError) { appRepository.saveFirstLaunchFlag() }
+        viewModelScope.launch { appRepository.saveFirstLaunchFlag() }
     }
 
     private suspend fun handleError(throwable: Throwable) {

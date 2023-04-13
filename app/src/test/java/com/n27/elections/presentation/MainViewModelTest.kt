@@ -51,7 +51,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `requestElections should emit content when success`() = runTest {
+    fun `requestElections should emit content`() = runTest {
         val totalExecutionTime = measureTimeMillis {
             viewModel.requestElections()
             runCurrent()
@@ -61,15 +61,6 @@ class MainViewModelTest {
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
-    }
-
-    @Test
-    fun `refresh should emit content when success`() = runTest {
-        viewModel.requestElections()
-        runCurrent()
-
-        assertEquals(WithData(getElections()), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
     }
 
     @Test

@@ -75,14 +75,6 @@ class LocalsFragment : Fragment() {
         is Error -> showError(state.error)
     }
 
-    private fun setViewsVisibility(
-        error: Boolean = false,
-        content: Boolean = false
-    ) = with(binding) {
-        errorFragmentLocals.isVisible = error
-        recyclerFragmentLocals.isVisible = content
-    }
-
     private fun generateCards(regions: List<Region>) {
         setViewsVisibility(content = true)
         binding.recyclerFragmentLocals.adapter = LocalsCardAdapter(regions) { region ->
@@ -90,6 +82,14 @@ class LocalsFragment : Fragment() {
                 .also { it.arguments = Bundle().apply { putSerializable(KEY_REGION, region) } }
                 .show(parentFragmentManager, "MunicipalitySelectionDialog")
         }
+    }
+
+    private fun setViewsVisibility(
+        error: Boolean = false,
+        content: Boolean = false
+    ) = with(binding) {
+        errorFragmentLocals.isVisible = error
+        recyclerFragmentLocals.isVisible = content
     }
 
     private fun showError(errorMsg: String?) {

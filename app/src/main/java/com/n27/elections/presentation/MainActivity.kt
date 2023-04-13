@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         swipeActivityMain.setOnRefreshListener { viewModel.requestElections() }
         recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
-        liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() }
+        liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() } // TODO: Set feature flag and tooltip.
     }
 
     private fun navigateToLive() {

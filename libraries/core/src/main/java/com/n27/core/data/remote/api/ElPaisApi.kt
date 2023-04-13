@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class ElPaisApi @Inject constructor(baseUrl: String, private val client: OkHttpClient) {
 
-    private val year = 2019
+    private val year = 2019 // TODO: Set year with feature flag.
     private val baseUrl = "$baseUrl/$year"
 
     suspend fun getRegionalElection(id: String) = getResultOrNull("$baseUrl/autonomicas/$id/index.xml2")
