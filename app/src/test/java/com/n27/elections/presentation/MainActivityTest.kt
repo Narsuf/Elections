@@ -74,7 +74,6 @@ class MainActivityTest {
         assertEquals(loadingAnimationActivityMain.isVisible, loading)
         assertEquals(errorAnimationActivityMain.isVisible, error)
         assertEquals(recyclerActivityMain.isVisible, content)
-        assertEquals(liveElectionsButtonActivityMain.isVisible, content)
         assertFalse(swipeActivityMain.isRefreshing)
     }
 

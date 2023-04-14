@@ -105,6 +105,7 @@ dependencies {
 
     // Firebase
     api platform('com.google.firebase:firebase-bom:31.2.3')
+    api 'com.google.firebase:firebase-config-ktx'
     api 'com.google.firebase:firebase-analytics-ktx'
     api 'com.google.firebase:firebase-crashlytics-ktx'
     api "com.google.firebase:firebase-database-ktx"

@@ -11,6 +11,7 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.models.Election
@@ -40,12 +41,18 @@ class MainActivity : AppCompatActivity() {
     @VisibleForTesting internal lateinit var binding: ActivityMainBinding
     @Inject internal lateinit var viewModel: MainViewModel
     @Inject internal lateinit var utils: PresentationUtils
+    @Inject internal lateinit var remoteConfig: FirebaseRemoteConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as ElectionsApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.setUpViews()
+
+        remoteConfig.apply {
+            fetch().addOnCompleteListener { if (it.isSuccessful) activate() }
+        }
+
         initObservers()
         viewModel.requestElections()
     }
@@ -56,8 +63,9 @@ class MainActivity : AppCompatActivity() {
             viewModel.requestElections()
             utils.track("main_activity_pulled_to_refresh")
         }
+
         recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
-        liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() } // TODO: Set feature flag and tooltip.
+        liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() }
     }
 
     private fun navigateToLive() {
@@ -124,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         swipeActivityMain.isRefreshing = loading
         errorAnimationActivityMain.isVisible = error
         recyclerActivityMain.isVisible = content
-        liveElectionsButtonActivityMain.isVisible = content
+        liveElectionsButtonActivityMain.isVisible = content && remoteConfig.getBoolean("REGIONAL_LIVE")
     }
 
     private fun showError(errorMsg: String?) {

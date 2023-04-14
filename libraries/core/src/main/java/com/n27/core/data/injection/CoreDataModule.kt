@@ -1,5 +1,7 @@
 package com.n27.core.data.injection
 
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.n27.core.BuildConfig
 import com.n27.core.data.local.json.JsonReader
 import com.squareup.moshi.Moshi
@@ -26,5 +28,15 @@ class CoreDataModule {
 
     @Provides
     @Singleton
-    fun providesBaseUrl() = BuildConfig.EL_PAIS_API_URL
+    fun provideFirebaseDatabase() = FirebaseDatabase.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRemoteConfig() = FirebaseRemoteConfig.getInstance()
+
+    @Provides
+    @Singleton
+    fun providesBaseUrl(
+        remoteConfig: FirebaseRemoteConfig
+    ) = "${BuildConfig.EL_PAIS_API_URL}/${remoteConfig.getLong("ELECTION_YEAR")}"
 }
