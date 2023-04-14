@@ -62,10 +62,10 @@ android {
         minSdkVersion minSdkV
         targetSdkVersion sdkV
         multiDexEnabled true
-        versionCode 9
-        versionName "1.0.1-debug"
+        versionCode 10
+        versionName "1.1.0-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs 'en', 'es'
+        resConfigs 'en', 'es', 'ca'
     }
 
     buildTypes {
