@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Actions. -->
+    <string name="show_historical">Mostrar l\'historial</string>
+    <string name="live_elections">Eleccions en directe</string>
+
+    <!-- Disclaimer -->
+    <string name="disclaimer">Avís legal</string>
+    <string name="disclaimer_description">Aquesta aplicació no representa cap entitat governamental. Les dades dels resultats s\'obtenen del diari espanyol</string>
+</resources>

@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity() {
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 )
             )
-            .setPositiveButton(getString(R.string.disclaimer_button), null)
+            .setPositiveButton(getString(R.string.close), null)
             .setOnDismissListener {
                 viewModel.saveFirstLaunchFlag()
                 utils.track("main_activity_dialog_dismissed")
