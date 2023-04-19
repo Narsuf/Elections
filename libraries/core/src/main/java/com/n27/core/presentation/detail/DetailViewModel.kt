@@ -3,8 +3,6 @@ package com.n27.core.presentation.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.models.Election
 import com.n27.core.data.remote.api.models.LocalElectionIds

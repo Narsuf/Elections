@@ -3,7 +3,6 @@ package com.n27.regional_live.locals.dialog
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.core.presentation.PresentationUtils
 import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.locals.comm.LocalsEventBus
@@ -26,11 +25,9 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-import org.robolectric.RobolectricTestRunner
 
 @ExperimentalCoroutinesApi
 class MunicipalitySelectionViewModelTest {

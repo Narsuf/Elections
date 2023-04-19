@@ -1,6 +1,5 @@
 package com.n27.core.data.remote.api
 
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

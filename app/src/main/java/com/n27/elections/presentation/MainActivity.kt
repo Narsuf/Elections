@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.n27.core.BuildConfig
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.models.Election
@@ -132,8 +133,13 @@ class MainActivity : AppCompatActivity() {
         swipeActivityMain.isRefreshing = loading
         errorAnimationActivityMain.isVisible = error
         recyclerActivityMain.isVisible = content
-        liveElectionsButtonActivityMain.isVisible = content && remoteConfig.getBoolean("REGIONAL_LIVE")
+        liveElectionsButtonActivityMain.isVisible = content && isRegionalLiveFeatureEnabled()
     }
+
+    private fun isRegionalLiveFeatureEnabled() = if (BuildConfig.DEBUG)
+        true
+    else
+        remoteConfig.getBoolean("REGIONAL_LIVE")
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)
