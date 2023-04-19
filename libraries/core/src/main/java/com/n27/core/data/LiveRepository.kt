@@ -1,5 +1,6 @@
 package com.n27.core.data
 
+import com.n27.core.Constants.BAD_RESPONSE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
@@ -46,17 +47,17 @@ class LiveRepository @Inject constructor(
             }
         }
 
-        return elections.takeIf { it.isNotEmpty() } ?: throw Throwable("Bad response")
+        return elections.takeIf { it.isNotEmpty() } ?: throw Throwable(BAD_RESPONSE)
     }
 
     suspend fun getRegionalElection(id: String): Election {
         errorIfNoConnection()
-        return getRegionalElectionFromApi(id)?.toElection(getParties()) ?: throw Throwable("Empty response")
+        return getRegionalElectionFromApi(id)?.toElection(getParties()) ?: throw Throwable(BAD_RESPONSE)
     }
 
     suspend fun getLocalElection(ids: LocalElectionIds): Election {
         errorIfNoConnection()
-        return getLocalElectionFromApi(ids)?.toElection(getParties()) ?: throw Throwable("Empty response")
+        return getLocalElectionFromApi(ids)?.toElection(getParties()) ?: throw Throwable(BAD_RESPONSE)
     }
 
     suspend fun getRegions(): Regions {

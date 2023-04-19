@@ -2,6 +2,7 @@ package com.n27.core.data.remote.api.mappers
 
 import com.n27.core.data.local.room.models.PartyRaw
 import com.n27.core.data.models.Election
+import com.n27.core.data.models.Result
 import com.n27.core.data.remote.api.models.ElectionXml
 import org.simpleframework.xml.core.Persister
 
@@ -24,4 +25,13 @@ fun ElectionXml.toElection(parties: List<PartyRaw>) = Election(
     blankVotes = votes?.blank?.votes ?: 0,
     nullVotes = votes?.notValid?.votes ?: 0,
     results = results?.parties?.map { it.toResult(parties) } ?: listOf(getEmptyResult())
+)
+
+private fun getEmptyResult() = Result(
+    id = 0,
+    partyId = 0,
+    electionId = 0,
+    elects = 0,
+    votes = 0,
+    party = getEmptyParty()
 )

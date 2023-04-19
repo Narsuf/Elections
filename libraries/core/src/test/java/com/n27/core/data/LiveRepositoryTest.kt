@@ -1,5 +1,6 @@
 package com.n27.core.data
 
+import com.n27.core.Constants.BAD_RESPONSE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
@@ -72,7 +73,7 @@ class LiveRepositoryTest {
         `when`(service.getRegionalElection(anyString())).thenReturn(null)
 
         runCatching { repository.getRegionalElections() }.getOrElse {
-            assertEquals(it.message, "Bad response")
+            assertEquals(it.message, BAD_RESPONSE)
         }
     }
 
@@ -105,7 +106,7 @@ class LiveRepositoryTest {
         `when`(service.getRegionalElection(anyString())).thenReturn(null)
 
         runCatching { repository.getRegionalElection("01") }.getOrElse {
-            assertEquals(it.message, "Empty response")
+            assertEquals(it.message, BAD_RESPONSE)
         }
     }
 
@@ -138,7 +139,7 @@ class LiveRepositoryTest {
         `when`(service.getLocalElection(ids)).thenReturn(null)
 
         runCatching { repository.getLocalElection(ids) }.getOrElse {
-            assertEquals(it.message, "Empty response")
+            assertEquals(it.message, BAD_RESPONSE)
         }
     }
 

@@ -59,18 +59,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun ActivityMainBinding.setUpViews() {
         setContentView(binding.root)
+        recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
+        liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() }
         swipeActivityMain.setOnRefreshListener {
             viewModel.requestElections()
             utils.track("main_activity_pulled_to_refresh")
         }
-
-        recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
-        liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() }
     }
 
     private fun navigateToLive() {
         utils.track("main_activity_live_button_clicked")
-
         val myIntent = Intent(this, RegionalLiveActivity::class.java)
         startActivity(myIntent)
     }
@@ -81,11 +79,13 @@ class MainActivity : AppCompatActivity() {
             distinctUntilChanged = true,
             action = ::renderContentState
         )
+
         viewModel.viewState.observeOnLifecycle(
             lifecycleOwner = this,
             distinctUntilChanged = true,
             action = ::renderState
         )
+
         viewModel.viewAction.observeOnLifecycle(lifecycleOwner = this, action = ::handleAction)
     }
 

@@ -8,7 +8,6 @@ import com.n27.elections.injection.AppComponent
 import com.n27.elections.injection.AppModule
 import com.n27.elections.injection.DaggerAppComponent
 import com.n27.regional_live.injection.RegionalLiveComponentProvider
-import timber.log.Timber
 
 class ElectionsApplication : MultiDexApplication(), DetailComponentProvider, RegionalLiveComponentProvider {
 
@@ -17,10 +16,7 @@ class ElectionsApplication : MultiDexApplication(), DetailComponentProvider, Reg
         .build()
 
     override fun onCreate() {
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
-
         FirebaseApp.initializeApp(this)
-
         super.onCreate()
     }
 

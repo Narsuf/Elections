@@ -75,13 +75,14 @@ repositories {
 }
 
 dependencies {
-    implementation project(":libraries:core")
+    compileOnly project(":libraries:core")
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
     debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
 
+    testImplementation project(':libraries:core')
     testImplementation project(':libraries:test')
     testImplementation "androidx.test:core:$testVersion"
     testImplementation "androidx.arch.core:core-testing:$archTestVersion"
@@ -89,6 +90,7 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoVersion"
 
+    androidTestImplementation project(':libraries:core')
     androidTestImplementation project(':libraries:test')
     androidTestImplementation "androidx.test.ext:junit:$junitVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
