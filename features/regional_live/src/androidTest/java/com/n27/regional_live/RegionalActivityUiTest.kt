@@ -47,11 +47,7 @@ class RegionalActivityUITest {
         clickOn("Locals")
         checkLocalContent()
 
-        // Open and check dialog
-        clickOn("La Rioja")
-        assertDisplayed("La Rioja")
-        assertDisplayed("Ábalos")
-
+        checkDialogContent()
         intents {
             clickOn("SHOW RESULTS")
             verifyIntent(DetailActivity::class.java.name)
@@ -68,13 +64,15 @@ class RegionalActivityUITest {
         clickOn("Locals")
         checkLocalContent()
 
-        // Open and check dialog
-        clickOn("La Rioja")
-        assertDisplayed("La Rioja")
-        assertDisplayed("Ábalos")
-
+        checkDialogContent()
         clickOn("SHOW RESULTS")
         waitUntil { assertDisplayed("Oops! Something went wrong.") }
+    }
+
+    private fun checkDialogContent() {
+        clickOn("La Rioja")
+        assertDisplayed("La Rioja")
+        waitUntil { assertDisplayed("Ábalos") }
     }
 
     private fun checkLocalContent() {
