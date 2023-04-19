@@ -1,5 +1,6 @@
 package com.n27.elections.data.api
 
+import com.n27.core.data.local.json.JsonReader
 import com.n27.elections.data.api.models.ApiResponse
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElections
@@ -10,30 +11,25 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okio.buffer
-import okio.source
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
-import java.nio.charset.StandardCharsets
 
 class ElectionApiTest {
 
-    private lateinit var apiInterface: ElectionApi
+    private lateinit var api: ElectionApi
     private lateinit var mockWebServer: MockWebServer
 
     @Before
     fun init() {
         mockWebServer = MockWebServer()
         mockWebServer.start()
-
-        apiInterface = Retrofit.Builder().client(OkHttpClient.Builder().build())
+        api = Retrofit.Builder().client(OkHttpClient.Builder().build())
             .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(MoshiConverterFactory
-                .create(Moshi.Builder().add(KotlinJsonAdapterFactory()).build()))
+            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(KotlinJsonAdapterFactory()).build()))
             .build().create(ElectionApi::class.java)
     }
 
@@ -41,7 +37,7 @@ class ElectionApiTest {
     fun getApiElections() = runBlocking {
         enqueueResponse("elections-test.json")
 
-        val response = apiInterface.getElections()
+        val response = api.getElections()
 
         assertEquals(response, ApiResponse(getElections()))
     }
@@ -52,21 +48,17 @@ class ElectionApiTest {
 
         enqueueResponse("election-test.json")
 
-        val response = apiInterface.getElection(1)
+        val response = api.getElection(1)
 
         assertEquals(response, apiResponse)
     }
 
-    private fun enqueueResponse(resource: String) {
-        val inputStream = javaClass.classLoader!!.getResourceAsStream(resource)
-        val source = inputStream.source().buffer()
-        val mockResponse = MockResponse()
-        mockWebServer.enqueue(mockResponse.setBody(source.readString(StandardCharsets.UTF_8)))
+    private suspend fun enqueueResponse(resource: String) {
+        val json = JsonReader().getStringJson(resource)
+        mockWebServer.enqueue(MockResponse().setBody(json))
     }
 
     @After
     @Throws(IOException::class)
-    fun teardown() {
-        mockWebServer.shutdown()
-    }
+    fun teardown() { mockWebServer.shutdown() }
 }

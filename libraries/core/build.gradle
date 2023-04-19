@@ -22,7 +22,16 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         html.enabled(true)
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*_Impl*.*',
+            '**/*Binding*.*'
+    ]
     def debugTree = fileTree(
             dir: "${buildDir}/intermediates/javac/debug/classes",
             excludes: fileFilter
@@ -49,7 +58,14 @@ android {
     }
 
     buildTypes {
-        debug { testCoverageEnabled true }
+        release {
+            buildConfigField "String", "EL_PAIS_API_URL", '"http://rsl00.epimg.net/elecciones"'
+        }
+
+        debug {
+            testCoverageEnabled true
+            buildConfigField "String", "EL_PAIS_API_URL", '"http://127.0.0.1:8080"'
+        }
     }
 
     buildFeatures { viewBinding true }
@@ -72,8 +88,24 @@ dependencies {
     api "androidx.fragment:fragment-ktx:$fragmentVersion"
     api 'androidx.multidex:multidex:2.0.1'
 
+    // Moshi
+    api "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+
+    // Lottie
+    api 'com.airbnb.android:lottie:6.0.0'
+
+    // Swipe
+    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    // SimpleXML
+    api 'org.simpleframework:simple-xml:2.7.1'
+
+    // OkHttp
+    api "com.squareup.okhttp3:okhttp:$okHttpVersion"
+
     // Firebase
     api platform('com.google.firebase:firebase-bom:31.2.3')
+    api 'com.google.firebase:firebase-config-ktx'
     api 'com.google.firebase:firebase-analytics-ktx'
     api 'com.google.firebase:firebase-crashlytics-ktx'
     api "com.google.firebase:firebase-database-ktx"
@@ -98,10 +130,12 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     androidTestImplementation project(':libraries:test')
     androidTestImplementation "androidx.test.ext:junit:$junitVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }

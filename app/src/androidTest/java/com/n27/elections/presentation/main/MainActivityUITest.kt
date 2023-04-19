@@ -1,6 +1,6 @@
 package com.n27.elections.presentation.main
 
-import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
@@ -9,6 +9,8 @@ import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.adevinta.android.barista.interaction.BaristaListInteractions.clickListItem
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.R
+import com.n27.elections.presentation.MainActivity
+import com.n27.regional_live.RegionalLiveActivity
 import com.n27.test.actions.SpanActions.clickClickableSpan
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
 import com.n27.test.conditions.instructions.waitUntil
@@ -21,23 +23,27 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.io.IOException
 
 class MainActivityUITest {
 
     private val mockWebServer = MockWebServer()
 
     @Before
-    @Throws(IOException::class, InterruptedException::class)
     fun setup() {
         mockWebServer.enqueue(MockResponse().setBody(MainActivityResponses.elections))
         mockWebServer.start(8080)
     }
 
     @Test
-    fun clickOnElectionShouldNavigateToDetail() {
+    fun checkActivity() {
         launchActivity()
 
+        checkFirstLaunchDialog()
+        checkContent()
+        checkNavigation()
+    }
+
+    private fun checkFirstLaunchDialog() {
         intents {
             mockIntent()
 
@@ -51,21 +57,28 @@ class MainActivityUITest {
         }
 
         clickOn("CLOSE")
-        assertToolbarTitle("Elections")
-        waitUntil { assertNotDisplayed(R.id.loading_animation) }
-        assertNotDisplayed(R.id.error_animation)
-        assertDisplayed(R.id.recyclerView)
+    }
 
+    private fun checkContent() {
+        assertToolbarTitle("Elections")
+        waitUntil { assertDisplayed(R.id.recycler_activity_main) }
+        assertNotDisplayed(R.id.loading_animation_activity_main)
+        assertNotDisplayed(R.id.error_animation_activity_main)
+    }
+
+    private fun checkNavigation() {
         intents {
-            clickListItem(R.id.recyclerView, 0)
+            mockIntent()
+            clickListItem(R.id.recycler_activity_main, 0)
             verifyIntent(DetailActivity::class.java.name)
+
+            clickOn(R.id.live_elections_button_activity_main)
+            verifyIntent(RegionalLiveActivity::class.java.name)
         }
     }
 
-    private fun launchActivity() = ActivityScenario.launch(MainActivity::class.java)
-
+    private fun launchActivity() = launch(MainActivity::class.java)
 
     @After
-    @Throws(IOException::class)
     fun teardown() { mockWebServer.shutdown() }
 }

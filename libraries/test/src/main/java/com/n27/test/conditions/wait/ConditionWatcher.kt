@@ -10,7 +10,7 @@ object ConditionWatcher {
     private const val CONDITION_NOT_MET = 0
     private const val CONDITION_MET = 1
     private const val CONDITION_TIMED_OUT = 2
-    private const val DEFAULT_TIMEOUT_SECONDS = 10L // 10 seconds timeout by default.
+    private const val DEFAULT_TIMEOUT_SECONDS = 10L // Seconds timeout by default.
     private const val WATCH_INTERVAL_MS = 100 // Check every 100ms
 
     @Suppress("LongMethod")

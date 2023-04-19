@@ -6,14 +6,10 @@ import com.adevinta.android.barista.assertion.BaristaListAssertions.assertDispla
 object ListAssertions {
 
     fun assertListTexts(@IdRes listId: Int, position: Int, texts: List<String>) {
-        texts.forEach { text ->
-            assertDisplayedAtPosition(listId, position, text)
-        }
+        texts.forEach { assertDisplayedAtPosition(listId, position, it) }
     }
 
     fun assertListTextsWithDifferentPositions(@IdRes listId: Int, texts: List<String>) {
-        for (i in texts.indices) {
-            assertDisplayedAtPosition(listId, i, texts[i])
-        }
+        for (i in texts.indices) assertDisplayedAtPosition(listId, i, texts[i])
     }
 }

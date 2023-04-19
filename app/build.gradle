@@ -24,7 +24,16 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         html.enabled(true)
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Binding*.*',
+            '**/injection/**'
+    ]
     def debugTree = fileTree(
             dir: "${buildDir}/intermediates/javac/debug/classes",
             excludes: fileFilter
@@ -53,10 +62,10 @@ android {
         minSdkVersion minSdkV
         targetSdkVersion sdkV
         multiDexEnabled true
-        versionCode 9
-        versionName "1.0.1-debug"
+        versionCode 10
+        versionName "1.1.0-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs 'en', 'es'
+        resConfigs 'en', 'es', 'ca'
     }
 
     buildTypes {
@@ -90,37 +99,14 @@ repositories {
 
 dependencies {
     implementation project(":libraries:core")
-
-    // Swipe
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
-    // Lottie
-    implementation 'com.airbnb.android:lottie:6.0.0'
+    implementation project(":features:regional_live")
 
     // Dagger 2
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    // Moshi
-    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
-
-    // Android Jetpack
-
-        // Room
-        kapt "androidx.room:room-compiler:$roomVersion"
-
-        // Lifecycle
-        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-        implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-
-    // Timber
-    implementation "com.jakewharton.timber:timber:5.0.1"
-
-    // OkHttp
-    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
     testImplementation project(':libraries:test')
     testImplementation "androidx.test:core:$testVersion"

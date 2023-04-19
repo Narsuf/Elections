@@ -1,8 +1,7 @@
 package com.n27.core.presentation.injection
 
 import com.n27.core.presentation.detail.DetailActivity
-import com.n27.core.presentation.detail.DetailDialog
-import com.n27.core.presentation.detail.DetailFragment
+import com.n27.core.presentation.detail.dialog.DetailDialog
 import dagger.Subcomponent
 import javax.inject.Scope
 
@@ -20,6 +19,5 @@ interface DetailComponent {
     }
 
     fun inject(loginActivity: DetailActivity)
-    fun inject(detailFragment: DetailFragment)
     fun inject(detailDialog: DetailDialog)
 }

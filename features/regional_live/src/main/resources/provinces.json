@@ -1,0 +1,288 @@
+{
+  "regions": [
+    {
+      "Andalucía": [
+        {
+          "id": "04",
+          "name": "Almería"
+        },
+        {
+          "id": "11",
+          "name": "Cádiz"
+        },
+        {
+          "id": "14",
+          "name": "Córdoba"
+        },
+        {
+          "id": "18",
+          "name": "Granada"
+        },
+        {
+          "id": "21",
+          "name": "Huelva"
+        },
+        {
+          "id": "23",
+          "name": "Jaén"
+        },
+        {
+          "id": "29",
+          "name": "Málaga"
+        },
+        {
+          "id": "41",
+          "name": "Sevilla"
+        }
+      ]
+    },
+    {
+      "Aragón": [
+        {
+          "id": "22",
+          "name": "Huesca"
+        },
+        {
+          "id": "44",
+          "name": "Teruel"
+        },
+        {
+          "id": "50",
+          "name": "Zaragoza"
+        }
+      ]
+    },
+    {
+      "Asturias": [
+        {
+          "id": "33",
+          "name": "Asturias"
+        }
+      ]
+    },
+    {
+      "Baleares": [
+        {
+          "id": "07",
+          "name": "Illes Balears"
+        }
+      ]
+    },
+    {
+      "Canarias": [
+        {
+          "id": "35",
+          "name": "Las Palmas"
+        },
+        {
+          "id": "38",
+          "name": "Santa Cruz de Tenerife"
+        }
+      ]
+    },
+    {
+      "Cantabria": [
+        {
+          "id": "39",
+          "name": "Cantabria"
+        }
+      ]
+    },
+    {
+      "Castilla La Mancha": [
+        {
+          "id": "02",
+          "name": "Albacete"
+        },
+        {
+          "id": "13",
+          "name": "Ciudad Real"
+        },
+        {
+          "id": "16",
+          "name": "Cuenca"
+        },
+        {
+          "id": "19",
+          "name": "Guadalajara"
+        },
+        {
+          "id": "45",
+          "name": "Toledo"
+        }
+      ]
+    },
+    {
+      "Castilla y León": [
+        {
+          "id": "05",
+          "name": "Ávila"
+        },
+        {
+          "id": "09",
+          "name": "Burgos"
+        },
+        {
+          "id": "24",
+          "name": "León"
+        },
+        {
+          "id": "34",
+          "name": "Palencia"
+        },
+        {
+          "id": "37",
+          "name": "Salamanca"
+        },
+        {
+          "id": "40",
+          "name": "Segovia"
+        },
+        {
+          "id": "42",
+          "name": "Soria"
+        },
+        {
+          "id": "47",
+          "name": "Valladolid"
+        },
+        {
+          "id": "49",
+          "name": "Zamora"
+        }
+      ]
+    },
+    {
+      "Cataluña": [
+        {
+          "id": "08",
+          "name": "Barcelona"
+        },
+        {
+          "id": "17",
+          "name": "Girona"
+        },
+        {
+          "id": "25",
+          "name": "Lleida"
+        },
+        {
+          "id": "43",
+          "name": "Tarragona"
+        }
+      ]
+    },
+    {
+      "Extremadura": [
+        {
+          "id": "06",
+          "name": "Badajoz"
+        },
+        {
+          "id": "10",
+          "name": "Cáceres"
+        }
+      ]
+    },
+    {
+      "Galicia": [
+        {
+          "id": "15",
+          "name": "A Coruña"
+        },
+        {
+          "id": "27",
+          "name": "Lugo"
+        },
+        {
+          "id": "32",
+          "name": "Ourense"
+        },
+        {
+          "id": "36",
+          "name": "Pontevedra"
+        }
+      ]
+    },
+    {
+      "Madrid": [
+        {
+          "id": "28",
+          "name": "Madrid"
+        }
+      ]
+    },
+    {
+      "Navarra": [
+        {
+          "id": "31",
+          "name": "Navarra"
+        }
+      ]
+    },
+    {
+      "País Vasco": [
+        {
+          "id": "01",
+          "name": "Araba / Álava"
+        },
+        {
+          "id": "20",
+          "name": "Gipuzkoa"
+        },
+        {
+          "id": "48",
+          "name": "Bizkaia"
+        }
+      ]
+    },
+    {
+      "Murcia": [
+        {
+          "id": "30",
+          "name": "Murcia"
+        }
+      ]
+    },
+    {
+      "La Rioja": [
+        {
+          "id": "26",
+          "name": "La Rioja"
+        }
+      ]
+    },
+    {
+      "C. Valenciana": [
+        {
+          "id": "03",
+          "name": "Alicante / Alacant"
+        },
+        {
+          "id": "12",
+          "name": "Castellón / Castelló"
+        },
+        {
+          "id": "46",
+          "name": "Valencia / València"
+        }
+      ]
+    },
+    {
+      "Ceuta": [
+        {
+          "id": "51",
+          "name": "Ceuta"
+        }
+      ]
+    },
+    {
+      "Melilla": [
+        {
+          "id": "52",
+          "name": "Melilla"
+        }
+      ]
+    }
+  ]
+}

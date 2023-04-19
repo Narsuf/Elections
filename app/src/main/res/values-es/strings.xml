@@ -2,10 +2,10 @@
 <resources>
     <!-- Actions. -->
     <string name="show_historical">Mostrar histórico</string>
+    <string name="live_elections">Elecciones en directo</string>
 
     <!-- Disclaimer -->
     <string name="disclaimer">Aviso legal</string>
     <string name="disclaimer_description">Esta aplicación no representa a ninguna entidad
         gubernamental. Los datos de los resultados se obtienen del periódico</string>
-    <string name="disclaimer_button">Cerrar</string>
 </resources>

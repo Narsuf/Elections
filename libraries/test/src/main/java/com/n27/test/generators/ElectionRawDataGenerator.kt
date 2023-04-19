@@ -1,12 +1,14 @@
 package com.n27.test.generators
 
-import com.n27.core.data.room.ElectionRaw
-import com.n27.core.data.room.ElectionWithResultsAndParty
-import com.n27.core.data.room.PartyRaw
-import com.n27.core.data.room.ResultRaw
-import com.n27.core.data.room.ResultWithParty
+import com.n27.core.data.local.room.models.ElectionRaw
+import com.n27.core.data.local.room.models.ElectionWithResultsAndParty
+import com.n27.core.data.local.room.models.PartyRaw
+import com.n27.core.data.local.room.models.ResultRaw
+import com.n27.core.data.local.room.models.ResultWithParty
 
-fun getElectionWithResultsAndParty() = ElectionWithResultsAndParty(
+fun getElectionsWithResultsAndParty() = listOf(getElectionWithResultsAndParty())
+
+private fun getElectionWithResultsAndParty() = ElectionWithResultsAndParty(
     election = getElectionRaw(),
     results = listOf(getResultWithParty())
 )
@@ -38,8 +40,10 @@ private fun getResultRaw() = ResultRaw(
     votes = 7215530
 )
 
-private fun getPartyRaw() = PartyRaw(
+fun getPartiesRaw() = listOf(getPartyRaw())
+
+fun getPartyRaw(name: String = "PP") = PartyRaw(
     partyId = 1,
-    name = "PP",
+    name,
     color = "006EC7"
 )

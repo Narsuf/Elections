@@ -1,3 +1,4 @@
--keep class com.n27.elections.data.api.models.** {*;}
--keep class com.n27.core.data.models.** {*;}
+-keep class **.models.** {*;}
+-keep class **.mappers.** {*;}
 -keep class com.github.mikephil.charting.** {*;}
+-keep class org.simpleframework.xml.** {*;}

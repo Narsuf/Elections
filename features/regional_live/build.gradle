@@ -1,0 +1,98 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'jacoco'
+}
+
+apply from : '../../constants.gradle'
+
+//region Jacoco
+jacoco { toolVersion = '0.8.8' }
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        xml.enabled(true)
+        html.enabled(true)
+    }
+
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Binding*.*'
+    ]
+    def debugTree = fileTree(
+            dir: "${buildDir}/intermediates/javac/debug/classes",
+            excludes: fileFilter
+    )
+    def kotlinDebugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories.from = files([mainSrc])
+    classDirectories.from = files([debugTree], [kotlinDebugTree])
+    executionData.from = fileTree(dir: "${buildDir}/outputs", includes: [
+            'unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec',
+            'code_coverage/debugAndroidTest/connected/*/coverage.ec'
+    ])
+}
+//endregion
+
+android {
+    namespace 'com.n27.regional_live'
+    compileSdk sdkV
+
+    defaultConfig {
+        minSdk minSdkV
+        targetSdk sdkV
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug { testCoverageEnabled true }
+    }
+
+    buildFeatures { viewBinding true }
+
+    testOptions {
+        unitTests { includeAndroidResources = true }
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly project(":libraries:core")
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
+
+    testImplementation project(':libraries:core')
+    testImplementation project(':libraries:test')
+    testImplementation "androidx.test:core:$testVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+
+    androidTestImplementation project(':libraries:core')
+    androidTestImplementation project(':libraries:test')
+    androidTestImplementation "androidx.test.ext:junit:$junitVersion"
+    androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
+}
