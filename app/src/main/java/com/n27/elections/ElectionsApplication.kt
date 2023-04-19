@@ -2,31 +2,23 @@ package com.n27.elections
 
 import androidx.multidex.MultiDexApplication
 import com.google.firebase.FirebaseApp
-import com.n27.elections.data.injection.NetModule
+import com.n27.core.presentation.injection.DetailComponentProvider
+import com.n27.elections.injection.AppComponent
 import com.n27.elections.injection.AppModule
 import com.n27.elections.injection.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import timber.log.Timber
-import javax.inject.Inject
+import com.n27.regional_live.injection.RegionalLiveComponentProvider
 
-class ElectionsApplication: MultiDexApplication(), HasAndroidInjector {
+class ElectionsApplication : MultiDexApplication(), DetailComponentProvider, RegionalLiveComponentProvider {
 
-    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    val appComponent: AppComponent = DaggerAppComponent.builder()
+        .appModule(AppModule(this))
+        .build()
 
     override fun onCreate() {
-        DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .netModule(NetModule())
-                .build().inject(this)
-
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
-
         FirebaseApp.initializeApp(this)
-
         super.onCreate()
     }
 
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
+    override fun provideDetailComponent() = appComponent.detailComponent().create()
+    override fun provideRegionalLiveComponent() = appComponent.regionalLiveComponent().create()
 }

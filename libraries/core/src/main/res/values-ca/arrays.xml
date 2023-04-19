@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="text_array_dialog_detail">
+        <item>Escrutat:</item>
+        <item>Escons:</item>
+        <item>Vots comptats:</item>
+        <item>Abstencions:</item>
+        <item>Vots nuls:</item>
+        <item>Vots en blanc:</item>
+    </string-array>
+</resources>

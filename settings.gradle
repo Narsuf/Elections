@@ -1,2 +1,4 @@
 include ':app'
-include ':test_data'
+include ':libraries:core'
+include ':libraries:test'
+include ':features:regional_live'

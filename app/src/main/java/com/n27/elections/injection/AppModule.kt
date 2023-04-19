@@ -4,14 +4,14 @@ import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.n27.elections.data.DataUtils
-import com.n27.elections.data.room.Database
+import com.n27.core.data.common.DataUtils
+import com.n27.core.data.local.room.Database
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class AppModule(val app: Application) {
+class AppModule(private val app: Application) {
 
     @Provides
     @Singleton

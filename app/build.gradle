@@ -1,11 +1,15 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'jacoco'
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'jacoco'
+}
+
 apply from : '../constants.gradle'
 
+//region Jacoco
 jacoco { toolVersion = '0.8.8' }
 
 tasks.withType(Test) {
@@ -20,7 +24,16 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         html.enabled(true)
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Binding*.*',
+            '**/injection/**'
+    ]
     def debugTree = fileTree(
             dir: "${buildDir}/intermediates/javac/debug/classes",
             excludes: fileFilter
@@ -35,23 +48,24 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             'code_coverage/debugAndroidTest/connected/*/coverage.ec'
     ])
 }
+//endregion
 
 android {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     def productionUrl = properties.getProperty('production.url')
 
-    compileSdkVersion 33
+    compileSdkVersion sdkV
 
     defaultConfig {
         applicationId "com.n27.elections"
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdkVersion minSdkV
+        targetSdkVersion sdkV
         multiDexEnabled true
-        versionCode 9
-        versionName "1.0.1-debug"
+        versionCode 10
+        versionName "1.1.0-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs "en", "es"
+        resConfigs 'en', 'es', 'ca'
     }
 
     buildTypes {
@@ -84,74 +98,26 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'androidx.multidex:multidex:2.0.1'
-
-    // Firebase
-    implementation platform('com.google.firebase:firebase-bom:30.4.1')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation "com.google.firebase:firebase-database-ktx"
-
-    // Lottie
-    implementation 'com.airbnb.android:lottie:5.2.0'
+    implementation project(":libraries:core")
+    implementation project(":features:regional_live")
 
     // Dagger 2
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-
-    // Moshi
-    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
-
-    // Android Jetpack
-
-        // Room
-        implementation "androidx.room:room-runtime:$roomVersion"
-        implementation "androidx.room:room-ktx:$roomVersion"
-        kapt "androidx.room:room-compiler:$roomVersion"
-
-        // Lifecycle
-        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-        implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
 
-    // MPAndroidChart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-
-    // Gson
-    implementation 'com.google.code.gson:gson:2.10.1'
-
-    // Timber
-    implementation "com.jakewharton.timber:timber:5.0.1"
-
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-
-    // OkHttp
-    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-
-    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
-
-    testImplementation project(':test_data')
-    testImplementation 'androidx.test:core:1.5.0'
-    testImplementation 'androidx.arch.core:core-testing:2.1.0'
-    testImplementation 'org.robolectric:robolectric:4.9.2'
+    testImplementation project(':libraries:test')
+    testImplementation "androidx.test:core:$testVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
-    testImplementation "org.mockito:mockito-core:4.11.0"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
 
-    androidTestImplementation project(':test_data')
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'com.adevinta.android:barista:4.3.0'
+    androidTestImplementation project(':libraries:test')
+    androidTestImplementation "androidx.test.ext:junit:$junitVersion"
+    androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
 }

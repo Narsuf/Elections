@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="regionals">Regionals</string>
+    <string name="locals">Locals</string>
+    <string name="show_results">Mostrar els resultats</string>
+</resources>

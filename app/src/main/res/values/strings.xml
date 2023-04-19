@@ -1,23 +1,10 @@
 <resources>
-    <string name="app_name">Elections</string>
-
-    <string name="party">Party</string>
-    <string name="votes">Votes</string>
-    <string name="elects">Elects</string>
-
     <!-- Actions. -->
-    <string name="button_more_info_content">More information.</string>
     <string name="show_historical">Show historical</string>
-    <string name="close">Close</string>
-    <string name="swap">Swap chamber</string>
-
-    <!-- Errors. -->
-    <string name="something_wrong">Oops! Something went wrong.</string>
-    <string name="no_internet_connection">No Internet connection.</string>
+    <string name="live_elections">Live elections</string>
 
     <!-- Disclaimer -->
     <string name="disclaimer">Disclaimer</string>
     <string name="disclaimer_description">This app does not represent any government entity.
         The data of the results is retrieved from the Spanish newspaper</string>
-    <string name="disclaimer_button">Close</string>
 </resources>

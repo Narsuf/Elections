@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="regionals">Autonómicas</string>
+    <string name="locals">Municipales</string>
+    <string name="show_results">Ver resultados</string>
+</resources>

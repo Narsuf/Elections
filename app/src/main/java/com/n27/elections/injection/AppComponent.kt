@@ -1,27 +1,27 @@
 package com.n27.elections.injection
 
-import com.n27.elections.ElectionsApplication
-import com.n27.elections.data.injection.NetModule
-import com.n27.elections.presentation.injection.PresentationModule
-import com.n27.elections.presentation.injection.ViewModelModule
-import com.n27.elections.presentation.injection.ViewsModule
+import com.n27.core.data.injection.CoreDataModule
+import com.n27.core.presentation.injection.CorePresentationModule
+import com.n27.core.presentation.injection.DetailComponent
+import com.n27.elections.data.api.injection.AppNetModule
+import com.n27.elections.presentation.MainActivity
+import com.n27.regional_live.injection.RegionalLiveComponent
 import dagger.Component
-import dagger.android.AndroidInjectionModule
-import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        AndroidInjectionModule::class,
-        AndroidSupportInjectionModule::class,
+        AppNetModule::class,
         AppModule::class,
-        ViewsModule::class,
-        NetModule::class,
-        ViewModelModule::class,
-        PresentationModule::class
+        SubcomponentsModule::class,
+        CoreDataModule::class,
+        CorePresentationModule::class
     ]
 )
 interface AppComponent {
-    fun inject(app: ElectionsApplication)
+
+    fun inject(activity: MainActivity)
+    fun detailComponent(): DetailComponent.Factory
+    fun regionalLiveComponent(): RegionalLiveComponent.Factory
 }
