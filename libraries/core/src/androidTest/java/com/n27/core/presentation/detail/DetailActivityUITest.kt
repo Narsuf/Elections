@@ -64,7 +64,7 @@ class DetailActivityUITest {
         mockWebServer.start(8080)
         launchActivity("01")
 
-        assertToolbarTitle("Parlamento (Aragón 2019)")
+        waitUntil { assertToolbarTitle("Parlamento (Aragón 2019)") }
         checkRegionalContent()
 
         clickOn(R.id.action_reload)
