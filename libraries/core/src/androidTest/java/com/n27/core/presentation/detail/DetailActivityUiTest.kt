@@ -54,7 +54,7 @@ class DetailActivityUiTest {
         mockWebServer.start(8080)
         launchActivity("01")
 
-        assertDisplayed(R.id.error_animation_activity_detail)
+        waitUntil { assertDisplayed(R.id.error_animation_activity_detail) }
         waitUntil { assertDisplayed("Oops! Something went wrong.") }
     }
 
