@@ -23,7 +23,7 @@ import org.junit.After
 import org.junit.Test
 import java.text.NumberFormat.getIntegerInstance
 
-class DetailActivityUITest {
+class DetailActivityUiTest {
 
     private val congressElection = getElection()
     private val senateElection = getElection(chamberName = KEY_SENATE)
@@ -54,7 +54,7 @@ class DetailActivityUITest {
         mockWebServer.start(8080)
         launchActivity("01")
 
-        assertDisplayed(R.id.error_animation_activity_detail)
+        waitUntil { assertDisplayed(R.id.error_animation_activity_detail) }
         waitUntil { assertDisplayed("Oops! Something went wrong.") }
     }
 

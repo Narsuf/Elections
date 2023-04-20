@@ -13,7 +13,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Test
 
-class RegionalActivityUITest {
+class RegionalActivityUiTest {
 
     private val mockWebServer = MockWebServer()
 
@@ -44,9 +44,7 @@ class RegionalActivityUITest {
         mockWebServer.start(8080)
         launchActivity()
 
-        clickOn("Locals")
         checkLocalContent()
-
         checkDialogContent()
         intents {
             clickOn("SHOW RESULTS")
@@ -61,25 +59,24 @@ class RegionalActivityUITest {
         mockWebServer.start(8080)
         launchActivity()
 
-        clickOn("Locals")
         checkLocalContent()
-
         checkDialogContent()
         clickOn("SHOW RESULTS")
         waitUntil { assertDisplayed("Oops! Something went wrong.") }
     }
 
-    private fun checkDialogContent() {
-        clickOn("La Rioja")
-        assertDisplayed("La Rioja")
-        waitUntil { assertDisplayed("Ábalos") }
-    }
-
     private fun checkLocalContent() {
+        clickOn(R.id.navigation_locals)
         waitUntil { assertDisplayed(R.id.recycler_fragment_locals) }
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 0, R.id.region_name_card_local_election, "Andalucía")
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 9, R.id.region_name_card_local_election, "Extremadura")
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 18, R.id.region_name_card_local_election, "Melilla")
+    }
+
+    private fun checkDialogContent() {
+        clickOn("La Rioja")
+        waitUntil { assertDisplayed("La Rioja") }
+        waitUntil { assertDisplayed("Ábalos") }
     }
 
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)
