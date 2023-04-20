@@ -44,10 +44,7 @@ class RegionalActivityUiTest {
         mockWebServer.start(8080)
         launchActivity()
 
-        waitUntil { assertDisplayed("Locals") }
-        clickOn("Locals")
         checkLocalContent()
-
         checkDialogContent()
         intents {
             clickOn("SHOW RESULTS")
@@ -62,26 +59,25 @@ class RegionalActivityUiTest {
         mockWebServer.start(8080)
         launchActivity()
 
-        waitUntil { assertDisplayed("Locals") }
-        clickOn("Locals")
         checkLocalContent()
-
         checkDialogContent()
         clickOn("SHOW RESULTS")
         waitUntil { assertDisplayed("Oops! Something went wrong.") }
     }
 
-    private fun checkDialogContent() {
-        clickOn("La Rioja")
-        assertDisplayed("La Rioja")
-        waitUntil { assertDisplayed("Ábalos") }
-    }
-
     private fun checkLocalContent() {
+        waitUntil { assertDisplayed("Locals") }
+        clickOn("Locals")
         waitUntil { assertDisplayed(R.id.recycler_fragment_locals) }
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 0, R.id.region_name_card_local_election, "Andalucía")
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 9, R.id.region_name_card_local_election, "Extremadura")
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 18, R.id.region_name_card_local_election, "Melilla")
+    }
+
+    private fun checkDialogContent() {
+        clickOn("La Rioja")
+        waitUntil { assertDisplayed("La Rioja") }
+        waitUntil { assertDisplayed("Ábalos") }
     }
 
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)
