@@ -13,7 +13,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Test
 
-class RegionalActivityUITest {
+class RegionalActivityUiTest {
 
     private val mockWebServer = MockWebServer()
 
@@ -44,6 +44,7 @@ class RegionalActivityUITest {
         mockWebServer.start(8080)
         launchActivity()
 
+        waitUntil { assertDisplayed("Locals") }
         clickOn("Locals")
         checkLocalContent()
 
@@ -61,6 +62,7 @@ class RegionalActivityUITest {
         mockWebServer.start(8080)
         launchActivity()
 
+        waitUntil { assertDisplayed("Locals") }
         clickOn("Locals")
         checkLocalContent()
 
