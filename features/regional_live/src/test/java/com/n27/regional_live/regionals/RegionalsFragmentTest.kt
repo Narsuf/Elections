@@ -7,6 +7,7 @@ import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.regionals.adapters.RegionalCardAdapter
 import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
+import com.n27.regional_live.regionals.models.RegionalsState.Loading
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,8 +19,10 @@ class RegionalsFragmentTest {
     @Test
     fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
-            val fragment = activity.getFragment()
-            fragment.binding.assertVisibilities(loading = true)
+            with (activity.getFragment()) {
+                renderState(Loading)
+                binding.assertVisibilities(loading = true)
+            }
         }
     }
 
