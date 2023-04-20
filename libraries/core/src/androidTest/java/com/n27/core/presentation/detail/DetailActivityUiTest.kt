@@ -23,7 +23,7 @@ import org.junit.After
 import org.junit.Test
 import java.text.NumberFormat.getIntegerInstance
 
-class DetailActivityUITest {
+class DetailActivityUiTest {
 
     private val congressElection = getElection()
     private val senateElection = getElection(chamberName = KEY_SENATE)
