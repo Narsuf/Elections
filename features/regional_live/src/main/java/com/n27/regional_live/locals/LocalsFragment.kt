@@ -109,10 +109,7 @@ class LocalsFragment : Fragment() {
     private fun showSnackbar(errorMsg: String?) {
         val error = when (errorMsg) {
             NO_INTERNET_CONNECTION -> R.string.no_internet_connection
-            else -> if (remoteConfig.getBoolean("NO_RESULTS"))
-                com.n27.regional_live.R.string.preliminary_results_not_available_yet
-            else
-                R.string.something_wrong
+            else -> R.string.something_wrong
         }
 
         Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()

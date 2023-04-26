@@ -3,8 +3,11 @@
     <string name="show_historical">Show historical</string>
     <string name="live_elections">Live elections</string>
 
-    <!-- Disclaimer -->
+    <!-- Disclaimer. -->
     <string name="disclaimer">Disclaimer</string>
     <string name="disclaimer_description">This app does not represent any government entity.
         The data of the results is retrieved from the Spanish newspaper</string>
+
+    <!-- Errors. -->
+    <string name="preliminary_results_not_available_yet">Preliminary results not available yet</string>
 </resources>
