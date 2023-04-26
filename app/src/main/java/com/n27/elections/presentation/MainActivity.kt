@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
         liveElectionsButtonActivityMain.setOnClickListener {
-            if (remoteConfig.getBoolean("NO_RESULTS"))
+            if (isFeatureEnabled(NO_RESULTS, defaultValue = false))
                 showSnackbar(NO_RESULTS)
             else
                 navigateToLive()
@@ -140,13 +140,16 @@ class MainActivity : AppCompatActivity() {
         swipeActivityMain.isRefreshing = loading
         errorAnimationActivityMain.isVisible = error
         recyclerActivityMain.isVisible = content
-        liveElectionsButtonActivityMain.isVisible = content && isRegionalLiveFeatureEnabled()
+        liveElectionsButtonActivityMain.isVisible = content && isFeatureEnabled("REGIONAL_LIVE")
     }
 
-    private fun isRegionalLiveFeatureEnabled() = if (BuildConfig.DEBUG)
-        true
+    private fun isFeatureEnabled(
+        feature: String,
+        defaultValue: Boolean = true
+    ) = if (BuildConfig.DEBUG)
+        defaultValue
     else
-        remoteConfig.getBoolean("REGIONAL_LIVE")
+        remoteConfig.getBoolean(feature)
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)
