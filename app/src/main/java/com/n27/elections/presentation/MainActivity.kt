@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
         liveElectionsButtonActivityMain.setOnClickListener {
-            if (isFeatureEnabled(NO_RESULTS, defaultValue = false))
+            if (isFeatureEnabled(NO_RESULTS, debugValue = false))
                 showSnackbar(NO_RESULTS)
             else
                 navigateToLive()
@@ -145,9 +145,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun isFeatureEnabled(
         feature: String,
-        defaultValue: Boolean = true
+        debugValue: Boolean = true
     ) = if (BuildConfig.DEBUG)
-        defaultValue
+        debugValue
     else
         remoteConfig.getBoolean(feature)
 

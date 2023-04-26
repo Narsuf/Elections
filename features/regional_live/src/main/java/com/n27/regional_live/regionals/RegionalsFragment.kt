@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
