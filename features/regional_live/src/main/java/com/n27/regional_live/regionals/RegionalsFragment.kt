@@ -40,7 +40,6 @@ class RegionalsFragment : Fragment() {
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: RegionalsViewModel
     @Inject internal lateinit var utils: PresentationUtils
-    @Inject internal lateinit var remoteConfig: FirebaseRemoteConfig
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
