@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
@@ -39,6 +40,7 @@ class RegionalsFragment : Fragment() {
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: RegionalsViewModel
     @Inject internal lateinit var utils: PresentationUtils
+    @Inject internal lateinit var remoteConfig: FirebaseRemoteConfig
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -137,7 +139,10 @@ class RegionalsFragment : Fragment() {
     private fun showSnackbar(errorMsg: String?) {
         val error = when (errorMsg) {
             NO_INTERNET_CONNECTION -> R.string.no_internet_connection
-            else -> R.string.something_wrong
+            else -> if (remoteConfig.getBoolean("NO_RESULTS"))
+                com.n27.regional_live.R.string.preliminary_results_not_available_yet
+            else
+                R.string.something_wrong
         }
 
         Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()

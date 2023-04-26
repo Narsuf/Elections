@@ -2,4 +2,5 @@
     <string name="regionals">Regionals</string>
     <string name="locals">Locals</string>
     <string name="show_results">Show results</string>
+    <string name="preliminary_results_not_available_yet">Preliminary results not available yet</string>
 </resources>
