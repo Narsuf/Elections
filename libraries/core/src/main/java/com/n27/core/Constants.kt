@@ -11,6 +11,7 @@ object Constants {
     const val KEY_REGION = "region"
 
     //region Errors
+    const val NO_RESULTS = "NO_RESULTS"
     const val NO_INTERNET_CONNECTION = "NO_INTERNET_CONNECTION"
     const val BAD_RESPONSE = "BAD_RESPONSE"
     //endregion

@@ -14,7 +14,6 @@
     <dimen name="pie_chart_height">300dp</dimen>
 
     <dimen name="list_item_detail_activity_height">60dp</dimen>
-    <dimen name="list_item_detail_dialog_height">45dp</dimen>
 
     <dimen name="card_radius">4dp</dimen>
 </resources>

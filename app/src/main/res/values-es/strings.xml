@@ -4,8 +4,11 @@
     <string name="show_historical">Mostrar histórico</string>
     <string name="live_elections">Elecciones en directo</string>
 
-    <!-- Disclaimer -->
+    <!-- Disclaimer. -->
     <string name="disclaimer">Aviso legal</string>
     <string name="disclaimer_description">Esta aplicación no representa a ninguna entidad
         gubernamental. Los datos de los resultados se obtienen del periódico</string>
+
+    <!-- Errors. -->
+    <string name="preliminary_results_not_available_yet">Resultados preliminares no disponibles todavía</string>
 </resources>

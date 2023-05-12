@@ -76,7 +76,7 @@ class RegionalActivityUiTest {
     private fun checkDialogContent() {
         clickOn("La Rioja")
         waitUntil { assertDisplayed("La Rioja") }
-        waitUntil { assertDisplayed("Ábalos") }
+        waitUntil { assertDisplayed("Abalos") }
     }
 
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)

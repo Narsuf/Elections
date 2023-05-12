@@ -15,6 +15,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.n27.core.BuildConfig
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
+import com.n27.core.Constants.NO_RESULTS
 import com.n27.core.data.models.Election
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
@@ -61,7 +62,13 @@ class MainActivity : AppCompatActivity() {
     private fun ActivityMainBinding.setUpViews() {
         setContentView(binding.root)
         recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
-        liveElectionsButtonActivityMain.setOnClickListener { navigateToLive() }
+        liveElectionsButtonActivityMain.setOnClickListener {
+            if (isFeatureEnabled(NO_RESULTS, debugValue = false))
+                showSnackbar(NO_RESULTS)
+            else
+                navigateToLive()
+        }
+
         swipeActivityMain.setOnRefreshListener {
             viewModel.requestElections()
             utils.track("main_activity_pulled_to_refresh")
@@ -133,13 +140,16 @@ class MainActivity : AppCompatActivity() {
         swipeActivityMain.isRefreshing = loading
         errorAnimationActivityMain.isVisible = error
         recyclerActivityMain.isVisible = content
-        liveElectionsButtonActivityMain.isVisible = content && isRegionalLiveFeatureEnabled()
+        liveElectionsButtonActivityMain.isVisible = content && isFeatureEnabled("REGIONAL_LIVE")
     }
 
-    private fun isRegionalLiveFeatureEnabled() = if (BuildConfig.DEBUG)
-        true
+    private fun isFeatureEnabled(
+        feature: String,
+        debugValue: Boolean = true
+    ) = if (BuildConfig.DEBUG)
+        debugValue
     else
-        remoteConfig.getBoolean("REGIONAL_LIVE")
+        remoteConfig.getBoolean(feature)
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)
@@ -149,6 +159,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSnackbar(errorMsg: String?) {
         val error = when (errorMsg) {
+            NO_RESULTS -> R.string.preliminary_results_not_available_yet
             NO_INTERNET_CONNECTION -> R.string.no_internet_connection
             else -> R.string.something_wrong
         }

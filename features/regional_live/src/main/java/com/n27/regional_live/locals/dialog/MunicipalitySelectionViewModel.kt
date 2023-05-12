@@ -54,6 +54,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
         viewModelScope.launchCatching(::handleError) {
             val resultAction = province?.let {
                 val provinces = repository.getMunicipalities(province.name)
+                    .sortedBy { it.name }
 
                 utils?.track("municipality_selection_municipalities_loaded") {
                     param("province", "$province")
