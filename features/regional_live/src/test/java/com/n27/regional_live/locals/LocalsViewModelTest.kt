@@ -1,17 +1,19 @@
 package com.n27.regional_live.locals
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.LiveRepository
+import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
-import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
-import com.n27.regional_live.locals.comm.LocalsEventBus
-import com.n27.regional_live.locals.models.LocalsAction.NavigateToDetail
-import com.n27.regional_live.locals.models.LocalsAction.ShowErrorSnackbar
-import com.n27.regional_live.locals.models.LocalsState.Content
-import com.n27.regional_live.locals.models.LocalsState.Error
-import com.n27.regional_live.locals.models.LocalsState.Loading
-import com.n27.test.generators.getElection
+import com.n27.regional_live.data.RegionRepositoryImpl
+import com.n27.regional_live.presentation.locals.LocalsViewModel
+import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
+import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
+import com.n27.regional_live.presentation.locals.comm.LocalsEventBus
+import com.n27.regional_live.presentation.locals.models.LocalsAction.NavigateToDetail
+import com.n27.regional_live.presentation.locals.models.LocalsAction.ShowErrorSnackbar
+import com.n27.regional_live.presentation.locals.models.LocalsState.Content
+import com.n27.regional_live.presentation.locals.models.LocalsState.Error
+import com.n27.regional_live.presentation.locals.models.LocalsState.Loading
+import com.n27.test.generators.getLiveElection
 import com.n27.test.generators.getRegions
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
@@ -26,22 +28,25 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import kotlin.Result.Companion.success
 
 @ExperimentalCoroutinesApi
 class LocalsViewModelTest {
 
-    private lateinit var repository: LiveRepository
+    private lateinit var regionRepository: RegionRepositoryImpl
+    private lateinit var liveRepository: LiveRepositoryImpl
     private lateinit var eventBus: LocalsEventBus
     private lateinit var viewModel: LocalsViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
-        repository = mock(LiveRepository::class.java)
+        regionRepository = mock(RegionRepositoryImpl::class.java)
+        liveRepository = mock(LiveRepositoryImpl::class.java)
         eventBus = LocalsEventBus()
-        `when`(repository.getRegions()).thenReturn(getRegions())
+        `when`(regionRepository.getRegions()).thenReturn(getRegions())
         Dispatchers.setMain(testDispatcher)
-        viewModel = LocalsViewModel(repository, null, eventBus)
+        viewModel = LocalsViewModel(liveRepository, regionRepository, null, eventBus)
     }
 
     @Test
@@ -61,7 +66,7 @@ class LocalsViewModelTest {
 
     @Test
     fun `requestRegions should emit error`() = runTest {
-        `when`(repository.getRegions()).thenThrow(IndexOutOfBoundsException())
+        `when`(regionRepository.getRegions()).thenThrow(IndexOutOfBoundsException())
         viewModel.requestRegions()
         runCurrent()
 
@@ -72,7 +77,7 @@ class LocalsViewModelTest {
     fun `RequestElection should emit NavigateToDetail`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
-        `when`(repository.getLocalElection(ids)).thenReturn(getElection())
+        `when`(liveRepository.getLocalElection(ids)).thenReturn(success(getLiveElection()))
 
         runCurrent()
         eventBus.emit(RequestElection(ids))
@@ -86,7 +91,7 @@ class LocalsViewModelTest {
     fun `RequestElection should emit ShowErrorSnackbar`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
-        `when`(repository.getLocalElection(ids)).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
+        `when`(liveRepository.getLocalElection(ids)).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
 
         runCurrent()
         eventBus.emit(RequestElection(ids))

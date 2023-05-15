@@ -1,9 +1,9 @@
 package com.n27.regional_live.injection
 
-import com.n27.regional_live.RegionalLiveActivity
-import com.n27.regional_live.locals.LocalsFragment
-import com.n27.regional_live.locals.dialog.MunicipalitySelectionDialog
-import com.n27.regional_live.regionals.RegionalsFragment
+import com.n27.regional_live.presentation.RegionalLiveActivity
+import com.n27.regional_live.presentation.locals.LocalsFragment
+import com.n27.regional_live.presentation.locals.dialog.MunicipalitySelectionDialog
+import com.n27.regional_live.presentation.regionals.RegionalsFragment
 import dagger.Subcomponent
 import javax.inject.Scope
 

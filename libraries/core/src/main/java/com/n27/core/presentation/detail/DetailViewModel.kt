@@ -3,15 +3,17 @@ package com.n27.core.presentation.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.LiveRepository
+import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.core.domain.models.Election
+import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.extensions.launchCatching
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailContentState
 import com.n27.core.presentation.detail.models.DetailContentState.Empty
+import com.n27.core.presentation.detail.models.DetailContentState.WithData
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
@@ -24,7 +26,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(
-    private val repository: LiveRepository,
+    private val repository: LiveRepositoryImpl,
     private val crashlytics: FirebaseCrashlytics?
 ) : ViewModel() {
 
@@ -49,18 +51,23 @@ class DetailViewModel @Inject constructor(
             val isAnimation = lastState !is Content
             state.emit(Loading(isAnimation))
 
-            val result = when {
-                localElectionIds != null -> repository.getLocalElection(localElectionIds).toContent()
-                electionId != null -> repository.getRegionalElection(electionId).toContent()
-                election != null -> election.toContent()
-                else -> null
+            when {
+                localElectionIds != null -> repository.getLocalElection(localElectionIds).handleResult()
+                electionId != null -> repository.getRegionalElection(electionId).handleResult()
+                election != null -> emitContent(election.toContent())
+                else -> handleError()
             }
-
-            result?.let {
-                contentState.emit(it)
-                state.emit(Content)
-            } ?: handleError()
         }
+    }
+
+    private suspend fun Result<LiveElection>.handleResult() {
+        onSuccess { emitContent(it.election.toContent()) }
+        onFailure { handleError() }
+    }
+
+    private suspend fun emitContent(withData: WithData) {
+        contentState.emit(withData)
+        state.emit(Content)
     }
 
     private suspend fun handleError(throwable: Throwable? = null) {

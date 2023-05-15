@@ -5,6 +5,7 @@ import com.adevinta.android.barista.assertion.BaristaListAssertions.assertDispla
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.n27.core.presentation.detail.DetailActivity
+import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.test.conditions.instructions.waitUntil
 import com.n27.test.intents.intents
 import com.n27.test.intents.verifyIntent

@@ -1,8 +1,8 @@
 package com.n27.core.data.local.room.mappers
 
 import com.n27.core.data.local.room.models.ElectionWithResultsAndParty
-import com.n27.core.domain.models.Election
-import com.n27.core.domain.models.Elections
+import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.models.Elections
 
 fun List<ElectionWithResultsAndParty>.toElections() = Elections(items = toElectionList())
 

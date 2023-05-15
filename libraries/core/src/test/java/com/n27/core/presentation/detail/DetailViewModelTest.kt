@@ -1,7 +1,7 @@
 package com.n27.core.presentation.detail
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.LiveRepository
+import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
@@ -9,6 +9,7 @@ import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
+import com.n27.test.generators.getLiveElection
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,18 +24,19 @@ import org.junit.Test
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import kotlin.Result.Companion.success
 
 @ExperimentalCoroutinesApi
 class DetailViewModelTest {
 
-    private lateinit var repository: LiveRepository
+    private lateinit var repository: LiveRepositoryImpl
     private lateinit var viewModel: DetailViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
-        repository = mock(LiveRepository::class.java)
-        `when`(repository.getRegionalElection(anyString())).thenReturn(getElection())
+        repository = mock(LiveRepositoryImpl::class.java)
+        `when`(repository.getRegionalElection(anyString())).thenReturn(success(getLiveElection()))
         viewModel = DetailViewModel(repository, null)
         Dispatchers.setMain(testDispatcher)
     }
@@ -65,7 +67,7 @@ class DetailViewModelTest {
     @Test
     fun `requestElection should emit content when electionIds not null`() = runTest {
         val ids = LocalElectionIds("01", "01", "01")
-        `when`(repository.getLocalElection(ids)).thenReturn(getElection())
+        `when`(repository.getLocalElection(ids)).thenReturn(success(getLiveElection()))
         viewModel.requestElection(null, null, ids)
         runCurrent()
 

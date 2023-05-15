@@ -1,15 +1,16 @@
 package com.n27.regional_live.locals.dialog
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.LiveRepository
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.regional_live.locals.comm.LocalsEvent.RequestElection
-import com.n27.regional_live.locals.comm.LocalsEvent.ShowError
-import com.n27.regional_live.locals.comm.LocalsEventBus
-import com.n27.regional_live.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner
-import com.n27.regional_live.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
-import com.n27.regional_live.locals.dialog.models.MunicipalityState.Content
-import com.n27.regional_live.locals.dialog.models.MunicipalityState.Empty
+import com.n27.regional_live.data.RegionRepositoryImpl
+import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
+import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
+import com.n27.regional_live.presentation.locals.comm.LocalsEventBus
+import com.n27.regional_live.presentation.locals.dialog.MunicipalitySelectionViewModel
+import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner
+import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
+import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityState.Content
+import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityState.Empty
 import com.n27.test.generators.getMunicipalities
 import com.n27.test.generators.getProvince
 import com.n27.test.generators.getProvinces
@@ -32,14 +33,14 @@ import org.mockito.Mockito.`when`
 @ExperimentalCoroutinesApi
 class MunicipalitySelectionViewModelTest {
 
-    private lateinit var repository: LiveRepository
+    private lateinit var repository: RegionRepositoryImpl
     private lateinit var eventBus: LocalsEventBus
     private lateinit var viewModel: MunicipalitySelectionViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
-        repository = mock(LiveRepository::class.java)
+        repository = mock(RegionRepositoryImpl::class.java)
         eventBus = LocalsEventBus()
 
         `when`(repository.getProvinces(anyString())).thenReturn(getProvinces())

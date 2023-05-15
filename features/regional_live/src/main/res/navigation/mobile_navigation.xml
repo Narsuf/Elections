@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_regionals"
-        android:name="com.n27.regional_live.regionals.RegionalsFragment"
+        android:name="com.n27.regional_live.presentation.regionals.RegionalsFragment"
         android:label="@string/regionals"
         tools:layout="@layout/fragment_regionals" />
 
     <fragment
         android:id="@+id/navigation_locals"
-        android:name="com.n27.regional_live.locals.LocalsFragment"
+        android:name="com.n27.regional_live.presentation.locals.LocalsFragment"
         android:label="@string/locals"
         tools:layout="@layout/fragment_locals" />
 

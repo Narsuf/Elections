@@ -10,7 +10,7 @@ import com.adevinta.android.barista.interaction.BaristaListInteractions.clickLis
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.R
 import com.n27.elections.presentation.MainActivity
-import com.n27.regional_live.RegionalLiveActivity
+import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.test.actions.SpanActions.clickClickableSpan
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
 import com.n27.test.conditions.instructions.waitUntil

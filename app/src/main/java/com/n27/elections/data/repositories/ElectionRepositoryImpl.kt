@@ -9,9 +9,9 @@ import com.n27.core.data.local.room.ElectionDao
 import com.n27.core.data.local.room.mappers.toElections
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.core.data.remote.firebase.toElections
-import com.n27.core.domain.ElectionRepository
-import com.n27.core.domain.models.Election
-import com.n27.core.domain.models.Elections
+import com.n27.core.domain.election.ElectionRepository
+import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.models.Elections
 import com.n27.elections.data.api.ElectionApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -27,7 +27,7 @@ class ElectionRepositoryImpl @Inject constructor(
     private val dao: ElectionDao,
     private val firebaseDatabase: FirebaseDatabase,
     private val utils: DataUtils
-): ElectionRepository {
+) : ElectionRepository {
 
     override suspend fun getElections(): Result<Elections> = if (utils.isConnectedToInternet())
         getElectionsRemotely()

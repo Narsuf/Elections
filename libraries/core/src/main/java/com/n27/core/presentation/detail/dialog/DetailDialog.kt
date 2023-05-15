@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.R
 import com.n27.core.databinding.DialogDetailBinding
-import com.n27.core.domain.models.Election
+import com.n27.core.domain.election.models.Election
 import com.n27.core.extensions.divide
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailActivity
