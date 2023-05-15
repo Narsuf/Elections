@@ -13,10 +13,7 @@ import com.n27.core.data.remote.api.mappers.toLiveElections
 import com.n27.core.data.remote.api.models.ElectionXml
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.extensions.toStringId
-import com.n27.test.generators.getMunicipalities
 import com.n27.test.generators.getPartyRaw
-import com.n27.test.generators.getProvinces
-import com.n27.test.generators.getRegions
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

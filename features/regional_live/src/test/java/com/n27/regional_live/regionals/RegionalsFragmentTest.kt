@@ -16,16 +16,6 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class RegionalsFragmentTest {
 
-    /*@Test
-    fun checkLoadingViewState() {
-        launchActivity().onActivity { activity ->
-            with(activity.getFragment()) {
-                renderState(Loading)
-                binding.assertVisibilities(loading = true)
-            }
-        }
-    }*/
-
     @Test
     fun checkContentViewState() {
         launchActivity().onActivity { activity ->

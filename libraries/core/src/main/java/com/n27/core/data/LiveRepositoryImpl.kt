@@ -13,8 +13,6 @@ import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.domain.live.LiveRepository
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

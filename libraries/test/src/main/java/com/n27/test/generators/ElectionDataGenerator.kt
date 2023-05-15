@@ -4,7 +4,6 @@ import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.election.models.Elections
 import com.n27.core.domain.election.models.Party
 import com.n27.core.domain.election.models.Result
-import com.n27.core.domain.live.models.LiveElection
 
 fun getElections() = Elections(getElectionList())
 

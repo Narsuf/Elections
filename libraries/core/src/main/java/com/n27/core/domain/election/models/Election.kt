@@ -1,6 +1,5 @@
 package com.n27.core.domain.election.models
 
-import com.n27.core.domain.election.models.Result
 import java.io.Serializable
 
 data class Election(
