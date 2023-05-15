@@ -10,7 +10,6 @@ import com.n27.core.domain.models.Elections
 import com.n27.elections.data.api.ElectionApi
 import com.n27.elections.data.api.models.ApiResponse
 import com.n27.test.generators.getElectionList
-import com.n27.test.generators.getElections
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
@@ -20,7 +19,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
 import kotlin.Result.Companion.success
-import kotlin.math.exp
 
 @RunWith(RobolectricTestRunner::class)
 class ElectionRepositoryImplTest {

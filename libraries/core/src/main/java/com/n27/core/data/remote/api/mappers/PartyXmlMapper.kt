@@ -1,9 +1,9 @@
 package com.n27.core.data.remote.api.mappers
 
 import com.n27.core.data.local.room.models.PartyRaw
+import com.n27.core.data.remote.api.models.PartyXml
 import com.n27.core.domain.models.Party
 import com.n27.core.domain.models.Result
-import com.n27.core.data.remote.api.models.PartyXml
 
 internal fun getEmptyParty() = Party(
     id = 0,

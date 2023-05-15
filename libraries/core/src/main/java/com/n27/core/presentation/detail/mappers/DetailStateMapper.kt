@@ -5,7 +5,6 @@ import com.n27.core.R
 import com.n27.core.domain.models.Election
 import com.n27.core.extensions.divide
 import com.n27.core.presentation.detail.models.DetailContentState.WithData
-import java.text.NumberFormat.getIntegerInstance
 import java.text.NumberFormat.getNumberInstance
 
 internal fun Election.toContent(): WithData {

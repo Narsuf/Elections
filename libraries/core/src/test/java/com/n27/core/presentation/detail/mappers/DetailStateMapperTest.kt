@@ -4,8 +4,6 @@ import com.n27.test.generators.getDetailContent
 import com.n27.test.generators.getElection
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.Mock
-import org.robolectric.Shadows.shadowOf
 import java.util.Locale
 
 class DetailStateMapperTest {

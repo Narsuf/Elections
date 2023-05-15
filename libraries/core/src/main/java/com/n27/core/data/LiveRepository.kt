@@ -8,12 +8,12 @@ import com.n27.core.data.local.json.mappers.toMunicipalities
 import com.n27.core.data.local.json.mappers.toProvinces
 import com.n27.core.data.local.json.models.Regions
 import com.n27.core.data.local.room.ElectionDao
-import com.n27.core.domain.models.Election
 import com.n27.core.data.remote.api.ElPaisApi
 import com.n27.core.data.remote.api.mappers.toElection
 import com.n27.core.data.remote.api.mappers.toElectionXml
 import com.n27.core.data.remote.api.models.ElectionXml
 import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.domain.models.Election
 import com.n27.core.extensions.lowercaseNames
 import com.n27.core.extensions.toStringId
 import com.squareup.moshi.JsonAdapter

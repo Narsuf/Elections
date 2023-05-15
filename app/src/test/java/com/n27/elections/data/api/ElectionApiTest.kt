@@ -4,7 +4,6 @@ import com.n27.core.data.local.json.JsonReader
 import com.n27.elections.data.api.models.ApiResponse
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
-import com.n27.test.generators.getElections
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import junit.framework.TestCase.assertEquals
