@@ -1,10 +1,9 @@
-package com.n27.regional_live.regionals
+package com.n27.regional_live.presentation.regionals
 
 import androidx.core.view.isVisible
 import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.presentation.RegionalLiveActivity
-import com.n27.regional_live.presentation.regionals.RegionalsFragment
 import com.n27.regional_live.presentation.regionals.adapters.RegionalCardAdapter
 import com.n27.regional_live.presentation.regionals.models.RegionalsState.Content
 import com.n27.regional_live.presentation.regionals.models.RegionalsState.Error

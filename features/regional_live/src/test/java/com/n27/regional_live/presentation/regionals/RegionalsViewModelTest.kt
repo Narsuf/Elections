@@ -1,7 +1,6 @@
-package com.n27.regional_live.regionals
+package com.n27.regional_live.presentation.regionals
 
 import com.n27.core.data.LiveRepositoryImpl
-import com.n27.regional_live.presentation.regionals.RegionalsViewModel
 import com.n27.regional_live.presentation.regionals.models.RegionalsAction.ShowErrorSnackbar
 import com.n27.regional_live.presentation.regionals.models.RegionalsContentState.WithData
 import com.n27.regional_live.presentation.regionals.models.RegionalsState.Content

@@ -1,6 +1,6 @@
 package com.n27.core.data.remote.api
 
-import com.n27.core.data.local.json.JsonReader
+import com.n27.core.data.local.JsonReader
 import com.n27.core.data.remote.api.mappers.toElectionXml
 import com.n27.core.data.remote.api.models.ElectionXml
 import com.n27.core.data.remote.api.models.LocalElectionIds

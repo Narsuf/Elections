@@ -1,4 +1,4 @@
-package com.n27.core.data.remote.firebase
+package com.n27.core.data.remote
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.GenericTypeIndicator

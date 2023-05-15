@@ -1,4 +1,4 @@
-package com.n27.core.data.local.json
+package com.n27.core.data.local
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

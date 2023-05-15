@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.local.json.JsonReader
+import com.n27.core.data.local.JsonReader
 import com.n27.core.data.local.room.Database
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.injection.DetailComponent

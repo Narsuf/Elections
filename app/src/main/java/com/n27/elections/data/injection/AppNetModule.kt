@@ -1,4 +1,4 @@
-package com.n27.elections.data.api.injection
+package com.n27.elections.data.injection
 
 import com.n27.elections.BuildConfig
 import com.n27.elections.data.api.ElectionApi

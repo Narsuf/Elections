@@ -1,4 +1,4 @@
-package com.n27.regional_live.locals.dialog
+package com.n27.regional_live.presentation.locals.dialog
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.remote.api.models.LocalElectionIds
@@ -6,7 +6,6 @@ import com.n27.regional_live.data.RegionRepositoryImpl
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.presentation.locals.comm.LocalsEventBus
-import com.n27.regional_live.presentation.locals.dialog.MunicipalitySelectionViewModel
 import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner
 import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
 import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityState.Content

@@ -1,4 +1,4 @@
-package com.n27.regional_live.injection
+package com.n27.regional_live.presentation.injection
 
 import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.regional_live.presentation.locals.LocalsFragment

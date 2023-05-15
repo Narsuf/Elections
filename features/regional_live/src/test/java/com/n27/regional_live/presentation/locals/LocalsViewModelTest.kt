@@ -1,10 +1,9 @@
-package com.n27.regional_live.locals
+package com.n27.regional_live.presentation.locals
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.regional_live.data.RegionRepositoryImpl
-import com.n27.regional_live.presentation.locals.LocalsViewModel
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.presentation.locals.comm.LocalsEventBus

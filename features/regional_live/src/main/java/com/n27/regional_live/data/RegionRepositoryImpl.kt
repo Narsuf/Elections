@@ -1,6 +1,6 @@
 package com.n27.regional_live.data
 
-import com.n27.core.data.local.json.JsonReader
+import com.n27.core.data.local.JsonReader
 import com.n27.regional_live.data.mappers.toMunicipalities
 import com.n27.regional_live.data.mappers.toProvinces
 import com.n27.regional_live.domain.RegionRepository

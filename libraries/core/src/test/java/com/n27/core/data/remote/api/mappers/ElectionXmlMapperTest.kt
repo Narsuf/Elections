@@ -1,6 +1,6 @@
 package com.n27.core.data.remote.api.mappers
 
-import com.n27.core.data.local.json.JsonReader
+import com.n27.core.data.local.JsonReader
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getParties
 import com.n27.test.generators.getParty

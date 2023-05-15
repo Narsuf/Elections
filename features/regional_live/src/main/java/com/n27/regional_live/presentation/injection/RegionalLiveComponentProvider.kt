@@ -1,4 +1,4 @@
-package com.n27.regional_live.injection
+package com.n27.regional_live.presentation.injection
 
 interface RegionalLiveComponentProvider {
 

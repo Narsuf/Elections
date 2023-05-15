@@ -1,4 +1,4 @@
-package com.n27.regional_live.locals
+package com.n27.regional_live.presentation.locals
 
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
@@ -7,7 +7,6 @@ import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.R
 import com.n27.regional_live.databinding.FragmentLocalsBinding
 import com.n27.regional_live.presentation.RegionalLiveActivity
-import com.n27.regional_live.presentation.locals.LocalsFragment
 import com.n27.regional_live.presentation.locals.models.LocalsState.Error
 import org.junit.Assert.assertEquals
 import org.junit.Test
