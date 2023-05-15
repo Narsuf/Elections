@@ -44,7 +44,7 @@ class LocalsViewModelTest {
         regionRepository = mock(RegionRepositoryImpl::class.java)
         liveRepository = mock(LiveRepositoryImpl::class.java)
         eventBus = LocalsEventBus()
-        `when`(regionRepository.getRegions()).thenReturn(getRegions())
+        `when`(regionRepository.getRegions()).thenReturn(success(getRegions()))
         Dispatchers.setMain(testDispatcher)
         viewModel = LocalsViewModel(liveRepository, regionRepository, null, eventBus)
     }

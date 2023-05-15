@@ -15,6 +15,7 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
+import kotlin.Result.Companion.success
 
 @RunWith(RobolectricTestRunner::class)
 class RegionRepositoryImplTest {
@@ -32,10 +33,11 @@ class RegionRepositoryImplTest {
     @Test
     fun getRegionsFromJson() = runBlocking {
         val regions = JsonReader().getStringJson("regions-test.json")
+        val expected = success(getRegions())
 
         `when`(jsonReader.getStringJson(anyString())).thenReturn(regions)
 
-        assertEquals(repository.getRegions(), getRegions())
+        assertEquals(expected, repository.getRegions())
     }
 
     @Test

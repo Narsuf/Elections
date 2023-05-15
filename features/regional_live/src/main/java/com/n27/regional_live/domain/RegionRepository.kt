@@ -6,7 +6,7 @@ import com.n27.regional_live.domain.models.Regions
 
 interface RegionRepository {
 
-    suspend fun getRegions(): Regions
+    suspend fun getRegions(): Result<Regions>
     suspend fun getProvinces(region: String): List<Province>
     suspend fun getMunicipalities(province: String): List<Municipality>
 }

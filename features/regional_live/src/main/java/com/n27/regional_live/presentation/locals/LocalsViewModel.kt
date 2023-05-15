@@ -48,8 +48,9 @@ class LocalsViewModel @Inject constructor(
 
     internal fun requestRegions() {
         viewModelScope.launchCatching(::handleError) {
-            val regions = regionRepository.getRegions().regions
-            state.emit(Content(regions))
+            regionRepository.getRegions()
+                .onSuccess { state.emit(Content(it.regions)) }
+                .onFailure { handleError(it) }
         }
     }
 

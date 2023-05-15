@@ -11,6 +11,8 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.Result.Companion.failure
+import kotlin.Result.Companion.success
 
 @Singleton
 class RegionRepositoryImpl @Inject constructor(
@@ -18,10 +20,12 @@ class RegionRepositoryImpl @Inject constructor(
     private val moshi: Moshi
 ) : RegionRepository {
 
-    override suspend fun getRegions(): Regions {
+    override suspend fun getRegions(): Result<Regions> {
         val jsonString = jsonReader.getStringJson(res = "regions.json")
         val adapter: JsonAdapter<Regions> = moshi.adapter(Regions::class.java)
-        return adapter.fromJson(jsonString) ?: throw Throwable("Error reading regions.json")
+        return adapter.fromJson(jsonString)
+            ?.let { success(it) }
+            ?: failure(Throwable("Error reading regions.json"))
     }
 
     override suspend fun getProvinces(region: String): List<Province> = jsonReader
