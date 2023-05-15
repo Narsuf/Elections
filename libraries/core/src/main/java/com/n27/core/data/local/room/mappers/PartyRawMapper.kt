@@ -3,6 +3,8 @@ package com.n27.core.data.local.room.mappers
 import com.n27.core.data.local.room.models.PartyRaw
 import com.n27.core.domain.models.Party
 
+fun List<PartyRaw>.toParties() = map { it.toParty() }
+
 internal fun PartyRaw.toParty() = Party(
     id = partyId,
     name = name,

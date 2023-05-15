@@ -5,6 +5,7 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.local.room.ElectionDao
+import com.n27.core.data.local.room.mappers.toParties
 import com.n27.core.data.remote.api.ElPaisApi
 import com.n27.core.data.remote.api.mappers.toElection
 import com.n27.core.data.remote.api.mappers.toElectionXml
@@ -80,13 +81,13 @@ class LiveRepositoryTest {
     @Test
     fun getRegionalElection() = runBlocking {
         val response = JsonReader().getStringJson("regional-election-test.xml")
-        val parties = listOf(getPartyRaw(), getPartyRaw(name = "PSOE")).lowercaseNames()
-        val election = response.toElection(parties)
+        val parties = listOf(getPartyRaw(), getPartyRaw(name = "PSOE"))
+        val expected = response.toElection(parties.toParties())
 
         `when`(dao.getParties()).thenReturn(parties)
         `when`(service.getRegionalElection(anyString())).thenReturn(response)
 
-        assertEquals(repository.getRegionalElection("01"), election)
+        assertEquals(expected, repository.getRegionalElection("01"))
     }
 
     @Test
@@ -113,13 +114,13 @@ class LiveRepositoryTest {
     @Test
     fun getLocalElection() = runBlocking {
         val response = JsonReader().getStringJson("local-election-test.xml")
-        val parties = listOf(getPartyRaw(), getPartyRaw(name = "PSOE-A")).lowercaseNames()
-        val election = response.toElection(parties)
+        val parties = listOf(getPartyRaw(), getPartyRaw(name = "PSOE-A"))
+        val expected = response.toElection(parties.toParties())
 
         `when`(dao.getParties()).thenReturn(parties)
         `when`(service.getLocalElection(ids)).thenReturn(response)
 
-        assertEquals(repository.getLocalElection(ids), election)
+        assertEquals(expected, repository.getLocalElection(ids))
     }
 
     @Test

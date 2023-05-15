@@ -7,6 +7,7 @@ import com.n27.regional_live.regionals.models.RegionalsState.Content
 import com.n27.regional_live.regionals.models.RegionalsState.Error
 import com.n27.regional_live.regionals.models.RegionalsState.Loading
 import com.n27.test.generators.getElectionsXml
+import com.n27.test.generators.getParties
 import com.n27.test.generators.getPartiesRaw
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +34,7 @@ class RegionalsViewModelTest {
     fun init() = runTest {
         repository = mock(LiveRepository::class.java)
         `when`(repository.getRegionalElections()).thenReturn(getElectionsXml())
-        `when`(repository.getParties()).thenReturn(getPartiesRaw())
+        `when`(repository.getParties()).thenReturn(getParties())
         viewModel = RegionalsViewModel(repository, null)
         Dispatchers.setMain(testDispatcher)
     }
@@ -45,7 +46,7 @@ class RegionalsViewModelTest {
 
     @Test
     fun `requestElections should emit content when elections not empty`() = runTest {
-        val expected = WithData(getElectionsXml(), getPartiesRaw())
+        val expected = WithData(getElectionsXml(), getParties())
 
         viewModel.requestElections()
         runCurrent()
@@ -72,7 +73,7 @@ class RegionalsViewModelTest {
 
         `when`(repository.getRegionalElections()).thenThrow(IndexOutOfBoundsException())
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
-        val expected = WithData(getElectionsXml(), getPartiesRaw())
+        val expected = WithData(getElectionsXml(), getParties())
         viewModel.requestElections()
         runCurrent()
 

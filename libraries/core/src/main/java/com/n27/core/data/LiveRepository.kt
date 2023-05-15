@@ -8,6 +8,7 @@ import com.n27.core.data.local.json.mappers.toMunicipalities
 import com.n27.core.data.local.json.mappers.toProvinces
 import com.n27.core.data.local.json.models.Regions
 import com.n27.core.data.local.room.ElectionDao
+import com.n27.core.data.local.room.mappers.toParties
 import com.n27.core.data.remote.api.ElPaisApi
 import com.n27.core.data.remote.api.mappers.toElection
 import com.n27.core.data.remote.api.mappers.toElectionXml
@@ -74,7 +75,7 @@ class LiveRepository @Inject constructor(
         .getStringJson(res = "municipalities.json")
         .toMunicipalities(province)
 
-    suspend fun getParties() = withContext(Dispatchers.IO) { dao.getParties() }.lowercaseNames()
+    suspend fun getParties() = withContext(Dispatchers.IO) { dao.getParties() }.toParties()
 
     private suspend fun getRegionalElectionFromApi(id: String) = service.getRegionalElection(id)
 

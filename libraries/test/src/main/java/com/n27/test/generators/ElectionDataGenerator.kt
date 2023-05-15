@@ -44,9 +44,3 @@ fun getResult(
     votes: Int = 7215530,
     party: Party = getParty()
 ) = Result(id, partyId, electionId, elects, votes, party)
-
-fun getParty(
-    id: Long = 1,
-    name: String = "PP",
-    color: String = "006EC7"
-) = Party(id, name, color)

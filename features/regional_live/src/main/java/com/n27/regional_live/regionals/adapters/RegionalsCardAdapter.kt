@@ -6,9 +6,9 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.PieChart
-import com.n27.core.data.local.room.models.PartyRaw
 import com.n27.core.data.remote.api.mappers.toElection
 import com.n27.core.data.remote.api.models.ElectionXml
+import com.n27.core.domain.models.Party
 import com.n27.core.extensions.drawWithResults
 import com.n27.regional_live.R
 
@@ -16,7 +16,7 @@ typealias OnLiveElectionClicked = (election: ElectionXml) -> Unit
 
 class RegionalCardAdapter(
     internal val elections: List<ElectionXml>,
-    internal val parties: List<PartyRaw>,
+    internal val parties: List<Party>,
     internal val onElectionClicked: OnLiveElectionClicked
 ) : RecyclerView.Adapter<RegionalCardAdapter.MyViewHolder>() {
 

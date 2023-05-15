@@ -3,6 +3,7 @@ package com.n27.core.data.remote.api.mappers
 import com.n27.core.data.local.json.JsonReader
 import com.n27.core.extensions.lowercaseNames
 import com.n27.test.generators.getElection
+import com.n27.test.generators.getParties
 import com.n27.test.generators.getPartiesRaw
 import com.n27.test.generators.getParty
 import com.n27.test.generators.getResult
@@ -17,7 +18,7 @@ internal class ElectionXmlMapperTest {
 
     @Test
     fun `should return expected elections`() = runBlocking {
-        val parties = getPartiesRaw().lowercaseNames()
+        val parties = getParties()
         val actual = JsonReader()
             .getStringJson("local-election-test.xml")
             .toElectionXml()
