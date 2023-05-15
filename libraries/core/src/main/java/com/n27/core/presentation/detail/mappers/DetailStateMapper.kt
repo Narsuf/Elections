@@ -2,10 +2,11 @@ package com.n27.core.presentation.detail.mappers
 
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.R
-import com.n27.core.data.models.Election
+import com.n27.core.domain.models.Election
 import com.n27.core.extensions.divide
 import com.n27.core.presentation.detail.models.DetailContentState.WithData
 import java.text.NumberFormat.getIntegerInstance
+import java.text.NumberFormat.getNumberInstance
 
 internal fun Election.toContent(): WithData {
     val keys = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
@@ -24,7 +25,7 @@ internal fun Election.toContent(): WithData {
 
         map[keys[0]] = "#" + r.party.color
         map[keys[1]] = r.party.name
-        map[keys[2]] = getIntegerInstance().format(r.votes)
+        map[keys[2]] = getNumberInstance().format(r.votes)
         map[keys[3]] = if (chamberName == KEY_SENATE)
             "- %"
         else

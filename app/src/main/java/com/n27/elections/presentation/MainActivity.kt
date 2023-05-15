@@ -16,7 +16,7 @@ import com.n27.core.BuildConfig
 import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.NO_RESULTS
-import com.n27.core.data.models.Election
+import com.n27.core.domain.models.Election
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils

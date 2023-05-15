@@ -1,6 +1,6 @@
 package com.n27.elections.data.api
 
-import com.n27.core.data.models.Election
+import com.n27.core.domain.models.Election
 import com.n27.elections.data.api.models.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Path

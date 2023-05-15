@@ -8,7 +8,7 @@ import com.n27.core.extensions.launchCatching
 import com.n27.core.extensions.sortByDateAndFormat
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.elections.data.repositories.AppRepository
-import com.n27.elections.data.repositories.ElectionRepository
+import com.n27.elections.data.repositories.ElectionRepositoryImpl
 import com.n27.elections.presentation.models.MainAction
 import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
 import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val appRepository: AppRepository,
-    private val electionRepository: ElectionRepository
+    private val electionRepository: ElectionRepositoryImpl
 ) : ViewModel() {
 
     private val contentState = MutableStateFlow<MainContentState>(Empty)
@@ -49,11 +49,16 @@ class MainViewModel @Inject constructor(
             state.emit(Loading)
             if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
 
-            val sortedElections = electionRepository.getElections()
-                .map { it.sortResultsByElectsAndVotes() }
-                .sortByDateAndFormat()
-            contentState.emit(WithData(sortedElections))
-            state.emit(Content)
+            electionRepository.getElections()
+                .onFailure { handleError(it) }
+                .onSuccess { elections ->
+                    val sortedElections = elections.items
+                        .map { it.sortResultsByElectsAndVotes() }
+                        .sortByDateAndFormat()
+
+                    contentState.emit(WithData(sortedElections))
+                    state.emit(Content)
+                }
         }
     }
 

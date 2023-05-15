@@ -1,4 +1,4 @@
-package com.n27.core.data.models
+package com.n27.core.domain.models
 
 import java.io.Serializable
 

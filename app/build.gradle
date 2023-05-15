@@ -63,7 +63,7 @@ android {
         targetSdkVersion sdkV
         multiDexEnabled true
         versionCode 13
-        versionName "1.1.0-debug"
+        versionName "1.1.1-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs 'en', 'es', 'ca'
     }

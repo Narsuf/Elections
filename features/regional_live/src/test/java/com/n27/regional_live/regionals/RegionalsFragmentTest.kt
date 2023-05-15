@@ -19,7 +19,7 @@ class RegionalsFragmentTest {
     @Test
     fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
-            with (activity.getFragment()) {
+            with(activity.getFragment()) {
                 renderState(Loading)
                 binding.assertVisibilities(loading = true)
             }

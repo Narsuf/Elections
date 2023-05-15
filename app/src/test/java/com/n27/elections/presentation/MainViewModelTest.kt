@@ -2,10 +2,11 @@ package com.n27.elections.presentation
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.repositories.AppRepository
-import com.n27.elections.data.repositories.ElectionRepository
+import com.n27.elections.data.repositories.ElectionRepositoryImpl
 import com.n27.elections.presentation.models.MainAction.*
 import com.n27.elections.presentation.models.MainContentState.WithData
 import com.n27.elections.presentation.models.MainState.*
+import com.n27.test.generators.getElectionList
 import com.n27.test.generators.getElections
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals
@@ -22,6 +23,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
+import kotlin.Result.Companion.success
 import kotlin.system.measureTimeMillis
 
 @ExperimentalCoroutinesApi
@@ -29,17 +31,17 @@ import kotlin.system.measureTimeMillis
 class MainViewModelTest {
 
     private lateinit var appRepository: AppRepository
-    private lateinit var electionRepository: ElectionRepository
+    private lateinit var electionRepository: ElectionRepositoryImpl
     private lateinit var viewModel: MainViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
         appRepository = mock(AppRepository::class.java)
-        electionRepository = mock(ElectionRepository::class.java)
+        electionRepository = mock(ElectionRepositoryImpl::class.java)
 
         `when`(appRepository.isFirstLaunch()).thenReturn(false)
-        `when`(electionRepository.getElections()).thenReturn(getElections())
+        `when`(electionRepository.getElections()).thenReturn(success(getElections()))
 
         viewModel = MainViewModel(appRepository, electionRepository)
         Dispatchers.setMain(testDispatcher)
@@ -56,7 +58,7 @@ class MainViewModelTest {
             viewModel.requestElections()
             runCurrent()
 
-            assertEquals(WithData(getElections()), viewModel.viewContentState.value)
+            assertEquals(WithData(getElectionList()), viewModel.viewContentState.value)
             assertEquals(Content, viewModel.viewState.value)
         }
 
@@ -109,7 +111,7 @@ class MainViewModelTest {
 
         observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
         observer.close()
-        assertEquals(WithData(getElections()), viewModel.viewContentState.value)
+        assertEquals(WithData(getElectionList()), viewModel.viewContentState.value)
         assertEquals(Content, viewModel.viewState.value)
     }
 }

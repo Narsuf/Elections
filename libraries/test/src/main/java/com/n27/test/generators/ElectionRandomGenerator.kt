@@ -1,8 +1,8 @@
 package com.n27.test.generators
 
-import com.n27.core.data.models.Election
-import com.n27.core.data.models.Party
-import com.n27.core.data.models.Result
+import com.n27.core.domain.models.Election
+import com.n27.core.domain.models.Party
+import com.n27.core.domain.models.Result
 import com.n27.core.extensions.sortByDateAndFormat
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 

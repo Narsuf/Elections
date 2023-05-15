@@ -1,10 +1,13 @@
 package com.n27.test.generators
 
-import com.n27.core.data.models.Election
-import com.n27.core.data.models.Party
-import com.n27.core.data.models.Result
+import com.n27.core.domain.models.Election
+import com.n27.core.domain.models.Elections
+import com.n27.core.domain.models.Party
+import com.n27.core.domain.models.Result
 
-fun getElections() = listOf(getElection())
+fun getElections() = Elections(getElectionList())
+
+fun getElectionList() = listOf(getElection())
 
 fun getElection(
     id: Long = 3,

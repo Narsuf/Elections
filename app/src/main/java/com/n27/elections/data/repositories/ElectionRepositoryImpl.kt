@@ -8,46 +8,55 @@ import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.room.ElectionDao
 import com.n27.core.data.local.room.mappers.toElections
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
-import com.n27.core.data.models.Election
+import com.n27.core.domain.models.Election
 import com.n27.core.data.remote.firebase.toElections
+import com.n27.core.domain.ElectionRepository
+import com.n27.core.domain.models.Elections
 import com.n27.elections.data.api.ElectionApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.Result.Companion.failure
+import kotlin.Result.Companion.success
 
 @Singleton
-class ElectionRepository @Inject constructor(
-    private val service: ElectionApi,
+class ElectionRepositoryImpl @Inject constructor(
+    private val api: ElectionApi,
     private val dao: ElectionDao,
     private val firebaseDatabase: FirebaseDatabase,
     private val utils: DataUtils
-) {
+): ElectionRepository {
 
-    internal suspend fun getElections() = if (utils.isConnectedToInternet())
+    override suspend fun getElections(): Result<Elections> = if (utils.isConnectedToInternet())
         getElectionsRemotely()
     else
-        getElectionsFromDb() ?: throw Throwable(NO_INTERNET_CONNECTION)
+        getElectionsFromDb() ?: failure(Throwable(NO_INTERNET_CONNECTION))
 
-    private suspend fun getElectionsRemotely() = runCatching { getElectionsFromApi() }
+    private suspend fun getElectionsRemotely(): Result<Elections> = runCatching { getElectionsFromApi() }
         .getOrElse {
             Firebase.crashlytics.recordException(Exception("Main service not responding"))
             getElectionsFromDb() ?: getElectionsFromFirebase()
         }
 
-    private suspend fun getElectionsFromApi() = withContext(Dispatchers.IO) { service.getElections() }
+    private suspend fun getElectionsFromApi(): Result<Elections> = withContext(Dispatchers.IO) { api.getElections() }
         .elections
         .apply { insertInDb() }
+        .let { success(Elections(it)) }
 
-    private suspend fun getElectionsFromDb() = withContext(Dispatchers.IO) { dao.getElections() }
-        .toElections()
+    private suspend fun getElectionsFromDb(): Result<Elections>? = withContext(Dispatchers.IO) { dao.getElections() }
         .takeIf { it.isNotEmpty() }
+        ?.run { success(toElections()) }
 
-    private suspend fun getElectionsFromFirebase() =
+    private suspend fun getElectionsFromFirebase(): Result<Elections> =
         withContext(Dispatchers.IO) { firebaseDatabase.getReference("elections").get().await() }
-            .run { toElections() ?: throw Throwable("Empty response from Firebase") }
-            .apply { insertInDb() }
+            .toElections()
+            ?.let {
+                it.insertInDb()
+                success(Elections(it))
+            }
+            ?: failure(Throwable("Empty response from Firebase"))
 
     private suspend fun List<Election>.insertInDb() {
         withContext(Dispatchers.IO) { dao.insertElections(toElectionsWithResultsAndParty()) }

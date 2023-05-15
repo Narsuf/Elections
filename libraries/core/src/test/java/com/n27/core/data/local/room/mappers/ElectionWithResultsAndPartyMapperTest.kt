@@ -1,5 +1,6 @@
 package com.n27.core.data.local.room.mappers
 
+import com.n27.test.generators.getElectionList
 import com.n27.test.generators.getElections
 import com.n27.test.generators.getElectionsWithResultsAndParty
 import junit.framework.TestCase.assertEquals
@@ -18,7 +19,7 @@ internal class ElectionWithResultsAndPartyMapperTest {
     @Test
     fun `should return expected electionsWithResultsAndParty`() {
         val expected = getElectionsWithResultsAndParty()
-        val actual = getElections().toElectionsWithResultsAndParty()
+        val actual = getElectionList().toElectionsWithResultsAndParty()
 
         assertEquals(expected, actual)
     }

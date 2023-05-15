@@ -1,6 +1,6 @@
 package com.n27.core.extensions
 
-import com.n27.core.data.models.Election
+import com.n27.core.domain.models.Election
 
 fun List<Election>.sortByDateAndFormat() = sortedByDescending { it.formatDateToDouble() }.map { it.formatDate() }
 

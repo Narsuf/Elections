@@ -66,6 +66,7 @@ class RegionalActivityUiTest {
     }
 
     private fun checkLocalContent() {
+        waitUntil { assertDisplayed(R.id.recycler_fragment_regionals) }
         clickOn(R.id.navigation_locals)
         waitUntil { assertDisplayed(R.id.recycler_fragment_locals) }
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 0, R.id.region_name_card_local_election, "Andalucía")
