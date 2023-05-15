@@ -11,7 +11,6 @@ import com.n27.core.data.remote.api.mappers.toElection
 import com.n27.core.data.remote.api.mappers.toElectionXml
 import com.n27.core.data.remote.api.models.ElectionXml
 import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.core.extensions.lowercaseNames
 import com.n27.core.extensions.toStringId
 import com.n27.test.generators.getMunicipalities
 import com.n27.test.generators.getPartyRaw

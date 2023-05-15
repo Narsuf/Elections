@@ -8,7 +8,6 @@ import com.n27.regional_live.regionals.models.RegionalsState.Error
 import com.n27.regional_live.regionals.models.RegionalsState.Loading
 import com.n27.test.generators.getElectionsXml
 import com.n27.test.generators.getParties
-import com.n27.test.generators.getPartiesRaw
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

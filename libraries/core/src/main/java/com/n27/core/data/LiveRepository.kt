@@ -15,7 +15,6 @@ import com.n27.core.data.remote.api.mappers.toElectionXml
 import com.n27.core.data.remote.api.models.ElectionXml
 import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.domain.models.Election
-import com.n27.core.extensions.lowercaseNames
 import com.n27.core.extensions.toStringId
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
