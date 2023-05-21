@@ -76,5 +76,4 @@ class MainViewModel @Inject constructor(
             state.emit(Error(throwable.message))
         }
     }
-
 }
