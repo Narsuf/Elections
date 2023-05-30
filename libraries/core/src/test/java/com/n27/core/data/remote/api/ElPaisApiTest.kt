@@ -1,7 +1,10 @@
 package com.n27.core.data.remote.api
 
-import com.n27.core.data.local.json.JsonReader
+import com.n27.core.data.local.JsonReader
+import com.n27.core.data.remote.api.mappers.toElectionXml
+import com.n27.core.data.remote.api.models.ElectionXml
 import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.extensions.toStringId
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
@@ -28,12 +31,27 @@ class ElPaisApiTest {
     }
 
     @Test
+    fun getRegionalElections() = runBlocking {
+        val election = JsonReader().getStringJson("regional-election-test.xml").toElectionXml()
+        val elections = mutableListOf<ElectionXml>()
+
+        for (i in 1..17) {
+            enqueueResponse("regional-election-test.xml")
+            elections.add(
+                election.copy(id = i.toStringId())
+            )
+        }
+
+        assertEquals(elections, api.getRegionalElections())
+    }
+
+    @Test
     fun getRegionalElection() = runBlocking {
         enqueueResponse("regional-election-test.xml")
 
         val response = api.getRegionalElection("02")
 
-        assertEquals(response?.trimIndent(), ElPaisApiResponses.regionalElection)
+        assertEquals(response, ElPaisApiResponses.regionalElection.toElectionXml())
     }
 
     @Test
@@ -42,7 +60,7 @@ class ElPaisApiTest {
 
         val response = api.getLocalElection(LocalElectionIds("01", "04", "01"))
 
-        assertEquals(response?.trimIndent(), ElPaisApiResponses.localElection)
+        assertEquals(response, ElPaisApiResponses.localElection.toElectionXml())
     }
 
     private suspend fun enqueueResponse(resource: String) {

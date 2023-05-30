@@ -1,9 +1,12 @@
 package com.n27.core.data.local.room.mappers
 
 import com.n27.core.data.local.room.models.ElectionWithResultsAndParty
-import com.n27.core.data.models.Election
+import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.models.Elections
 
-fun List<ElectionWithResultsAndParty>.toElections() = map { it.toElection() }
+fun List<ElectionWithResultsAndParty>.toElections() = Elections(items = toElectionList())
+
+internal fun List<ElectionWithResultsAndParty>.toElectionList() = map { it.toElection() }
 
 internal fun ElectionWithResultsAndParty.toElection() = Election(
     id = election.electionId,

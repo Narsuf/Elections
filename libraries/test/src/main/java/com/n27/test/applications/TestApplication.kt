@@ -5,13 +5,13 @@ import android.content.Context
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.local.json.JsonReader
+import com.n27.core.data.local.JsonReader
 import com.n27.core.data.local.room.Database
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.injection.DetailComponent
 import com.n27.core.presentation.injection.DetailComponentProvider
-import com.n27.regional_live.injection.RegionalLiveComponent
-import com.n27.regional_live.injection.RegionalLiveComponentProvider
+import com.n27.regional_live.presentation.injection.RegionalLiveComponent
+import com.n27.regional_live.presentation.injection.RegionalLiveComponentProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Component

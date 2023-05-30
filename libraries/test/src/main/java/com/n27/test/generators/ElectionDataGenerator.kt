@@ -1,10 +1,13 @@
 package com.n27.test.generators
 
-import com.n27.core.data.models.Election
-import com.n27.core.data.models.Party
-import com.n27.core.data.models.Result
+import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.models.Elections
+import com.n27.core.domain.election.models.Party
+import com.n27.core.domain.election.models.Result
 
-fun getElections() = listOf(getElection())
+fun getElections() = Elections(getElectionList())
+
+fun getElectionList() = listOf(getElection())
 
 fun getElection(
     id: Long = 3,
@@ -41,9 +44,3 @@ fun getResult(
     votes: Int = 7215530,
     party: Party = getParty()
 ) = Result(id, partyId, electionId, elects, votes, party)
-
-fun getParty(
-    id: Long = 1,
-    name: String = "PP",
-    color: String = "006EC7"
-) = Party(id, name, color)

@@ -1,9 +1,9 @@
 package com.n27.core.data.remote.api.mappers
 
-import com.n27.core.data.local.room.models.PartyRaw
-import com.n27.core.data.models.Party
-import com.n27.core.data.models.Result
 import com.n27.core.data.remote.api.models.PartyXml
+import com.n27.core.domain.election.models.Party
+import com.n27.core.domain.election.models.Result
+import com.n27.core.extensions.lowercaseNames
 
 internal fun getEmptyParty() = Party(
     id = 0,
@@ -11,7 +11,7 @@ internal fun getEmptyParty() = Party(
     color = ""
 )
 
-internal fun PartyXml.toResult(parties: List<PartyRaw>) = Result(
+internal fun PartyXml.toResult(parties: List<Party>) = Result(
     id = 0,
     partyId = id,
     electionId = 0,
@@ -20,13 +20,13 @@ internal fun PartyXml.toResult(parties: List<PartyRaw>) = Result(
     party = toParty(parties)
 )
 
-private fun PartyXml.toParty(parties: List<PartyRaw>) = Party(
+private fun PartyXml.toParty(parties: List<Party>) = Party(
     id = id,
     name = name,
-    color = getColor(parties)
+    color = getColor(parties.lowercaseNames())
 )
 
-private fun PartyXml.getColor(parties: List<PartyRaw>) =
-    parties.find { it.name == name.lowercase() }?.color
-        ?: parties.find { name.lowercase().contains(it.name) }?.color
-        ?: String.format("%06x", (0..0xFFFFFF).random())
+private fun PartyXml.getColor(parties: List<Party>) = parties
+    .find { it.name == name.lowercase() }?.color
+    ?: parties.find { name.lowercase().contains(it.name) }?.color
+    ?: String.format("%06x", (0..0xFFFFFF).random())

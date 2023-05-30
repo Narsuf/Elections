@@ -1,6 +1,6 @@
 package com.n27.core.extensions
 
-import com.n27.core.data.models.Election
+import com.n27.core.domain.election.models.Election
 
 fun List<Election>.sortByDateAndFormat() = sortedByDescending { it.formatDateToDouble() }.map { it.formatDate() }
 
@@ -22,12 +22,12 @@ internal fun Election.formatDate(): Election {
         }
     }
 
-    return apply { date = newDate }
+    return copy(date = newDate)
 }
 
-fun Election.sortResultsByElectsAndVotes() = apply {
+fun Election.sortResultsByElectsAndVotes() = copy(
     results = results
         .sortedByDescending { it.votes }
         .sortedByDescending { it.elects }
-}
+)
 

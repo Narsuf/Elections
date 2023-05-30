@@ -3,7 +3,7 @@ package com.n27.core.data.local.room
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.n27.core.data.local.room.mappers.toElection
-import com.n27.core.data.local.room.mappers.toElections
+import com.n27.core.data.local.room.mappers.toElectionList
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.core.data.local.room.mappers.toPartyRaw
 import com.n27.core.extensions.sortByDateAndFormat
@@ -42,7 +42,7 @@ class ElectionDaoTest {
         val elections = generateElections()
         electionDao.insertElections(elections.toElectionsWithResultsAndParty())
         val dbElections = electionDao.getElections()
-            .toElections()
+            .toElectionList()
             .map { it.sortResultsByElectsAndVotes() }
             .sortByDateAndFormat()
 

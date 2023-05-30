@@ -13,7 +13,7 @@ private fun getElectionWithResultsAndParty() = ElectionWithResultsAndParty(
     results = listOf(getResultWithParty())
 )
 
-private fun getElectionRaw() = ElectionRaw(
+fun getElectionRaw() = ElectionRaw(
     electionId = 3,
     name = "Generales",
     date = "2015",
@@ -27,12 +27,12 @@ private fun getElectionRaw() = ElectionRaw(
     nullVotes = 226994
 )
 
-private fun getResultWithParty() = ResultWithParty(
+fun getResultWithParty() = ResultWithParty(
     result = getResultRaw(),
     party = getPartyRaw()
 )
 
-private fun getResultRaw() = ResultRaw(
+fun getResultRaw() = ResultRaw(
     id = 17,
     resultPartyId = 1,
     resultElectionId = 3,

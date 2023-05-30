@@ -6,7 +6,7 @@ import com.n27.core.presentation.injection.DetailComponentProvider
 import com.n27.elections.injection.AppComponent
 import com.n27.elections.injection.AppModule
 import com.n27.elections.injection.DaggerAppComponent
-import com.n27.regional_live.injection.RegionalLiveComponentProvider
+import com.n27.regional_live.presentation.injection.RegionalLiveComponentProvider
 
 class ElectionsApplication : MultiDexApplication(), DetailComponentProvider, RegionalLiveComponentProvider {
 
