@@ -38,5 +38,5 @@ class CoreDataModule {
     @Singleton
     fun providesBaseUrl(
         remoteConfig: FirebaseRemoteConfig
-    ) = "${BuildConfig.EL_PAIS_API_URL}/${remoteConfig.getLong("ELECTION_YEAR")}"
+    ) = "${BuildConfig.EL_DIARIO_API_URL}/${remoteConfig.getLong("ELECTION_YEAR")}"
 }

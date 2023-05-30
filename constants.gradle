@@ -7,7 +7,7 @@ project.ext {
     retrofitVersion = '2.9.0'
     roomVersion = '2.5.1'
     coroutinesVersion = '1.6.4'
-    fragmentVersion = '1.5.6'
+    fragmentVersion = '1.5.7'
     okHttpVersion = '4.10.0'
     navigationVersion = '2.5.3'
 

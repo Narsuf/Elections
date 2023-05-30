@@ -10,6 +10,7 @@ import com.n27.core.data.remote.api.mappers.toLiveElection
 import com.n27.core.data.remote.api.mappers.toLiveElections
 import com.n27.core.data.remote.api.models.ElectionXml
 import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.data.remote.eldiario.ElDiarioApi
 import com.n27.core.domain.live.LiveRepository
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
@@ -23,6 +24,7 @@ import kotlin.Result.Companion.success
 @Singleton
 class LiveRepositoryImpl @Inject constructor(
     private val api: ElPaisApi,
+    private val elDiarioApi: ElDiarioApi,
     private val dao: ElectionDao,
     private val utils: DataUtils
 ) : LiveRepository {
