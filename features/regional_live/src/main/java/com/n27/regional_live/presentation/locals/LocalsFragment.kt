@@ -21,7 +21,7 @@ import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.databinding.FragmentLocalsBinding
-import com.n27.regional_live.domain.models.Region
+import com.n27.core.domain.live.models.Region
 import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.regional_live.presentation.locals.adapters.LocalsCardAdapter
 import com.n27.regional_live.presentation.locals.dialog.MunicipalitySelectionDialog

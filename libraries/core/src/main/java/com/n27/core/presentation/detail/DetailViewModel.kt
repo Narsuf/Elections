@@ -22,6 +22,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
@@ -53,7 +54,7 @@ class DetailViewModel @Inject constructor(
 
             when {
                 localElectionIds != null -> repository.getLocalElection(localElectionIds).handleResult()
-                electionId != null -> repository.getRegionalElection(electionId).handleResult()
+                electionId != null -> repository.getRegionalElection(electionId).collect { it.handleResult() }
                 election != null -> emitContent(election.toContent())
                 else -> handleError()
             }

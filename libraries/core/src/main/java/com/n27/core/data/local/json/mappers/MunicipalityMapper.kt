@@ -1,10 +1,10 @@
-package com.n27.regional_live.data.mappers
+package com.n27.core.data.local.json.mappers
 
 import com.n27.core.extensions.first
 import com.n27.core.extensions.getKey
 import com.n27.core.extensions.map
 import com.n27.core.extensions.removeAccents
-import com.n27.regional_live.domain.models.Municipality
+import com.n27.core.domain.live.models.Municipality
 import org.json.JSONArray
 import org.json.JSONObject
 

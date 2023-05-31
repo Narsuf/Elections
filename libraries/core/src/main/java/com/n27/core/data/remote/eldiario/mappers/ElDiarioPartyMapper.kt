@@ -16,5 +16,5 @@ private fun JSONObject.getParties(): List<ElDiarioParty> {
 private fun JSONObject.toParty() = ElDiarioParty(
     id = getString("group"),
     name = getString("sigla"),
-    color = getString("color")
+    color = getString("color").substring(1)
 )

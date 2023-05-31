@@ -1,6 +1,6 @@
 project.ext {
     sdkV = 33
-    minSdkV = 23
+    minSdkV = 26
 
     daggerVersion = '2.45'
     moshiVersion = '1.14.0'

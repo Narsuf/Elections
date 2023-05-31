@@ -1,6 +1,6 @@
 package com.n27.regional_live.presentation.locals.models
 
-import com.n27.regional_live.domain.models.Region
+import com.n27.core.domain.live.models.Region
 
 sealed class LocalsState {
 

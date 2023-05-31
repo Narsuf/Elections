@@ -18,6 +18,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
@@ -42,13 +43,14 @@ class RegionalsViewModel @Inject constructor(
         viewModelScope.launchCatching(::handleError) {
             state.emit(Loading)
 
-            repository.getRegionalElections()
-                .onFailure { handleError(it) }
-                .onSuccess {
-                    contentState.emit(WithData(it, repository.getParties()))
-                    state.emit(Content)
-                }
-
+            repository.getRegionalElections().collect { result ->
+                result
+                    .onFailure { handleError(it) }
+                    .onSuccess {
+                        contentState.emit(WithData(it, repository.getParties()))
+                        state.emit(Content)
+                    }
+            }
         }
     }
 

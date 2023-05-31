@@ -1,4 +1,4 @@
-package com.n27.core.data.local
+package com.n27.core.data.local.json
 
 import org.intellij.lang.annotations.Language
 
