@@ -6,13 +6,13 @@ import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.local.json.mappers.toMunicipalities
 import com.n27.core.data.local.json.mappers.toProvinces
-import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.core.data.remote.eldiario.ElDiarioApi
-import com.n27.core.data.remote.eldiario.mappers.toLiveElection
-import com.n27.core.data.remote.eldiario.models.ElDiarioResult
+import com.n27.core.data.remote.api.ElDiarioApi
+import com.n27.core.data.remote.api.mappers.toLiveElection
+import com.n27.core.data.remote.api.models.ElDiarioResult
 import com.n27.core.domain.live.LiveRepository
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.domain.live.models.Municipality
 import com.n27.core.domain.live.models.Province
 import com.n27.core.domain.live.models.Regions

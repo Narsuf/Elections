@@ -1,6 +1,6 @@
-package com.n27.core.data.remote.eldiario.mappers
+package com.n27.core.data.remote.api.mappers
 
-import com.n27.core.data.remote.eldiario.models.ElDiarioParty
+import com.n27.core.data.remote.api.models.ElDiarioParty
 import org.json.JSONObject
 
 fun String.toElDiarioParties(): List<ElDiarioParty> = JSONObject(this).getParties()

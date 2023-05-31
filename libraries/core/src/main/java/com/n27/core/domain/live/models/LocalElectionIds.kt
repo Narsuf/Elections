@@ -1,4 +1,4 @@
-package com.n27.core.data.remote.api.models
+package com.n27.core.domain.live.models
 
 import java.io.Serializable
 

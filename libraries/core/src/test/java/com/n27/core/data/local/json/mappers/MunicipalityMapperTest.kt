@@ -1,7 +1,6 @@
 package com.n27.core.data.local.json.mappers
 
 import com.n27.core.data.local.json.JsonReader
-import com.n27.core.data.local.json.mappers.toMunicipalities
 import com.n27.test.generators.getMunicipalities
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

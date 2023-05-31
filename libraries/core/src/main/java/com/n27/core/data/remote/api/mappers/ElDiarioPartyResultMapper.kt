@@ -1,12 +1,7 @@
-package com.n27.core.data.remote.eldiario.mappers
+package com.n27.core.data.remote.api.mappers
 
-import com.n27.core.data.remote.eldiario.models.ElDiarioPartyResult
-import com.n27.core.data.remote.eldiario.models.ElDiarioResult
-import com.n27.core.domain.election.models.Election
-import com.n27.core.domain.live.models.LiveElection
+import com.n27.core.data.remote.api.models.ElDiarioPartyResult
 import org.json.JSONObject
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 fun JSONObject.getElDiarioPartiesResults(): List<ElDiarioPartyResult> {
     val parties = mutableListOf<ElDiarioPartyResult>()

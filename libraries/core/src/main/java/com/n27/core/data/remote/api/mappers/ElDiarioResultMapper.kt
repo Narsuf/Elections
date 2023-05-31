@@ -1,8 +1,8 @@
-package com.n27.core.data.remote.eldiario.mappers
+package com.n27.core.data.remote.api.mappers
 
-import com.n27.core.data.remote.eldiario.models.ElDiarioParty
-import com.n27.core.data.remote.eldiario.models.ElDiarioPartyResult
-import com.n27.core.data.remote.eldiario.models.ElDiarioResult
+import com.n27.core.data.remote.api.models.ElDiarioParty
+import com.n27.core.data.remote.api.models.ElDiarioPartyResult
+import com.n27.core.data.remote.api.models.ElDiarioResult
 import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.election.models.Party
 import com.n27.core.domain.election.models.Result

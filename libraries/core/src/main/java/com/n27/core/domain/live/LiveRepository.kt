@@ -1,8 +1,8 @@
 package com.n27.core.domain.live
 
-import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.domain.live.models.Municipality
 import com.n27.core.domain.live.models.Province
 import com.n27.core.domain.live.models.Regions

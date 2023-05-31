@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.core.data.LiveRepositoryImpl
-import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.launchCatching
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection

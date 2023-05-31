@@ -1,4 +1,4 @@
-package com.n27.core.data.remote.eldiario.models
+package com.n27.core.data.remote.api.models
 
 data class ElDiarioResult(
     val id: String,

@@ -1,11 +1,11 @@
-package com.n27.core.data.remote.eldiario
+package com.n27.core.data.remote.api
 
-import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.core.data.remote.eldiario.mappers.toElDiarioLocalResult
-import com.n27.core.data.remote.eldiario.mappers.toElDiarioParties
-import com.n27.core.data.remote.eldiario.mappers.toElDiarioRegionalResult
-import com.n27.core.data.remote.eldiario.models.ElDiarioParty
-import com.n27.core.data.remote.eldiario.models.ElDiarioResult
+import com.n27.core.data.remote.api.mappers.toElDiarioLocalResult
+import com.n27.core.data.remote.api.mappers.toElDiarioParties
+import com.n27.core.data.remote.api.mappers.toElDiarioRegionalResult
+import com.n27.core.data.remote.api.models.ElDiarioParty
+import com.n27.core.data.remote.api.models.ElDiarioResult
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.toStringId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

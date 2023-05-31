@@ -17,9 +17,9 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
-import com.n27.core.data.remote.api.models.LocalElectionIds
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
@@ -95,7 +95,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun requestElection() { viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds) }
 
-    private fun generateToolbarTitle() = currentElection?.let { "${it.chamberName} (${it.place} ${it.date})" }
+    private fun generateToolbarTitle() = currentElection?.let { "${it.chamberName} ${it.place} (${it.date})" }
 
     private fun initializeCountDownTimer() {
         countDownTimer = object: CountDownTimer(1000, 1) {

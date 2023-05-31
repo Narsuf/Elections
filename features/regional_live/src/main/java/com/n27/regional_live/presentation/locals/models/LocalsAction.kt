@@ -1,6 +1,6 @@
 package com.n27.regional_live.presentation.locals.models
 
-import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.domain.live.models.LocalElectionIds
 
 internal sealed class LocalsAction {
 
