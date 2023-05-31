@@ -7,17 +7,15 @@ import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.election.models.Party
 import com.n27.core.domain.election.models.Result
 import com.n27.core.domain.live.models.LiveElection
-import com.n27.core.domain.live.models.Regions
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
 
-fun String.toElDiarioResult(id: String, date: Long): ElDiarioResult = JSONObject(this)
+fun String.toElDiarioRegionalResult(id: String, date: Long): ElDiarioResult = JSONObject(this)
     .run { getJSONObject(keys().next()) }
+    .getElDiarioResult(id, date)
+
+fun String.toElDiarioLocalResult(id: String, date: Long): ElDiarioResult = JSONObject(this)
+    .run { getJSONObject(id) }
     .getElDiarioResult(id, date)
 
 private fun JSONObject.getElDiarioResult(id: String, date: Long): ElDiarioResult = getJSONObject("i")
@@ -65,12 +63,18 @@ private fun ElDiarioPartyResult.toResult(parties: List<ElDiarioParty>) = Result(
     elects = seats,
     votes = votes,
     party = parties
-        .first { it.id == id }
-        .toParty()
+        .firstOrNull { it.id == id }
+        ?.toParty() ?: emptyParty()
 )
 
 private fun ElDiarioParty.toParty() = Party(
     id = id.toLong(),
     name = name,
     color = color
+)
+
+private fun emptyParty() = Party(
+    id = 0,
+    name = "?",
+    color = "808080"
 )

@@ -47,7 +47,7 @@ class RegionalsViewModel @Inject constructor(
                 result
                     .onFailure { handleError(it) }
                     .onSuccess {
-                        contentState.emit(WithData(it, repository.getParties()))
+                        contentState.emit(WithData(it))
                         state.emit(Content)
                     }
             }

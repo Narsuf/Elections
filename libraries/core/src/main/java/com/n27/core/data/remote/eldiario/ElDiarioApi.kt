@@ -1,7 +1,9 @@
 package com.n27.core.data.remote.eldiario
 
+import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.data.remote.eldiario.mappers.toElDiarioLocalResult
 import com.n27.core.data.remote.eldiario.mappers.toElDiarioParties
-import com.n27.core.data.remote.eldiario.mappers.toElDiarioResult
+import com.n27.core.data.remote.eldiario.mappers.toElDiarioRegionalResult
 import com.n27.core.data.remote.eldiario.models.ElDiarioParty
 import com.n27.core.data.remote.eldiario.models.ElDiarioResult
 import com.n27.core.extensions.toStringId
@@ -33,11 +35,19 @@ class ElDiarioApi @Inject constructor(
     }
 
     suspend fun getRegionalResult(id: String): ElDiarioResult? =
-        getResult("$url/autonomicasC$id.json")?.toElDiarioResult(id, electionDate)
+        getResult("$url/autonomicasC$id.json")?.toElDiarioRegionalResult(id, electionDate)
 
     suspend fun getRegionalParties(id: String): List<ElDiarioParty>? =
         getResult("$url/autonomicasC${id}_partidos.json")?.toElDiarioParties()
 
+    suspend fun getLocalResult(ids: LocalElectionIds): ElDiarioResult? =
+        getResult("$url/municipales${ids.province}.json")
+            ?.toElDiarioLocalResult(
+                id = "${ids.province}${ids.municipality.padStart(3, '0')}",
+                electionDate
+            )
+    suspend fun getLocalParties(): List<ElDiarioParty>? =
+        getResult("$url/municipales_partidos.json")?.toElDiarioParties()
 
     private suspend fun getResult(url: String): String? = withContext(Dispatchers.IO) {
         val request = Request.Builder()

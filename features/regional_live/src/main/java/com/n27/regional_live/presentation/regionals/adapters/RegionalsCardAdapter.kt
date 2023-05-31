@@ -16,7 +16,6 @@ typealias OnLiveElectionClicked = (election: LiveElection) -> Unit
 
 class RegionalCardAdapter(
     internal val elections: LiveElections,
-    internal val parties: List<Party>,
     internal val onElectionClicked: OnLiveElectionClicked
 ) : RecyclerView.Adapter<RegionalCardAdapter.MyViewHolder>() {
 

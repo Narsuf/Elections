@@ -8,13 +8,13 @@ fun String.toElDiarioParties(): List<ElDiarioParty> = JSONObject(this).getPartie
 private fun JSONObject.getParties(): List<ElDiarioParty> {
     val parties = mutableListOf<ElDiarioParty>()
 
-    for (key in keys()) parties.add(getJSONObject(key).toParty())
+    for (key in keys()) parties.add(getJSONObject(key).toParty(key))
 
     return parties
 }
 
-private fun JSONObject.toParty() = ElDiarioParty(
-    id = getString("group"),
+private fun JSONObject.toParty(key: String) = ElDiarioParty(
+    id = key,
     name = getString("sigla"),
     color = getString("color").substring(1)
 )

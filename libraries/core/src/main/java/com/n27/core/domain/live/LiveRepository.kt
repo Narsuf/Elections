@@ -12,7 +12,7 @@ interface LiveRepository {
 
     fun getRegionalElections(): Flow<Result<LiveElections>>
     fun getRegionalElection(id: String): Flow<Result<LiveElection>>
-    suspend fun getLocalElection(ids: LocalElectionIds): Result<LiveElection>
+    fun getLocalElection(ids: LocalElectionIds): Flow<Result<LiveElection>>
     suspend fun getRegions(): Result<Regions>
     suspend fun getProvinces(region: String): List<Province>
     suspend fun getMunicipalities(province: String): List<Municipality>

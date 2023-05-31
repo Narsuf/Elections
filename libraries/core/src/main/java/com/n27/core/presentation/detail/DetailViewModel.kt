@@ -20,6 +20,7 @@ import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -53,17 +54,20 @@ class DetailViewModel @Inject constructor(
             state.emit(Loading(isAnimation))
 
             when {
-                localElectionIds != null -> repository.getLocalElection(localElectionIds).handleResult()
-                electionId != null -> repository.getRegionalElection(electionId).collect { it.handleResult() }
+                localElectionIds != null -> repository.getLocalElection(localElectionIds).handleFlow()
+                electionId != null -> repository.getRegionalElection(electionId).handleFlow()
                 election != null -> emitContent(election.toContent())
                 else -> handleError()
             }
         }
     }
 
-    private suspend fun Result<LiveElection>.handleResult() {
-        onSuccess { emitContent(it.election.toContent()) }
-        onFailure { handleError() }
+    private suspend fun Flow<Result<LiveElection>>.handleFlow() {
+        collect { result ->
+            result
+                .onSuccess { emitContent(it.election.toContent()) }
+                .onFailure { handleError() }
+        }
     }
 
     private suspend fun emitContent(withData: WithData) {

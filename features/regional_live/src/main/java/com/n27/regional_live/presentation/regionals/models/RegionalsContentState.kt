@@ -6,5 +6,5 @@ import com.n27.core.domain.live.models.LiveElections
 sealed class RegionalsContentState {
 
     object Empty : RegionalsContentState()
-    data class WithData(val elections: LiveElections, val parties: List<Party>) : RegionalsContentState()
+    data class WithData(val elections: LiveElections) : RegionalsContentState()
 }
