@@ -10,12 +10,9 @@ import com.n27.core.domain.live.models.LiveElection
 import com.n27.test.generators.getElDiarioParties
 import com.n27.test.generators.getElDiarioPartyResult
 import com.n27.test.generators.getElDiarioResult
-import com.n27.test.generators.getElection
-import com.n27.test.generators.getLiveElection
-import com.n27.test.generators.getParties
-import com.n27.test.generators.getParty
-import com.n27.test.generators.getResult
+import com.n27.test.jsons.ElDiarioApiResponses
 import kotlinx.coroutines.runBlocking
+import okhttp3.mockwebserver.MockResponse
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,30 +23,27 @@ class ElDiarioResultMapperTest {
 
     @Test
     fun `should return expected ElDiarioLocalResult`() = runBlocking {
-        val actual = JsonReader()
-            .getStringJson("local-election-test.json")
-            .toElDiarioLocalResult("04001", 2305)
+        val actual = ElDiarioApiResponses.localElection.toElDiarioLocalResult("04001", 2305)
 
-        val expected = getElDiarioResult(
-            partiesResults = listOf(
-                getElDiarioPartyResult(),
-                ElDiarioPartyResult(id = "0006", votes = 347, percentage = 4443, seats = 4)
-            )
-        )
-
-        assertEquals(expected, actual)
+        assertEquals(getElDiarioResult(), actual)
     }
 
     @Test
     fun `should return expected ElDiarioRegionalResult`() = runBlocking {
-        val actual = JsonReader()
-            .getStringJson("local-election-test.json")
-            .toElDiarioRegionalResult("04001", 2305)
+        val actual = ElDiarioApiResponses.regionalElection.toElDiarioRegionalResult("02", 2305)
 
-        val expected = getElDiarioResult(
+        val expected = ElDiarioResult(
+            id = "02",
+            date = 2305,
+            abstentions = 299185,
+            blankVotes = 10609,
+            census = 979418,
+            scrutinized = 9820,
+            nullVotes = 8144,
+            validVotes = 662691,
+            seats = 67,
             partiesResults = listOf(
-                getElDiarioPartyResult(),
-                ElDiarioPartyResult(id = "0006", votes = 347, percentage = 4443, seats = 4)
+                ElDiarioPartyResult(id = "2659", votes = 20310, percentage = 310, seats = 1)
             )
         )
 
@@ -58,8 +52,7 @@ class ElDiarioResultMapperTest {
 
     @Test
     fun `should return expected LiveElection`() = runBlocking {
-        val actual = JsonReader()
-            .getStringJson("local-election-test.json")
+        val actual = ElDiarioApiResponses.localElection
             .toElDiarioRegionalResult("04001", 2305)
             .toLiveElection("Municipales", "Abla", getElDiarioParties())
 
@@ -85,15 +78,7 @@ class ElDiarioResultMapperTest {
                         elects = 5,
                         votes = 411,
                         party = Party(id = 30, name = "PSOE", color = "#E02020")
-                    ),
-                    Result(
-                        id = 0,
-                        partyId = 6,
-                        electionId = 0,
-                        elects = 4,
-                        votes = 347,
-                        party = Party(id = 6, name = "PP", color = "#02A2DD")
-                    ),
+                    )
                 )
             )
         )

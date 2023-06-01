@@ -58,14 +58,7 @@ android {
     }
 
     buildTypes {
-        release {
-            buildConfigField "String", "EL_DIARIO_API_URL", '"https://elecciones.eldiario.es/api/data"'
-        }
-
-        debug {
-            testCoverageEnabled true
-            buildConfigField "String", "EL_DIARIO_API_URL", '"http://127.0.0.1:8080"'
-        }
+        debug { testCoverageEnabled true }
     }
 
     buildFeatures { viewBinding true }

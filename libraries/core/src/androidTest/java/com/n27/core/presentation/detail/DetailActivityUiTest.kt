@@ -17,6 +17,7 @@ import com.n27.test.assertions.ListAssertions.assertListTextsWithDifferentPositi
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
 import com.n27.test.conditions.instructions.waitUntil
 import com.n27.test.generators.getElection
+import com.n27.test.jsons.ElDiarioApiResponses
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -61,8 +62,8 @@ class DetailActivityUiTest {
 
     @Test
     fun checkRegionalElectionContent() {
-        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.regionalElection))
-        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.regionalParties))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalParties))
         mockWebServer.start(8080)
         launchActivity("01")
 
@@ -89,8 +90,8 @@ class DetailActivityUiTest {
 
     @Test
     fun checkLocalElectionContent() {
-        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.localElection))
-        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.localParties))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.localElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.localParties))
         mockWebServer.start(8080)
         launchActivity(electionIds = LocalElectionIds("01", "04", "01"))
 
@@ -99,9 +100,9 @@ class DetailActivityUiTest {
             listId = R.id.list_activity_detail,
             position = 0,
             texts = listOf(
-                "PP",
-                "347",
-                "4"
+                "PSOE",
+                "411",
+                "5"
             )
         )
     }

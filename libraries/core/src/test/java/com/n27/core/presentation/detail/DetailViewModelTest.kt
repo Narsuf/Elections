@@ -13,7 +13,6 @@ import com.n27.test.generators.getLiveElection
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.StandardTestDispatcher

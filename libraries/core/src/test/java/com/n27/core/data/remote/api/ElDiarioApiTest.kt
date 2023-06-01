@@ -6,6 +6,7 @@ import com.n27.core.data.remote.api.mappers.toElDiarioRegionalResult
 import com.n27.core.data.remote.api.models.ElDiarioResult
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.toStringId
+import com.n27.test.jsons.ElDiarioApiResponses
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
@@ -37,12 +38,11 @@ class ElDiarioApiTest {
 
     @Test
     fun getRegionalElections() = runBlocking {
-        val election = JsonReader().getStringJson("regional-election-test.json")
-            .toElDiarioRegionalResult("02", 2305)
+        val election = ElDiarioApiResponses.regionalElection.toElDiarioRegionalResult("02", 2305)
         val elections = mutableListOf<ElDiarioResult>()
 
         for (i in 1..17) {
-            enqueueResponse("regional-election-test.json")
+            mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalElection))
             elections.add(
                 election.copy(id = i.toStringId())
             )
@@ -53,25 +53,20 @@ class ElDiarioApiTest {
 
     @Test
     fun getRegionalElection() = runBlocking {
-        enqueueResponse("regional-election-test.json")
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalElection))
 
         val response = api.getRegionalResult("02")
 
-        assertEquals(response, ElPaisApiResponses.regionalElection.toElDiarioRegionalResult("02", 2305))
+        assertEquals(response, ElDiarioApiResponses.regionalElection.toElDiarioRegionalResult("02", 2305))
     }
 
     @Test
     fun getLocalElection() = runBlocking {
-        enqueueResponse("local-election-test.json")
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.localElection))
 
         val response = api.getLocalResult(LocalElectionIds("01", "04", "01"))
 
-        assertEquals(response, ElPaisApiResponses.localElection.toElDiarioLocalResult("04001", 2305))
-    }
-
-    private suspend fun enqueueResponse(resource: String) {
-        val json = JsonReader().getStringJson(resource)
-        mockWebServer.enqueue(MockResponse().setBody(json))
+        assertEquals(response, ElDiarioApiResponses.localElection.toElDiarioLocalResult("04001", 2305))
     }
 
     @After

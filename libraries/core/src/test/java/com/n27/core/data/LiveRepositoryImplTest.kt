@@ -4,27 +4,18 @@ import com.n27.core.Constants.BAD_RESPONSE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
-import com.n27.core.data.local.room.ElectionDao
-import com.n27.core.data.local.room.mappers.toParties
 import com.n27.core.data.remote.api.ElDiarioApi
 import com.n27.core.data.remote.api.mappers.toLiveElection
-import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.test.generators.getElDiarioParties
-import com.n27.test.generators.getElDiarioParty
 import com.n27.test.generators.getElDiarioResult
-import com.n27.test.generators.getElection
-import com.n27.test.generators.getLiveElection
-import com.n27.test.generators.getLiveElections
 import com.n27.test.generators.getMunicipalities
-import com.n27.test.generators.getPartyRaw
 import com.n27.test.generators.getProvinces
 import com.n27.test.generators.getRegions
+import com.n27.test.jsons.RegionalResponses
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -58,12 +49,9 @@ class LiveRepositoryImplTest {
         `when`(api.getLocalParties()).thenReturn(getElDiarioParties())
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
 
-        val regions = JsonReader().getStringJson("regions-test.json")
-        val provinces = JsonReader().getStringJson("provinces-test.json")
-        val municipalities = JsonReader().getStringJson("municipalities-test.json")
-        `when`(jsonReader.getStringJson("regions.json")).thenReturn(regions)
-        `when`(jsonReader.getStringJson("provinces.json")).thenReturn(provinces)
-        `when`(jsonReader.getStringJson("municipalities.json")).thenReturn(municipalities)
+        `when`(jsonReader.getStringJson("regions.json")).thenReturn(RegionalResponses.regions)
+        `when`(jsonReader.getStringJson("provinces.json")).thenReturn(RegionalResponses.provinces)
+        `when`(jsonReader.getStringJson("municipalities.json")).thenReturn(RegionalResponses.municipalities)
 
         repository = LiveRepositoryImpl(api, dataUtils, jsonReader, moshi)
     }

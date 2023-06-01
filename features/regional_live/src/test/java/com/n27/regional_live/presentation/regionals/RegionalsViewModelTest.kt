@@ -7,7 +7,6 @@ import com.n27.regional_live.presentation.regionals.models.RegionalsState.Conten
 import com.n27.regional_live.presentation.regionals.models.RegionalsState.Error
 import com.n27.regional_live.presentation.regionals.models.RegionalsState.Loading
 import com.n27.test.generators.getLiveElections
-import com.n27.test.generators.getParties
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

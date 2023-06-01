@@ -46,6 +46,7 @@ class ElDiarioApi @Inject constructor(
                 id = "${ids.province}${ids.municipality.padStart(3, '0')}",
                 electionDate
             )
+
     suspend fun getLocalParties(): List<ElDiarioParty>? =
         getResult("$url/municipales_partidos.json")?.toElDiarioParties()
 
