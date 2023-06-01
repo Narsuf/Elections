@@ -178,8 +178,8 @@ class MainActivity : AppCompatActivity() {
             .setMessage(
                 HtmlCompat.fromHtml(
                     "${getString(R.string.disclaimer_description)} " +
-                            "<a href=\"https://resultados.elpais.com/elecciones/generales.html\">" +
-                            "El País" +
+                            "<a href=\"https://elecciones.eldiario.es/\">" +
+                            "elDiario.es" +
                             "</a>.",
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 )

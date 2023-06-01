@@ -47,13 +47,13 @@ class MainActivityUiTest {
         intents {
             mockIntent()
 
-            val link = "El País"
+            val link = "elDiario.es"
             val dialogDescription = "This app does not represent any government entity. " +
                     "The data of the results is retrieved from the Spanish newspaper $link."
 
             waitUntil { onView(withText(dialogDescription)).perform(clickClickableSpan(link)) }
 
-            verifyBrowserOpened("https://resultados.elpais.com/elecciones/generales.html")
+            verifyBrowserOpened("https://elecciones.eldiario.es/")
         }
 
         clickOn("CLOSE")
