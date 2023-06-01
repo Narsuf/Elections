@@ -79,5 +79,9 @@ class FakeModule(val app: Application) {
 
     @Provides
     @Singleton
+    fun providesElectionDate() = 2305L
+
+    @Provides
+    @Singleton
     fun provideFirebaseCrashlytics(): FirebaseCrashlytics? = null
 }

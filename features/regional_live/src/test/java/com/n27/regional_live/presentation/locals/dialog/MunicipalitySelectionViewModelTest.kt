@@ -1,8 +1,8 @@
 package com.n27.regional_live.presentation.locals.dialog
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.regional_live.data.RegionRepositoryImpl
+import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.presentation.locals.comm.LocalsEventBus
@@ -32,14 +32,14 @@ import org.mockito.Mockito.`when`
 @ExperimentalCoroutinesApi
 class MunicipalitySelectionViewModelTest {
 
-    private lateinit var repository: RegionRepositoryImpl
+    private lateinit var repository: LiveRepositoryImpl
     private lateinit var eventBus: LocalsEventBus
     private lateinit var viewModel: MunicipalitySelectionViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
-        repository = mock(RegionRepositoryImpl::class.java)
+        repository = mock(LiveRepositoryImpl::class.java)
         eventBus = LocalsEventBus()
 
         `when`(repository.getProvinces(anyString())).thenReturn(getProvinces())

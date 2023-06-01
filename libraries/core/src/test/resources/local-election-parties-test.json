@@ -1,0 +1,20 @@
+{
+  "1000": {
+    "group": "1277",
+    "sigla": "Junts",
+    "color": "#40B6A4",
+    "block": "r"
+  },
+  "1001": {
+    "group": "1277",
+    "sigla": "Junts",
+    "color": "#40B6A4",
+    "block": "r"
+  },
+  "1002": {
+    "group": "6060",
+    "sigla": "CUP",
+    "color": "#FFED00",
+    "block": "l"
+  }
+}

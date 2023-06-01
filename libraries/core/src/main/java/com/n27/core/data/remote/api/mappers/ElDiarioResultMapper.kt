@@ -63,18 +63,12 @@ private fun ElDiarioPartyResult.toResult(parties: List<ElDiarioParty>) = Result(
     elects = seats,
     votes = votes,
     party = parties
-        .firstOrNull { it.id == id }
-        ?.toParty() ?: emptyParty()
+        .first { it.id == id }
+        .toParty()
 )
 
 private fun ElDiarioParty.toParty() = Party(
     id = id.toLong(),
     name = name,
     color = color
-)
-
-private fun emptyParty() = Party(
-    id = 0,
-    name = "?",
-    color = "808080"
 )
