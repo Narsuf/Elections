@@ -1,6 +1,5 @@
 package com.n27.core.data.remote.api.mappers
 
-import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.remote.api.models.ElDiarioParty
 import kotlinx.coroutines.runBlocking
 import org.intellij.lang.annotations.Language

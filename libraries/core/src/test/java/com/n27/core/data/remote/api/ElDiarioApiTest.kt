@@ -1,6 +1,5 @@
 package com.n27.core.data.remote.api
 
-import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.remote.api.mappers.toElDiarioLocalResult
 import com.n27.core.data.remote.api.mappers.toElDiarioRegionalResult
 import com.n27.core.data.remote.api.models.ElDiarioResult

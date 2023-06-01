@@ -1,6 +1,5 @@
 package com.n27.core.data.remote.api.mappers
 
-import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.remote.api.models.ElDiarioPartyResult
 import com.n27.core.data.remote.api.models.ElDiarioResult
 import com.n27.core.domain.election.models.Election
@@ -8,11 +7,9 @@ import com.n27.core.domain.election.models.Party
 import com.n27.core.domain.election.models.Result
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.test.generators.getElDiarioParties
-import com.n27.test.generators.getElDiarioPartyResult
 import com.n27.test.generators.getElDiarioResult
 import com.n27.test.jsons.ElDiarioApiResponses
 import kotlinx.coroutines.runBlocking
-import okhttp3.mockwebserver.MockResponse
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
