@@ -90,9 +90,6 @@ dependencies {
     // Swipe
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
-    // SimpleXML
-    api 'org.simpleframework:simple-xml:2.7.1'
-
     // OkHttp
     api "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
