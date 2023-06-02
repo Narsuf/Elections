@@ -66,8 +66,11 @@ class LocalsViewModel @Inject constructor(
 
     private fun requestElection(ids: LocalElectionIds) {
         viewModelScope.launchCatching(::errorAction) {
-            repository.getLocalElection(ids)
-            action.send(NavigateToDetail(ids))
+            repository.getLocalElection(ids).collect { result ->
+                result
+                    .onFailure { errorAction(it) }
+                    .onSuccess { action.send(NavigateToDetail(ids)) }
+            }
         }
     }
 

@@ -74,14 +74,13 @@ class RegionalActivityUiTest {
         clickOn(R.id.navigation_locals)
         waitUntil { assertDisplayed(R.id.recycler_fragment_locals) }
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 0, R.id.region_name_card_local_election, "Andalucía")
-        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 9, R.id.region_name_card_local_election, "Extremadura")
-        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 18, R.id.region_name_card_local_election, "Melilla")
+        assertDisplayedAtPosition(R.id.recycler_fragment_locals, 5, R.id.region_name_card_local_election, "Cantabria")
     }
 
     private fun checkDialogContent() {
-        clickOn("La Rioja")
-        waitUntil { assertDisplayed("La Rioja") }
-        waitUntil { assertDisplayed("Abalos") }
+        clickOn("Andalucía")
+        waitUntil { assertDisplayed("Almería") }
+        waitUntil { assertDisplayed("Abla") }
     }
 
     private fun launchActivity() = launch(RegionalLiveActivity::class.java)

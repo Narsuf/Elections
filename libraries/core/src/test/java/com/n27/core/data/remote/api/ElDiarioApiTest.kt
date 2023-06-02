@@ -17,6 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import java.io.IOException
+import kotlin.Result.Companion.success
 
 @RunWith(RobolectricTestRunner::class)
 class ElDiarioApiTest {
@@ -54,18 +55,18 @@ class ElDiarioApiTest {
     fun getRegionalElection() = runBlocking {
         mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalElection))
 
-        val response = api.getRegionalResult("02")
+        val expected = success(ElDiarioApiResponses.regionalElection.toElDiarioRegionalResult("02", 2305))
 
-        assertEquals(response, ElDiarioApiResponses.regionalElection.toElDiarioRegionalResult("02", 2305))
+        assertEquals(expected, api.getRegionalResult("02"))
     }
 
     @Test
     fun getLocalElection() = runBlocking {
         mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.localElection))
 
-        val response = api.getLocalResult(LocalElectionIds("01", "04", "01"))
+        val expected = success(ElDiarioApiResponses.localElection.toElDiarioLocalResult("04001", 2305))
 
-        assertEquals(response, ElDiarioApiResponses.localElection.toElDiarioLocalResult("04001", 2305))
+        assertEquals(expected, api.getLocalResult(LocalElectionIds("01", "04", "01")))
     }
 
     @After

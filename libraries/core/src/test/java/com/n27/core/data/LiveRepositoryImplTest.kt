@@ -1,6 +1,7 @@
 package com.n27.core.data
 
 import com.n27.core.Constants.BAD_RESPONSE
+import com.n27.core.Constants.EMPTY_LIST
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
@@ -45,8 +46,8 @@ class LiveRepositoryImplTest {
         dataUtils = mock(DataUtils::class.java)
         jsonReader = mock(JsonReader::class.java)
 
-        `when`(api.getRegionalParties(anyString())).thenReturn(getElDiarioParties())
-        `when`(api.getLocalParties()).thenReturn(getElDiarioParties())
+        `when`(api.getRegionalParties(anyString())).thenReturn(success(getElDiarioParties()))
+        `when`(api.getLocalParties()).thenReturn(success(getElDiarioParties()))
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
 
         `when`(jsonReader.getStringJson("regions.json")).thenReturn(RegionalResponses.regions)
@@ -78,7 +79,7 @@ class LiveRepositoryImplTest {
 
        repository.getRegionalElections().collect { result ->
            assertTrue(result.isFailure)
-           result.onFailure { assertEquals(it.message, BAD_RESPONSE) }
+           result.onFailure { assertEquals(it.message, EMPTY_LIST) }
        }
     }
 
@@ -89,7 +90,7 @@ class LiveRepositoryImplTest {
                 .toLiveElection("Autonómicas", "Andalucía", getElDiarioParties())
         )
 
-        `when`(api.getRegionalResult(anyString())).thenReturn(getElDiarioResult(id = "01"))
+        `when`(api.getRegionalResult(anyString())).thenReturn(success(getElDiarioResult(id = "01")))
 
         repository.getRegionalElection("01").collect { assertEquals(expected, it) }
     }
@@ -120,7 +121,7 @@ class LiveRepositoryImplTest {
                 .toLiveElection("Municipales", "Abla", getElDiarioParties())
         )
 
-        `when`(api.getLocalResult(ids)).thenReturn(getElDiarioResult())
+        `when`(api.getLocalResult(ids)).thenReturn(success(getElDiarioResult()))
 
         repository.getLocalElection(ids).collect { assertEquals(expected, it) }
     }
