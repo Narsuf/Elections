@@ -42,7 +42,7 @@ class LiveRepositoryImpl @Inject constructor(
             .onFailure { emit(failure(it)) }
             .onSuccess { regions ->
                 val result = noInternet() ?: api.getRegionalResults()
-                    .mapNotNull { it.toRegionalLiveElection(regions) }
+                    .mapNotNull { it.toRegionalLiveElection(regions).getOrNull() }
                     .let {
                         if (it.isNotEmpty())
                             success(LiveElections(it))
@@ -58,16 +58,14 @@ class LiveRepositoryImpl @Inject constructor(
         getRegions()
             .onFailure { emit(failure(it)) }
             .onSuccess { regions ->
-                val result = noInternet() ?: api.getRegionalResult(id)?.toRegionalLiveElection(regions)
-                    ?.let { success(it) }
-                    ?: failure(Throwable(BAD_RESPONSE))
-
-                emit(result)
+                api.getRegionalResult(id)
+                    .onSuccess { emit(it.toRegionalLiveElection(regions)) }
+                    .onFailure { emit(noInternet() ?: failure(it)) }
             }
     }
 
-    private suspend fun ElDiarioResult.toRegionalLiveElection(regions: Regions): LiveElection? =
-        api.getRegionalParties(id)?.let { parties ->
+    private suspend fun ElDiarioResult.toRegionalLiveElection(regions: Regions): Result<LiveElection> =
+        api.getRegionalParties(id).map { parties ->
             toLiveElection(
                 name = "Autonómicas",
                 place = regions.regions.first { it.id == id }.name,
@@ -79,17 +77,17 @@ class LiveRepositoryImpl @Inject constructor(
         getRegions()
             .onFailure { emit(failure(it)) }
             .onSuccess { regions ->
-                val result = noInternet() ?: api.getLocalResult(ids)?.let { result ->
-                    api.getLocalParties()?.let { parties ->
-                        result.toLiveElection(
-                            name = "Municipales",
-                            place = regions.getMunicipalityName(ids),
-                            parties
-                        )
+                api.getLocalResult(ids)
+                    .onFailure { emit(noInternet() ?: failure(it)) }
+                    .onSuccess { result ->
+                        api.getLocalParties().map {
+                            result.toLiveElection(
+                                name = "Municipales",
+                                place = regions.getMunicipalityName(ids),
+                                parties = it
+                            )
+                        }.let { emit(it) }
                     }
-                }?.let { success(it) } ?: failure(Throwable(BAD_RESPONSE))
-
-                emit(result)
             }
     }
 

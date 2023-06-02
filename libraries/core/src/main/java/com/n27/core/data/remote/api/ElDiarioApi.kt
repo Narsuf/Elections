@@ -1,5 +1,7 @@
 package com.n27.core.data.remote.api
 
+import com.n27.core.Constants.BAD_RESPONSE
+import com.n27.core.Constants.EMPTY_LIST
 import com.n27.core.data.remote.api.mappers.toElDiarioLocalResult
 import com.n27.core.data.remote.api.mappers.toElDiarioParties
 import com.n27.core.data.remote.api.mappers.toElDiarioRegionalResult
@@ -13,6 +15,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.Result.Companion.failure
+import kotlin.Result.Companion.success
 
 @Singleton
 class ElDiarioApi @Inject constructor(
@@ -28,35 +32,39 @@ class ElDiarioApi @Inject constructor(
 
         for (i in 1..17) {
             val electionId = i.toStringId()
-            getRegionalResult(electionId)?.let { elections.add(it) }
+            getRegionalResult(electionId).onSuccess { elections.add(it) }
         }
 
         return elections
     }
 
-    suspend fun getRegionalResult(id: String): ElDiarioResult? =
-        getResult("$url/autonomicasC$id.json")?.toElDiarioRegionalResult(id, electionDate)
+    suspend fun getRegionalResult(id: String): Result<ElDiarioResult> = getResult("$url/autonomicasC$id.json")
+        .map { it.toElDiarioRegionalResult(id, electionDate) }
 
-    suspend fun getRegionalParties(id: String): List<ElDiarioParty>? =
-        getResult("$url/autonomicasC${id}_partidos.json")?.toElDiarioParties()
+    suspend fun getRegionalParties(id: String): Result<List<ElDiarioParty>> =
+        getResult("$url/autonomicasC${id}_partidos.json").map { it.toElDiarioParties() }
 
-    suspend fun getLocalResult(ids: LocalElectionIds): ElDiarioResult? =
-        getResult("$url/municipales${ids.province}.json")
-            ?.toElDiarioLocalResult(
+    suspend fun getLocalResult(ids: LocalElectionIds): Result<ElDiarioResult> =
+        getResult("$url/municipales${ids.province}.json").map {
+            it.toElDiarioLocalResult(
                 id = "${ids.province}${ids.municipality.padStart(3, '0')}",
                 electionDate
             )
-
-    suspend fun getLocalParties(): List<ElDiarioParty>? =
-        getResult("$url/municipales_partidos.json")?.toElDiarioParties()
-
-    private suspend fun getResult(url: String): String? = withContext(Dispatchers.IO) {
-        val request = Request.Builder()
-            .url(url)
-            .build()
-
-        client.newCall(request).execute().use { response ->
-            response.takeIf { it.isSuccessful }?.run { body?.string() }
         }
-    }
+
+    suspend fun getLocalParties(): Result<List<ElDiarioParty>> = getResult("$url/municipales_partidos.json")
+        .map { it.toElDiarioParties() }
+
+    private suspend fun getResult(url: String): Result<String> = runCatching {
+        val request = Request.Builder().url(url).build()
+
+        withContext(Dispatchers.IO) {
+            client.newCall(request).execute().use { response ->
+                response
+                    .takeIf { it.isSuccessful }
+                    ?.run { body?.string() }
+                    ?.let { success(it) } ?: failure(Throwable(BAD_RESPONSE))
+            }
+        }
+    }.getOrElse { failure(it) }
 }

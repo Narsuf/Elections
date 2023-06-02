@@ -45,8 +45,8 @@ class LiveRepositoryImplTest {
         dataUtils = mock(DataUtils::class.java)
         jsonReader = mock(JsonReader::class.java)
 
-        `when`(api.getRegionalParties(anyString())).thenReturn(getElDiarioParties())
-        `when`(api.getLocalParties()).thenReturn(getElDiarioParties())
+        `when`(api.getRegionalParties(anyString())).thenReturn(success(getElDiarioParties()))
+        `when`(api.getLocalParties()).thenReturn(success(getElDiarioParties()))
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
 
         `when`(jsonReader.getStringJson("regions.json")).thenReturn(RegionalResponses.regions)
@@ -89,7 +89,7 @@ class LiveRepositoryImplTest {
                 .toLiveElection("Autonómicas", "Andalucía", getElDiarioParties())
         )
 
-        `when`(api.getRegionalResult(anyString())).thenReturn(getElDiarioResult(id = "01"))
+        `when`(api.getRegionalResult(anyString())).thenReturn(success(getElDiarioResult(id = "01")))
 
         repository.getRegionalElection("01").collect { assertEquals(expected, it) }
     }
@@ -120,7 +120,7 @@ class LiveRepositoryImplTest {
                 .toLiveElection("Municipales", "Abla", getElDiarioParties())
         )
 
-        `when`(api.getLocalResult(ids)).thenReturn(getElDiarioResult())
+        `when`(api.getLocalResult(ids)).thenReturn(success(getElDiarioResult()))
 
         repository.getLocalElection(ids).collect { assertEquals(expected, it) }
     }

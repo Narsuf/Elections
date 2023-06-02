@@ -21,6 +21,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -66,8 +67,11 @@ class LocalsViewModel @Inject constructor(
 
     private fun requestElection(ids: LocalElectionIds) {
         viewModelScope.launchCatching(::errorAction) {
-            repository.getLocalElection(ids)
-            action.send(NavigateToDetail(ids))
+            repository.getLocalElection(ids).collect { result ->
+                result
+                    .onFailure { handleError(it) }
+                    .onSuccess { action.send(NavigateToDetail(ids)) }
+            }
         }
     }
 
