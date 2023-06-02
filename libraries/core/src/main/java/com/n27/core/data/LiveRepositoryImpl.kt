@@ -1,6 +1,6 @@
 package com.n27.core.data
 
-import com.n27.core.Constants.BAD_RESPONSE
+import com.n27.core.Constants.EMPTY_LIST
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
@@ -47,7 +47,7 @@ class LiveRepositoryImpl @Inject constructor(
                         if (it.isNotEmpty())
                             success(LiveElections(it))
                         else
-                            failure(Throwable(BAD_RESPONSE))
+                            failure(Throwable(EMPTY_LIST))
                     }
 
                 emit(result)

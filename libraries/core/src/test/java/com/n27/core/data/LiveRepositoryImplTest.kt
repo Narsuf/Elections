@@ -1,6 +1,7 @@
 package com.n27.core.data
 
 import com.n27.core.Constants.BAD_RESPONSE
+import com.n27.core.Constants.EMPTY_LIST
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
@@ -78,7 +79,7 @@ class LiveRepositoryImplTest {
 
        repository.getRegionalElections().collect { result ->
            assertTrue(result.isFailure)
-           result.onFailure { assertEquals(it.message, BAD_RESPONSE) }
+           result.onFailure { assertEquals(it.message, EMPTY_LIST) }
        }
     }
 
