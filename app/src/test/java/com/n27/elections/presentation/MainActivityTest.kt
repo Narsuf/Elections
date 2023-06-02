@@ -32,14 +32,13 @@ class MainActivityTest {
             with(activity) {
                 assertEquals(binding.toolbarActivityMain.title, resources.getString(R.string.app_name))
 
-                renderContentState(state)
-                renderState(Content)
+                renderState(state)
 
                 binding.assertVisibilities(content = true)
 
                 val recyclerAdapter = binding.recyclerActivityMain.adapter!! as GeneralElectionsCardAdapter
-                assertTrue(state.elections.containsAll(recyclerAdapter.congressElections))
-                assertTrue(state.elections.containsAll(recyclerAdapter.senateElections))
+                assertTrue(state.congressElections.containsAll(recyclerAdapter.congressElections))
+                assertTrue(state.senateElections.containsAll(recyclerAdapter.senateElections))
                 assertEquals(recyclerAdapter.onElectionClicked, ::navigateToDetail)
             }
         }

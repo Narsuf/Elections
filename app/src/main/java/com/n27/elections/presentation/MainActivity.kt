@@ -17,6 +17,7 @@ import com.n27.core.Constants
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.NO_RESULTS
 import com.n27.core.domain.election.models.Election
+import com.n27.core.extensions.compare
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
@@ -28,9 +29,6 @@ import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
 import com.n27.elections.presentation.models.MainAction
 import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
 import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
-import com.n27.elections.presentation.models.MainContentState
-import com.n27.elections.presentation.models.MainContentState.Empty
-import com.n27.elections.presentation.models.MainContentState.WithData
 import com.n27.elections.presentation.models.MainState
 import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
@@ -44,6 +42,8 @@ class MainActivity : AppCompatActivity() {
     @Inject internal lateinit var viewModel: MainViewModel
     @Inject internal lateinit var utils: PresentationUtils
     @Inject internal lateinit var remoteConfig: FirebaseRemoteConfig
+
+    private val recyclerAdapter = GeneralElectionsCardAdapter(::navigateToDetail)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as ElectionsApplication).appComponent.inject(this)
@@ -61,7 +61,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun ActivityMainBinding.setUpViews() {
         setContentView(binding.root)
-        recyclerActivityMain.apply { layoutManager = LinearLayoutManager(context) }
+        recyclerActivityMain.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = recyclerAdapter
+        }
+
         liveElectionsButtonActivityMain.setOnClickListener {
             if (isFeatureEnabled(NO_RESULTS, debugValue = false))
                 showSnackbar(NO_RESULTS)
@@ -82,35 +86,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        viewModel.viewContentState.observeOnLifecycle(
-            lifecycleOwner = this,
-            distinctUntilChanged = true,
-            action = ::renderContentState
-        )
-
-        viewModel.viewState.observeOnLifecycle(
-            lifecycleOwner = this,
-            distinctUntilChanged = true,
-            action = ::renderState
-        )
-
+        viewModel.viewState.observe(this, ::renderState)
         viewModel.viewAction.observeOnLifecycle(lifecycleOwner = this, action = ::handleAction)
-    }
-
-    @VisibleForTesting
-    internal fun renderContentState(state: MainContentState) = when (state) {
-        Empty -> Unit
-        is WithData -> showElections(state.elections)
-    }
-
-    private fun showElections(elections: List<Election>) = with(binding) {
-        recyclerActivityMain.adapter = GeneralElectionsCardAdapter(
-            elections.filter { it.chamberName == "Congreso" },
-            elections.filter { it.chamberName == "Senado" },
-            ::navigateToDetail
-        )
-
-        utils.track("main_activity_content_loaded")
     }
 
     @VisibleForTesting
@@ -126,8 +103,23 @@ class MainActivity : AppCompatActivity() {
     @VisibleForTesting
     internal fun renderState(state: MainState) = when (state) {
         Loading -> Unit
-        Content -> setViewsVisibility(content = true)
+        is Content -> showElections(state)
         is Error -> showError(state.errorMessage)
+    }
+
+    private fun showElections(state: Content) = with(binding) {
+        setViewsVisibility(content = true)
+
+        recyclerAdapter.apply {
+            val changedItems = congressElections.compare(state.congressElections)
+
+            congressElections = state.congressElections
+            senateElections = state.senateElections
+
+            changedItems.forEach { notifyItemChanged(it) }
+        }
+
+        utils.track("main_activity_content_loaded")
     }
 
     private fun setViewsVisibility(

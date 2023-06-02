@@ -1,5 +1,7 @@
 package com.n27.elections.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
@@ -12,17 +14,12 @@ import com.n27.elections.data.repositories.ElectionRepositoryImpl
 import com.n27.elections.presentation.models.MainAction
 import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
 import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
-import com.n27.elections.presentation.models.MainContentState
-import com.n27.elections.presentation.models.MainContentState.Empty
-import com.n27.elections.presentation.models.MainContentState.WithData
 import com.n27.elections.presentation.models.MainState
 import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
 import com.n27.elections.presentation.models.MainState.Loading
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,21 +29,14 @@ class MainViewModel @Inject constructor(
     private val electionRepository: ElectionRepositoryImpl
 ) : ViewModel() {
 
-    private val contentState = MutableStateFlow<MainContentState>(Empty)
-    internal val viewContentState = contentState.asStateFlow()
-
-    private val state = MutableStateFlow<MainState>(Loading)
-    internal val viewState = state.asStateFlow()
-    private var lastState: MainState = Loading
+    private val state = MutableLiveData<MainState>(Loading)
+    internal val viewState: LiveData<MainState> = state
 
     private val action = Channel<MainAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
     internal val viewAction = action.receiveAsFlow()
 
     internal fun requestElections() {
-        lastState = state.value
-
         viewModelScope.launchCatching(::handleError) {
-            state.emit(Loading)
             if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
 
             electionRepository.getElections()
@@ -56,8 +46,10 @@ class MainViewModel @Inject constructor(
                         .map { it.sortResultsByElectsAndVotes() }
                         .sortByDateAndFormat()
 
-                    contentState.emit(WithData(sortedElections))
-                    state.emit(Content)
+                    state.value = Content(
+                        congressElections = sortedElections.filter { it.chamberName == "Congreso" },
+                        senateElections = sortedElections.filter { it.chamberName == "Senado" }
+                    )
                 }
         }
     }
@@ -69,11 +61,9 @@ class MainViewModel @Inject constructor(
     private suspend fun handleError(throwable: Throwable) {
         Firebase.crashlytics.recordException(throwable)
 
-        if (lastState is Content) {
+        if (state.value is Content)
             action.send(ShowErrorSnackbar(throwable.message))
-            state.emit(Content)
-        } else {
-            state.emit(Error(throwable.message))
-        }
+        else
+            state.value = Error(throwable.message)
     }
 }
