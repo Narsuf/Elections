@@ -35,6 +35,8 @@ class DetailActivityUiTest {
         launchActivity()
 
         assertToolbarTitle("${congressElection.chamberName} ${congressElection.place} (${congressElection.date})")
+        assertDisplayed("Scrt. ${congressElection.scrutinized}%")
+        assertDisplayed(R.id.scrutinized_bar_activity_detail)
 
         with(congressElection.results[0]) {
             assertListTexts(
@@ -115,14 +117,16 @@ class DetailActivityUiTest {
 
         with(congressElection) {
             assertDisplayed(R.id.title_dialog_detail, "$chamberName $place $date")
-            assertListTextsWithDifferentPositions(R.id.list_dialog_detail, listOf(
-                "$scrutinized %",
-                getIntegerInstance().format(totalElects).toString(),
-                getIntegerInstance().format(validVotes).toString(),
-                getIntegerInstance().format(abstentions).toString(),
-                getIntegerInstance().format(nullVotes).toString(),
-                getIntegerInstance().format(blankVotes).toString(),
-            ))
+            assertListTextsWithDifferentPositions(
+                R.id.list_dialog_detail,
+                listOf(
+                    getIntegerInstance().format(totalElects).toString(),
+                    getIntegerInstance().format(validVotes).toString(),
+                    getIntegerInstance().format(abstentions).toString(),
+                    getIntegerInstance().format(nullVotes).toString(),
+                    getIntegerInstance().format(blankVotes).toString(),
+                )
+            )
         }
     }
 

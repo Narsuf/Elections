@@ -24,6 +24,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_activity_detail">
 
+        <TextView
+            android:id="@+id/scrutinized_activity_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/tighter_spacing"
+            app:layout_constraintEnd_toStartOf="@id/scrutinized_bar_activity_detail"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/scrutinized_bar_activity_detail"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/tighter_spacing"
+            app:layout_constraintBottom_toBottomOf="@id/scrutinized_activity_detail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/scrutinized_activity_detail" />
+
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pie_chart_activity_detail"
             android:layout_width="0dp"

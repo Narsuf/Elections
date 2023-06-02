@@ -129,6 +129,8 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
 
+            scrutinizedActivityDetail.text = getString(R.string.scrutinized, scrutinized)
+            scrutinizedBarActivityDetail.progress = scrutinized.toInt()
             pieChartActivityDetail.drawWithResults(results)
 
             listActivityDetail.apply {

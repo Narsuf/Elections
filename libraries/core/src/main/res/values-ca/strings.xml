@@ -5,6 +5,7 @@
     <string name="party">Partit</string>
     <string name="votes">Vots</string>
     <string name="elects">Escons</string>
+    <string name="scrutinized">Escr. %1\$s%%</string>
 
     <!-- Accions. -->
     <string name="button_more_info_content">Més informació.</string>
