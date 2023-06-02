@@ -53,7 +53,6 @@ class DetailDialog : DialogFragment() {
 
         val textData = resources.getStringArray(R.array.text_array_dialog_detail)
         val numberData = arrayOf(
-            "",
             getIntegerInstance().format(totalElects),
             getIntegerInstance().format(validVotes),
             getIntegerInstance().format(abstentions),
@@ -71,7 +70,7 @@ class DetailDialog : DialogFragment() {
             map[keys[0]] = textData[i]
             map[keys[1]] = numberData[i]
 
-            if (i == 1)
+            if (i == 0)
                 map[keys[2]] = percentageData[i]
             else
                 map[keys[2]] = percentageData[i] + " %"
@@ -87,7 +86,6 @@ class DetailDialog : DialogFragment() {
 
         return utils.run {
             arrayOf(
-                scrutinized.toString(),
                 "",
                 validVotes.divide(census),
                 abstentions.divide(census),
