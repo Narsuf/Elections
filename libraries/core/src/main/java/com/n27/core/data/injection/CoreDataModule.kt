@@ -2,8 +2,7 @@ package com.n27.core.data.injection
 
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.n27.core.BuildConfig
-import com.n27.core.data.local.JsonReader
+import com.n27.core.data.local.json.JsonReader
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -36,7 +35,9 @@ class CoreDataModule {
 
     @Provides
     @Singleton
-    fun providesBaseUrl(
-        remoteConfig: FirebaseRemoteConfig
-    ) = "${BuildConfig.EL_PAIS_API_URL}/${remoteConfig.getLong("ELECTION_YEAR")}"
+    fun providesBaseUrl() = "https://elecciones.eldiario.es/api/data"
+
+    @Provides
+    @Singleton
+    fun providesElectionDate(remoteConfig: FirebaseRemoteConfig) = remoteConfig.getLong("ELECTION_YEAR")
 }

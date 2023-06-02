@@ -11,12 +11,13 @@ import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.R
-import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.test.assertions.ListAssertions.assertListTexts
 import com.n27.test.assertions.ListAssertions.assertListTextsWithDifferentPositions
 import com.n27.test.assertions.ToolbarAssertions.assertToolbarTitle
 import com.n27.test.conditions.instructions.waitUntil
 import com.n27.test.generators.getElection
+import com.n27.test.jsons.ElDiarioApiResponses
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -33,7 +34,7 @@ class DetailActivityUiTest {
     fun checkElectionDetailElements() {
         launchActivity()
 
-        assertToolbarTitle("${congressElection.chamberName} (${congressElection.place} ${congressElection.date})")
+        assertToolbarTitle("${congressElection.chamberName} ${congressElection.place} (${congressElection.date})")
 
         with(congressElection.results[0]) {
             assertListTexts(
@@ -51,6 +52,7 @@ class DetailActivityUiTest {
     @Test
     fun checkElectionDetailError() {
         mockWebServer.enqueue(MockResponse().setResponseCode(500))
+        mockWebServer.enqueue(MockResponse().setResponseCode(500))
         mockWebServer.start(8080)
         launchActivity("01")
 
@@ -60,11 +62,12 @@ class DetailActivityUiTest {
 
     @Test
     fun checkRegionalElectionContent() {
-        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.regionalElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalParties))
         mockWebServer.start(8080)
         launchActivity("01")
 
-        waitUntil { assertToolbarTitle("Parlamento (Aragón 2019)") }
+        waitUntil { assertToolbarTitle(" Andalucía (05/23)") }
         checkRegionalContent()
 
         clickOn(R.id.action_reload)
@@ -78,26 +81,27 @@ class DetailActivityUiTest {
             listId = R.id.list_activity_detail,
             position = 0,
             texts = listOf(
-                "PSOE",
-                "203,933",
-                "24"
+                "IU",
+                "20,310",
+                "1"
             )
         )
     }
 
     @Test
     fun checkLocalElectionContent() {
-        mockWebServer.enqueue(MockResponse().setBody(DetailActivityResponses.localElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.localElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.localParties))
         mockWebServer.start(8080)
-        launchActivity(electionIds = LocalElectionIds("01", "01", "01"))
+        launchActivity(electionIds = LocalElectionIds("01", "04", "01"))
 
-        waitUntil { assertToolbarTitle("Ayuntamiento (Abla 2019)") }
+        waitUntil { assertToolbarTitle(" Abla (05/23)") }
         assertListTexts(
             listId = R.id.list_activity_detail,
             position = 0,
             texts = listOf(
-                "PP",
-                "454",
+                "PSOE",
+                "411",
                 "5"
             )
         )

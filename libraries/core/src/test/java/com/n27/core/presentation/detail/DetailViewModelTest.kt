@@ -2,7 +2,7 @@ package com.n27.core.presentation.detail
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepositoryImpl
-import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailState.Content
@@ -13,6 +13,7 @@ import com.n27.test.generators.getLiveElection
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runCurrent
@@ -36,7 +37,7 @@ class DetailViewModelTest {
     @Before
     fun init() = runTest {
         repository = mock(LiveRepositoryImpl::class.java)
-        `when`(repository.getRegionalElection(anyString())).thenReturn(success(getLiveElection()))
+        `when`(repository.getRegionalElection(anyString())).thenReturn(flowOf(success(getLiveElection())))
         viewModel = DetailViewModel(repository, null)
         Dispatchers.setMain(testDispatcher)
     }
@@ -67,7 +68,7 @@ class DetailViewModelTest {
     @Test
     fun `requestElection should emit content when electionIds not null`() = runTest {
         val ids = LocalElectionIds("01", "01", "01")
-        `when`(repository.getLocalElection(ids)).thenReturn(success(getLiveElection()))
+        `when`(repository.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
         viewModel.requestElection(null, null, ids)
         runCurrent()
 

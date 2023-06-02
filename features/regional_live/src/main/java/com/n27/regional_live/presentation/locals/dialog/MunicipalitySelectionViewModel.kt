@@ -3,12 +3,12 @@ package com.n27.regional_live.presentation.locals.dialog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.remote.api.models.LocalElectionIds
+import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.domain.live.models.LocalElectionIds
+import com.n27.core.domain.live.models.Province
+import com.n27.core.domain.live.models.Region
 import com.n27.core.extensions.launchCatching
 import com.n27.core.presentation.PresentationUtils
-import com.n27.regional_live.data.RegionRepositoryImpl
-import com.n27.regional_live.domain.models.Province
-import com.n27.regional_live.domain.models.Region
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.presentation.locals.comm.LocalsEventBus
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MunicipalitySelectionViewModel @Inject constructor(
-    private val repository: RegionRepositoryImpl,
+    private val repository: LiveRepositoryImpl,
     private val eventBus: LocalsEventBus,
     private val utils: PresentationUtils?,
     private val crashlytics: FirebaseCrashlytics?

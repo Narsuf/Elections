@@ -2,8 +2,7 @@ package com.n27.regional_live.presentation.locals
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepositoryImpl
-import com.n27.core.data.remote.api.models.LocalElectionIds
-import com.n27.regional_live.data.RegionRepositoryImpl
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.presentation.locals.comm.LocalsEventBus
@@ -17,6 +16,7 @@ import com.n27.test.generators.getRegions
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runCurrent
@@ -32,20 +32,18 @@ import kotlin.Result.Companion.success
 @ExperimentalCoroutinesApi
 class LocalsViewModelTest {
 
-    private lateinit var regionRepository: RegionRepositoryImpl
-    private lateinit var liveRepository: LiveRepositoryImpl
+    private lateinit var repository: LiveRepositoryImpl
     private lateinit var eventBus: LocalsEventBus
     private lateinit var viewModel: LocalsViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
-        regionRepository = mock(RegionRepositoryImpl::class.java)
-        liveRepository = mock(LiveRepositoryImpl::class.java)
+        repository = mock(LiveRepositoryImpl::class.java)
         eventBus = LocalsEventBus()
-        `when`(regionRepository.getRegions()).thenReturn(success(getRegions()))
+        `when`(repository.getRegions()).thenReturn(success(getRegions()))
         Dispatchers.setMain(testDispatcher)
-        viewModel = LocalsViewModel(liveRepository, regionRepository, null, eventBus)
+        viewModel = LocalsViewModel(repository, null, eventBus)
     }
 
     @Test
@@ -65,7 +63,7 @@ class LocalsViewModelTest {
 
     @Test
     fun `requestRegions should emit error`() = runTest {
-        `when`(regionRepository.getRegions()).thenThrow(IndexOutOfBoundsException())
+        `when`(repository.getRegions()).thenThrow(IndexOutOfBoundsException())
         viewModel.requestRegions()
         runCurrent()
 
@@ -76,7 +74,7 @@ class LocalsViewModelTest {
     fun `RequestElection should emit NavigateToDetail`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
-        `when`(liveRepository.getLocalElection(ids)).thenReturn(success(getLiveElection()))
+        `when`(repository.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
 
         runCurrent()
         eventBus.emit(RequestElection(ids))
@@ -90,7 +88,7 @@ class LocalsViewModelTest {
     fun `RequestElection should emit ShowErrorSnackbar`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
-        `when`(liveRepository.getLocalElection(ids)).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
+        `when`(repository.getLocalElection(ids)).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
 
         runCurrent()
         eventBus.emit(RequestElection(ids))

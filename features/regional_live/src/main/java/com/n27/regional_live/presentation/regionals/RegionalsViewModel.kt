@@ -42,13 +42,14 @@ class RegionalsViewModel @Inject constructor(
         viewModelScope.launchCatching(::handleError) {
             state.emit(Loading)
 
-            repository.getRegionalElections()
-                .onFailure { handleError(it) }
-                .onSuccess {
-                    contentState.emit(WithData(it, repository.getParties()))
-                    state.emit(Content)
-                }
-
+            repository.getRegionalElections().collect { result ->
+                result
+                    .onFailure { handleError(it) }
+                    .onSuccess {
+                        contentState.emit(WithData(it))
+                        state.emit(Content)
+                    }
+            }
         }
     }
 

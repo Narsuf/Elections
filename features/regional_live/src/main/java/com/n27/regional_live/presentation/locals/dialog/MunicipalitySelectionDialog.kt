@@ -11,12 +11,12 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants.KEY_REGION
+import com.n27.core.domain.live.models.Municipality
+import com.n27.core.domain.live.models.Province
+import com.n27.core.domain.live.models.Region
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.regional_live.R
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
-import com.n27.regional_live.domain.models.Municipality
-import com.n27.regional_live.domain.models.Province
-import com.n27.regional_live.domain.models.Region
 import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction
 import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner

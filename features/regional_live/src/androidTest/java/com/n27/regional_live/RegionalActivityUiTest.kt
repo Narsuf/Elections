@@ -9,6 +9,7 @@ import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.test.conditions.instructions.waitUntil
 import com.n27.test.intents.intents
 import com.n27.test.intents.verifyIntent
+import com.n27.test.jsons.ElDiarioApiResponses
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -20,7 +21,8 @@ class RegionalActivityUiTest {
 
     private fun prepareSuccessfulResponses() {
         for (i in 0..15) mockWebServer.enqueue(MockResponse().setResponseCode(500))
-        mockWebServer.enqueue(MockResponse().setBody(RegionalActivityResponses.regionalElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalParties))
     }
 
     @Test
@@ -30,10 +32,10 @@ class RegionalActivityUiTest {
         launchActivity()
 
         waitUntil { assertDisplayed(R.id.recycler_fragment_regionals) }
-        assertDisplayedAtPosition(R.id.recycler_fragment_regionals, 0, R.id.name_card_regional_election, "Aragón")
+        assertDisplayedAtPosition(R.id.recycler_fragment_regionals, 0, R.id.name_card_regional_election, "C. Valenciana")
 
         intents {
-            clickOn("Aragón")
+            clickOn("C. Valenciana")
             verifyIntent(DetailActivity::class.java.name)
         }
     }
@@ -41,7 +43,8 @@ class RegionalActivityUiTest {
     @Test
     fun checkLocalSuccess() {
         prepareSuccessfulResponses()
-        mockWebServer.enqueue(MockResponse().setBody(RegionalActivityResponses.localElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.localElection))
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.localParties))
         mockWebServer.start(8080)
         launchActivity()
 

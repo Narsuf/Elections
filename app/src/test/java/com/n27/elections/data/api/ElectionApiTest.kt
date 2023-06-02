@@ -1,6 +1,6 @@
 package com.n27.elections.data.api
 
-import com.n27.core.data.local.JsonReader
+import com.n27.core.data.local.json.JsonReader
 import com.n27.elections.data.api.models.ApiResponse
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList

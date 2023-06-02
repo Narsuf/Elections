@@ -91,7 +91,6 @@ class RegionalsFragment : Fragment() {
     private fun generateCards(content: WithData) {
         binding.recyclerFragmentRegionals.adapter = RegionalCardAdapter(
             content.elections,
-            content.parties,
             ::navigateToDetail
         )
 

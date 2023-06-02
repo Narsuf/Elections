@@ -58,14 +58,7 @@ android {
     }
 
     buildTypes {
-        release {
-            buildConfigField "String", "EL_PAIS_API_URL", '"http://rsl00.epimg.net/elecciones"'
-        }
-
-        debug {
-            testCoverageEnabled true
-            buildConfigField "String", "EL_PAIS_API_URL", '"http://127.0.0.1:8080"'
-        }
+        debug { testCoverageEnabled true }
     }
 
     buildFeatures { viewBinding true }
@@ -84,7 +77,7 @@ repositories {
 }
 
 dependencies {
-    api 'com.google.android.material:material:1.8.0'
+    api 'com.google.android.material:material:1.9.0'
     api "androidx.fragment:fragment-ktx:$fragmentVersion"
     api 'androidx.multidex:multidex:2.0.1'
 
@@ -96,9 +89,6 @@ dependencies {
 
     // Swipe
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
-    // SimpleXML
-    api 'org.simpleframework:simple-xml:2.7.1'
 
     // OkHttp
     api "com.squareup.okhttp3:okhttp:$okHttpVersion"
