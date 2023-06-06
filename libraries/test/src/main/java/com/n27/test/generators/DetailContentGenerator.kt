@@ -1,7 +1,6 @@
 package com.n27.test.generators
 
 import com.n27.core.R
-import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 
 fun getDetailContent() = Content(getElection(), getArrayList(), getKeys(), getResources())
