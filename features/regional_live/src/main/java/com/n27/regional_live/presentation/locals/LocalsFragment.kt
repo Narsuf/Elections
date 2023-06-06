@@ -17,6 +17,7 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.domain.live.models.Region
+import com.n27.core.extensions.compare
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
@@ -37,6 +38,8 @@ import javax.inject.Inject
 class LocalsFragment : Fragment() {
 
     private var _binding: FragmentLocalsBinding? = null
+    private val recyclerAdapter = LocalsCardAdapter(::showSelectionDialog)
+
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: LocalsViewModel
     @Inject internal lateinit var utils: PresentationUtils
@@ -53,7 +56,12 @@ class LocalsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recyclerFragmentLocals.apply { layoutManager = LinearLayoutManager(context) }
+
+        binding.recyclerFragmentLocals.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = recyclerAdapter
+        }
+
         initObservers()
         viewModel.requestRegions()
     }
@@ -73,21 +81,30 @@ class LocalsFragment : Fragment() {
     @VisibleForTesting
     internal fun renderState(state: LocalsState) = when (state) {
         Loading -> Unit
-        is Content -> generateCards(state.regions)
+        is Content -> generateCards(state)
         is Error -> showError(state.error)
     }
 
-    private fun generateCards(regions: List<Region>) {
+    private fun generateCards(state: Content) {
         setViewsVisibility(content = true)
-        binding.recyclerFragmentLocals.adapter = LocalsCardAdapter(regions) { region ->
-            MunicipalitySelectionDialog()
-                .also { it.arguments = Bundle().apply { putSerializable(KEY_REGION, region) } }
-                .show(parentFragmentManager, "MunicipalitySelectionDialog")
 
-            utils.track("locals_fragment_region_clicked") { param("region", region.name) }
+        recyclerAdapter.apply {
+            val changedItems = regions.compare(state.regions)
+
+            regions = state.regions
+
+            changedItems.forEach { notifyItemChanged(it) }
         }
 
         utils.track("locals_fragment_content_loaded")
+    }
+
+    private fun showSelectionDialog(region: Region) {
+        MunicipalitySelectionDialog()
+            .also { it.arguments = Bundle().apply { putSerializable(KEY_REGION, region) } }
+            .show(parentFragmentManager, "MunicipalitySelectionDialog")
+
+        utils.track("locals_fragment_region_clicked") { param("region", region.name) }
     }
 
     private fun setViewsVisibility(

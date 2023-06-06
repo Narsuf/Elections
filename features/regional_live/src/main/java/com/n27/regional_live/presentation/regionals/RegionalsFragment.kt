@@ -34,11 +34,11 @@ import javax.inject.Inject
 class RegionalsFragment : Fragment() {
 
     private var _binding: FragmentRegionalsBinding? = null
+    private val recyclerAdapter = RegionalCardAdapter(::navigateToDetail)
+
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: RegionalsViewModel
     @Inject internal lateinit var utils: PresentationUtils
-
-    private val recyclerAdapter = RegionalCardAdapter(::navigateToDetail)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

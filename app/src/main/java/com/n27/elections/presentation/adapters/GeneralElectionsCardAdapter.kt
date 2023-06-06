@@ -16,8 +16,8 @@ class GeneralElectionsCardAdapter(
     internal val onElectionClicked: OnGeneralElectionClicked
 ) : RecyclerView.Adapter<GeneralElectionsCardAdapter.MyViewHolder>() {
 
-    internal var congressElections: List<Election> = listOf()
-    internal var senateElections: List<Election> = listOf()
+    internal var congressElections = listOf<Election>()
+    internal var senateElections = listOf<Election>()
 
     class MyViewHolder(val card: CardView) : RecyclerView.ViewHolder(card)
 
