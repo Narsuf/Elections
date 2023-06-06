@@ -64,12 +64,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
     private fun DialogMunicipalitySelectionBinding.setUpViews() {
         provincesDialogMunicipalitySelection.onItemSelectedListener =
             object : OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                     selectedProvince = provincesList?.get(position)
                     viewModel.requestMunicipalities(selectedProvince)
                 }
@@ -79,12 +74,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
 
         municipalitiesDialogMunicipalitySelection.onItemSelectedListener =
             object : OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                     selectedMunicipality = municipalitiesList?.get(position)
                 }
 

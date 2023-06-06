@@ -7,8 +7,10 @@ import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.R
 import com.n27.regional_live.databinding.FragmentLocalsBinding
 import com.n27.regional_live.presentation.RegionalLiveActivity
+import com.n27.regional_live.presentation.locals.adapters.LocalsCardAdapter
 import com.n27.regional_live.presentation.locals.models.LocalsState.Error
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -19,9 +21,17 @@ class LocalsFragmentTest {
     @Test
     fun checkContentViewState() {
         launchActivity().navigateToLocals().onActivity { activity ->
-            val fragment = activity.getFragment()
-            // Content is automatically triggered.
-            fragment.binding.assertVisibilities(content = true)
+            with(activity.getFragment()) {
+                val state = getLocalsContent()
+
+                renderState(state)
+
+                binding.assertVisibilities(content = true)
+
+                val recyclerAdapter = binding.recyclerFragmentLocals.adapter!! as LocalsCardAdapter
+                assertTrue(state.regions.containsAll(recyclerAdapter.regions))
+                assertEquals(recyclerAdapter.onRegionClicked, ::showSelectionDialog)
+            }
         }
     }
 

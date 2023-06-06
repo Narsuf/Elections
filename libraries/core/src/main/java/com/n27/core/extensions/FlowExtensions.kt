@@ -15,7 +15,7 @@ inline fun <reified T> Flow<T>.observeOnLifecycle(
     distinctUntilChanged: Boolean = false,
     noinline action: suspend (T) -> Unit,
 ): Job = lifecycleOwner.lifecycleScope.launch {
-    flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState).let {
-        if (distinctUntilChanged) it.distinctUntilChanged() else it
-    }.collect { action(it) }
+    flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState)
+        .let { if (distinctUntilChanged) it.distinctUntilChanged() else it }
+        .collect { action(it) }
 }

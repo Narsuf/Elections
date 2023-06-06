@@ -1,5 +1,7 @@
 package com.n27.core.presentation.detail
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -10,20 +12,13 @@ import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.launchCatching
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction
+import com.n27.core.presentation.detail.models.DetailAction.Refresh
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.models.DetailContentState
-import com.n27.core.presentation.detail.models.DetailContentState.Empty
-import com.n27.core.presentation.detail.models.DetailContentState.WithData
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(
@@ -31,31 +26,24 @@ class DetailViewModel @Inject constructor(
     private val crashlytics: FirebaseCrashlytics?
 ) : ViewModel() {
 
-    private val contentState = MutableStateFlow<DetailContentState>(Empty)
-    internal val viewContentState = contentState.asStateFlow()
+    private val state = MutableLiveData<DetailState>(Loading)
+    internal val viewState: LiveData<DetailState> = state
 
-    private val state = MutableStateFlow<DetailState>(Loading())
-    internal val viewState = state.asStateFlow()
-    private var lastState: DetailState = Loading()
-
-    private val action = Channel<DetailAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
-    internal val viewAction = action.receiveAsFlow()
+    private val action = MutableLiveData<DetailAction>()
+    internal val viewAction: LiveData<DetailAction> = action
 
     internal fun requestElection(
         election: Election?,
         electionId: String?,
         localElectionIds: LocalElectionIds?
     ) {
-        lastState = state.value
-
         viewModelScope.launchCatching(::handleError) {
-            val isAnimation = lastState !is Content
-            state.emit(Loading(isAnimation))
+            if (state.value is Content) action.value = Refresh
 
             when {
                 localElectionIds != null -> repository.getLocalElection(localElectionIds).handleFlow()
                 electionId != null -> repository.getRegionalElection(electionId).handleFlow()
-                election != null -> emitContent(election.toContent())
+                election != null -> state.value = election.toContent()
                 else -> handleError()
             }
         }
@@ -64,24 +52,18 @@ class DetailViewModel @Inject constructor(
     private suspend fun Flow<Result<LiveElection>>.handleFlow() {
         collect { result ->
             result
-                .onSuccess { emitContent(it.election.toContent()) }
+                .onSuccess { state.value = it.election.toContent() }
                 .onFailure { handleError() }
         }
-    }
-
-    private suspend fun emitContent(withData: WithData) {
-        contentState.emit(withData)
-        state.emit(Content)
     }
 
     private suspend fun handleError(throwable: Throwable? = null) {
         throwable?.let { crashlytics?.recordException(it) }
 
-        if (lastState is Content) {
-            action.send(ShowErrorSnackbar(throwable?.message))
-            state.emit(Content)
-        } else {
-            state.emit(Error(throwable?.message))
-        }
+        if (state.value is Content)
+            action.value = ShowErrorSnackbar(throwable?.message)
+        else
+            state.value = Error(throwable?.message)
+
     }
 }

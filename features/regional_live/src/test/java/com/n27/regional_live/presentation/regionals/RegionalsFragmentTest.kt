@@ -5,7 +5,6 @@ import androidx.test.core.app.ActivityScenario.launch
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.regional_live.presentation.regionals.adapters.RegionalCardAdapter
-import com.n27.regional_live.presentation.regionals.models.RegionalsState.Content
 import com.n27.regional_live.presentation.regionals.models.RegionalsState.Error
 import org.junit.Assert.*
 import org.junit.Test
@@ -19,7 +18,7 @@ class RegionalsFragmentTest {
     fun checkContentViewState() {
         launchActivity().onActivity { activity ->
             with(activity.getFragment()) {
-                renderState(Content)
+                renderState(getRegionalsContent())
                 binding.assertVisibilities(content = true)
             }
         }
@@ -36,13 +35,12 @@ class RegionalsFragmentTest {
     }
 
     @Test
-    fun checkWithData() {
+    fun checkContent() {
         val state = getRegionalsContent()
 
         launchActivity().onActivity { activity ->
             with(activity.getFragment()) {
-                renderContentState(state)
-                renderState(Content)
+                renderState(state)
 
                 binding.assertVisibilities(content = true)
 

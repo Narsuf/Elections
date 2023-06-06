@@ -4,10 +4,10 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.R
 import com.n27.core.domain.election.models.Election
 import com.n27.core.extensions.divide
-import com.n27.core.presentation.detail.models.DetailContentState.WithData
+import com.n27.core.presentation.detail.models.DetailState.Content
 import java.text.NumberFormat.getNumberInstance
 
-internal fun Election.toContent(): WithData {
+internal fun Election.toContent(): Content {
     val keys = arrayOf("color", "partyName", "numberVotes", "votesPercentage", "elects")
     val resources = intArrayOf(
         R.id.color_list_item_activity_detail,
@@ -35,5 +35,5 @@ internal fun Election.toContent(): WithData {
         arrayList.add(map)
     }
 
-    return WithData(this, arrayList, keys.toList(), resources.toList())
+    return Content(this, arrayList, keys.toList(), resources.toList())
 }

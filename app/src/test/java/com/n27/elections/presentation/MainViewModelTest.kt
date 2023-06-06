@@ -4,7 +4,6 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.repositories.AppRepository
 import com.n27.elections.data.repositories.ElectionRepositoryImpl
 import com.n27.elections.presentation.models.MainAction.*
-import com.n27.elections.presentation.models.MainContentState.WithData
 import com.n27.elections.presentation.models.MainState.*
 import com.n27.test.generators.getElectionList
 import com.n27.test.generators.getElections
@@ -58,8 +57,7 @@ class MainViewModelTest {
             viewModel.requestElections()
             runCurrent()
 
-            assertEquals(WithData(getElectionList()), viewModel.viewContentState.value)
-            assertEquals(Content, viewModel.viewState.value)
+            assertEquals(Content(getElectionList(), listOf()), viewModel.viewState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
@@ -111,7 +109,6 @@ class MainViewModelTest {
 
         observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
         observer.close()
-        assertEquals(WithData(getElectionList()), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
+        assertEquals(Content(getElectionList(), listOf()), viewModel.viewState.value)
     }
 }

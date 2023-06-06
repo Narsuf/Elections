@@ -5,16 +5,13 @@ import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getLiveElection
-import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -22,12 +19,15 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import org.robolectric.RobolectricTestRunner
 import kotlin.Result.Companion.success
 
 @ExperimentalCoroutinesApi
+@RunWith(RobolectricTestRunner::class)
 class DetailViewModelTest {
 
     private lateinit var repository: LiveRepositoryImpl
@@ -44,7 +44,7 @@ class DetailViewModelTest {
 
     @Test
     fun `view model initialized should emit loading`() = runTest {
-        assertEquals(Loading(), viewModel.viewState.value)
+        assertEquals(Loading, viewModel.viewState.value)
     }
 
     @Test
@@ -52,8 +52,7 @@ class DetailViewModelTest {
         viewModel.requestElection(getElection(), null, null)
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -61,8 +60,7 @@ class DetailViewModelTest {
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -72,8 +70,7 @@ class DetailViewModelTest {
         viewModel.requestElection(null, null, ids)
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -100,13 +97,9 @@ class DetailViewModelTest {
         runCurrent()
 
         `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
-        observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
-        observer.close()
-        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
+        assertEquals(ShowErrorSnackbar(NO_INTERNET_CONNECTION), viewModel.viewAction.value)
     }
 }

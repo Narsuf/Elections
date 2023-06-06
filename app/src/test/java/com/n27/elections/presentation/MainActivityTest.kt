@@ -7,7 +7,6 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
-import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
 import junit.framework.TestCase.*
 import org.junit.Test
@@ -32,14 +31,13 @@ class MainActivityTest {
             with(activity) {
                 assertEquals(binding.toolbarActivityMain.title, resources.getString(R.string.app_name))
 
-                renderContentState(state)
-                renderState(Content)
+                renderState(state)
 
                 binding.assertVisibilities(content = true)
 
                 val recyclerAdapter = binding.recyclerActivityMain.adapter!! as GeneralElectionsCardAdapter
-                assertTrue(state.elections.containsAll(recyclerAdapter.congressElections))
-                assertTrue(state.elections.containsAll(recyclerAdapter.senateElections))
+                assertTrue(state.congressElections.containsAll(recyclerAdapter.congressElections))
+                assertTrue(state.senateElections.containsAll(recyclerAdapter.senateElections))
                 assertEquals(recyclerAdapter.onElectionClicked, ::navigateToDetail)
             }
         }

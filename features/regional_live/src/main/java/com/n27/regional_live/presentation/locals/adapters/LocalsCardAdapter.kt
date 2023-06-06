@@ -11,9 +11,10 @@ import com.n27.regional_live.R
 typealias OnRegionClicked = (region: Region) -> Unit
 
 class LocalsCardAdapter(
-    private val regions: List<Region>,
-    private val onRegionClicked: OnRegionClicked
+    internal val onRegionClicked: OnRegionClicked
 ) : RecyclerView.Adapter<LocalsCardAdapter.MyViewHolder>() {
+
+    internal var regions = listOf<Region>()
 
     class MyViewHolder(val card: CardView) : RecyclerView.ViewHolder(card)
 
