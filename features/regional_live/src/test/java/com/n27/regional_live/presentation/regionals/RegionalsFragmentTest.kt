@@ -19,7 +19,7 @@ class RegionalsFragmentTest {
     fun checkContentViewState() {
         launchActivity().onActivity { activity ->
             with(activity.getFragment()) {
-                renderState(Content)
+                renderState(getRegionalsContent())
                 binding.assertVisibilities(content = true)
             }
         }
@@ -41,8 +41,7 @@ class RegionalsFragmentTest {
 
         launchActivity().onActivity { activity ->
             with(activity.getFragment()) {
-                renderContentState(state)
-                renderState(Content)
+                renderState(state)
 
                 binding.assertVisibilities(content = true)
 

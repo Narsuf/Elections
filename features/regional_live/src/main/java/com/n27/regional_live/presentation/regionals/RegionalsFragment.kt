@@ -15,6 +15,7 @@ import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.domain.live.models.LiveElection
+import com.n27.core.extensions.compare
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
@@ -24,9 +25,6 @@ import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.regional_live.presentation.regionals.adapters.RegionalCardAdapter
 import com.n27.regional_live.presentation.regionals.models.RegionalsAction
 import com.n27.regional_live.presentation.regionals.models.RegionalsAction.ShowErrorSnackbar
-import com.n27.regional_live.presentation.regionals.models.RegionalsContentState
-import com.n27.regional_live.presentation.regionals.models.RegionalsContentState.Empty
-import com.n27.regional_live.presentation.regionals.models.RegionalsContentState.WithData
 import com.n27.regional_live.presentation.regionals.models.RegionalsState
 import com.n27.regional_live.presentation.regionals.models.RegionalsState.Content
 import com.n27.regional_live.presentation.regionals.models.RegionalsState.Error
@@ -39,6 +37,8 @@ class RegionalsFragment : Fragment() {
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: RegionalsViewModel
     @Inject internal lateinit var utils: PresentationUtils
+
+    private val recyclerAdapter = RegionalCardAdapter(::navigateToDetail)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,37 +62,47 @@ class RegionalsFragment : Fragment() {
             viewModel.requestElections()
             utils.track("regionals_fragment_pulled_to_refresh")
         }
-        recyclerFragmentRegionals.apply { layoutManager = LinearLayoutManager(context) }
+
+        recyclerFragmentRegionals.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = recyclerAdapter
+        }
     }
 
     private fun initObservers() {
-        viewModel.viewContentState.observeOnLifecycle(
-            viewLifecycleOwner,
-            distinctUntilChanged = true,
-            action = ::renderContentState
-        )
-        viewModel.viewState.observeOnLifecycle(
-            viewLifecycleOwner,
-            distinctUntilChanged = true,
-            action = ::renderState
-        )
-        viewModel.viewAction.observeOnLifecycle(
-            lifecycleOwner = viewLifecycleOwner,
-            action = ::handleAction
-        )
+        viewModel.viewState.observe(viewLifecycleOwner, ::renderState)
+        viewModel.viewAction.observeOnLifecycle(lifecycleOwner = viewLifecycleOwner, action = ::handleAction)
     }
 
     @VisibleForTesting
-    internal fun renderContentState(state: RegionalsContentState) = when (state) {
-        Empty -> Unit
-        is WithData -> generateCards(state)
+    internal fun renderState(state: RegionalsState) = when (state) {
+        Loading -> setViewsVisibility(animation = true)
+        is Content -> generateCards(state)
+        is Error -> showError(state.error)
     }
 
-    private fun generateCards(content: WithData) {
-        binding.recyclerFragmentRegionals.adapter = RegionalCardAdapter(
-            content.elections,
-            ::navigateToDetail
-        )
+    private fun setViewsVisibility(
+        animation: Boolean = false,
+        loading: Boolean = false,
+        error: Boolean = false,
+        content: Boolean = false
+    ) = with(binding) {
+        regionalsLoadingAnimation.isVisible = animation
+        swipeFragmentRegionals.isRefreshing = loading
+        regionalsErrorAnimation.isVisible = error
+        recyclerFragmentRegionals.isVisible = content
+    }
+
+    private fun generateCards(state: Content) {
+        setViewsVisibility(content = true)
+
+        recyclerAdapter.apply {
+            val changedItems = elections.items.compare(state.elections.items)
+
+            elections = state.elections
+
+            changedItems.forEach { notifyItemChanged(it) }
+        }
 
         utils.track("regionals_fragment_content_loaded")
     }
@@ -106,25 +116,6 @@ class RegionalsFragment : Fragment() {
         startActivity(intent)
 
         utils.track("regionals_fragment_region_clicked") { param("region", liveElection.election.place) }
-    }
-
-    @VisibleForTesting
-    internal fun renderState(state: RegionalsState) = when (state) {
-        Loading -> Unit
-        Content ->  setViewsVisibility(content = true)
-        is Error -> showError(state.error)
-    }
-
-    private fun setViewsVisibility(
-        initialLoading: Boolean = false,
-        loading: Boolean = false,
-        error: Boolean = false,
-        content: Boolean = false
-    ) = with(binding) {
-        regionalsLoadingAnimation.isVisible = initialLoading
-        swipeFragmentRegionals.isRefreshing = loading
-        regionalsErrorAnimation.isVisible = error
-        recyclerFragmentRegionals.isVisible = content
     }
 
     private fun showError(errorMsg: String?) {
