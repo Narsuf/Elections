@@ -35,7 +35,7 @@ class RegionalsFragmentTest {
     }
 
     @Test
-    fun checkWithData() {
+    fun checkContent() {
         val state = getRegionalsContent()
 
         launchActivity().onActivity { activity ->

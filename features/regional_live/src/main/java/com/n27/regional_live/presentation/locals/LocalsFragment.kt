@@ -38,11 +38,19 @@ import javax.inject.Inject
 class LocalsFragment : Fragment() {
 
     private var _binding: FragmentLocalsBinding? = null
-    private val recyclerAdapter = LocalsCardAdapter(::showSelectionDialog)
-
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: LocalsViewModel
     @Inject internal lateinit var utils: PresentationUtils
+    private val recyclerAdapter = LocalsCardAdapter(::showSelectionDialog)
+
+    @VisibleForTesting
+    internal fun showSelectionDialog(region: Region) {
+        MunicipalitySelectionDialog()
+            .also { it.arguments = Bundle().apply { putSerializable(KEY_REGION, region) } }
+            .show(parentFragmentManager, "MunicipalitySelectionDialog")
+
+        utils.track("locals_fragment_region_clicked") { param("region", region.name) }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -97,14 +105,6 @@ class LocalsFragment : Fragment() {
         }
 
         utils.track("locals_fragment_content_loaded")
-    }
-
-    private fun showSelectionDialog(region: Region) {
-        MunicipalitySelectionDialog()
-            .also { it.arguments = Bundle().apply { putSerializable(KEY_REGION, region) } }
-            .show(parentFragmentManager, "MunicipalitySelectionDialog")
-
-        utils.track("locals_fragment_region_clicked") { param("region", region.name) }
     }
 
     private fun setViewsVisibility(

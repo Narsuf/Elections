@@ -42,8 +42,17 @@ class MainActivity : AppCompatActivity() {
     @Inject internal lateinit var viewModel: MainViewModel
     @Inject internal lateinit var utils: PresentationUtils
     @Inject internal lateinit var remoteConfig: FirebaseRemoteConfig
-
     private val recyclerAdapter = GeneralElectionsCardAdapter(::navigateToDetail)
+
+    @VisibleForTesting
+    internal fun navigateToDetail(congressElection: Election, senateElection: Election) {
+        utils.track("main_activity_election_clicked") { param("election", congressElection.date) }
+
+        val myIntent = Intent(this, DetailActivity::class.java)
+        myIntent.putExtra(Constants.KEY_ELECTION, congressElection)
+        myIntent.putExtra(Constants.KEY_SENATE_ELECTION, senateElection)
+        startActivity(myIntent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as ElectionsApplication).appComponent.inject(this)
@@ -88,16 +97,6 @@ class MainActivity : AppCompatActivity() {
     private fun initObservers() {
         viewModel.viewState.observe(this, ::renderState)
         viewModel.viewAction.observeOnLifecycle(lifecycleOwner = this, action = ::handleAction)
-    }
-
-    @VisibleForTesting
-    internal fun navigateToDetail(congressElection: Election, senateElection: Election) {
-        utils.track("main_activity_election_clicked") { param("election", congressElection.date) }
-
-        val myIntent = Intent(this, DetailActivity::class.java)
-        myIntent.putExtra(Constants.KEY_ELECTION, congressElection)
-        myIntent.putExtra(Constants.KEY_SENATE_ELECTION, senateElection)
-        startActivity(myIntent)
     }
 
     @VisibleForTesting

@@ -34,11 +34,21 @@ import javax.inject.Inject
 class RegionalsFragment : Fragment() {
 
     private var _binding: FragmentRegionalsBinding? = null
-    private val recyclerAdapter = RegionalCardAdapter(::navigateToDetail)
-
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: RegionalsViewModel
     @Inject internal lateinit var utils: PresentationUtils
+    private val recyclerAdapter = RegionalCardAdapter(::navigateToDetail)
+
+    @VisibleForTesting
+    internal fun navigateToDetail(liveElection: LiveElection) {
+        val intent = Intent(activity, DetailActivity::class.java).apply {
+            putExtra(KEY_ELECTION_ID, liveElection.id)
+        }
+
+        startActivity(intent)
+
+        utils.track("regionals_fragment_region_clicked") { param("region", liveElection.election.place) }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -105,17 +115,6 @@ class RegionalsFragment : Fragment() {
         }
 
         utils.track("regionals_fragment_content_loaded")
-    }
-
-    @VisibleForTesting
-    internal fun navigateToDetail(liveElection: LiveElection) {
-        val intent = Intent(activity, DetailActivity::class.java).apply {
-            putExtra(KEY_ELECTION_ID, liveElection.id)
-        }
-
-        startActivity(intent)
-
-        utils.track("regionals_fragment_region_clicked") { param("region", liveElection.election.place) }
     }
 
     private fun showError(errorMsg: String?) {
