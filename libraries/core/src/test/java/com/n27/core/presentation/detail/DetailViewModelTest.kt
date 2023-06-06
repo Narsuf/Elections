@@ -22,12 +22,15 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import org.robolectric.RobolectricTestRunner
 import kotlin.Result.Companion.success
 
 @ExperimentalCoroutinesApi
+@RunWith(RobolectricTestRunner::class)
 class DetailViewModelTest {
 
     private lateinit var repository: LiveRepositoryImpl
@@ -44,7 +47,7 @@ class DetailViewModelTest {
 
     @Test
     fun `view model initialized should emit loading`() = runTest {
-        assertEquals(Loading(), viewModel.viewState.value)
+        assertEquals(Loading, viewModel.viewState.value)
     }
 
     @Test
@@ -52,8 +55,7 @@ class DetailViewModelTest {
         viewModel.requestElection(getElection(), null, null)
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -61,8 +63,7 @@ class DetailViewModelTest {
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -72,8 +73,7 @@ class DetailViewModelTest {
         viewModel.requestElection(null, null, ids)
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -100,13 +100,9 @@ class DetailViewModelTest {
         runCurrent()
 
         `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         viewModel.requestElection(null, "01", null)
         runCurrent()
 
-        observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
-        observer.close()
-        assertEquals(getElection().toContent(), viewModel.viewContentState.value)
-        assertEquals(Content, viewModel.viewState.value)
+        assertEquals(ShowErrorSnackbar(NO_INTERNET_CONNECTION), viewModel.viewAction.value)
     }
 }

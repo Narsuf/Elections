@@ -6,7 +6,7 @@ import org.junit.Test
 class ListExtensionsTest {
 
     @Test
-    fun toStringId() {
+    fun compare() {
         val list1 = listOf(1, 2, 3, 4)
         val list2 = listOf(1, 5, 3, 6)
 

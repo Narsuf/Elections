@@ -21,16 +21,13 @@ import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.drawWithResults
-import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.binders.PartyColorBinder
 import com.n27.core.presentation.detail.dialog.DetailDialog
 import com.n27.core.presentation.detail.models.DetailAction
+import com.n27.core.presentation.detail.models.DetailAction.Refresh
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.models.DetailContentState
-import com.n27.core.presentation.detail.models.DetailContentState.Empty
-import com.n27.core.presentation.detail.models.DetailContentState.WithData
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
@@ -80,17 +77,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        viewModel.viewContentState.observeOnLifecycle(
-            lifecycleOwner = this,
-            distinctUntilChanged = true,
-            action = ::renderContentState
-        )
-        viewModel.viewState.observeOnLifecycle(
-            lifecycleOwner = this,
-            distinctUntilChanged = true,
-            action = ::renderState
-        )
-        viewModel.viewAction.observeOnLifecycle(lifecycleOwner = this, action = ::handleAction)
+        viewModel.viewState.observe(this, ::renderState)
+        viewModel.viewAction.observe(this, ::handleAction)
     }
 
     private fun requestElection() { viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds) }
@@ -104,18 +92,33 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun renderContentState(state: DetailContentState) = when (state) {
-        Empty -> Unit
-        is WithData -> showElections(state)
+    @VisibleForTesting
+    internal fun renderState(state: DetailState) = when (state) {
+        Loading -> setViewsVisibility(animation = true)
+        is Content -> showElections(state)
+        is Error -> showError(state.error)
     }
 
-    private fun showElections(content: WithData) {
+    private fun setViewsVisibility(
+        animation: Boolean = false,
+        loading: Boolean = false,
+        error: Boolean = false,
+        content: Boolean = false
+    ) = with(binding) {
+        loadingAnimationActivityDetail.isVisible = animation
+        progressBarActivityDetail.isVisible = loading
+        errorAnimationActivityDetail.isVisible = error
+        contentActivityDetail.isVisible = content
+    }
+
+    private fun showElections(content: Content) {
+        setViewsVisibility(content = true)
         currentElection = content.election
         binding.setContent(content)
         utils.track("detail_activity_content_loaded")
     }
 
-    private fun ActivityDetailBinding.setContent(content: WithData) {
+    private fun ActivityDetailBinding.setContent(content: Content) {
         with(content.election) {
             toolbarActivityDetail.title = generateToolbarTitle()
 
@@ -147,39 +150,13 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun generateResultsAdapter(content: WithData) = SimpleAdapter(
+    private fun generateResultsAdapter(content: Content) = SimpleAdapter(
         this,
         content.arrayList,
         R.layout.list_item_activity_detail,
         content.keys.toTypedArray(),
         content.resources.toIntArray()
     )
-
-    @VisibleForTesting
-    internal fun renderState(state: DetailState) = when (state) {
-        Content -> setViewsVisibility(content = true)
-        is Loading -> showLoading(state.isAnimation)
-        is Error -> showError(state.error)
-    }
-
-    private fun showLoading(isAnimation: Boolean) {
-        if (isAnimation)
-            setViewsVisibility(animation = true)
-        else
-            setViewsVisibility(loading = true, content = true)
-    }
-
-    private fun setViewsVisibility(
-        animation: Boolean = false,
-        loading: Boolean = false,
-        error: Boolean = false,
-        content: Boolean = false
-    ) = with(binding) {
-        loadingAnimationActivityDetail.isVisible = animation
-        progressBarActivityDetail.isVisible = loading
-        errorAnimationActivityDetail.isVisible = error
-        contentActivityDetail.isVisible = content
-    }
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)
@@ -198,6 +175,7 @@ class DetailActivity : AppCompatActivity() {
 
     @VisibleForTesting
     internal fun handleAction(action: DetailAction) = when(action) {
+        Refresh -> setViewsVisibility(loading = true, content = true)
         is ShowErrorSnackbar -> hideLoadingAndShowSnackbar(action.error)
     }
 

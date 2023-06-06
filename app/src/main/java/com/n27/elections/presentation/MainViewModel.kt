@@ -18,7 +18,7 @@ import com.n27.elections.presentation.models.MainState
 import com.n27.elections.presentation.models.MainState.Content
 import com.n27.elections.presentation.models.MainState.Error
 import com.n27.elections.presentation.models.MainState.Loading
-import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor(
     private val state = MutableLiveData<MainState>(Loading)
     internal val viewState: LiveData<MainState> = state
 
-    private val action = Channel<MainAction>(capacity = 1, BufferOverflow.DROP_OLDEST)
+    private val action = Channel<MainAction>(capacity = 1, DROP_OLDEST)
     internal val viewAction = action.receiveAsFlow()
 
     internal fun requestElections() {

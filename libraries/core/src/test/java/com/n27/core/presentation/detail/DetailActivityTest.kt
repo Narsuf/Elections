@@ -10,6 +10,8 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
+import com.n27.core.presentation.detail.models.DetailAction
+import com.n27.core.presentation.detail.models.DetailAction.Refresh
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
@@ -28,7 +30,7 @@ class DetailActivityTest {
     fun checkLoadingViewState() {
         launchActivity().onActivity { activity ->
             with(activity) {
-                renderState(Loading())
+                renderState(Loading)
                 binding.assertVisibilities(animation = true)
             }
         }
@@ -56,7 +58,7 @@ class DetailActivityTest {
     fun checkShowProgressBar() {
         launchActivity(election = null).onActivity { activity ->
             with(activity) {
-                renderState(Loading(isAnimation = false))
+                handleAction(Refresh)
                 binding.assertVisibilities(loading = true, content = true)
 
                 handleAction(ShowErrorSnackbar(null))
