@@ -46,11 +46,12 @@
             android:id="@+id/pie_chart_activity_detail"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/tightest_spacing"
             android:layout_marginTop="@dimen/default_spacing"
             app:layout_constraintBottom_toTopOf="@id/chart_guideline_activity_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/scrutinized_activity_detail" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/more_info_button_activity_detail"
@@ -70,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.52" />
+            app:layout_constraintGuide_percent="0.64" />
 
         <Space
             android:id="@+id/mid_space_activity_detail"

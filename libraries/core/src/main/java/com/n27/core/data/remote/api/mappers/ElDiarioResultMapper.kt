@@ -10,15 +10,19 @@ import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import org.json.JSONObject
 
+fun String.toElDiarioResult(date: Long, seats: Int): ElDiarioResult = JSONObject(this)
+    .run { getJSONObject("9999") }
+    .toElDiarioResult(date, seats = seats)
+
 fun String.toElDiarioRegionalResult(id: String, date: Long): ElDiarioResult = JSONObject(this)
     .run { getJSONObject(keys().next()) }
-    .getElDiarioResult(id, date)
+    .toElDiarioResult(date, id)
 
 fun String.toElDiarioLocalResult(id: String, date: Long): ElDiarioResult = JSONObject(this)
     .run { getJSONObject(id) }
-    .getElDiarioResult(id, date)
+    .toElDiarioResult(date, id)
 
-private fun JSONObject.getElDiarioResult(id: String, date: Long): ElDiarioResult = getJSONObject("i")
+private fun JSONObject.toElDiarioResult(date: Long, id: String = "", seats: Int? = null): ElDiarioResult = getJSONObject("i")
     .let { info ->
         ElDiarioResult(
             id = id,
@@ -29,7 +33,7 @@ private fun JSONObject.getElDiarioResult(id: String, date: Long): ElDiarioResult
             scrutinized = info.getInt("escrutado"),
             nullVotes = info.getInt("nl"),
             validVotes = info.getInt("ok"),
-            seats = info.getInt("seats"),
+            seats = seats ?: info.getInt("seats"),
             partiesResults = getJSONObject("v").getElDiarioPartiesResults()
         )
     }

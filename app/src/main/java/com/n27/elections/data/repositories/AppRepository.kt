@@ -10,11 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class AppRepository @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
-    internal suspend fun isFirstLaunch() = withContext(Dispatchers.IO) {
-        !sharedPreferences.contains(LAUNCHED)
-    }
+    internal fun isFirstLaunch(): Boolean = !sharedPreferences.contains(LAUNCHED)
 
-    internal suspend fun saveFirstLaunchFlag() = withContext(Dispatchers.IO) {
-        sharedPreferences.edit().putBoolean(LAUNCHED, true).apply()
-    }
+    internal fun saveFirstLaunchFlag() { sharedPreferences.edit().putBoolean(LAUNCHED, true).apply() }
 }

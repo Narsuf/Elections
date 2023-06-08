@@ -54,9 +54,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    internal fun saveFirstLaunchFlag() {
-        viewModelScope.launch { appRepository.saveFirstLaunchFlag() }
-    }
+    internal fun saveFirstLaunchFlag() { appRepository.saveFirstLaunchFlag() }
 
     private suspend fun handleError(throwable: Throwable) {
         Firebase.crashlytics.recordException(throwable)
