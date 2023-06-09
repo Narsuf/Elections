@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.domain.live.models.LocalElectionIds
-import com.n27.core.extensions.launchCatching
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
@@ -24,6 +23,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LocalsViewModel @Inject constructor(
@@ -45,7 +45,7 @@ class LocalsViewModel @Inject constructor(
     }
 
     internal fun requestRegions() {
-        viewModelScope.launchCatching(::handleError) {
+        viewModelScope.launch {
             repository.getRegions()
                 .onSuccess { state.emit(Content(it.regions)) }
                 .onFailure { handleError(it) }
@@ -65,7 +65,7 @@ class LocalsViewModel @Inject constructor(
     }
 
     private fun requestElection(ids: LocalElectionIds) {
-        viewModelScope.launchCatching(::errorAction) {
+        viewModelScope.launch {
             repository.getLocalElection(ids).collect { result ->
                 result
                     .onFailure { errorAction(it) }

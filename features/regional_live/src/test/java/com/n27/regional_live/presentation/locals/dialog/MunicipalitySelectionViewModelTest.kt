@@ -77,18 +77,6 @@ class MunicipalitySelectionViewModelTest {
     }
 
     @Test
-    fun `requestProvinces should emit ShowErrorSnackbar when exception occurs`() = runTest {
-        `when`(repository.getProvinces(anyString())).thenThrow(IndexOutOfBoundsException())
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
-
-        viewModel.requestProvinces(getRegion())
-        runCurrent()
-
-        observer.assertValue(ShowErrorSnackbar(null))
-        observer.close()
-    }
-
-    @Test
     fun `requestMunicipalities should emit PopulateMunicipalitiesSpinner`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
 
@@ -107,18 +95,6 @@ class MunicipalitySelectionViewModelTest {
         runCurrent()
 
         observer.assertValue(ShowErrorSnackbar(null))
-        observer.close()
-    }
-
-    @Test
-    fun `requestMunicipalities should emit ShowErrorSnackbar when exception occurs`() = runTest {
-        `when`(repository.getMunicipalities(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
-
-        viewModel.requestMunicipalities(getProvince())
-        runCurrent()
-
-        observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
         observer.close()
     }
 

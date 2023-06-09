@@ -22,6 +22,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
+import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 import kotlin.system.measureTimeMillis
 
@@ -52,7 +53,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `requestElections should emit content`() = runTest {
+    fun `requestElections should emit content onSuccess`() = runTest {
         val totalExecutionTime = measureTimeMillis {
             viewModel.requestElections()
             runCurrent()
@@ -64,8 +65,8 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `requestElections should emit error when an exception occurs`() = runTest {
-        `when`(electionRepository.getElections()).thenThrow(IndexOutOfBoundsException((NO_INTERNET_CONNECTION)))
+    fun `requestElections should emit error onFailure`() = runTest {
+        `when`(electionRepository.getElections()).thenReturn(failure(Throwable((NO_INTERNET_CONNECTION))))
 
         viewModel.requestElections()
         runCurrent()
@@ -97,13 +98,13 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `should ShowErrorSnackbar and Content when exception occurs and lastState is content`() = runTest {
+    fun `onFailure should ShowErrorSnackbar and Content when lastState is content`() = runTest {
         viewModel.requestElections()
         runCurrent()
 
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
 
-        `when`(electionRepository.getElections()).thenThrow(IndexOutOfBoundsException((NO_INTERNET_CONNECTION)))
+        `when`(electionRepository.getElections()).thenReturn(failure(Throwable((NO_INTERNET_CONNECTION))))
         viewModel.requestElections()
         runCurrent()
 

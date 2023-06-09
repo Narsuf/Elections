@@ -9,7 +9,6 @@ import com.n27.core.Constants.KEY_CONGRESS
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.domain.live.models.LiveElection
-import com.n27.core.extensions.launchCatching
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction
 import com.n27.core.presentation.detail.models.DetailAction.Refreshing
@@ -45,7 +44,7 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun requestElection(flags: DetailFlags) = with(flags) {
-        viewModelScope.launchCatching(::handleError) {
+        viewModelScope.launch {
             if (state.value is Content) action.value = Refreshing
 
             when {
@@ -103,7 +102,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun swap(interaction: Swap) = with(interaction) {
+    private fun swap(interaction: Swap): Unit = with(interaction) {
         when (currentElection?.chamberName) {
             KEY_SENATE -> requestElection(flags)
             KEY_CONGRESS -> if (flags.isLiveGeneralElection)

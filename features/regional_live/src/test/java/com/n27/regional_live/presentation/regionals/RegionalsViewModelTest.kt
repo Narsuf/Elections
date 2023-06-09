@@ -22,6 +22,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
+import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 
 @ExperimentalCoroutinesApi
@@ -46,7 +47,7 @@ class RegionalsViewModelTest {
     }
 
     @Test
-    fun `requestElections should emit content when elections not empty`() = runTest {
+    fun `requestElections should emit content when elections onSuccess`() = runTest {
         val expected = Content(getLiveElections())
 
         viewModel.requestElections()
@@ -56,8 +57,8 @@ class RegionalsViewModelTest {
     }
 
     @Test
-    fun `requestElections should emit error when elections is empty`() = runTest {
-        `when`(repository.getRegionalElections()).thenThrow(IndexOutOfBoundsException())
+    fun `requestElections should emit error when elections onFailure`() = runTest {
+        `when`(repository.getRegionalElections()).thenReturn(flowOf(failure(Throwable())))
         val expected = Error()
 
         viewModel.requestElections()
@@ -67,11 +68,11 @@ class RegionalsViewModelTest {
     }
 
     @Test
-    fun `exception should emit ShowErrorSnackbar when lastState was Content`() = runTest {
+    fun `onFailure should emit ShowErrorSnackbar when lastState was Content`() = runTest {
         viewModel.requestElections()
         runCurrent()
 
-        `when`(repository.getRegionalElections()).thenThrow(IndexOutOfBoundsException())
+        `when`(repository.getRegionalElections()).thenReturn(flowOf(failure(Throwable())))
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val expected = Content(getLiveElections())
         viewModel.requestElections()

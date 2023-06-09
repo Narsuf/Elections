@@ -26,6 +26,7 @@ import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
+import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 
 @ExperimentalCoroutinesApi
@@ -67,7 +68,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `ScreenOpened should emit content when electionId not null`() = runTest {
+    fun `ScreenOpened should emit content when regionElectionId not null`() = runTest {
         viewModel.handleInteraction(
             ScreenOpened(
                 DetailFlags(
@@ -84,7 +85,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `ScreenOpened should emit content when electionIds not null`() = runTest {
+    fun `ScreenOpened should emit content when localElectionIds not null`() = runTest {
         val ids = LocalElectionIds("01", "01", "01")
         `when`(repository.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
 
@@ -121,8 +122,9 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `ScreenOpened should emit error when exception occurs`() = runTest {
-        `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
+    fun `ScreenOpened should emit error onFailure`() = runTest {
+        `when`(repository.getRegionalElection(anyString()))
+            .thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
 
         viewModel.handleInteraction(
             ScreenOpened(
@@ -140,7 +142,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `should ShowErrorSnackbar and Content when exception occurs and lastState is content`() = runTest {
+    fun `onFailure should ShowErrorSnackbar and Content when lastState is content`() = runTest {
         val flags =  DetailFlags(
             election = null,
             isLiveGeneralElection = false,
@@ -151,7 +153,8 @@ class DetailViewModelTest {
         viewModel.handleInteraction(ScreenOpened(flags))
         runCurrent()
 
-        `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
+        `when`(repository.getRegionalElection(anyString()))
+            .thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
         viewModel.handleInteraction(ScreenOpened(flags))
         runCurrent()
 

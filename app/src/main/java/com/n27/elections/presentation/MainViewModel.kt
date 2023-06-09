@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
-import com.n27.core.extensions.launchCatching
 import com.n27.core.extensions.sortByDateAndFormat
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.elections.data.repositories.AppRepository
@@ -21,6 +20,7 @@ import com.n27.elections.presentation.models.MainState.Loading
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -35,7 +35,7 @@ class MainViewModel @Inject constructor(
     internal val viewAction = action.receiveAsFlow()
 
     internal fun requestElections() {
-        viewModelScope.launchCatching(::handleError) {
+        viewModelScope.launch {
             if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
 
             electionRepository.getElections()
