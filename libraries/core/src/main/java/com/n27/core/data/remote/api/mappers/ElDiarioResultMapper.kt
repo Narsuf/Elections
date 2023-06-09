@@ -38,17 +38,27 @@ private fun JSONObject.toElDiarioResult(date: Long, id: String = "", seats: Int?
         )
     }
 
-fun ElDiarioResult.toLiveElection(name: String, place: String, parties: List<ElDiarioParty>) = LiveElection(
+fun ElDiarioResult.toLiveElection(
+    name: String,
+    place: String,
+    parties: List<ElDiarioParty>,
+    chamberName: String = ""
+) = LiveElection(
     id = id,
-    election = toElection(name, place, parties).sortResultsByElectsAndVotes()
+    election = toElection(name, place, parties, chamberName).sortResultsByElectsAndVotes()
 )
 
-private fun ElDiarioResult.toElection(name: String, place: String, parties: List<ElDiarioParty>) = Election(
+private fun ElDiarioResult.toElection(
+    name: String,
+    place: String,
+    parties: List<ElDiarioParty>,
+    chamberName: String = ""
+) = Election(
     id = 0,
     name = name,
     date = date.toString().toDate(),
     place = place,
-    chamberName = "",
+    chamberName = chamberName,
     totalElects = seats,
     scrutinized = scrutinized / 100f,
     validVotes = validVotes,

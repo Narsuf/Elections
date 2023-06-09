@@ -9,11 +9,10 @@ import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
-import com.n27.core.Constants.KEY_CONGRESS
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
+import com.n27.core.Constants.KEY_GENERAL_LIVE_ELECTION
 import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
-import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
@@ -26,8 +25,12 @@ import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.binders.PartyColorBinder
 import com.n27.core.presentation.detail.dialog.DetailDialog
 import com.n27.core.presentation.detail.models.DetailAction
-import com.n27.core.presentation.detail.models.DetailAction.Refresh
+import com.n27.core.presentation.detail.models.DetailAction.Refreshing
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.models.DetailFlags
+import com.n27.core.presentation.detail.models.DetailInteraction.Refresh
+import com.n27.core.presentation.detail.models.DetailInteraction.ScreenOpened
+import com.n27.core.presentation.detail.models.DetailInteraction.Swap
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
@@ -44,11 +47,8 @@ class DetailActivity : AppCompatActivity() {
     @Inject internal lateinit var utils: PresentationUtils
     internal lateinit var detailComponent: DetailComponent
     internal lateinit var countDownTimer: CountDownTimer
-
-    private var election: Election? = null
+    private lateinit var flags: DetailFlags
     private var senateElection: Election? = null
-    private var liveElectionId: String? = null
-    private var liveLocalElectionIds: LocalElectionIds? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         detailComponent = (applicationContext as DetailComponentProvider).provideDetailComponent()
@@ -58,15 +58,20 @@ class DetailActivity : AppCompatActivity() {
         intent.extras?.deserialize()
         binding.setUpViews()
         initObservers()
-        requestElection()
+        viewModel.handleInteraction(ScreenOpened(flags))
     }
 
     private fun Bundle.deserialize() {
-        election = getSerializable(KEY_ELECTION) as? Election
+        val election = getSerializable(KEY_ELECTION) as? Election
         currentElection = election
         senateElection = getSerializable(KEY_SENATE_ELECTION) as? Election
-        liveElectionId = getString(KEY_ELECTION_ID)
-        liveLocalElectionIds = getSerializable(KEY_LOCAL_ELECTION_IDS) as? LocalElectionIds
+
+        flags = DetailFlags(
+            election,
+            isLiveGeneralElection = getBoolean(KEY_GENERAL_LIVE_ELECTION),
+            liveRegionalElectionId = getString(KEY_ELECTION_ID),
+            liveLocalElectionIds = getSerializable(KEY_LOCAL_ELECTION_IDS) as? LocalElectionIds
+        )
     }
 
     private fun ActivityDetailBinding.setUpViews() {
@@ -80,8 +85,6 @@ class DetailActivity : AppCompatActivity() {
         viewModel.viewState.observe(this, ::renderState)
         viewModel.viewAction.observe(this, ::handleAction)
     }
-
-    private fun requestElection() { viewModel.requestElection(currentElection, liveElectionId, liveLocalElectionIds) }
 
     private fun generateToolbarTitle() = currentElection?.let { "${it.chamberName} ${it.place} (${it.date})" }
 
@@ -175,7 +178,7 @@ class DetailActivity : AppCompatActivity() {
 
     @VisibleForTesting
     internal fun handleAction(action: DetailAction) = when(action) {
-        Refresh -> setViewsVisibility(loading = true, content = true)
+        Refreshing -> setViewsVisibility(loading = true, content = true)
         is ShowErrorSnackbar -> hideLoadingAndShowSnackbar(action.error)
     }
 
@@ -188,8 +191,8 @@ class DetailActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_activity_detail, menu)
 
         menu.apply {
-            findItem(R.id.action_swap).isVisible = senateElection != null
-            findItem(R.id.action_reload).isVisible = liveElectionId != null || liveLocalElectionIds != null
+            findItem(R.id.action_swap).isVisible = senateElection != null || flags.isLiveGeneralElection
+            findItem(R.id.action_reload).isVisible = senateElection == null
         }
 
         return true
@@ -198,19 +201,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_swap -> {
-                when (currentElection?.chamberName) {
-                    KEY_SENATE -> {
-                        currentElection = election
-                        requestElection()
-                    }
-
-                    KEY_CONGRESS -> {
-                        senateElection?.let {
-                            currentElection = it
-                            requestElection()
-                        }
-                    }
-                }
+                viewModel.handleInteraction(Swap(senateElection, currentElection, flags))
 
                 utils.track("detail_activity_swap_clicked") {
                     param("from", "${currentElection?.chamberName}")
@@ -220,7 +211,7 @@ class DetailActivity : AppCompatActivity() {
             }
 
             R.id.action_reload -> {
-                requestElection()
+                viewModel.handleInteraction(Refresh(currentElection, flags))
                 utils.track("detail_activity_reload")
                 true
             }

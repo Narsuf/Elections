@@ -2,8 +2,6 @@ package com.n27.elections.data.repositories
 
 import android.content.SharedPreferences
 import com.n27.core.Constants.LAUNCHED
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 

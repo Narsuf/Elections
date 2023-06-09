@@ -13,9 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.n27.core.BuildConfig
-import com.n27.core.Constants
+import com.n27.core.Constants.CONGRESS_LIVE
+import com.n27.core.Constants.KEY_ELECTION
+import com.n27.core.Constants.KEY_GENERAL_LIVE_ELECTION
+import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.NO_RESULTS
+import com.n27.core.Constants.REGIONAL_LIVE
 import com.n27.core.domain.election.models.Election
 import com.n27.core.extensions.compare
 import com.n27.core.extensions.observeOnLifecycle
@@ -49,8 +53,8 @@ class MainActivity : AppCompatActivity() {
         utils.track("main_activity_election_clicked") { param("election", congressElection.date) }
 
         val myIntent = Intent(this, DetailActivity::class.java)
-        myIntent.putExtra(Constants.KEY_ELECTION, congressElection)
-        myIntent.putExtra(Constants.KEY_SENATE_ELECTION, senateElection)
+        myIntent.putExtra(KEY_ELECTION, congressElection)
+        myIntent.putExtra(KEY_SENATE_ELECTION, senateElection)
         startActivity(myIntent)
     }
 
@@ -76,10 +80,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         liveElectionsButtonActivityMain.setOnClickListener {
-            if (isFeatureEnabled(NO_RESULTS, debugValue = false))
-                showSnackbar(NO_RESULTS)
-            else
-                navigateToLive()
+            when {
+                isFeatureEnabled(CONGRESS_LIVE, debugValue = false) -> navigateToGeneralsLive()
+                isFeatureEnabled(REGIONAL_LIVE) -> navigateToRegionalsLive()
+            }
+
+            utils.track("main_activity_live_button_clicked")
         }
 
         swipeActivityMain.setOnRefreshListener {
@@ -88,8 +94,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToLive() {
-        utils.track("main_activity_live_button_clicked")
+    private fun navigateToGeneralsLive() {
+        val myIntent = Intent(this@MainActivity, DetailActivity::class.java)
+        myIntent.putExtra(KEY_GENERAL_LIVE_ELECTION, true)
+        startActivity(myIntent)
+    }
+
+    private fun navigateToRegionalsLive() {
         val myIntent = Intent(this, RegionalLiveActivity::class.java)
         startActivity(myIntent)
     }
@@ -131,13 +142,11 @@ class MainActivity : AppCompatActivity() {
         swipeActivityMain.isRefreshing = loading
         errorAnimationActivityMain.isVisible = error
         recyclerActivityMain.isVisible = content
-        liveElectionsButtonActivityMain.isVisible = content && isFeatureEnabled("REGIONAL_LIVE")
+        liveElectionsButtonActivityMain.isVisible = content &&
+                (isFeatureEnabled(REGIONAL_LIVE) || isFeatureEnabled(CONGRESS_LIVE))
     }
 
-    private fun isFeatureEnabled(
-        feature: String,
-        debugValue: Boolean = true
-    ) = if (BuildConfig.DEBUG)
+    private fun isFeatureEnabled(feature: String, debugValue: Boolean = true) = if (BuildConfig.DEBUG)
         debugValue
     else
         remoteConfig.getBoolean(feature)

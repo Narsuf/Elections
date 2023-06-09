@@ -5,6 +5,8 @@ import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.models.DetailFlags
+import com.n27.core.presentation.detail.models.DetailInteraction.ScreenOpened
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
@@ -48,44 +50,90 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `requestElection should emit content when election not null`() = runTest {
-        viewModel.requestElection(getElection(), null, null)
+    fun `ScreenOpened should emit content when election not null`() = runTest {
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = getElection(),
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit content when electionId not null`() = runTest {
-        viewModel.requestElection(null, "01", null)
+    fun `ScreenOpened should emit content when electionId not null`() = runTest {
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = null,
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = "01",
+                    liveLocalElectionIds = null
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit content when electionIds not null`() = runTest {
+    fun `ScreenOpened should emit content when electionIds not null`() = runTest {
         val ids = LocalElectionIds("01", "01", "01")
         `when`(repository.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
-        viewModel.requestElection(null, null, ids)
+
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = null,
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = ids
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit error when all fields null`() = runTest {
-        viewModel.requestElection(null, null, null)
+    fun `ScreenOpened should emit error when all fields null`() = runTest {
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = null,
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(Error(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit error when exception occurs`() = runTest {
+    fun `ScreenOpened should emit error when exception occurs`() = runTest {
         `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
 
-        viewModel.requestElection(null, "01", null)
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = null,
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = "01",
+                    liveLocalElectionIds = null
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(Error(NO_INTERNET_CONNECTION), viewModel.viewState.value)
@@ -93,11 +141,18 @@ class DetailViewModelTest {
 
     @Test
     fun `should ShowErrorSnackbar and Content when exception occurs and lastState is content`() = runTest {
-        viewModel.requestElection(null, "01", null)
+        val flags =  DetailFlags(
+            election = null,
+            isLiveGeneralElection = false,
+            liveRegionalElectionId = "01",
+            liveLocalElectionIds = null
+        )
+
+        viewModel.handleInteraction(ScreenOpened(flags))
         runCurrent()
 
         `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
-        viewModel.requestElection(null, "01", null)
+        viewModel.handleInteraction(ScreenOpened(flags))
         runCurrent()
 
         assertEquals(ShowErrorSnackbar(NO_INTERNET_CONNECTION), viewModel.viewAction.value)

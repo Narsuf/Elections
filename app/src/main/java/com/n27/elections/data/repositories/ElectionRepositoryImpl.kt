@@ -13,9 +13,7 @@ import com.n27.core.domain.election.ElectionRepository
 import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.election.models.Elections
 import com.n27.elections.data.api.ElectionApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.Result.Companion.failure
