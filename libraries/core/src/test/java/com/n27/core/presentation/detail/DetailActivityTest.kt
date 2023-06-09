@@ -6,6 +6,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
+import com.n27.core.Constants.KEY_GENERAL_LIVE_ELECTION
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.databinding.ActivityDetailBinding
@@ -118,6 +119,14 @@ class DetailActivityTest {
     }
 
     @Test
+    fun swapVisibleWhenNoSenateElectionButLive() {
+        launchActivity(isLiveGeneralElection = true).onActivity { activity ->
+            val swap = activity.binding.toolbarActivityDetail.menu.getItem(0)
+            assertTrue(swap.isVisible)
+        }
+    }
+
+    @Test
     fun checkRefresh() {
         launchActivity(liveElectionId = "01").onActivity { activity ->
             val refresh = activity.binding.toolbarActivityDetail.menu.getItem(1)
@@ -157,12 +166,14 @@ class DetailActivityTest {
     private fun launchActivity(
         election: Election? = congressElection,
         senateElection: Election? = null,
-        liveElectionId: String? = null
+        liveElectionId: String? = null,
+        isLiveGeneralElection: Boolean = false
     ) = ActivityScenario.launch<DetailActivity>(
         Intent(ApplicationProvider.getApplicationContext(), DetailActivity::class.java).apply {
             putExtra(KEY_ELECTION, election)
             putExtra(KEY_SENATE_ELECTION, senateElection)
             putExtra(KEY_ELECTION_ID, liveElectionId)
+            putExtra(KEY_GENERAL_LIVE_ELECTION, isLiveGeneralElection)
         }
     )
 }
