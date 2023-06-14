@@ -12,8 +12,8 @@ object Constants {
     const val KEY_REGION = "region"
 
     //region Feature flags
-    const val CONGRESS_LIVE = "congress.live"
-    const val REGIONAL_LIVE = "regional.live"
+    const val CONGRESS_LIVE = "CONGRESS_LIVE"
+    const val REGIONAL_LIVE = "REGIONAL_LIVE"
     //endregion
 
     //region Errors
