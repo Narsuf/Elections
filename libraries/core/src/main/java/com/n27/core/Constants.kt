@@ -6,9 +6,15 @@ object Constants {
     const val KEY_SENATE_ELECTION = "senate.election"
     const val KEY_ELECTION_ID = "election.id"
     const val KEY_LOCAL_ELECTION_IDS = "local.election.ids"
+    const val KEY_GENERAL_LIVE_ELECTION = "general.live.election"
     const val KEY_CONGRESS = "Congreso"
     const val KEY_SENATE = "Senado"
     const val KEY_REGION = "region"
+
+    //region Feature flags
+    const val CONGRESS_LIVE = "congress.live"
+    const val REGIONAL_LIVE = "regional.live"
+    //endregion
 
     //region Errors
     const val NO_RESULTS = "NO_RESULTS"

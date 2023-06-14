@@ -5,20 +5,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.n27.core.Constants.KEY_CONGRESS
+import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.data.LiveRepositoryImpl
-import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.live.models.LiveElection
-import com.n27.core.domain.live.models.LocalElectionIds
-import com.n27.core.extensions.launchCatching
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction
-import com.n27.core.presentation.detail.models.DetailAction.Refresh
+import com.n27.core.presentation.detail.models.DetailAction.Refreshing
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.models.DetailFlags
+import com.n27.core.presentation.detail.models.DetailInteraction
+import com.n27.core.presentation.detail.models.DetailInteraction.Refresh
+import com.n27.core.presentation.detail.models.DetailInteraction.ScreenOpened
+import com.n27.core.presentation.detail.models.DetailInteraction.Swap
 import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(
@@ -32,17 +37,20 @@ class DetailViewModel @Inject constructor(
     private val action = MutableLiveData<DetailAction>()
     internal val viewAction: LiveData<DetailAction> = action
 
-    internal fun requestElection(
-        election: Election?,
-        electionId: String?,
-        localElectionIds: LocalElectionIds?
-    ) {
-        viewModelScope.launchCatching(::handleError) {
-            if (state.value is Content) action.value = Refresh
+    internal fun handleInteraction(interaction: DetailInteraction) = when (interaction) {
+        is ScreenOpened -> requestElection(interaction.flags)
+        is Refresh -> refresh(interaction)
+        is Swap -> swap(interaction)
+    }
+
+    private fun requestElection(flags: DetailFlags) = with(flags) {
+        viewModelScope.launch {
+            if (state.value is Content) action.value = Refreshing
 
             when {
-                localElectionIds != null -> repository.getLocalElection(localElectionIds).handleFlow()
-                electionId != null -> repository.getRegionalElection(electionId).handleFlow()
+                liveLocalElectionIds != null -> repository.getLocalElection(liveLocalElectionIds).handleFlow()
+                liveRegionalElectionId != null -> repository.getRegionalElection(liveRegionalElectionId).handleFlow()
+                isLiveGeneralElection -> requestGeneralLiveCongressElection()
                 election != null -> state.value = election.toContent()
                 else -> handleError()
             }
@@ -53,11 +61,19 @@ class DetailViewModel @Inject constructor(
         collect { result ->
             result
                 .onSuccess { state.value = it.election.toContent() }
-                .onFailure { handleError() }
+                .onFailure(::handleError)
         }
     }
 
-    private suspend fun handleError(throwable: Throwable? = null) {
+    private suspend fun requestGeneralLiveCongressElection() {
+        repository.getCongressElection().collect { result ->
+            result
+                .onFailure(::handleError)
+                .onSuccess { state.value = it.election.toContent() }
+        }
+    }
+
+    private fun handleError(throwable: Throwable? = null) {
         throwable?.let { crashlytics?.recordException(it) }
 
         if (state.value is Content)
@@ -65,5 +81,34 @@ class DetailViewModel @Inject constructor(
         else
             state.value = Error(throwable?.message)
 
+    }
+
+    private fun refresh(interaction: Refresh) = with(interaction) {
+        currentElection
+            ?.takeIf { it.chamberName == KEY_SENATE && flags.isLiveGeneralElection }
+            ?.let { requestGeneralLiveSenateElection() }
+            ?: requestElection(flags)
+    }
+
+    private fun requestGeneralLiveSenateElection() {
+        viewModelScope.launch {
+            if (state.value is Content) action.value = Refreshing
+
+            repository.getSenateElection().collect { senateResult ->
+                senateResult
+                    .onFailure(::handleError)
+                    .onSuccess { state.value = it.election.toContent() }
+            }
+        }
+    }
+
+    private fun swap(interaction: Swap): Unit = with(interaction) {
+        when (currentElection?.chamberName) {
+            KEY_SENATE -> requestElection(flags)
+            KEY_CONGRESS -> if (flags.isLiveGeneralElection)
+                requestGeneralLiveSenateElection()
+            else
+                requestElection(flags.copy(election = senateElection))
+        }
     }
 }

@@ -2,6 +2,8 @@ package com.n27.core.data
 
 import com.n27.core.Constants.BAD_RESPONSE
 import com.n27.core.Constants.EMPTY_LIST
+import com.n27.core.Constants.KEY_CONGRESS
+import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
@@ -46,6 +48,8 @@ class LiveRepositoryImplTest {
         dataUtils = mock(DataUtils::class.java)
         jsonReader = mock(JsonReader::class.java)
 
+        `when`(api.getCongressParties()).thenReturn(success(getElDiarioParties()))
+        `when`(api.getSenateParties()).thenReturn(success(getElDiarioParties()))
         `when`(api.getRegionalParties(anyString())).thenReturn(success(getElDiarioParties()))
         `when`(api.getLocalParties()).thenReturn(success(getElDiarioParties()))
         `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
@@ -55,6 +59,30 @@ class LiveRepositoryImplTest {
         `when`(jsonReader.getStringJson("municipalities.json")).thenReturn(RegionalResponses.municipalities)
 
         repository = LiveRepositoryImpl(api, dataUtils, jsonReader, moshi)
+    }
+
+    @Test
+    fun getCongressElection() = runBlocking {
+        val expected = success(
+            getElDiarioResult(id = "")
+                .toLiveElection("Generales", "España", getElDiarioParties(), KEY_CONGRESS)
+        )
+
+        `when`(api.getCongressResult()).thenReturn(success(getElDiarioResult(id = "")))
+
+        repository.getCongressElection().collect { assertEquals(expected, it) }
+    }
+
+    @Test
+    fun getSenateElection() = runBlocking {
+        val expected = success(
+            getElDiarioResult(id = "")
+                .toLiveElection("Generales", "España", getElDiarioParties(), KEY_SENATE)
+        )
+
+        `when`(api.getSenateResult()).thenReturn(success(getElDiarioResult(id = "")))
+
+        repository.getSenateElection().collect { assertEquals(expected, it) }
     }
 
     @Test

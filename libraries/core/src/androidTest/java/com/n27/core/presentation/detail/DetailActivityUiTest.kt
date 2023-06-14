@@ -11,6 +11,7 @@ import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.R
+import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.test.assertions.ListAssertions.assertListTexts
 import com.n27.test.assertions.ListAssertions.assertListTextsWithDifferentPositions
@@ -27,7 +28,6 @@ import java.text.NumberFormat.getIntegerInstance
 class DetailActivityUiTest {
 
     private val congressElection = getElection()
-    private val senateElection = getElection(chamberName = KEY_SENATE)
     private val mockWebServer = MockWebServer()
 
     @Test
@@ -67,7 +67,7 @@ class DetailActivityUiTest {
         mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalElection))
         mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalParties))
         mockWebServer.start(8080)
-        launchActivity("01")
+        launchActivity("01", senateElection = null)
 
         waitUntil { assertToolbarTitle(" Andalucía (05/23)") }
         checkRegionalContent()
@@ -132,7 +132,8 @@ class DetailActivityUiTest {
 
     private fun launchActivity(
         electionId: String? = null,
-        electionIds: LocalElectionIds? = null
+        electionIds: LocalElectionIds? = null,
+        senateElection: Election? = getElection(chamberName = KEY_SENATE)
     ) = ActivityScenario.launch<DetailActivity>(
         Intent(getInstrumentation().targetContext, DetailActivity::class.java).apply {
             putExtra(KEY_ELECTION, congressElection)

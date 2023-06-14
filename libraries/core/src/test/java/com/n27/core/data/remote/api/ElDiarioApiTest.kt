@@ -1,7 +1,9 @@
 package com.n27.core.data.remote.api
 
 import com.n27.core.data.remote.api.mappers.toElDiarioLocalResult
+import com.n27.core.data.remote.api.mappers.toElDiarioParties
 import com.n27.core.data.remote.api.mappers.toElDiarioRegionalResult
+import com.n27.core.data.remote.api.mappers.toElDiarioResult
 import com.n27.core.data.remote.api.models.ElDiarioResult
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.toStringId
@@ -34,6 +36,36 @@ class ElDiarioApiTest {
             electionDate = 2305,
             client = OkHttpClient.Builder().build()
         )
+    }
+
+    @Test
+    fun getParties() = runBlocking {
+        for (i in 0..3) mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.regionalParties))
+
+        val expected = success(ElDiarioApiResponses.regionalParties.toElDiarioParties())
+
+        assertEquals(expected, api.getCongressParties())
+        assertEquals(expected, api.getSenateParties())
+        assertEquals(expected, api.getRegionalParties(""))
+        assertEquals(expected, api.getLocalParties())
+    }
+
+    @Test
+    fun getCongressElection() = runBlocking {
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.congressElection))
+
+        val expected = success(ElDiarioApiResponses.congressElection.toElDiarioResult(2305, 350))
+
+        assertEquals(expected, api.getCongressResult())
+    }
+
+    @Test
+    fun getSenateElection() = runBlocking {
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.senateElection))
+
+        val expected = success(ElDiarioApiResponses.senateElection.toElDiarioResult(2305, 208))
+
+        assertEquals(expected, api.getSenateResult())
     }
 
     @Test

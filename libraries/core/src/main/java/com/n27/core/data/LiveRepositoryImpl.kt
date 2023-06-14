@@ -1,6 +1,8 @@
 package com.n27.core.data
 
 import com.n27.core.Constants.EMPTY_LIST
+import com.n27.core.Constants.KEY_CONGRESS
+import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.json.JsonReader
@@ -36,6 +38,40 @@ class LiveRepositoryImpl @Inject constructor(
     private fun <T> noInternet(): Result<T>? = utils
         .takeIf { !it.isConnectedToInternet() }
         ?.run { failure(Throwable(NO_INTERNET_CONNECTION)) }
+
+    override fun getCongressElection(): Flow<Result<LiveElection>> = flow {
+        api.getCongressResult()
+            .onFailure { emit(noInternet() ?: failure(it)) }
+            .onSuccess { result ->
+                val election = api.getCongressParties().map { parties ->
+                    result.toLiveElection(
+                        name = "Generales",
+                        place = "España",
+                        parties,
+                        chamberName = KEY_CONGRESS
+                    )
+                }
+
+                emit(election)
+            }
+    }
+
+    override fun getSenateElection(): Flow<Result<LiveElection>> = flow {
+        api.getSenateResult()
+            .onFailure { emit(noInternet() ?: failure(it)) }
+            .onSuccess { result ->
+                val election = api.getSenateParties().map { parties ->
+                    result.toLiveElection(
+                        name = "Generales",
+                        place = "España",
+                        parties,
+                        chamberName = KEY_SENATE
+                    )
+                }
+
+                emit(election)
+            }
+    }
 
     override fun getRegionalElections(): Flow<Result<LiveElections>> = flow {
         getRegions()

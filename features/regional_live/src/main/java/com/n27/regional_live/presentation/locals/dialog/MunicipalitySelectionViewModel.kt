@@ -7,7 +7,6 @@ import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.domain.live.models.Province
 import com.n27.core.domain.live.models.Region
-import com.n27.core.extensions.launchCatching
 import com.n27.core.presentation.PresentationUtils
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
@@ -40,7 +39,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
     internal val viewAction = action.receiveAsFlow()
 
     internal fun requestProvinces(region: Region?) {
-        viewModelScope.launchCatching(::handleError) {
+        viewModelScope.launch {
             region?.let {
                 val provinces = repository.getProvinces(region.name)
                 state.emit(Content(provinces))
@@ -51,7 +50,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
     }
 
     internal fun requestMunicipalities(province: Province?) {
-        viewModelScope.launchCatching(::handleError) {
+        viewModelScope.launch {
             val resultAction = province?.let {
                 val provinces = repository.getMunicipalities(province.name)
                     .sortedBy { it.name }

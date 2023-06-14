@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.core.data.LiveRepositoryImpl
-import com.n27.core.extensions.launchCatching
 import com.n27.regional_live.presentation.regionals.models.RegionalsAction
 import com.n27.regional_live.presentation.regionals.models.RegionalsAction.ShowErrorSnackbar
 import com.n27.regional_live.presentation.regionals.models.RegionalsState
@@ -16,6 +15,7 @@ import com.n27.regional_live.presentation.regionals.models.RegionalsState.Loadin
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RegionalsViewModel @Inject constructor(
@@ -30,7 +30,7 @@ class RegionalsViewModel @Inject constructor(
     internal val viewAction = action.receiveAsFlow()
 
     internal fun requestElections() {
-        viewModelScope.launchCatching(::handleError) {
+        viewModelScope.launch {
             repository.getRegionalElections().collect { result ->
                 result
                     .onFailure { handleError(it) }

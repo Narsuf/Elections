@@ -1,10 +1,15 @@
 package com.n27.core.presentation.detail
 
+import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.models.DetailFlags
+import com.n27.core.presentation.detail.models.DetailInteraction.Refresh
+import com.n27.core.presentation.detail.models.DetailInteraction.ScreenOpened
+import com.n27.core.presentation.detail.models.DetailInteraction.Swap
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
@@ -24,6 +29,7 @@ import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
+import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 
 @ExperimentalCoroutinesApi
@@ -37,7 +43,12 @@ class DetailViewModelTest {
     @Before
     fun init() = runTest {
         repository = mock(LiveRepositoryImpl::class.java)
+        `when`(repository.getCongressElection()).thenReturn(flowOf(success(getLiveElection())))
         `when`(repository.getRegionalElection(anyString())).thenReturn(flowOf(success(getLiveElection())))
+        `when`(repository.getSenateElection()).thenReturn(
+            flowOf(success(getLiveElection(getElection(chamberName = KEY_SENATE))))
+        )
+
         viewModel = DetailViewModel(repository, null)
         Dispatchers.setMain(testDispatcher)
     }
@@ -48,58 +59,223 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `requestElection should emit content when election not null`() = runTest {
-        viewModel.requestElection(getElection(), null, null)
+    fun `ScreenOpened should emit content when election not null`() = runTest {
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = getElection(),
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit content when electionId not null`() = runTest {
-        viewModel.requestElection(null, "01", null)
+    fun `ScreenOpened should emit content when liveGeneralElection`() = runTest {
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = null,
+                    isLiveGeneralElection = true,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit content when electionIds not null`() = runTest {
+    fun `ScreenOpened should emit content when regionElectionId not null`() = runTest {
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = null,
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = "01",
+                    liveLocalElectionIds = null
+                )
+            )
+        )
+        runCurrent()
+
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `ScreenOpened should emit content when localElectionIds not null`() = runTest {
         val ids = LocalElectionIds("01", "01", "01")
         `when`(repository.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
-        viewModel.requestElection(null, null, ids)
+
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = null,
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = ids
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(getElection().toContent(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit error when all fields null`() = runTest {
-        viewModel.requestElection(null, null, null)
+    fun `ScreenOpened should emit error when all fields null`() = runTest {
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = null,
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(Error(), viewModel.viewState.value)
     }
 
     @Test
-    fun `requestElection should emit error when exception occurs`() = runTest {
-        `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
+    fun `ScreenOpened should emit error onFailure`() = runTest {
+        `when`(repository.getRegionalElection(anyString()))
+            .thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
 
-        viewModel.requestElection(null, "01", null)
+        viewModel.handleInteraction(
+            ScreenOpened(
+                DetailFlags(
+                    election = null,
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = "01",
+                    liveLocalElectionIds = null
+                )
+            )
+        )
         runCurrent()
 
         assertEquals(Error(NO_INTERNET_CONNECTION), viewModel.viewState.value)
     }
 
     @Test
-    fun `should ShowErrorSnackbar and Content when exception occurs and lastState is content`() = runTest {
-        viewModel.requestElection(null, "01", null)
+    fun `onFailure should ShowErrorSnackbar and Content when lastState is content`() = runTest {
+        val flags =  DetailFlags(
+            election = null,
+            isLiveGeneralElection = false,
+            liveRegionalElectionId = "01",
+            liveLocalElectionIds = null
+        )
+
+        viewModel.handleInteraction(ScreenOpened(flags))
         runCurrent()
 
-        `when`(repository.getRegionalElection(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
-        viewModel.requestElection(null, "01", null)
+        `when`(repository.getRegionalElection(anyString()))
+            .thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
+        viewModel.handleInteraction(ScreenOpened(flags))
         runCurrent()
 
         assertEquals(ShowErrorSnackbar(NO_INTERNET_CONNECTION), viewModel.viewAction.value)
+    }
+
+    @Test
+    fun `Refresh should emit Content`() = runTest {
+        viewModel.handleInteraction(
+            Refresh(
+                getElection(),
+                DetailFlags(
+                    election = getElection(),
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
+        runCurrent()
+
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `Refresh should emit Content with live senate when current election is live senate`() = runTest {
+        viewModel.handleInteraction(
+            Refresh(
+                getElection(chamberName = KEY_SENATE, validVotes = 1),
+                DetailFlags(
+                    election = getElection(),
+                    isLiveGeneralElection = true,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
+        runCurrent()
+
+        assertEquals(getElection(chamberName = KEY_SENATE).toContent(), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `Swipe should emit Content with congress when current chamber is senate`() = runTest {
+        viewModel.handleInteraction(
+            Swap(
+                getElection(chamberName = KEY_SENATE),
+                getElection(chamberName = KEY_SENATE),
+                DetailFlags(
+                    election = getElection(),
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
+        runCurrent()
+
+        assertEquals(getElection().toContent(), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `Swipe should emit Content with senate when current chamber is congress`() = runTest {
+        viewModel.handleInteraction(
+            Swap(
+                getElection(chamberName = KEY_SENATE),
+                getElection(),
+                DetailFlags(
+                    election = getElection(),
+                    isLiveGeneralElection = false,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
+        runCurrent()
+
+        assertEquals(getElection(chamberName = KEY_SENATE).toContent(), viewModel.viewState.value)
+    }
+
+    @Test
+    fun `Swipe should emit Content with live senate when current chamber is live congress`() = runTest {
+        viewModel.handleInteraction(
+            Swap(
+                null,
+                getElection(),
+                DetailFlags(
+                    election = getElection(),
+                    isLiveGeneralElection = true,
+                    liveRegionalElectionId = null,
+                    liveLocalElectionIds = null
+                )
+            )
+        )
+        runCurrent()
+
+        assertEquals(getElection(chamberName = KEY_SENATE).toContent(), viewModel.viewState.value)
     }
 }

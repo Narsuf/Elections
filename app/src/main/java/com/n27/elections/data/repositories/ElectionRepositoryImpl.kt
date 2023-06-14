@@ -13,9 +13,7 @@ import com.n27.core.domain.election.ElectionRepository
 import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.election.models.Elections
 import com.n27.elections.data.api.ElectionApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.Result.Companion.failure
@@ -40,25 +38,22 @@ class ElectionRepositoryImpl @Inject constructor(
             getElectionsFromDb() ?: getElectionsFromFirebase()
         }
 
-    private suspend fun getElectionsFromApi(): Result<Elections> = withContext(Dispatchers.IO) { api.getElections() }
-        .elections
+    private suspend fun getElectionsFromApi(): Result<Elections> = api.getElections().elections
         .apply { insertInDb() }
         .let { success(Elections(it)) }
 
-    private suspend fun getElectionsFromDb(): Result<Elections>? = withContext(Dispatchers.IO) { dao.getElections() }
+    private suspend fun getElectionsFromDb(): Result<Elections>? = dao.getElections()
         .takeIf { it.isNotEmpty() }
         ?.run { success(toElections()) }
 
-    private suspend fun getElectionsFromFirebase(): Result<Elections> =
-        withContext(Dispatchers.IO) { firebaseDatabase.getReference("elections").get().await() }
-            .toElections()
-            ?.let {
-                it.insertInDb()
-                success(Elections(it))
-            }
-            ?: failure(Throwable("Empty response from Firebase"))
+    private suspend fun getElectionsFromFirebase(): Result<Elections> = firebaseDatabase
+        .getReference("elections").get().await()
+        .toElections()
+        ?.let {
+            it.insertInDb()
+            success(Elections(it))
+        }
+        ?: failure(Throwable("Empty response from Firebase"))
 
-    private suspend fun List<Election>.insertInDb() {
-        withContext(Dispatchers.IO) { dao.insertElections(toElectionsWithResultsAndParty()) }
-    }
+    private suspend fun List<Election>.insertInDb() { dao.insertElections(toElectionsWithResultsAndParty()) }
 }

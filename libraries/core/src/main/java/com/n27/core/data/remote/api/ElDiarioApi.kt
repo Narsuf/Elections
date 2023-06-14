@@ -4,6 +4,7 @@ import com.n27.core.Constants.BAD_RESPONSE
 import com.n27.core.data.remote.api.mappers.toElDiarioLocalResult
 import com.n27.core.data.remote.api.mappers.toElDiarioParties
 import com.n27.core.data.remote.api.mappers.toElDiarioRegionalResult
+import com.n27.core.data.remote.api.mappers.toElDiarioResult
 import com.n27.core.data.remote.api.models.ElDiarioParty
 import com.n27.core.data.remote.api.models.ElDiarioResult
 import com.n27.core.domain.live.models.LocalElectionIds
@@ -25,6 +26,18 @@ class ElDiarioApi @Inject constructor(
 ) {
 
     private val url = "$baseUrl/$electionDate"
+
+    suspend fun getCongressResult(): Result<ElDiarioResult> = getResult("$url/congreso.json")
+        .map { it.toElDiarioResult(electionDate, 350) }
+
+    suspend fun getCongressParties(): Result<List<ElDiarioParty>> = getResult("$url/congreso_partidos.json")
+        .map { it.toElDiarioParties() }
+
+    suspend fun getSenateResult(): Result<ElDiarioResult> = getResult("$url/senado.json")
+        .map { it.toElDiarioResult(electionDate, 208) }
+
+    suspend fun getSenateParties(): Result<List<ElDiarioParty>> = getResult("$url/senado_partidos.json")
+        .map { it.toElDiarioParties() }
 
     suspend fun getRegionalResults(): List<ElDiarioResult> {
         val elections = mutableListOf<ElDiarioResult>()

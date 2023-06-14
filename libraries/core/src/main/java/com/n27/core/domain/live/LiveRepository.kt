@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface LiveRepository {
 
+    fun getCongressElection(): Flow<Result<LiveElection>>
+    fun getSenateElection(): Flow<Result<LiveElection>>
     fun getRegionalElections(): Flow<Result<LiveElections>>
     fun getRegionalElection(id: String): Flow<Result<LiveElection>>
     fun getLocalElection(ids: LocalElectionIds): Flow<Result<LiveElection>>

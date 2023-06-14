@@ -1,6 +1,5 @@
 package com.n27.regional_live.presentation.locals.dialog
 
-import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.LiveRepositoryImpl
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
@@ -77,18 +76,6 @@ class MunicipalitySelectionViewModelTest {
     }
 
     @Test
-    fun `requestProvinces should emit ShowErrorSnackbar when exception occurs`() = runTest {
-        `when`(repository.getProvinces(anyString())).thenThrow(IndexOutOfBoundsException())
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
-
-        viewModel.requestProvinces(getRegion())
-        runCurrent()
-
-        observer.assertValue(ShowErrorSnackbar(null))
-        observer.close()
-    }
-
-    @Test
     fun `requestMunicipalities should emit PopulateMunicipalitiesSpinner`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
 
@@ -107,18 +94,6 @@ class MunicipalitySelectionViewModelTest {
         runCurrent()
 
         observer.assertValue(ShowErrorSnackbar(null))
-        observer.close()
-    }
-
-    @Test
-    fun `requestMunicipalities should emit ShowErrorSnackbar when exception occurs`() = runTest {
-        `when`(repository.getMunicipalities(anyString())).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
-
-        viewModel.requestMunicipalities(getProvince())
-        runCurrent()
-
-        observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
         observer.close()
     }
 

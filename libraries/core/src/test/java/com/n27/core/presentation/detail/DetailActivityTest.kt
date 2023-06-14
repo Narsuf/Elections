@@ -6,11 +6,12 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
+import com.n27.core.Constants.KEY_GENERAL_LIVE_ELECTION
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
-import com.n27.core.presentation.detail.models.DetailAction.Refresh
+import com.n27.core.presentation.detail.models.DetailAction.Refreshing
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
@@ -57,7 +58,7 @@ class DetailActivityTest {
     fun checkShowProgressBar() {
         launchActivity(election = null).onActivity { activity ->
             with(activity) {
-                handleAction(Refresh)
+                handleAction(Refreshing)
                 binding.assertVisibilities(loading = true, content = true)
 
                 handleAction(ShowErrorSnackbar(null))
@@ -118,6 +119,14 @@ class DetailActivityTest {
     }
 
     @Test
+    fun swapVisibleWhenNoSenateElectionButLive() {
+        launchActivity(isLiveGeneralElection = true).onActivity { activity ->
+            val swap = activity.binding.toolbarActivityDetail.menu.getItem(0)
+            assertTrue(swap.isVisible)
+        }
+    }
+
+    @Test
     fun checkRefresh() {
         launchActivity(liveElectionId = "01").onActivity { activity ->
             val refresh = activity.binding.toolbarActivityDetail.menu.getItem(1)
@@ -126,8 +135,8 @@ class DetailActivityTest {
     }
 
     @Test
-    fun refreshNotVisibleWhenNoLiveElectionId() {
-        launchActivity().onActivity { activity ->
+    fun refreshNotVisibleWhenSenateElectionsNotNull() {
+        launchActivity(senateElection = getElection()).onActivity { activity ->
             val refresh = activity.binding.toolbarActivityDetail.menu.getItem(1)
             assertFalse(refresh.isVisible)
         }
@@ -157,12 +166,14 @@ class DetailActivityTest {
     private fun launchActivity(
         election: Election? = congressElection,
         senateElection: Election? = null,
-        liveElectionId: String? = null
+        liveElectionId: String? = null,
+        isLiveGeneralElection: Boolean = false
     ) = ActivityScenario.launch<DetailActivity>(
         Intent(ApplicationProvider.getApplicationContext(), DetailActivity::class.java).apply {
             putExtra(KEY_ELECTION, election)
             putExtra(KEY_SENATE_ELECTION, senateElection)
             putExtra(KEY_ELECTION_ID, liveElectionId)
+            putExtra(KEY_GENERAL_LIVE_ELECTION, isLiveGeneralElection)
         }
     )
 }

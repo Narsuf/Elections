@@ -27,6 +27,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 
 @ExperimentalCoroutinesApi
@@ -52,7 +53,7 @@ class LocalsViewModelTest {
     }
 
     @Test
-    fun `requestRegions should emit content`() = runTest {
+    fun `requestRegions should emit content onSuccess`() = runTest {
         val expected = Content(getRegions().regions)
 
         viewModel.requestRegions()
@@ -62,8 +63,8 @@ class LocalsViewModelTest {
     }
 
     @Test
-    fun `requestRegions should emit error`() = runTest {
-        `when`(repository.getRegions()).thenThrow(IndexOutOfBoundsException())
+    fun `requestRegions should emit error onFailure`() = runTest {
+        `when`(repository.getRegions()).thenReturn(failure(Throwable()))
         viewModel.requestRegions()
         runCurrent()
 
@@ -71,7 +72,7 @@ class LocalsViewModelTest {
     }
 
     @Test
-    fun `RequestElection should emit NavigateToDetail`() = runTest {
+    fun `RequestElection should emit NavigateToDetail onSuccess`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
         `when`(repository.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
@@ -85,10 +86,10 @@ class LocalsViewModelTest {
     }
 
     @Test
-    fun `RequestElection should emit ShowErrorSnackbar`() = runTest {
+    fun `RequestElection should emit ShowErrorSnackbar onFailure`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
-        `when`(repository.getLocalElection(ids)).thenThrow(IndexOutOfBoundsException(NO_INTERNET_CONNECTION))
+        `when`(repository.getLocalElection(ids)).thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
 
         runCurrent()
         eventBus.emit(RequestElection(ids))
