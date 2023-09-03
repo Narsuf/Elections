@@ -20,8 +20,8 @@ tasks.withType(Test) {
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
     reports {
-        xml.enabled(true)
-        html.enabled(true)
+        xml { enabled true }
+        html { enabled true }
     }
 
     def fileFilter = [
@@ -65,7 +65,7 @@ android {
         versionCode 17
         versionName "1.1.2-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs 'en', 'es', 'ca'
+        resourceConfigurations += ['en', 'es', 'ca']
     }
 
     buildTypes {
@@ -89,6 +89,13 @@ android {
     }
 
     namespace 'com.n27.elections'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions { jvmTarget = '17' }
 }
 
 repositories {
