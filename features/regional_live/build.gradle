@@ -10,17 +10,16 @@ apply from : '../../constants.gradle'
 //region Jacoco
 jacoco { toolVersion = '0.8.10' }
 
-tasks.withType(Test).configureEach {
+tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
     jacoco.excludes = ['jdk.internal.*']
 }
 
-tasks.register('jacocoTestReport', JacocoReport) {
-    dependsOn['testDebugUnitTest', 'createDebugCoverageReport']
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
     reports {
-        xml.setEnabled(true)
-        html.setEnabled(true)
+        xml { enabled true }
+        html { enabled true }
     }
 
     def fileFilter = [
