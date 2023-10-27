@@ -1,19 +1,19 @@
 project.ext {
-    sdkV = 33
+    sdkV = 34
     minSdkV = 23
 
     daggerVersion = '2.45'
     moshiVersion = '1.14.0'
     retrofitVersion = '2.9.0'
-    roomVersion = '2.5.1'
+    roomVersion = '2.6.0'
     coroutinesVersion = '1.6.4'
-    fragmentVersion = '1.5.7'
+    fragmentVersion = '1.6.1'
     okHttpVersion = '4.10.0'
-    navigationVersion = '2.5.3'
+    navigationVersion = '2.7.4'
 
     testVersion = '1.5.0'
     archTestVersion = '2.2.0'
-    robolectricVersion = '4.9.2'
+    robolectricVersion = '4.11-beta-2'
     mockitoVersion = '5.2.0'
 
     junitVersion = '1.1.5'

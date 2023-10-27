@@ -10,9 +10,9 @@ plugins {
 apply from : '../constants.gradle'
 
 //region Jacoco
-jacoco { toolVersion = '0.8.8' }
+jacoco { toolVersion = '0.8.10' }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     jacoco.includeNoLocationClasses = true
     jacoco.excludes = ['jdk.internal.*']
 }
@@ -20,8 +20,8 @@ tasks.withType(Test) {
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
     reports {
-        xml.enabled(true)
-        html.enabled(true)
+        xml { enabled true }
+        html { enabled true }
     }
 
     def fileFilter = [
@@ -55,9 +55,8 @@ android {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     def productionUrl = properties.getProperty('production.url')
 
-    compileSdkVersion sdkV
-
     defaultConfig {
+        compileSdk sdkV
         applicationId "com.n27.elections"
         minSdkVersion minSdkV
         targetSdkVersion sdkV
@@ -65,7 +64,7 @@ android {
         versionCode 17
         versionName "1.1.2-debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs 'en', 'es', 'ca'
+        resourceConfigurations += ['en', 'es', 'ca']
     }
 
     buildTypes {
@@ -89,6 +88,13 @@ android {
     }
 
     namespace 'com.n27.elections'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions { jvmTarget = '17' }
 }
 
 repositories {
