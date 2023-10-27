@@ -12,7 +12,7 @@ apply from : '../constants.gradle'
 //region Jacoco
 jacoco { toolVersion = '0.8.10' }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     jacoco.includeNoLocationClasses = true
     jacoco.excludes = ['jdk.internal.*']
 }
@@ -55,9 +55,8 @@ android {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     def productionUrl = properties.getProperty('production.url')
 
-    compileSdkVersion sdkV
-
     defaultConfig {
+        compileSdk sdkV
         applicationId "com.n27.elections"
         minSdkVersion minSdkV
         targetSdkVersion sdkV

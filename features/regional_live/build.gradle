@@ -10,7 +10,7 @@ apply from : '../../constants.gradle'
 //region Jacoco
 jacoco { toolVersion = '0.8.10' }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     jacoco.includeNoLocationClasses = true
     jacoco.excludes = ['jdk.internal.*']
 }

@@ -10,7 +10,7 @@ apply from : '../../constants.gradle'
 //region Jacoco
 jacoco { toolVersion = '0.8.10' }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     jacoco.includeNoLocationClasses = true
     jacoco.excludes = ['jdk.internal.*']
 }
@@ -84,7 +84,7 @@ repositories {
 }
 
 dependencies {
-    api 'com.google.android.material:material:1.9.0'
+    api 'com.google.android.material:material:1.10.0'
     api "androidx.fragment:fragment-ktx:$fragmentVersion"
     api 'androidx.multidex:multidex:2.0.1'
 
