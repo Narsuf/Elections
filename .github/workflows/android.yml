@@ -54,6 +54,7 @@ jobs:
           path: app/build/reports/jacoco/jacocoTestReport
 
       - name: Upload Test Report
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml,libraries/core/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml,features/regional_live/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
