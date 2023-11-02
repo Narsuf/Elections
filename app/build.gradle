@@ -20,7 +20,7 @@ tasks.withType(Test).configureEach {
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
     reports {
-        xml { enabled true }
+        xml.required.set(true)
         html { enabled true }
     }
 
