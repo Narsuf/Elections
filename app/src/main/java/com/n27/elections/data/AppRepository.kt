@@ -1,4 +1,4 @@
-package com.n27.elections.data.repositories
+package com.n27.elections.data
 
 import android.content.SharedPreferences
 import com.n27.core.Constants.LAUNCHED
@@ -10,5 +10,5 @@ class AppRepository @Inject constructor(private val sharedPreferences: SharedPre
 
     internal fun isFirstLaunch(): Boolean = !sharedPreferences.contains(LAUNCHED)
 
-    internal fun saveFirstLaunchFlag() { sharedPreferences.edit().putBoolean(LAUNCHED, true).apply() }
+    internal fun firstLaunch() { sharedPreferences.edit().putBoolean(LAUNCHED, true).apply() }
 }

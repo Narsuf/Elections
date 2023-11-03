@@ -2,7 +2,8 @@ package com.n27.core.extensions
 
 import com.n27.core.domain.election.models.Election
 
-fun List<Election>.sortByDateAndFormat() = sortedByDescending { it.formatDateToDouble() }.map { it.formatDate() }
+fun List<Election>.sortByDateAndFormat() = sortedByDescending { it.formatDateToDouble() }
+    .map { it.formatDate() }
 
 internal fun Election.formatDateToDouble(): Double {
     return if (date.length > 4)

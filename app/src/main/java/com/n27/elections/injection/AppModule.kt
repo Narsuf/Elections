@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.room.Database
+import com.n27.elections.data.ElectionRepositoryImpl
+import com.n27.elections.domain.ElectionUseCase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -35,4 +37,8 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     fun provideSharedPreferences(): SharedPreferences = app.getSharedPreferences("shared_preferences", MODE_PRIVATE)
+
+    @Provides
+    @Singleton
+    fun provideElectionUseCase(repository: ElectionRepositoryImpl) = ElectionUseCase(repository)
 }

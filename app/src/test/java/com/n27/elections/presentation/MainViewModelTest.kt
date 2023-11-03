@@ -1,16 +1,19 @@
 package com.n27.elections.presentation
 
+import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.elections.data.repositories.AppRepository
-import com.n27.elections.data.repositories.ElectionRepositoryImpl
+import com.n27.elections.data.AppRepository
+import com.n27.elections.domain.ElectionUseCase
 import com.n27.elections.presentation.models.MainAction.*
 import com.n27.elections.presentation.models.MainState.*
+import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
-import com.n27.test.generators.getElections
+import com.n27.test.generators.getGeneralElections
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runCurrent
@@ -31,19 +34,19 @@ import kotlin.system.measureTimeMillis
 class MainViewModelTest {
 
     private lateinit var appRepository: AppRepository
-    private lateinit var electionRepository: ElectionRepositoryImpl
+    private lateinit var useCase: ElectionUseCase
     private lateinit var viewModel: MainViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
         appRepository = mock(AppRepository::class.java)
-        electionRepository = mock(ElectionRepositoryImpl::class.java)
+        useCase = mock(ElectionUseCase::class.java)
 
         `when`(appRepository.isFirstLaunch()).thenReturn(false)
-        `when`(electionRepository.getElections()).thenReturn(success(getElections()))
+        `when`(useCase.getElections()).thenReturn(flowOf(success(getGeneralElections())))
 
-        viewModel = MainViewModel(appRepository, electionRepository)
+        viewModel = MainViewModel(appRepository, useCase)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -54,11 +57,16 @@ class MainViewModelTest {
 
     @Test
     fun `requestElections should emit content onSuccess`() = runTest {
+        val expected = Content(
+            getElectionList(),
+            listOf(getElection(chamberName = KEY_SENATE))
+        )
+
         val totalExecutionTime = measureTimeMillis {
             viewModel.requestElections()
             runCurrent()
 
-            assertEquals(Content(getElectionList(), listOf()), viewModel.viewState.value)
+            assertEquals(expected, viewModel.viewState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
@@ -66,7 +74,7 @@ class MainViewModelTest {
 
     @Test
     fun `requestElections should emit error onFailure`() = runTest {
-        `when`(electionRepository.getElections()).thenReturn(failure(Throwable((NO_INTERNET_CONNECTION))))
+        `when`(useCase.getElections()).thenReturn(flowOf(failure(Throwable((NO_INTERNET_CONNECTION)))))
 
         viewModel.requestElections()
         runCurrent()
@@ -99,17 +107,22 @@ class MainViewModelTest {
 
     @Test
     fun `onFailure should ShowErrorSnackbar and Content when lastState is content`() = runTest {
+        val expected = Content(
+            getElectionList(),
+            listOf(getElection(chamberName = KEY_SENATE))
+        )
+
         viewModel.requestElections()
         runCurrent()
 
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
 
-        `when`(electionRepository.getElections()).thenReturn(failure(Throwable((NO_INTERNET_CONNECTION))))
+        `when`(useCase.getElections()).thenReturn(flowOf(failure(Throwable((NO_INTERNET_CONNECTION)))))
         viewModel.requestElections()
         runCurrent()
 
         observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
         observer.close()
-        assertEquals(Content(getElectionList(), listOf()), viewModel.viewState.value)
+        assertEquals(expected, viewModel.viewState.value)
     }
 }

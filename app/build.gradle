@@ -51,9 +51,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 //endregion
 
 android {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    def productionUrl = properties.getProperty('production.url')
 
     defaultConfig {
         compileSdk sdkV
@@ -72,12 +69,10 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "SERVER_URL", productionUrl
         }
 
         debug {
             testCoverageEnabled true
-            buildConfigField "String", "SERVER_URL", '"http://127.0.0.1:8080"'
         }
     }
 

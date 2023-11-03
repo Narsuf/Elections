@@ -1,4 +1,4 @@
-package com.n27.elections.data.repositories
+package com.n27.elections.data
 
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
@@ -29,7 +29,7 @@ class AppRepositoryTest {
     fun isFirstLaunch() = runBlocking {
         assertTrue(repository.isFirstLaunch())
 
-        repository.saveFirstLaunchFlag()
+        repository.firstLaunch()
 
         assertFalse(repository.isFirstLaunch())
     }

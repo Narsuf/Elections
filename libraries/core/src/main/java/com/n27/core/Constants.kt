@@ -19,6 +19,7 @@ object Constants {
     //region Errors
     const val NO_RESULTS = "NO_RESULTS"
     const val NO_INTERNET_CONNECTION = "NO_INTERNET_CONNECTION"
+    const val EMPTY_RESPONSE_FROM_FIREBASE = "EMPTY_RESPONSE_FROM_FIREBASE"
     const val BAD_RESPONSE = "BAD_RESPONSE"
     const val EMPTY_LIST = "EMPTY_LIST"
     //endregion
