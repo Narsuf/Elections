@@ -3,22 +3,14 @@ package com.n27.test.generators
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.election.models.Elections
-import com.n27.core.domain.election.models.GeneralElections
 import com.n27.core.domain.election.models.Party
 import com.n27.core.domain.election.models.Result
 
 fun getElections() = Elections(getElectionList())
 
-fun getGeneralElections() = GeneralElections(
-    getElectionList(),
-    listOf(getElection(chamberName = KEY_SENATE))
-)
+fun getGeneralElection() = Elections(listOf(getElection(), getElection(chamberName = KEY_SENATE)))
 
-fun getGeneralElectionsRaw() = Elections(
-    listOf(getElection(), getElection(chamberName = KEY_SENATE))
-)
-
-fun getElectionList() = listOf(getElection())
+fun getElectionList(): List<Election> = listOf(getElection())
 
 fun getElection(
     id: Long = 3,

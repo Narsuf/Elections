@@ -1,8 +1,13 @@
 package com.n27.elections.domain
 
+import com.n27.core.Constants
+import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.test.generators.getGeneralElections
-import com.n27.test.generators.getGeneralElectionsRaw
+import com.n27.core.domain.election.models.Elections
+import com.n27.elections.domain.models.GeneralElections
+import com.n27.test.generators.getElection
+import com.n27.test.generators.getElectionList
+import com.n27.test.generators.getGeneralElection
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -17,6 +22,10 @@ class ElectionUseCaseTest {
 
     private lateinit var repository: ElectionRepository
     private lateinit var useCase: ElectionUseCase
+    private val generalElections = GeneralElections(
+        getElectionList(),
+        listOf(getElection(chamberName = KEY_SENATE))
+    )
 
     @Before
     fun setUp() {
@@ -26,19 +35,19 @@ class ElectionUseCaseTest {
 
     @Test
     fun loadElectionsRemotely() = runTest {
-        val expected = success(getGeneralElections())
+        val expected = success(generalElections)
 
-        `when`(repository.getElectionsRemotely()).thenReturn(success(getGeneralElectionsRaw()))
+        `when`(repository.getElectionsRemotely()).thenReturn(success(getGeneralElection()))
 
         assertEquals(expected, useCase.getElections().first())
     }
 
     @Test
     fun loadElectionsLocallyWhenRemotelyFails() = runTest {
-        val expected = success(getGeneralElections())
+        val expected = success(generalElections)
 
         `when`(repository.getElectionsRemotely()).thenReturn(failure(Throwable()))
-        `when`(repository.getElectionsLocally()).thenReturn(getGeneralElectionsRaw())
+        `when`(repository.getElectionsLocally()).thenReturn(getGeneralElection())
 
         assertEquals(expected, useCase.getElections().first())
     }

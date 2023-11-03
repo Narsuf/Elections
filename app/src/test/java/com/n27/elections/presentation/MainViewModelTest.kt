@@ -4,11 +4,12 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.AppRepository
 import com.n27.elections.domain.ElectionUseCase
+import com.n27.elections.domain.models.GeneralElections
 import com.n27.elections.presentation.models.MainAction.*
 import com.n27.elections.presentation.models.MainState.*
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
-import com.n27.test.generators.getGeneralElections
+import com.n27.test.generators.getGeneralElection
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,10 @@ class MainViewModelTest {
     private lateinit var useCase: ElectionUseCase
     private lateinit var viewModel: MainViewModel
     private val testDispatcher = StandardTestDispatcher()
+    private val generalElections = GeneralElections(
+        getElectionList(),
+        listOf(getElection(chamberName = KEY_SENATE))
+    )
 
     @Before
     fun init() = runTest {
@@ -44,7 +49,7 @@ class MainViewModelTest {
         useCase = mock(ElectionUseCase::class.java)
 
         `when`(appRepository.isFirstLaunch()).thenReturn(false)
-        `when`(useCase.getElections()).thenReturn(flowOf(success(getGeneralElections())))
+        `when`(useCase.getElections()).thenReturn(flowOf(success(generalElections)))
 
         viewModel = MainViewModel(appRepository, useCase)
         Dispatchers.setMain(testDispatcher)

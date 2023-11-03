@@ -45,31 +45,6 @@ class ElectionRepositoryImplTest {
         assertEquals(expected, repository.getElectionsLocally())
     }
 
-    /*
-    @Test
-    fun loadElectionsLocallyWhenRemotelyFails() = runBlocking {
-        val daoElections = getElectionList()
-        val expected = success(Elections(items = daoElections))
-
-        `when`(utils.isConnectedToInternet()).thenReturn(true)
-        `when`(dao.getElections()).thenReturn(daoElections.toElectionsWithResultsAndParty())
-
-        assertEquals(expected, repository.getElections())
-    }
-
-    @Test
-    fun loadElectionsLocallyWhenNoInternetButDbEmpty(): Unit = runBlocking {
-        val daoElections = listOf<Election>()
-
-        `when`(utils.isConnectedToInternet()).thenReturn(false)
-        `when`(dao.getElections()).thenReturn(daoElections.toElectionsWithResultsAndParty())
-
-        repository.getElections().apply {
-            assertTrue(isFailure)
-            onFailure { assertEquals(it.message, NO_INTERNET_CONNECTION) }
-        }
-    }*/
-
     @Test
     fun loadElectionsRemotely(): Unit = runBlocking {
         `when`(utils.isConnectedToInternet()).thenReturn(true)
