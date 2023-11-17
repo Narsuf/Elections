@@ -1,14 +1,15 @@
 package com.n27.regional_live.presentation.locals.dialog
 
-import com.n27.core.data.remote.api.LiveRepositoryImpl
+import com.n27.core.domain.LiveUseCase
 import com.n27.core.domain.live.models.LocalElectionIds
+import com.n27.regional_live.Constants.NULL_ID
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.presentation.locals.comm.LocalsEventBus
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityState.Content
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityState.Empty
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityAction.PopulateMunicipalitiesSpinner
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityAction.ShowErrorSnackbar
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityState.Content
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityState.Empty
 import com.n27.test.generators.getMunicipalities
 import com.n27.test.generators.getProvince
 import com.n27.test.generators.getProvinces
@@ -31,22 +32,22 @@ import org.mockito.Mockito.`when`
 @ExperimentalCoroutinesApi
 class MunicipalitySelectionViewModelTest {
 
-    private lateinit var repository: LiveRepositoryImpl
+    private lateinit var useCase: LiveUseCase
     private lateinit var eventBus: LocalsEventBus
     private lateinit var viewModel: MunicipalitySelectionViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
-        repository = mock(LiveRepositoryImpl::class.java)
+        useCase = mock(LiveUseCase::class.java)
         eventBus = LocalsEventBus()
 
-        `when`(repository.getProvinces(anyString())).thenReturn(getProvinces())
-        `when`(repository.getMunicipalities(anyString())).thenReturn(getMunicipalities())
+        `when`(useCase.getProvinces(anyString())).thenReturn(getProvinces())
+        `when`(useCase.getMunicipalities(anyString())).thenReturn(getMunicipalities())
 
         Dispatchers.setMain(testDispatcher)
 
-        viewModel = MunicipalitySelectionViewModel(repository, eventBus, null, null)
+        viewModel = MunicipalitySelectionViewModel(useCase, eventBus, null, null)
     }
 
     @Test
@@ -71,7 +72,7 @@ class MunicipalitySelectionViewModelTest {
         viewModel.requestProvinces(null)
         runCurrent()
 
-        observer.assertValue(ShowErrorSnackbar(null))
+        observer.assertValue(ShowErrorSnackbar)
         observer.close()
     }
 
@@ -93,7 +94,7 @@ class MunicipalitySelectionViewModelTest {
         viewModel.requestMunicipalities(null)
         runCurrent()
 
-        observer.assertValue(ShowErrorSnackbar(null))
+        observer.assertValue(ShowErrorSnackbar)
         observer.close()
     }
 
@@ -118,7 +119,8 @@ class MunicipalitySelectionViewModelTest {
         viewModel.requestElection(null, "", "")
         runCurrent()
 
-        observer.assertValue(ShowError)
+        val expected = (observer.values.last() as ShowError).throwable.message
+        assertEquals(expected, NULL_ID)
         observer.close()
     }
 }

@@ -10,20 +10,20 @@ import java.io.Closeable
 
 class FlowTestObserver<T>(scope: CoroutineScope, flow: Flow<T>) : Closeable {
 
-    private val _values = mutableListOf<T>()
+    val values = mutableListOf<T>()
 
     private val job: Job = scope.launch {
-        flow.collect { _values.add(it) }
+        flow.collect { values.add(it) }
     }
 
     fun assertValue(value: T): FlowTestObserver<T> {
-        assertTrue(_values.isNotEmpty())
-        assertEquals(value, _values.last())
+        assertTrue(values.isNotEmpty())
+        assertEquals(value, values.last())
         return this
     }
 
     fun assertValues(vararg values: T): FlowTestObserver<T> {
-        assertEquals(values.toList(), _values)
+        assertEquals(values.toList(), this.values)
         return this
     }
 

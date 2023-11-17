@@ -15,7 +15,6 @@ import com.n27.core.Constants.KEY_ELECTION_ID
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.domain.live.models.LiveElection
-import com.n27.core.extensions.compare
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
@@ -23,12 +22,12 @@ import com.n27.core.presentation.detail.DetailActivity
 import com.n27.regional_live.databinding.FragmentRegionalsBinding
 import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.regional_live.presentation.regionals.adapters.RegionalCardAdapter
-import com.n27.regional_live.presentation.regionals.models.RegionalsAction
-import com.n27.regional_live.presentation.regionals.models.RegionalsAction.ShowErrorSnackbar
-import com.n27.regional_live.presentation.regionals.models.RegionalsState
-import com.n27.regional_live.presentation.regionals.models.RegionalsState.Content
-import com.n27.regional_live.presentation.regionals.models.RegionalsState.Error
-import com.n27.regional_live.presentation.regionals.models.RegionalsState.Loading
+import com.n27.regional_live.presentation.regionals.entities.RegionalsAction
+import com.n27.regional_live.presentation.regionals.entities.RegionalsAction.ShowErrorSnackbar
+import com.n27.regional_live.presentation.regionals.entities.RegionalsState
+import com.n27.regional_live.presentation.regionals.entities.RegionalsState.Content
+import com.n27.regional_live.presentation.regionals.entities.RegionalsState.Error
+import com.n27.regional_live.presentation.regionals.entities.RegionalsState.Loading
 import javax.inject.Inject
 
 class RegionalsFragment : Fragment() {
@@ -37,7 +36,7 @@ class RegionalsFragment : Fragment() {
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: RegionalsViewModel
     @Inject internal lateinit var utils: PresentationUtils
-    private val recyclerAdapter = RegionalCardAdapter(::navigateToDetail)
+    private val recyclerAdapter by lazy { RegionalCardAdapter(::navigateToDetail) }
 
     @VisibleForTesting
     internal fun navigateToDetail(liveElection: LiveElection) {
@@ -105,15 +104,7 @@ class RegionalsFragment : Fragment() {
 
     private fun generateCards(state: Content) {
         setViewsVisibility(content = true)
-
-        recyclerAdapter.apply {
-            val changedItems = elections.items.compare(state.elections.items)
-
-            elections = state.elections
-
-            changedItems.forEach { notifyItemChanged(it) }
-        }
-
+        recyclerAdapter.updateItems(state.elections)
         utils.track("regionals_fragment_content_loaded")
     }
 

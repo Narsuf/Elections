@@ -14,6 +14,7 @@ import kotlin.Result.Companion.failure
 class LiveUseCase(private val liveRepository: LiveRepository, private val regionalRepository: RegionRepository) {
 
     fun getCongressElection() = liveRepository.getCongressElection()
+
     fun getSenateElection() = liveRepository.getSenateElection()
 
     fun getRegionalElections() = flow<Result<LiveElections>> {
@@ -41,5 +42,7 @@ class LiveUseCase(private val liveRepository: LiveRepository, private val region
 
     suspend fun getRegions(): Result<Regions> = regionalRepository.getRegions()
     suspend fun getProvinces(region: String): List<Province> = regionalRepository.getProvinces(region)
-    suspend fun getMunicipalities(province: String): List<Municipality> = regionalRepository.getMunicipalities(province)
+    suspend fun getMunicipalities(province: String): List<Municipality> = regionalRepository
+        .getMunicipalities(province)
+        .sortedBy { it.name }
 }

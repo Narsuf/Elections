@@ -87,8 +87,8 @@ class DetailFakeModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun provideLiveUseCase(client: OkHttpClient, jsonReader: JsonReader, moshi: Moshi) = LiveUseCase(
-        LiveRepositoryImpl(ElDiarioApi("", 1, client, DataUtils(app))),
+    fun provideLiveUseCase(baseUrl: String, client: OkHttpClient, jsonReader: JsonReader, moshi: Moshi) = LiveUseCase(
+        LiveRepositoryImpl(ElDiarioApi(baseUrl, 1, client, DataUtils(app))),
         RegionRepositoryImpl(jsonReader, moshi)
     )
 }

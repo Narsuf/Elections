@@ -1,4 +1,4 @@
-package com.n27.regional_live.presentation.locals.dialog.models
+package com.n27.regional_live.presentation.locals.dialog.entities
 
 import com.n27.core.domain.region.models.Province
 

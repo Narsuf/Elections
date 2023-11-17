@@ -18,12 +18,12 @@ import com.n27.core.extensions.observeOnLifecycle
 import com.n27.regional_live.R
 import com.n27.regional_live.databinding.DialogMunicipalitySelectionBinding
 import com.n27.regional_live.presentation.RegionalLiveActivity
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction.PopulateMunicipalitiesSpinner
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityAction.ShowErrorSnackbar
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityState
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityState.Content
-import com.n27.regional_live.presentation.locals.dialog.models.MunicipalityState.Empty
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityAction
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityAction.PopulateMunicipalitiesSpinner
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityAction.ShowErrorSnackbar
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityState
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityState.Content
+import com.n27.regional_live.presentation.locals.dialog.entities.MunicipalityState.Empty
 import javax.inject.Inject
 
 class MunicipalitySelectionDialog : DialogFragment() {
@@ -49,17 +49,20 @@ class MunicipalitySelectionDialog : DialogFragment() {
         initObservers()
         region = arguments?.getSerializable(KEY_REGION) as Region
         viewModel.requestProvinces(region)
-        return AlertDialog.Builder(activity).apply {
-            setView(binding.root)
-            setPositiveButton(resources.getString(R.string.show_results)) { _, _ ->
-                viewModel.requestElection(
-                    region?.id,
-                    selectedProvince?.id,
-                    selectedMunicipality?.id
-                )
-            }
-        }.create()
+        return getAlertDialog()
     }
+
+    private fun getAlertDialog() = AlertDialog.Builder(activity).apply {
+        setView(binding.root)
+        setPositiveButton(resources.getString(R.string.show_results)) { _, _ ->
+            viewModel.requestElection(
+                region?.id,
+                selectedProvince?.id,
+                selectedMunicipality?.id
+            )
+        }
+    }.create()
+
 
     private fun DialogMunicipalitySelectionBinding.setUpViews() {
         provincesDialogMunicipalitySelection.onItemSelectedListener =
@@ -115,7 +118,7 @@ class MunicipalitySelectionDialog : DialogFragment() {
 
     private fun handleAction(action: MunicipalityAction) = when(action) {
         is PopulateMunicipalitiesSpinner -> populateMunicipalitiesSpinner(action.municipalities)
-        is ShowErrorSnackbar -> Snackbar.make(binding.root, getString(R.string.something_wrong), Snackbar.LENGTH_LONG).show()
+        ShowErrorSnackbar -> Snackbar.make(binding.root, getString(R.string.something_wrong), Snackbar.LENGTH_LONG).show()
     }
 
     private fun populateMunicipalitiesSpinner(municipalities: List<Municipality>) {

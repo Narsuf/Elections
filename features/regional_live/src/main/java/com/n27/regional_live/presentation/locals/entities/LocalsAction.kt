@@ -1,4 +1,4 @@
-package com.n27.regional_live.presentation.locals.models
+package com.n27.regional_live.presentation.locals.entities
 
 import com.n27.core.domain.live.models.LocalElectionIds
 

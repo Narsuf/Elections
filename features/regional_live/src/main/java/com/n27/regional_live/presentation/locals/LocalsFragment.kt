@@ -17,7 +17,6 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.domain.region.models.Region
-import com.n27.core.extensions.compare
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
@@ -26,13 +25,13 @@ import com.n27.regional_live.databinding.FragmentLocalsBinding
 import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.regional_live.presentation.locals.adapters.LocalsCardAdapter
 import com.n27.regional_live.presentation.locals.dialog.MunicipalitySelectionDialog
-import com.n27.regional_live.presentation.locals.models.LocalsAction
-import com.n27.regional_live.presentation.locals.models.LocalsAction.NavigateToDetail
-import com.n27.regional_live.presentation.locals.models.LocalsAction.ShowErrorSnackbar
-import com.n27.regional_live.presentation.locals.models.LocalsState
-import com.n27.regional_live.presentation.locals.models.LocalsState.Content
-import com.n27.regional_live.presentation.locals.models.LocalsState.Error
-import com.n27.regional_live.presentation.locals.models.LocalsState.Loading
+import com.n27.regional_live.presentation.locals.entities.LocalsAction
+import com.n27.regional_live.presentation.locals.entities.LocalsAction.NavigateToDetail
+import com.n27.regional_live.presentation.locals.entities.LocalsAction.ShowErrorSnackbar
+import com.n27.regional_live.presentation.locals.entities.LocalsState
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Content
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Error
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Loading
 import javax.inject.Inject
 
 class LocalsFragment : Fragment() {
@@ -41,13 +40,13 @@ class LocalsFragment : Fragment() {
     @VisibleForTesting internal val binding get() = _binding!!
     @Inject internal lateinit var viewModel: LocalsViewModel
     @Inject internal lateinit var utils: PresentationUtils
-    private val recyclerAdapter = LocalsCardAdapter(::showSelectionDialog)
+    private val recyclerAdapter by lazy { LocalsCardAdapter(::showSelectionDialog) }
 
     @VisibleForTesting
     internal fun showSelectionDialog(region: Region) {
         MunicipalitySelectionDialog()
             .also { it.arguments = Bundle().apply { putSerializable(KEY_REGION, region) } }
-            .show(parentFragmentManager, "MunicipalitySelectionDialog")
+            .show(parentFragmentManager, null)
 
         utils.track("locals_fragment_region_clicked") { param("region", region.name) }
     }
@@ -95,22 +94,11 @@ class LocalsFragment : Fragment() {
 
     private fun generateCards(state: Content) {
         setViewsVisibility(content = true)
-
-        recyclerAdapter.apply {
-            val changedItems = regions.compare(state.regions)
-
-            regions = state.regions
-
-            changedItems.forEach { notifyItemChanged(it) }
-        }
-
+        recyclerAdapter.updateItems(state.regions)
         utils.track("locals_fragment_content_loaded")
     }
 
-    private fun setViewsVisibility(
-        error: Boolean = false,
-        content: Boolean = false
-    ) = with(binding) {
+    private fun setViewsVisibility(error: Boolean = false, content: Boolean = false) = with(binding) {
         errorFragmentLocals.isVisible = error
         recyclerFragmentLocals.isVisible = content
     }

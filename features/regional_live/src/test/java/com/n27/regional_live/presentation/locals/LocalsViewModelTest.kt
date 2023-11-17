@@ -1,16 +1,16 @@
 package com.n27.regional_live.presentation.locals
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.remote.api.LiveRepositoryImpl
+import com.n27.core.domain.LiveUseCase
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.presentation.locals.comm.LocalsEventBus
-import com.n27.regional_live.presentation.locals.models.LocalsAction.NavigateToDetail
-import com.n27.regional_live.presentation.locals.models.LocalsAction.ShowErrorSnackbar
-import com.n27.regional_live.presentation.locals.models.LocalsState.Content
-import com.n27.regional_live.presentation.locals.models.LocalsState.Error
-import com.n27.regional_live.presentation.locals.models.LocalsState.Loading
+import com.n27.regional_live.presentation.locals.entities.LocalsAction.NavigateToDetail
+import com.n27.regional_live.presentation.locals.entities.LocalsAction.ShowErrorSnackbar
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Content
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Error
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Loading
 import com.n27.test.generators.getLiveElection
 import com.n27.test.generators.getRegions
 import com.n27.test.observers.FlowTestObserver
@@ -33,18 +33,18 @@ import kotlin.Result.Companion.success
 @ExperimentalCoroutinesApi
 class LocalsViewModelTest {
 
-    private lateinit var repository: LiveRepositoryImpl
+    private lateinit var useCase: LiveUseCase
     private lateinit var eventBus: LocalsEventBus
     private lateinit var viewModel: LocalsViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
-        repository = mock(LiveRepositoryImpl::class.java)
+        useCase = mock(LiveUseCase::class.java)
         eventBus = LocalsEventBus()
-        `when`(repository.getRegions()).thenReturn(success(getRegions()))
+        `when`(useCase.getRegions()).thenReturn(success(getRegions()))
         Dispatchers.setMain(testDispatcher)
-        viewModel = LocalsViewModel(repository, null, eventBus)
+        viewModel = LocalsViewModel(useCase, null, eventBus)
     }
 
     @Test
@@ -64,7 +64,7 @@ class LocalsViewModelTest {
 
     @Test
     fun `requestRegions should emit error onFailure`() = runTest {
-        `when`(repository.getRegions()).thenReturn(failure(Throwable()))
+        `when`(useCase.getRegions()).thenReturn(failure(Throwable()))
         viewModel.requestRegions()
         runCurrent()
 
@@ -75,7 +75,7 @@ class LocalsViewModelTest {
     fun `RequestElection should emit NavigateToDetail onSuccess`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
-        `when`(repository.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
+        `when`(useCase.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
 
         runCurrent()
         eventBus.emit(RequestElection(ids))
@@ -89,7 +89,7 @@ class LocalsViewModelTest {
     fun `RequestElection should emit ShowErrorSnackbar onFailure`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
-        `when`(repository.getLocalElection(ids)).thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
+        `when`(useCase.getLocalElection(ids)).thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
 
         runCurrent()
         eventBus.emit(RequestElection(ids))
@@ -104,7 +104,7 @@ class LocalsViewModelTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
 
         runCurrent()
-        eventBus.emit(ShowError)
+        eventBus.emit(ShowError(Throwable()))
         runCurrent()
 
         observer.assertValue(ShowErrorSnackbar(null))

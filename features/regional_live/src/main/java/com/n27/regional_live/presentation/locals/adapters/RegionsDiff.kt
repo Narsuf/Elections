@@ -1,9 +1,9 @@
-package com.n27.elections.presentation.adapters
+package com.n27.regional_live.presentation.locals.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.n27.core.domain.election.Election
+import com.n27.core.domain.region.models.Region
 
-class ElectionsDiff(private val oldList: List<Election>, private val newList: List<Election>) : DiffUtil.Callback() {
+class RegionsDiff(private val oldList: List<Region>, private val newList: List<Region>) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size
 
