@@ -5,6 +5,7 @@ import com.n27.core.extensions.sortByDateAndFormat
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.elections.domain.mappers.toGeneralElections
 import com.n27.elections.domain.models.GeneralElections
+import com.n27.elections.domain.repositories.ElectionRepository
 import kotlinx.coroutines.flow.flow
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
@@ -15,18 +16,18 @@ class ElectionUseCase(private val repository: ElectionRepository) {
         repository.getElectionsRemotely()
             .onSuccess {
                 repository.saveElections(it.items)
-                emit(success(it.sort().toGeneralElections()))
+                emit(success(it.sort()))
             }
             .onFailure { error ->
                 repository.getElectionsLocally()
-                    ?.let { emit(success(it.sort().toGeneralElections())) }
+                    ?.let { emit(success(it.sort())) }
                     ?: emit(failure(error))
             }
     }
 
-    private fun Elections.sort() = Elections(
+    private fun Elections.sort(): GeneralElections = Elections(
         items
             .map { it.sortResultsByElectsAndVotes() }
             .sortByDateAndFormat()
-    )
+    ).toGeneralElections()
 }

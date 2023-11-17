@@ -1,4 +1,4 @@
-package com.n27.elections.domain
+package com.n27.elections.domain.repositories
 
 import com.n27.core.domain.election.Election
 import com.n27.core.domain.election.Elections

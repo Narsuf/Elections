@@ -7,7 +7,6 @@ import android.text.method.LinkMovementMethod
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -21,22 +20,22 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.NO_RESULTS
 import com.n27.core.Constants.REGIONAL_LIVE
 import com.n27.core.domain.election.Election
-import com.n27.core.extensions.compare
 import com.n27.core.extensions.observeOnLifecycle
+import com.n27.core.extensions.openLink
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.elections.ElectionsApplication
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
-import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
-import com.n27.elections.presentation.models.MainAction
-import com.n27.elections.presentation.models.MainAction.ShowDisclaimer
-import com.n27.elections.presentation.models.MainAction.ShowErrorSnackbar
-import com.n27.elections.presentation.models.MainState
-import com.n27.elections.presentation.models.MainState.Content
-import com.n27.elections.presentation.models.MainState.Error
-import com.n27.elections.presentation.models.MainState.Loading
+import com.n27.elections.presentation.adapters.ElectionCardAdapter
+import com.n27.elections.presentation.entities.MainAction
+import com.n27.elections.presentation.entities.MainAction.ShowDisclaimer
+import com.n27.elections.presentation.entities.MainAction.ShowErrorSnackbar
+import com.n27.elections.presentation.entities.MainState
+import com.n27.elections.presentation.entities.MainState.Content
+import com.n27.elections.presentation.entities.MainState.Error
+import com.n27.elections.presentation.entities.MainState.Loading
 import com.n27.regional_live.presentation.RegionalLiveActivity
 import javax.inject.Inject
 
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     @Inject internal lateinit var viewModel: MainViewModel
     @Inject internal lateinit var utils: PresentationUtils
     @Inject internal lateinit var remoteConfig: FirebaseRemoteConfig
-    private val recyclerAdapter = GeneralElectionsCardAdapter(::navigateToDetail)
+    private val recyclerAdapter by lazy { ElectionCardAdapter(::navigateToDetail) }
 
     @VisibleForTesting
     internal fun navigateToDetail(congressElection: Election, senateElection: Election) {
@@ -95,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToGeneralsLive() {
-        val myIntent = Intent(this@MainActivity, DetailActivity::class.java)
+        val myIntent = Intent(this, DetailActivity::class.java)
         myIntent.putExtra(KEY_GENERAL_LIVE_ELECTION, true)
         startActivity(myIntent)
     }
@@ -119,16 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showElections(state: Content) = with(binding) {
         setViewsVisibility(content = true)
-
-        recyclerAdapter.apply {
-            val changedItems = congressElections.compare(state.congressElections)
-
-            congressElections = state.congressElections
-            senateElections = state.senateElections
-
-            changedItems.forEach { notifyItemChanged(it) }
-        }
-
+        recyclerAdapter.updateItems(state.congressElections, state.senateElections)
         utils.track("main_activity_content_loaded")
     }
 
@@ -176,12 +166,15 @@ class MainActivity : AppCompatActivity() {
         val alertDialog = AlertDialog.Builder(this)
             .setTitle(getString(R.string.disclaimer))
             .setMessage(
-                HtmlCompat.fromHtml(
-                    "${getString(R.string.disclaimer_description)} " +
-                            "<a href=\"https://elecciones.eldiario.es/\">" +
-                            "elDiario.es" +
-                            "</a>.",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                utils.getTextWithLink(
+                    text = getString(R.string.disclaimer_description, getString(R.string.disclaimer_link)),
+                    link = getString(R.string.disclaimer_link),
+                    onClick = {
+                        "https://elecciones.eldiario.es/".let {
+                            openLink(it)
+                            utils.trackLink(it)
+                        }
+                    }
                 )
             )
             .setPositiveButton(getString(R.string.close), null)

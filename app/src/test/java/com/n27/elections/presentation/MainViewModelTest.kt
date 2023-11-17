@@ -2,11 +2,11 @@ package com.n27.elections.presentation
 
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.elections.data.AppRepository
+import com.n27.elections.data.AppRepositoryImpl
 import com.n27.elections.domain.ElectionUseCase
 import com.n27.elections.domain.models.GeneralElections
-import com.n27.elections.presentation.models.MainAction.*
-import com.n27.elections.presentation.models.MainState.*
+import com.n27.elections.presentation.entities.MainAction.*
+import com.n27.elections.presentation.entities.MainState.*
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
 import com.n27.test.observers.FlowTestObserver
@@ -33,7 +33,7 @@ import kotlin.system.measureTimeMillis
 @RunWith(RobolectricTestRunner::class)
 class MainViewModelTest {
 
-    private lateinit var appRepository: AppRepository
+    private lateinit var appRepository: AppRepositoryImpl
     private lateinit var useCase: ElectionUseCase
     private lateinit var viewModel: MainViewModel
     private val testDispatcher = StandardTestDispatcher()
@@ -44,7 +44,7 @@ class MainViewModelTest {
 
     @Before
     fun init() = runTest {
-        appRepository = mock(AppRepository::class.java)
+        appRepository = mock(AppRepositoryImpl::class.java)
         useCase = mock(ElectionUseCase::class.java)
 
         `when`(appRepository.isFirstLaunch()).thenReturn(false)

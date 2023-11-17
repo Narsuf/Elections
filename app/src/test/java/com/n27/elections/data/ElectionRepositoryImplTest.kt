@@ -50,7 +50,7 @@ class ElectionRepositoryImplTest {
     }
 
     @Test
-    fun failureWhenGetElectionsRemotelyWithoutInternet(): Unit = runBlocking {
+    fun `failure when getElectionsRemotely with no internet`(): Unit = runBlocking {
         `when`(utils.isConnectedToInternet()).thenReturn(false)
 
         repository.getElectionsRemotely()

@@ -10,7 +10,7 @@ import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.core.data.remote.firebase.toElections
 import com.n27.core.domain.election.Election
 import com.n27.core.domain.election.Elections
-import com.n27.elections.domain.ElectionRepository
+import com.n27.elections.domain.repositories.ElectionRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton

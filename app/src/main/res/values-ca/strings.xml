@@ -6,7 +6,8 @@
 
     <!-- Disclaimer. -->
     <string name="disclaimer">Avís legal</string>
-    <string name="disclaimer_description">Aquesta aplicació no representa cap entitat governamental. Les dades dels resultats s\'obtenen del diari espanyol</string>
+    <string name="disclaimer_description">Aquesta aplicació no representa cap entitat governamental.
+        Les dades dels resultats s\'obtenen del diari espanyol %s.</string>
 
     <!-- Errors. -->
     <string name="preliminary_results_not_available_yet">Resultats preliminars encara no disponibles.</string>

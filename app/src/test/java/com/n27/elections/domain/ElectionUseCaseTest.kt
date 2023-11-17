@@ -3,6 +3,7 @@ package com.n27.elections.domain
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.domain.models.GeneralElections
+import com.n27.elections.domain.repositories.ElectionRepository
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
 import com.n27.test.generators.getGeneralElection
@@ -41,7 +42,7 @@ class ElectionUseCaseTest {
     }
 
     @Test
-    fun loadElectionsLocallyWhenRemotelyFails() = runTest {
+    fun `load elections locally when remotely fails`() = runTest {
         val expected = success(generalElections)
 
         `when`(repository.getElectionsRemotely()).thenReturn(failure(Throwable()))
@@ -51,7 +52,7 @@ class ElectionUseCaseTest {
     }
 
     @Test
-    fun failureWhenLocallyAndRemotelyFail() = runTest {
+    fun `failure when locally and remotely fail`() = runTest {
         val expected = NO_INTERNET_CONNECTION
 
         `when`(repository.getElectionsRemotely()).thenReturn(failure(Throwable(expected)))

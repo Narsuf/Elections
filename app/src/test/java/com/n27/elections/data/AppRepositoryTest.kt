@@ -4,6 +4,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
 import com.n27.elections.ElectionsApplication
+import com.n27.elections.domain.repositories.AppRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -22,14 +23,14 @@ class AppRepositoryTest {
     fun setUp() {
         sharedPreferences = ApplicationProvider.getApplicationContext<ElectionsApplication>()
             .getSharedPreferences("prefs", MODE_PRIVATE)
-        repository = AppRepository(sharedPreferences)
+        repository = AppRepositoryImpl(sharedPreferences)
     }
 
     @Test
     fun isFirstLaunch() = runBlocking {
         assertTrue(repository.isFirstLaunch())
 
-        repository.firstLaunch()
+        repository.saveFirstLaunch()
 
         assertFalse(repository.isFirstLaunch())
     }
