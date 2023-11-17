@@ -10,7 +10,7 @@ import com.n27.core.Constants.KEY_GENERAL_LIVE_ELECTION
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.databinding.ActivityDetailBinding
-import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.Election
 import com.n27.core.presentation.detail.models.DetailAction.Refreshing
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.models.DetailState.Loading

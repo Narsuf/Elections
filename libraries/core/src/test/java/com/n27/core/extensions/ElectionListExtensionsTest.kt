@@ -1,7 +1,7 @@
 package com.n27.core.extensions
 
-import com.n27.core.domain.election.models.Election
-import com.n27.core.domain.election.models.Result
+import com.n27.core.domain.election.Election
+import com.n27.core.domain.election.Result
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElection
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateElections
 import com.n27.test.generators.ElectionRandomGenerator.Companion.generateResult

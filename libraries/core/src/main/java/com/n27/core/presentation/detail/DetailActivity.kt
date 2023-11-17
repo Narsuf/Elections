@@ -17,7 +17,7 @@ import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.databinding.ActivityDetailBinding
-import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.Election
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.playErrorAnimation
@@ -35,8 +35,8 @@ import com.n27.core.presentation.detail.models.DetailState
 import com.n27.core.presentation.detail.models.DetailState.Content
 import com.n27.core.presentation.detail.models.DetailState.Error
 import com.n27.core.presentation.detail.models.DetailState.Loading
-import com.n27.core.presentation.injection.DetailComponent
-import com.n27.core.presentation.injection.DetailComponentProvider
+import com.n27.core.injection.DetailComponent
+import com.n27.core.injection.DetailComponentProvider
 import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {

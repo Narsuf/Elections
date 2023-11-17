@@ -1,6 +1,6 @@
 package com.n27.elections.presentation.models
 
-import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.Election
 
 sealed class MainState {
 

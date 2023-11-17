@@ -8,8 +8,8 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.local.room.Database
 import com.n27.core.presentation.PresentationUtils
-import com.n27.core.presentation.injection.DetailComponent
-import com.n27.core.presentation.injection.DetailComponentProvider
+import com.n27.core.injection.DetailComponent
+import com.n27.core.injection.DetailComponentProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Component

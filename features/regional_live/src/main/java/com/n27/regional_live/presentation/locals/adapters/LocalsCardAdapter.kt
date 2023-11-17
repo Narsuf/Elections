@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.n27.core.domain.live.models.Region
+import com.n27.core.domain.region.models.Region
 import com.n27.regional_live.R
 
 typealias OnRegionClicked = (region: Region) -> Unit

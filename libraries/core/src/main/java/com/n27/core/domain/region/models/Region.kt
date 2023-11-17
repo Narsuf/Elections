@@ -1,4 +1,4 @@
-package com.n27.core.domain.live.models
+package com.n27.core.domain.region.models
 
 import java.io.Serializable
 

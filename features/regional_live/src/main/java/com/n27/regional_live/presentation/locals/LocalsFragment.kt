@@ -16,7 +16,7 @@ import com.n27.core.Constants.KEY_REGION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.domain.live.models.LocalElectionIds
-import com.n27.core.domain.live.models.Region
+import com.n27.core.domain.region.models.Region
 import com.n27.core.extensions.compare
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.playErrorAnimation

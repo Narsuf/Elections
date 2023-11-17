@@ -2,7 +2,7 @@ package com.n27.core.presentation.detail
 
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.data.remote.api.LiveRepositoryImpl
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar

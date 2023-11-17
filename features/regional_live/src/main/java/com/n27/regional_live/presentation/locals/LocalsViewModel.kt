@@ -3,7 +3,8 @@ package com.n27.regional_live.presentation.locals
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.data.remote.api.LiveRepositoryImpl
+import com.n27.core.domain.LiveUseCase
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LocalsViewModel @Inject constructor(
-    private val repository: LiveRepositoryImpl,
+    private val useCase: LiveUseCase,
     private val crashlytics: FirebaseCrashlytics?,
     eventBus: LocalsEventBus
 ) : ViewModel() {
@@ -46,7 +47,7 @@ class LocalsViewModel @Inject constructor(
 
     internal fun requestRegions() {
         viewModelScope.launch {
-            repository.getRegions()
+            useCase.getRegions()
                 .onSuccess { state.emit(Content(it.regions)) }
                 .onFailure { handleError(it) }
         }
@@ -66,7 +67,7 @@ class LocalsViewModel @Inject constructor(
 
     private fun requestElection(ids: LocalElectionIds) {
         viewModelScope.launch {
-            repository.getLocalElection(ids).collect { result ->
+            useCase.getLocalElection(ids).collect { result ->
                 result
                     .onFailure { errorAction(it) }
                     .onSuccess { action.send(NavigateToDetail(ids)) }

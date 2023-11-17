@@ -1,6 +1,6 @@
 package com.n27.regional_live.presentation.locals.dialog.models
 
-import com.n27.core.domain.live.models.Municipality
+import com.n27.core.domain.region.models.Municipality
 
 internal sealed class MunicipalityAction {
 

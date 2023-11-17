@@ -1,6 +1,6 @@
 package com.n27.core.domain.live.models
 
-import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.Election
 
 data class LiveElection(
     val id: String?,

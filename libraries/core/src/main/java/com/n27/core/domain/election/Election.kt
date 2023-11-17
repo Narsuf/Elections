@@ -1,4 +1,4 @@
-package com.n27.core.domain.election.models
+package com.n27.core.domain.election
 
 import java.io.Serializable
 

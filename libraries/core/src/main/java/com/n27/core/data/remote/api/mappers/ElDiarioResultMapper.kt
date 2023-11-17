@@ -3,9 +3,9 @@ package com.n27.core.data.remote.api.mappers
 import com.n27.core.data.remote.api.models.ElDiarioParty
 import com.n27.core.data.remote.api.models.ElDiarioPartyResult
 import com.n27.core.data.remote.api.models.ElDiarioResult
-import com.n27.core.domain.election.models.Election
-import com.n27.core.domain.election.models.Party
-import com.n27.core.domain.election.models.Result
+import com.n27.core.domain.election.Election
+import com.n27.core.domain.election.Party
+import com.n27.core.domain.election.Result
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import org.json.JSONObject
@@ -33,7 +33,7 @@ private fun JSONObject.toElDiarioResult(date: Long, id: String = "", seats: Int?
             scrutinized = info.getInt("escrutado"),
             nullVotes = info.getInt("nl"),
             validVotes = info.getInt("ok"),
-            seats = seats ?: info.getInt("seats"),
+            seats = runCatching { seats ?: info.getInt("seats") }.getOrElse { 0 },
             partiesResults = getJSONObject("v").getElDiarioPartiesResults()
         )
     }

@@ -1,6 +1,6 @@
 package com.n27.core.presentation.detail.models
 
-import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.Election
 import com.n27.core.domain.live.models.LocalElectionIds
 
 data class DetailFlags(

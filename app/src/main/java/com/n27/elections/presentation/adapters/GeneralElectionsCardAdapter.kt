@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.PieChart
-import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.Election
 import com.n27.core.extensions.drawWithResults
 import com.n27.elections.R
 

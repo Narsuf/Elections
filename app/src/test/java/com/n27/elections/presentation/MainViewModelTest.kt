@@ -9,7 +9,6 @@ import com.n27.elections.presentation.models.MainAction.*
 import com.n27.elections.presentation.models.MainState.*
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
-import com.n27.test.generators.getGeneralElection
 import com.n27.test.observers.FlowTestObserver
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers

@@ -1,7 +1,7 @@
 package com.n27.regional_live.presentation.locals
 
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.data.remote.api.LiveRepositoryImpl
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError

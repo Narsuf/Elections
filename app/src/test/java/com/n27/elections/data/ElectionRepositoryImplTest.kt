@@ -5,8 +5,6 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.room.ElectionDao
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
-import com.n27.core.domain.election.models.Elections
-import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
 import com.n27.test.generators.getElections
 import junit.framework.TestCase.assertEquals
@@ -17,8 +15,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
-import kotlin.Result.Companion.failure
-import kotlin.math.exp
 
 @RunWith(RobolectricTestRunner::class)
 class ElectionRepositoryImplTest {

@@ -1,9 +1,9 @@
 package com.n27.test.generators
 
-import com.n27.core.domain.live.models.Municipality
-import com.n27.core.domain.live.models.Province
-import com.n27.core.domain.live.models.Region
-import com.n27.core.domain.live.models.Regions
+import com.n27.core.domain.region.models.Municipality
+import com.n27.core.domain.region.models.Province
+import com.n27.core.domain.region.models.Region
+import com.n27.core.domain.region.models.Regions
 
 fun getRegions() = Regions(
     listOf(

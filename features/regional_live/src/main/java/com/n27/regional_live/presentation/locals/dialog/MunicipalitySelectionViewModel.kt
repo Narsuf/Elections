@@ -3,10 +3,11 @@ package com.n27.regional_live.presentation.locals.dialog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.data.remote.api.LiveRepositoryImpl
+import com.n27.core.domain.LiveUseCase
 import com.n27.core.domain.live.models.LocalElectionIds
-import com.n27.core.domain.live.models.Province
-import com.n27.core.domain.live.models.Region
+import com.n27.core.domain.region.models.Province
+import com.n27.core.domain.region.models.Region
 import com.n27.core.presentation.PresentationUtils
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
@@ -26,7 +27,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MunicipalitySelectionViewModel @Inject constructor(
-    private val repository: LiveRepositoryImpl,
+    private val useCase: LiveUseCase,
     private val eventBus: LocalsEventBus,
     private val utils: PresentationUtils?,
     private val crashlytics: FirebaseCrashlytics?
@@ -41,7 +42,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
     internal fun requestProvinces(region: Region?) {
         viewModelScope.launch {
             region?.let {
-                val provinces = repository.getProvinces(region.name)
+                val provinces = useCase.getProvinces(region.name)
                 state.emit(Content(provinces))
 
                 utils?.track("municipality_selection_provinces_loaded") { param("region", "$region") }
@@ -52,7 +53,7 @@ class MunicipalitySelectionViewModel @Inject constructor(
     internal fun requestMunicipalities(province: Province?) {
         viewModelScope.launch {
             val resultAction = province?.let {
-                val provinces = repository.getMunicipalities(province.name)
+                val provinces = useCase.getMunicipalities(province.name)
                     .sortedBy { it.name }
 
                 utils?.track("municipality_selection_municipalities_loaded") {

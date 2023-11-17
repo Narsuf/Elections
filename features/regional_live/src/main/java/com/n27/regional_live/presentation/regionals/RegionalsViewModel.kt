@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.data.remote.api.LiveRepositoryImpl
+import com.n27.core.domain.LiveUseCase
 import com.n27.regional_live.presentation.regionals.models.RegionalsAction
 import com.n27.regional_live.presentation.regionals.models.RegionalsAction.ShowErrorSnackbar
 import com.n27.regional_live.presentation.regionals.models.RegionalsState
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RegionalsViewModel @Inject constructor(
-    private val repository: LiveRepositoryImpl,
+    private val useCase: LiveUseCase,
     private val crashlytics: FirebaseCrashlytics?
 ) : ViewModel() {
 
@@ -31,7 +32,7 @@ class RegionalsViewModel @Inject constructor(
 
     internal fun requestElections() {
         viewModelScope.launch {
-            repository.getRegionalElections().collect { result ->
+            useCase.getRegionalElections().collect { result ->
                 result
                     .onFailure { handleError(it) }
                     .onSuccess { state.value = Content(it) }

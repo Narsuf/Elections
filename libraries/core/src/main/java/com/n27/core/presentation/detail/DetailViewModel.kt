@@ -7,7 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.n27.core.Constants.KEY_CONGRESS
 import com.n27.core.Constants.KEY_SENATE
-import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.data.remote.api.LiveRepositoryImpl
+import com.n27.core.domain.LiveUseCase
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.presentation.detail.mappers.toContent
 import com.n27.core.presentation.detail.models.DetailAction
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(
-    private val repository: LiveRepositoryImpl,
+    private val useCase: LiveUseCase,
     private val crashlytics: FirebaseCrashlytics?
 ) : ViewModel() {
 
@@ -48,8 +49,8 @@ class DetailViewModel @Inject constructor(
             if (state.value is Content) action.value = Refreshing
 
             when {
-                liveLocalElectionIds != null -> repository.getLocalElection(liveLocalElectionIds).handleFlow()
-                liveRegionalElectionId != null -> repository.getRegionalElection(liveRegionalElectionId).handleFlow()
+                liveLocalElectionIds != null -> useCase.getLocalElection(liveLocalElectionIds).handleFlow()
+                liveRegionalElectionId != null -> useCase.getRegionalElection(liveRegionalElectionId).handleFlow()
                 isLiveGeneralElection -> requestGeneralLiveCongressElection()
                 election != null -> state.value = election.toContent()
                 else -> handleError()
@@ -66,7 +67,7 @@ class DetailViewModel @Inject constructor(
     }
 
     private suspend fun requestGeneralLiveCongressElection() {
-        repository.getCongressElection().collect { result ->
+        useCase.getCongressElection().collect { result ->
             result
                 .onFailure(::handleError)
                 .onSuccess { state.value = it.election.toContent() }
@@ -94,7 +95,7 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             if (state.value is Content) action.value = Refreshing
 
-            repository.getSenateElection().collect { senateResult ->
+            useCase.getSenateElection().collect { senateResult ->
                 senateResult
                     .onFailure(::handleError)
                     .onSuccess { state.value = it.election.toContent() }

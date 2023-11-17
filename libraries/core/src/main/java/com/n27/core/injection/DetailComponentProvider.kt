@@ -1,4 +1,4 @@
-package com.n27.core.presentation.injection
+package com.n27.core.injection
 
 interface DetailComponentProvider {
 

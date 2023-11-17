@@ -7,9 +7,9 @@ import com.n27.core.data.common.DataUtils
 import com.n27.core.data.local.room.ElectionDao
 import com.n27.core.data.local.room.mappers.toElections
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
-import com.n27.core.data.remote.toElections
-import com.n27.core.domain.election.models.Election
-import com.n27.core.domain.election.models.Elections
+import com.n27.core.data.remote.firebase.toElections
+import com.n27.core.domain.election.Election
+import com.n27.core.domain.election.Elections
 import com.n27.elections.domain.ElectionRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

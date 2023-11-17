@@ -1,9 +1,7 @@
 package com.n27.elections.domain
 
-import com.n27.core.Constants
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.domain.election.models.Elections
 import com.n27.elections.domain.models.GeneralElections
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
