@@ -29,7 +29,7 @@ fun getMunicipalities() = listOf(
     getMunicipality(), getMunicipality("02", "Abrucena")
 )
 
-private fun getMunicipality(
+fun getMunicipality(
     id: String = "01",
     name: String = "Abla"
 ) = Municipality(id, name)

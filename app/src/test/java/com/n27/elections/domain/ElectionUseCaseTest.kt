@@ -8,6 +8,7 @@ import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
 import com.n27.test.generators.getGeneralElection
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -58,6 +59,9 @@ class ElectionUseCaseTest {
         `when`(repository.getElectionsRemotely()).thenReturn(failure(Throwable(expected)))
         `when`(repository.getElectionsLocally()).thenReturn(null)
 
-        useCase.getElections().first().onFailure { assertEquals(expected, it.message) }
+        useCase.getElections().first().let { result ->
+            result.onFailure { assertEquals(expected, it.message) }
+            assertNull(result.getOrNull())
+        }
     }
 }

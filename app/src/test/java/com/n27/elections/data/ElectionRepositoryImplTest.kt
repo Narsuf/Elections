@@ -8,6 +8,7 @@ import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.test.generators.getElectionList
 import com.n27.test.generators.getElections
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNull
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -45,16 +46,20 @@ class ElectionRepositoryImplTest {
     fun loadElectionsRemotely(): Unit = runBlocking {
         `when`(utils.isConnectedToInternet()).thenReturn(true)
 
-        // Not proud of this test, but Firebase's API doesn't make it easy.
-        runCatching { repository.getElectionsRemotely() }.getOrElse { assertTrue(it is NullPointerException) }
+        runCatching { repository.getElectionsRemotely() }.let { result ->
+            result.onFailure { assertTrue(it is NullPointerException) }
+            assertNull(result.getOrNull())
+        }
     }
 
     @Test
     fun `failure when getElectionsRemotely with no internet`(): Unit = runBlocking {
         `when`(utils.isConnectedToInternet()).thenReturn(false)
 
-        repository.getElectionsRemotely()
-            .onFailure { assertEquals(NO_INTERNET_CONNECTION, it.message) }
+        repository.getElectionsRemotely().let { result ->
+            result.onFailure { assertEquals(NO_INTERNET_CONNECTION, it.message) }
+            assertNull(result.getOrNull())
+        }
     }
 
     @Test

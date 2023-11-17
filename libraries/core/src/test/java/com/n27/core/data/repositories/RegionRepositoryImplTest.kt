@@ -1,6 +1,7 @@
 package com.n27.core.data.repositories
 
 import com.n27.core.data.local.json.JsonReader
+import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.domain.region.RegionRepository
 import com.n27.test.generators.getMunicipalities
 import com.n27.test.generators.getProvinces
@@ -36,6 +37,17 @@ class RegionRepositoryImplTest {
         repository = RegionRepositoryImpl(jsonReader, moshi)
     }
 
+    @Test
+    fun getMunicipalityName() = runBlocking {
+        val actual = repository.getMunicipalityName(
+            getRegions(),
+            LocalElectionIds("01", "04", "01")
+        )
+
+        assertEquals("Abla", actual)
+    }
+
+    @Test
     fun getRegionsFromJson() = runBlocking {
         val expected = success(getRegions())
 

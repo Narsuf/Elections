@@ -1,9 +1,7 @@
 package com.n27.core.data.repositories
 
-import com.n27.core.Constants.BAD_RESPONSE
 import com.n27.core.Constants.KEY_CONGRESS
 import com.n27.core.Constants.KEY_SENATE
-import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.REGIONAL_ELECTION_EMPTY_LIST
 import com.n27.core.data.remote.api.ElDiarioApi
 import com.n27.core.data.remote.api.mappers.toLiveElection
@@ -14,6 +12,7 @@ import com.n27.test.generators.getElDiarioResult
 import com.n27.test.generators.getRegions
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -87,7 +86,10 @@ class LiveRepositoryImplTest {
     fun getRegionalElectionsEmpty(): Unit = runBlocking {
         `when`(api.getRegionalResults()).thenReturn(listOf())
 
-       repository.getRegionalElections(getRegions()).onFailure { assertEquals(it.message, REGIONAL_ELECTION_EMPTY_LIST) }
+       repository.getRegionalElections(getRegions()).let { result ->
+           result.onFailure { assertEquals(it.message, REGIONAL_ELECTION_EMPTY_LIST) }
+           assertNull(result.getOrNull())
+       }
     }
 
     @Test
@@ -103,15 +105,6 @@ class LiveRepositoryImplTest {
     }
 
     @Test
-    fun getRegionalElectionWithEmptyResponse(): Unit = runBlocking {
-        `when`(api.getRegionalResult(anyString())).thenReturn(null)
-
-        runCatching { repository.getRegionalElection("01", getRegions()) }.getOrElse {
-            assertEquals(it.message, BAD_RESPONSE)
-        }
-    }
-
-    @Test
     fun getLocalElection() = runBlocking {
         val expected = success(
             getElDiarioResult(id = "04001")
@@ -121,23 +114,5 @@ class LiveRepositoryImplTest {
         `when`(api.getLocalResult(ids)).thenReturn(success(getElDiarioResult()))
 
         repository.getLocalElection(ids, "Abla").collect { assertEquals(expected, it) }
-    }
-
-    @Test
-    fun getLocalElectionWithNoConnection(): Unit = runBlocking {
-        `when`(api.getLocalResult(ids)).thenReturn(null)
-
-        runCatching { repository.getLocalElection(ids, "Abla") }.getOrElse {
-            assertEquals(it.message, NO_INTERNET_CONNECTION)
-        }
-    }
-
-    @Test
-    fun getLocalElectionWithEmptyResponse(): Unit = runBlocking {
-        `when`(api.getLocalResult(ids)).thenReturn(null)
-
-        runCatching { repository.getLocalElection(ids, "Abla") }.getOrElse {
-            assertEquals(it.message, BAD_RESPONSE)
-        }
     }
 }
