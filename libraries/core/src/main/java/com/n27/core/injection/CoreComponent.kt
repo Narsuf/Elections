@@ -1,4 +1,4 @@
-package com.n27.core.presentation.injection
+package com.n27.core.injection
 
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.core.presentation.detail.dialog.DetailDialog
@@ -11,11 +11,11 @@ annotation class ActivityScope
 
 @ActivityScope
 @Subcomponent
-interface DetailComponent {
+interface CoreComponent {
 
     @Subcomponent.Factory
     interface Factory {
-        fun create(): DetailComponent
+        fun create(): CoreComponent
     }
 
     fun inject(loginActivity: DetailActivity)

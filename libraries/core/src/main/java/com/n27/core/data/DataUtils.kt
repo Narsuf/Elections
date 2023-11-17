@@ -1,4 +1,4 @@
-package com.n27.core.data.common
+package com.n27.core.data
 
 import android.content.Context
 import android.net.ConnectivityManager

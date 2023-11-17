@@ -2,7 +2,7 @@ package com.n27.elections.data
 
 import com.google.firebase.database.FirebaseDatabase
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.common.DataUtils
+import com.n27.core.data.DataUtils
 import com.n27.core.data.local.room.ElectionDao
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.test.generators.getElectionList

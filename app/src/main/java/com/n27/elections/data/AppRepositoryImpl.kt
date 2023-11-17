@@ -1,7 +1,7 @@
 package com.n27.elections.data
 
 import android.content.SharedPreferences
-import com.n27.core.Constants.LAUNCHED
+import com.n27.elections.Constants.LAUNCHED
 import com.n27.elections.domain.repositories.AppRepository
 import javax.inject.Inject
 import javax.inject.Singleton

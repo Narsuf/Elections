@@ -21,22 +21,22 @@ import com.n27.core.domain.election.Election
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.playErrorAnimation
+import com.n27.core.injection.CoreComponent
+import com.n27.core.injection.CoreComponentProvider
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.binders.PartyColorBinder
 import com.n27.core.presentation.detail.dialog.DetailDialog
-import com.n27.core.presentation.detail.models.DetailAction
-import com.n27.core.presentation.detail.models.DetailAction.Refreshing
-import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.models.DetailFlags
-import com.n27.core.presentation.detail.models.DetailInteraction.Refresh
-import com.n27.core.presentation.detail.models.DetailInteraction.ScreenOpened
-import com.n27.core.presentation.detail.models.DetailInteraction.Swap
-import com.n27.core.presentation.detail.models.DetailState
-import com.n27.core.presentation.detail.models.DetailState.Content
-import com.n27.core.presentation.detail.models.DetailState.Error
-import com.n27.core.presentation.detail.models.DetailState.Loading
-import com.n27.core.presentation.injection.DetailComponent
-import com.n27.core.presentation.injection.DetailComponentProvider
+import com.n27.core.presentation.detail.entities.DetailAction
+import com.n27.core.presentation.detail.entities.DetailAction.Refreshing
+import com.n27.core.presentation.detail.entities.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.entities.DetailFlags
+import com.n27.core.presentation.detail.entities.DetailInteraction.Refresh
+import com.n27.core.presentation.detail.entities.DetailInteraction.ScreenOpened
+import com.n27.core.presentation.detail.entities.DetailInteraction.Swap
+import com.n27.core.presentation.detail.entities.DetailState
+import com.n27.core.presentation.detail.entities.DetailState.Content
+import com.n27.core.presentation.detail.entities.DetailState.Error
+import com.n27.core.presentation.detail.entities.DetailState.Loading
 import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
@@ -45,14 +45,14 @@ class DetailActivity : AppCompatActivity() {
     @VisibleForTesting internal lateinit var binding: ActivityDetailBinding
     @Inject internal lateinit var viewModel: DetailViewModel
     @Inject internal lateinit var utils: PresentationUtils
-    internal lateinit var detailComponent: DetailComponent
+    internal lateinit var coreComponent: CoreComponent
     internal lateinit var countDownTimer: CountDownTimer
     private lateinit var flags: DetailFlags
     private var senateElection: Election? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        detailComponent = (applicationContext as DetailComponentProvider).provideDetailComponent()
-        detailComponent.inject(this)
+        coreComponent = (applicationContext as CoreComponentProvider).provideCoreComponent()
+        coreComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         intent.extras?.deserialize()
@@ -135,7 +135,7 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
 
-            scrutinizedActivityDetail.text = getString(R.string.scrutinized, scrutinized)
+            scrutinizedActivityDetail.text = getString(R.string.scrutinized, scrutinized.toString())
             scrutinizedBarActivityDetail.progress = scrutinized.toInt()
             pieChartActivityDetail.drawWithResults(results)
 

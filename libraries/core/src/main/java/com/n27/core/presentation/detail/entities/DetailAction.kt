@@ -1,4 +1,4 @@
-package com.n27.core.presentation.detail.models
+package com.n27.core.presentation.detail.entities
 
 internal sealed class DetailAction {
 

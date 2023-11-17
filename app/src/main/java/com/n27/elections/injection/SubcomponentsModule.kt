@@ -1,12 +1,12 @@
 package com.n27.elections.injection
 
-import com.n27.core.presentation.injection.DetailComponent
-import com.n27.regional_live.presentation.injection.RegionalLiveComponent
+import com.n27.core.injection.CoreComponent
+import com.n27.regional_live.injection.RegionalLiveComponent
 import dagger.Module
 
 @Module(
     subcomponents = [
-        DetailComponent::class,
+        CoreComponent::class,
         RegionalLiveComponent::class
     ]
 )

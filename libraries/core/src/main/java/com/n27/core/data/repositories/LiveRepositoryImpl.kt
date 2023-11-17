@@ -1,8 +1,13 @@
-package com.n27.core.data.remote.api
+package com.n27.core.data.repositories
 
 import com.n27.core.Constants.KEY_CONGRESS
+import com.n27.core.Constants.KEY_GENERALS
+import com.n27.core.Constants.KEY_LOCALS
+import com.n27.core.Constants.KEY_REGIONALS
 import com.n27.core.Constants.KEY_SENATE
+import com.n27.core.Constants.KEY_SPAIN
 import com.n27.core.Constants.REGIONAL_ELECTION_EMPTY_LIST
+import com.n27.core.data.remote.api.ElDiarioApi
 import com.n27.core.data.remote.api.mappers.toLiveElection
 import com.n27.core.data.remote.api.models.ElDiarioResult
 import com.n27.core.domain.live.LiveRepository
@@ -25,8 +30,8 @@ class LiveRepositoryImpl @Inject constructor(private val api: ElDiarioApi) : Liv
             .onSuccess { result ->
                 api.getCongressParties().map { parties ->
                     result.toLiveElection(
-                        name = "Generales",
-                        place = "España",
+                        name = KEY_GENERALS,
+                        place = KEY_SPAIN,
                         parties,
                         chamberName = KEY_CONGRESS
                     )
@@ -40,8 +45,8 @@ class LiveRepositoryImpl @Inject constructor(private val api: ElDiarioApi) : Liv
             .onSuccess { result ->
                 api.getSenateParties().map { parties ->
                     result.toLiveElection(
-                        name = "Generales",
-                        place = "España",
+                        name = KEY_GENERALS,
+                        place = KEY_SPAIN,
                         parties,
                         chamberName = KEY_SENATE
                     )
@@ -68,7 +73,7 @@ class LiveRepositoryImpl @Inject constructor(private val api: ElDiarioApi) : Liv
     private suspend fun ElDiarioResult.toLiveElection(regions: Regions): Result<LiveElection> =
         api.getRegionalParties(id).map { parties ->
             toLiveElection(
-                name = "Autonómicas",
+                name = KEY_REGIONALS,
                 place = regions.regions.first { it.id == id }.name,
                 parties
             )
@@ -83,7 +88,7 @@ class LiveRepositoryImpl @Inject constructor(private val api: ElDiarioApi) : Liv
             .onSuccess { result ->
                 api.getLocalParties().map {
                     result.toLiveElection(
-                        name = "Municipales",
+                        name = KEY_LOCALS,
                         place = municipalityName,
                         parties = it
                     )

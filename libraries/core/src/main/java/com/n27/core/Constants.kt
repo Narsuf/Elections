@@ -10,22 +10,16 @@ object Constants {
     const val KEY_CONGRESS = "Congreso"
     const val KEY_SENATE = "Senado"
     const val KEY_REGION = "region"
-
-    //region Feature flags
-    const val CONGRESS_LIVE = "CONGRESS_LIVE"
-    const val REGIONAL_LIVE = "REGIONAL_LIVE"
-    //endregion
+    const val KEY_GENERALS = "Generales"
+    const val KEY_SPAIN = "España"
+    const val KEY_REGIONALS = "Autonómicas"
+    const val KEY_LOCALS = "Municipales"
 
     //region Errors
     const val NO_RESULTS = "NO_RESULTS"
     const val NO_INTERNET_CONNECTION = "NO_INTERNET_CONNECTION"
     const val EMPTY_RESPONSE_FROM_FIREBASE = "EMPTY_RESPONSE_FROM_FIREBASE"
     const val BAD_RESPONSE = "BAD_RESPONSE"
-    const val EMPTY_LIST = "EMPTY_LIST"
     const val REGIONAL_ELECTION_EMPTY_LIST = "REGIONAL_ELECTION_EMPTY_LIST"
-    //endregion
-
-    //region SharedPrefs
-    const val LAUNCHED = "LAUNCHED"
     //endregion
 }

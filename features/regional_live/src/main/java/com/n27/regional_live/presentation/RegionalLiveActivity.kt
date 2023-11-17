@@ -9,8 +9,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.n27.regional_live.R
 import com.n27.regional_live.databinding.ActivityRegionalLiveBinding
-import com.n27.regional_live.presentation.injection.RegionalLiveComponent
-import com.n27.regional_live.presentation.injection.RegionalLiveComponentProvider
+import com.n27.regional_live.injection.RegionalLiveComponent
+import com.n27.regional_live.injection.RegionalLiveComponentProvider
 
 class RegionalLiveActivity : AppCompatActivity() {
 

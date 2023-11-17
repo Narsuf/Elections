@@ -1,5 +1,6 @@
-package com.n27.core.data.local.json
+package com.n27.core.data.repositories
 
+import com.n27.core.data.local.json.JsonReader
 import com.n27.core.data.local.json.mappers.toMunicipalities
 import com.n27.core.data.local.json.mappers.toProvinces
 import com.n27.core.domain.live.models.LocalElectionIds

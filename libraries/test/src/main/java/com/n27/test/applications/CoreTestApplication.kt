@@ -5,16 +5,16 @@ import android.content.Context
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.common.DataUtils
+import com.n27.core.data.DataUtils
 import com.n27.core.data.local.json.JsonReader
-import com.n27.core.data.local.json.RegionRepositoryImpl
 import com.n27.core.data.local.room.Database
 import com.n27.core.data.remote.api.ElDiarioApi
-import com.n27.core.data.remote.api.LiveRepositoryImpl
+import com.n27.core.data.repositories.LiveRepositoryImpl
+import com.n27.core.data.repositories.RegionRepositoryImpl
 import com.n27.core.domain.LiveUseCase
+import com.n27.core.injection.CoreComponent
+import com.n27.core.injection.CoreComponentProvider
 import com.n27.core.presentation.PresentationUtils
-import com.n27.core.presentation.injection.DetailComponent
-import com.n27.core.presentation.injection.DetailComponentProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Component
@@ -23,20 +23,20 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
-class DetailTestApplication : MultiDexApplication(), DetailComponentProvider {
+class CoreTestApplication : MultiDexApplication(), CoreComponentProvider {
 
-    override fun provideDetailComponent(): DetailTestApplicationComponent = DaggerDetailTestApplicationComponent
+    override fun provideCoreComponent(): CoreTestApplicationComponent = DaggerCoreTestApplicationComponent
         .builder()
-        .detailFakeModule(DetailFakeModule(this))
+        .coreFakeModule(CoreFakeModule(this))
         .build()
 }
 
 @Singleton
-@Component(modules = [DetailFakeModule::class])
-interface DetailTestApplicationComponent : DetailComponent
+@Component(modules = [CoreFakeModule::class])
+interface CoreTestApplicationComponent : CoreComponent
 
 @Module
-class DetailFakeModule(val app: Application) {
+class CoreFakeModule(val app: Application) {
 
     @Provides
     @Singleton
@@ -87,8 +87,8 @@ class DetailFakeModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun provideLiveUseCase(baseUrl: String, client: OkHttpClient, jsonReader: JsonReader, moshi: Moshi) = LiveUseCase(
-        LiveRepositoryImpl(ElDiarioApi(baseUrl, 1, client, DataUtils(app))),
+    fun provideLiveUseCase(baseUrl: String, date: Long, client: OkHttpClient, jsonReader: JsonReader, moshi: Moshi) = LiveUseCase(
+        LiveRepositoryImpl(ElDiarioApi(baseUrl, date, client, DataUtils(app))),
         RegionRepositoryImpl(jsonReader, moshi)
     )
 }

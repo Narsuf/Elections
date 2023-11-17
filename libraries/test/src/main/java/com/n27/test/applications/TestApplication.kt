@@ -5,18 +5,18 @@ import android.content.Context
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.common.DataUtils
+import com.n27.core.data.DataUtils
 import com.n27.core.data.local.json.JsonReader
-import com.n27.core.data.local.json.RegionRepositoryImpl
 import com.n27.core.data.local.room.Database
 import com.n27.core.data.remote.api.ElDiarioApi
-import com.n27.core.data.remote.api.LiveRepositoryImpl
+import com.n27.core.data.repositories.LiveRepositoryImpl
+import com.n27.core.data.repositories.RegionRepositoryImpl
 import com.n27.core.domain.LiveUseCase
+import com.n27.core.injection.CoreComponent
+import com.n27.core.injection.CoreComponentProvider
 import com.n27.core.presentation.PresentationUtils
-import com.n27.core.presentation.injection.DetailComponent
-import com.n27.core.presentation.injection.DetailComponentProvider
-import com.n27.regional_live.presentation.injection.RegionalLiveComponent
-import com.n27.regional_live.presentation.injection.RegionalLiveComponentProvider
+import com.n27.regional_live.injection.RegionalLiveComponent
+import com.n27.regional_live.injection.RegionalLiveComponentProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Component
@@ -25,9 +25,9 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
-class TestApplication : MultiDexApplication(), DetailComponentProvider, RegionalLiveComponentProvider {
+class TestApplication : MultiDexApplication(), CoreComponentProvider, RegionalLiveComponentProvider {
 
-    override fun provideDetailComponent(): TestApplicationComponent = DaggerTestApplicationComponent.builder()
+    override fun provideCoreComponent(): TestApplicationComponent = DaggerTestApplicationComponent.builder()
         .fakeModule(FakeModule(this))
         .build()
 
@@ -38,7 +38,7 @@ class TestApplication : MultiDexApplication(), DetailComponentProvider, Regional
 
 @Singleton
 @Component(modules = [FakeModule::class])
-interface TestApplicationComponent : DetailComponent, RegionalLiveComponent
+interface TestApplicationComponent : CoreComponent, RegionalLiveComponent
 
 @Module
 class FakeModule(val app: Application) {
@@ -92,8 +92,8 @@ class FakeModule(val app: Application) {
 
     @Provides
     @Singleton
-    fun provideLiveUseCase(baseUrl: String, client: OkHttpClient, jsonReader: JsonReader, moshi: Moshi) = LiveUseCase(
-        LiveRepositoryImpl(ElDiarioApi(baseUrl, 1, client, DataUtils(app))),
+    fun provideLiveUseCase(baseUrl: String, date: Long, client: OkHttpClient, jsonReader: JsonReader, moshi: Moshi) = LiveUseCase(
+        LiveRepositoryImpl(ElDiarioApi(baseUrl, date, client, DataUtils(app))),
         RegionRepositoryImpl(jsonReader, moshi)
     )
 }

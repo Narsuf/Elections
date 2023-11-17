@@ -2,7 +2,7 @@ package com.n27.core.data.remote.api
 
 import com.n27.core.Constants.BAD_RESPONSE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.common.DataUtils
+import com.n27.core.data.DataUtils
 import com.n27.core.data.remote.api.mappers.toElDiarioLocalResult
 import com.n27.core.data.remote.api.mappers.toElDiarioParties
 import com.n27.core.data.remote.api.mappers.toElDiarioRegionalResult

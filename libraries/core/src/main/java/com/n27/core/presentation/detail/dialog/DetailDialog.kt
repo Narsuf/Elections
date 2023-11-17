@@ -25,7 +25,7 @@ class DetailDialog : DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (activity as DetailActivity).detailComponent.inject(this)
+        (activity as DetailActivity).coreComponent.inject(this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -33,8 +33,8 @@ class DetailDialog : DialogFragment() {
 
         val election = arguments?.getSerializable(KEY_ELECTION) as Election
 
-        val concatenatedText = "${election.chamberName} ${election.place} ${election.date}"
-        binding.titleDialogDetail.text = concatenatedText
+        val title = "${election.chamberName} ${election.place} ${election.date}"
+        binding.titleDialogDetail.text = title
         binding.listDialogDetail.setSimpleAdapter(election)
 
         return AlertDialog.Builder(activity).apply {
