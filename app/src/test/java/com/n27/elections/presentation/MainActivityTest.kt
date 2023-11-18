@@ -6,8 +6,8 @@ import androidx.test.core.app.ActivityScenario.launch
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
-import com.n27.elections.presentation.adapters.GeneralElectionsCardAdapter
-import com.n27.elections.presentation.models.MainState.Error
+import com.n27.elections.presentation.adapters.ElectionCardAdapter
+import com.n27.elections.presentation.entities.MainState.Error
 import junit.framework.TestCase.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,7 +35,7 @@ class MainActivityTest {
 
                 binding.assertVisibilities(content = true)
 
-                val recyclerAdapter = binding.recyclerActivityMain.adapter!! as GeneralElectionsCardAdapter
+                val recyclerAdapter = binding.recyclerActivityMain.adapter!! as ElectionCardAdapter
                 assertTrue(state.congressElections.containsAll(recyclerAdapter.congressElections))
                 assertTrue(state.senateElections.containsAll(recyclerAdapter.senateElections))
                 assertEquals(recyclerAdapter.onElectionClicked, ::navigateToDetail)

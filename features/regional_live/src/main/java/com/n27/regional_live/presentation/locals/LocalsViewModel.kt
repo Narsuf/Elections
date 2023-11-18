@@ -3,19 +3,19 @@ package com.n27.regional_live.presentation.locals
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.domain.LiveUseCase
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.RequestElection
 import com.n27.regional_live.presentation.locals.comm.LocalsEvent.ShowError
 import com.n27.regional_live.presentation.locals.comm.LocalsEventBus
-import com.n27.regional_live.presentation.locals.models.LocalsAction
-import com.n27.regional_live.presentation.locals.models.LocalsAction.NavigateToDetail
-import com.n27.regional_live.presentation.locals.models.LocalsAction.ShowErrorSnackbar
-import com.n27.regional_live.presentation.locals.models.LocalsState
-import com.n27.regional_live.presentation.locals.models.LocalsState.Content
-import com.n27.regional_live.presentation.locals.models.LocalsState.Error
-import com.n27.regional_live.presentation.locals.models.LocalsState.Loading
+import com.n27.regional_live.presentation.locals.entities.LocalsAction
+import com.n27.regional_live.presentation.locals.entities.LocalsAction.NavigateToDetail
+import com.n27.regional_live.presentation.locals.entities.LocalsAction.ShowErrorSnackbar
+import com.n27.regional_live.presentation.locals.entities.LocalsState
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Content
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Error
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Loading
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LocalsViewModel @Inject constructor(
-    private val repository: LiveRepositoryImpl,
+    private val useCase: LiveUseCase,
     private val crashlytics: FirebaseCrashlytics?,
     eventBus: LocalsEventBus
 ) : ViewModel() {
@@ -46,36 +46,34 @@ class LocalsViewModel @Inject constructor(
 
     internal fun requestRegions() {
         viewModelScope.launch {
-            repository.getRegions()
+            useCase.getRegions()
                 .onSuccess { state.emit(Content(it.regions)) }
-                .onFailure { handleError(it) }
+                .onFailure {
+                    crashlytics?.recordException(it)
+                    state.emit(Error(it.message))
+                }
         }
-    }
-
-    private suspend fun handleError(throwable: Throwable) {
-        crashlytics?.recordException(throwable)
-        state.emit(Error(throwable.message))
     }
 
     private suspend fun onEvent(event: LocalsEvent) {
         when (event) {
             is RequestElection -> requestElection(event.ids)
-            is ShowError -> errorAction()
+            is ShowError -> handleError(event.throwable)
         }
     }
 
     private fun requestElection(ids: LocalElectionIds) {
         viewModelScope.launch {
-            repository.getLocalElection(ids).collect { result ->
+            useCase.getLocalElection(ids).collect { result ->
                 result
-                    .onFailure { errorAction(it) }
+                    .onFailure { handleError(it) }
                     .onSuccess { action.send(NavigateToDetail(ids)) }
             }
         }
     }
 
-    private suspend fun errorAction(throwable: Throwable? = null) {
-        throwable?.let { crashlytics?.recordException(it) }
-        action.send(ShowErrorSnackbar(throwable?.message))
+    private suspend fun handleError(throwable: Throwable) {
+        crashlytics?.recordException(throwable)
+        action.send(ShowErrorSnackbar(throwable.message))
     }
 }

@@ -1,6 +1,8 @@
 package com.n27.core.data.remote.api
 
 import com.n27.core.Constants.BAD_RESPONSE
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
+import com.n27.core.data.DataUtils
 import com.n27.core.data.remote.api.mappers.toElDiarioLocalResult
 import com.n27.core.data.remote.api.mappers.toElDiarioParties
 import com.n27.core.data.remote.api.mappers.toElDiarioRegionalResult
@@ -22,7 +24,8 @@ import kotlin.Result.Companion.success
 class ElDiarioApi @Inject constructor(
     baseUrl: String,
     private val electionDate: Long,
-    private val client: OkHttpClient
+    private val client: OkHttpClient,
+    private val utils: DataUtils
 ) {
 
     private val url = "$baseUrl/$electionDate"
@@ -71,11 +74,15 @@ class ElDiarioApi @Inject constructor(
         val request = Request.Builder().url(url).build()
 
         withContext(Dispatchers.IO) {
-            client.newCall(request).execute().use { response ->
-                response
-                    .takeIf { it.isSuccessful }
-                    ?.run { body?.string() }
-                    ?.let { success(it) } ?: failure(Throwable(BAD_RESPONSE))
+            if (utils.isConnectedToInternet()) {
+                client.newCall(request).execute().use { response ->
+                    response
+                        .takeIf { it.isSuccessful }
+                        ?.run { body?.string() }
+                        ?.let { success(it) } ?: failure(Throwable(BAD_RESPONSE))
+                }
+            } else {
+                failure(Throwable(NO_INTERNET_CONNECTION))
             }
         }
     }.getOrElse { failure(it) }

@@ -2,16 +2,16 @@ package com.n27.core.presentation.detail
 
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.LiveRepositoryImpl
+import com.n27.core.domain.LiveUseCase
 import com.n27.core.domain.live.models.LocalElectionIds
+import com.n27.core.presentation.detail.entities.DetailAction.ShowErrorSnackbar
+import com.n27.core.presentation.detail.entities.DetailFlags
+import com.n27.core.presentation.detail.entities.DetailInteraction.Refresh
+import com.n27.core.presentation.detail.entities.DetailInteraction.ScreenOpened
+import com.n27.core.presentation.detail.entities.DetailInteraction.Swap
+import com.n27.core.presentation.detail.entities.DetailState.Error
+import com.n27.core.presentation.detail.entities.DetailState.Loading
 import com.n27.core.presentation.detail.mappers.toContent
-import com.n27.core.presentation.detail.models.DetailAction.ShowErrorSnackbar
-import com.n27.core.presentation.detail.models.DetailFlags
-import com.n27.core.presentation.detail.models.DetailInteraction.Refresh
-import com.n27.core.presentation.detail.models.DetailInteraction.ScreenOpened
-import com.n27.core.presentation.detail.models.DetailInteraction.Swap
-import com.n27.core.presentation.detail.models.DetailState.Error
-import com.n27.core.presentation.detail.models.DetailState.Loading
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getLiveElection
 import kotlinx.coroutines.Dispatchers
@@ -36,20 +36,20 @@ import kotlin.Result.Companion.success
 @RunWith(RobolectricTestRunner::class)
 class DetailViewModelTest {
 
-    private lateinit var repository: LiveRepositoryImpl
+    private lateinit var useCase: LiveUseCase
     private lateinit var viewModel: DetailViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
-        repository = mock(LiveRepositoryImpl::class.java)
-        `when`(repository.getCongressElection()).thenReturn(flowOf(success(getLiveElection())))
-        `when`(repository.getRegionalElection(anyString())).thenReturn(flowOf(success(getLiveElection())))
-        `when`(repository.getSenateElection()).thenReturn(
+        useCase = mock(LiveUseCase::class.java)
+        `when`(useCase.getCongressElection()).thenReturn(flowOf(success(getLiveElection())))
+        `when`(useCase.getRegionalElection("01")).thenReturn(flowOf(success(getLiveElection())))
+        `when`(useCase.getSenateElection()).thenReturn(
             flowOf(success(getLiveElection(getElection(chamberName = KEY_SENATE))))
         )
 
-        viewModel = DetailViewModel(repository, null)
+        viewModel = DetailViewModel(useCase, null)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -112,7 +112,7 @@ class DetailViewModelTest {
     @Test
     fun `ScreenOpened should emit content when localElectionIds not null`() = runTest {
         val ids = LocalElectionIds("01", "01", "01")
-        `when`(repository.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
+        `when`(useCase.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
 
         viewModel.handleInteraction(
             ScreenOpened(
@@ -148,7 +148,7 @@ class DetailViewModelTest {
 
     @Test
     fun `ScreenOpened should emit error onFailure`() = runTest {
-        `when`(repository.getRegionalElection(anyString()))
+        `when`(useCase.getRegionalElection(anyString()))
             .thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
 
         viewModel.handleInteraction(
@@ -178,7 +178,7 @@ class DetailViewModelTest {
         viewModel.handleInteraction(ScreenOpened(flags))
         runCurrent()
 
-        `when`(repository.getRegionalElection(anyString()))
+        `when`(useCase.getRegionalElection(anyString()))
             .thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
         viewModel.handleInteraction(ScreenOpened(flags))
         runCurrent()

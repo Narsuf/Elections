@@ -6,7 +6,8 @@
     <!-- Disclaimer. -->
     <string name="disclaimer">Disclaimer</string>
     <string name="disclaimer_description">This app does not represent any government entity.
-        The data of the results is retrieved from the Spanish newspaper</string>
+        The data of the results is retrieved from the Spanish newspaper %s.</string>
+    <string name="disclaimer_link" translatable="false">elDiario.es</string>
 
     <!-- Errors. -->
     <string name="preliminary_results_not_available_yet">Preliminary results not available yet</string>

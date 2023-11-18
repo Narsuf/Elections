@@ -2,9 +2,9 @@ package com.n27.core.presentation.detail.mappers
 
 import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.R
-import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.Election
 import com.n27.core.extensions.divide
-import com.n27.core.presentation.detail.models.DetailState.Content
+import com.n27.core.presentation.detail.entities.DetailState.Content
 import java.text.NumberFormat.getNumberInstance
 
 internal fun Election.toContent(): Content {

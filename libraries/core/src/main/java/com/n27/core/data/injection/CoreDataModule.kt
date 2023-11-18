@@ -31,10 +31,6 @@ class CoreDataModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseRemoteConfig() = FirebaseRemoteConfig.getInstance()
-
-    @Provides
-    @Singleton
     fun providesBaseUrl() = "https://elecciones.eldiario.es/api/data"
 
     @Provides

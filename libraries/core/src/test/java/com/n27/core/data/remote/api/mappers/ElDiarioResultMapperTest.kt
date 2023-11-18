@@ -2,9 +2,9 @@ package com.n27.core.data.remote.api.mappers
 
 import com.n27.core.data.remote.api.models.ElDiarioPartyResult
 import com.n27.core.data.remote.api.models.ElDiarioResult
-import com.n27.core.domain.election.models.Election
-import com.n27.core.domain.election.models.Party
-import com.n27.core.domain.election.models.Result
+import com.n27.core.domain.election.Election
+import com.n27.core.domain.election.Party
+import com.n27.core.domain.election.Result
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.test.generators.getElDiarioParties
 import com.n27.test.generators.getElDiarioResult

@@ -1,5 +1,7 @@
 package com.n27.core.data.remote.api
 
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
+import com.n27.core.data.DataUtils
 import com.n27.core.data.remote.api.mappers.toElDiarioLocalResult
 import com.n27.core.data.remote.api.mappers.toElDiarioParties
 import com.n27.core.data.remote.api.mappers.toElDiarioRegionalResult
@@ -14,9 +16,12 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
 import java.io.IOException
 import kotlin.Result.Companion.success
@@ -26,15 +31,21 @@ class ElDiarioApiTest {
 
     private lateinit var api: ElDiarioApi
     private lateinit var mockWebServer: MockWebServer
+    private lateinit var dataUtils: DataUtils
 
     @Before
     fun init() {
         mockWebServer = MockWebServer()
         mockWebServer.start()
+
+        dataUtils = mock(DataUtils::class.java)
+        `when`(dataUtils.isConnectedToInternet()).thenReturn(true)
+
         api = ElDiarioApi(
             baseUrl = mockWebServer.url("/").toUrl().toString(),
             electionDate = 2305,
-            client = OkHttpClient.Builder().build()
+            client = OkHttpClient.Builder().build(),
+            utils = dataUtils
         )
     }
 
@@ -57,6 +68,18 @@ class ElDiarioApiTest {
         val expected = success(ElDiarioApiResponses.congressElection.toElDiarioResult(2305, 350))
 
         assertEquals(expected, api.getCongressResult())
+    }
+
+    @Test
+    fun `getCongressElection with no internet`(): Unit = runBlocking {
+        mockWebServer.enqueue(MockResponse().setBody(ElDiarioApiResponses.congressElection))
+
+        `when`(dataUtils.isConnectedToInternet()).thenReturn(false)
+
+        api.getCongressResult().let { result ->
+            result.onFailure { assertEquals(it.message, NO_INTERNET_CONNECTION) }
+            assertNull(result.getOrNull())
+        }
     }
 
     @Test

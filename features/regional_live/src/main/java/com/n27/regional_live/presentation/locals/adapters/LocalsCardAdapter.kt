@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.n27.core.domain.live.models.Region
+import com.n27.core.domain.region.models.Region
 import com.n27.regional_live.R
 
 typealias OnRegionClicked = (region: Region) -> Unit
@@ -17,6 +18,15 @@ class LocalsCardAdapter(
     internal var regions = listOf<Region>()
 
     class MyViewHolder(val card: CardView) : RecyclerView.ViewHolder(card)
+
+    fun updateItems(newItems: List<Region>) {
+        val diffCallback = RegionsDiff(regions, newItems)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+        regions = newItems
+
+        diffResult.dispatchUpdatesTo(this)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val card = LayoutInflater.from(parent.context)

@@ -4,7 +4,7 @@
     <string name="party">Party</string>
     <string name="votes">Votes</string>
     <string name="elects">Elects</string>
-    <string name="scrutinized">Scrt. %1\$s%%</string>
+    <string name="scrutinized">Scrt. %s%%</string>
 
     <!-- Actions. -->
     <string name="button_more_info_content">More information.</string>

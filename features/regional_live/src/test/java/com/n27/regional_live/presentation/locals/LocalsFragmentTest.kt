@@ -8,7 +8,7 @@ import com.n27.regional_live.R
 import com.n27.regional_live.databinding.FragmentLocalsBinding
 import com.n27.regional_live.presentation.RegionalLiveActivity
 import com.n27.regional_live.presentation.locals.adapters.LocalsCardAdapter
-import com.n27.regional_live.presentation.locals.models.LocalsState.Error
+import com.n27.regional_live.presentation.locals.entities.LocalsState.Error
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

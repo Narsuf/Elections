@@ -1,10 +1,10 @@
 package com.n27.regional_live.presentation.regionals
 
-import com.n27.core.data.LiveRepositoryImpl
-import com.n27.regional_live.presentation.regionals.models.RegionalsAction.ShowErrorSnackbar
-import com.n27.regional_live.presentation.regionals.models.RegionalsState.Content
-import com.n27.regional_live.presentation.regionals.models.RegionalsState.Error
-import com.n27.regional_live.presentation.regionals.models.RegionalsState.Loading
+import com.n27.core.domain.LiveUseCase
+import com.n27.regional_live.presentation.regionals.entities.RegionalsAction.ShowErrorSnackbar
+import com.n27.regional_live.presentation.regionals.entities.RegionalsState.Content
+import com.n27.regional_live.presentation.regionals.entities.RegionalsState.Error
+import com.n27.regional_live.presentation.regionals.entities.RegionalsState.Loading
 import com.n27.test.generators.getLiveElections
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
@@ -29,15 +29,15 @@ import kotlin.Result.Companion.success
 @RunWith(RobolectricTestRunner::class)
 class RegionalsViewModelTest {
 
-    private lateinit var repository: LiveRepositoryImpl
+    private lateinit var useCase: LiveUseCase
     private lateinit var viewModel: RegionalsViewModel
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun init() = runTest {
-        repository = mock(LiveRepositoryImpl::class.java)
-        `when`(repository.getRegionalElections()).thenReturn(flowOf(success(getLiveElections())))
-        viewModel = RegionalsViewModel(repository, null)
+        useCase = mock(LiveUseCase::class.java)
+        `when`(useCase.getRegionalElections()).thenReturn(flowOf(success(getLiveElections())))
+        viewModel = RegionalsViewModel(useCase, null)
         Dispatchers.setMain(testDispatcher)
     }
 
@@ -58,7 +58,7 @@ class RegionalsViewModelTest {
 
     @Test
     fun `requestElections should emit error when elections onFailure`() = runTest {
-        `when`(repository.getRegionalElections()).thenReturn(flowOf(failure(Throwable())))
+        `when`(useCase.getRegionalElections()).thenReturn(flowOf(failure(Throwable())))
         val expected = Error()
 
         viewModel.requestElections()
@@ -72,7 +72,7 @@ class RegionalsViewModelTest {
         viewModel.requestElections()
         runCurrent()
 
-        `when`(repository.getRegionalElections()).thenReturn(flowOf(failure(Throwable())))
+        `when`(useCase.getRegionalElections()).thenReturn(flowOf(failure(Throwable())))
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val expected = Content(getLiveElections())
         viewModel.requestElections()

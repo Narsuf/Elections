@@ -1,13 +1,16 @@
 package com.n27.test.generators
 
-import com.n27.core.domain.election.models.Election
-import com.n27.core.domain.election.models.Elections
-import com.n27.core.domain.election.models.Party
-import com.n27.core.domain.election.models.Result
+import com.n27.core.Constants.KEY_SENATE
+import com.n27.core.domain.election.Election
+import com.n27.core.domain.election.Elections
+import com.n27.core.domain.election.Party
+import com.n27.core.domain.election.Result
 
 fun getElections() = Elections(getElectionList())
 
-fun getElectionList() = listOf(getElection())
+fun getGeneralElection() = Elections(listOf(getElection(), getElection(chamberName = KEY_SENATE)))
+
+fun getElectionList(): List<Election> = listOf(getElection())
 
 fun getElection(
     id: Long = 3,
