@@ -21,7 +21,6 @@ import com.n27.core.presentation.detail.entities.DetailState
 import com.n27.core.presentation.detail.entities.DetailState.Content
 import com.n27.core.presentation.detail.entities.DetailState.Error
 import com.n27.core.presentation.detail.entities.DetailState.Loading
-import com.n27.core.presentation.detail.mappers.toContent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -51,7 +50,7 @@ class DetailViewModel @Inject constructor(
                 liveLocalElectionIds != null -> useCase.getLocalElection(liveLocalElectionIds).handleFlow()
                 liveRegionalElectionId != null -> useCase.getRegionalElection(liveRegionalElectionId).handleFlow()
                 isLiveGeneralElection -> requestGeneralLiveCongressElection()
-                election != null -> state.value = election.toContent()
+                election != null -> state.value = Content(election)
                 else -> handleError()
             }
         }
@@ -60,7 +59,7 @@ class DetailViewModel @Inject constructor(
     private suspend fun Flow<Result<LiveElection>>.handleFlow() {
         collect { result ->
             result
-                .onSuccess { state.value = it.election.toContent() }
+                .onSuccess { state.value = Content(it.election) }
                 .onFailure(::handleError)
         }
     }
@@ -69,7 +68,7 @@ class DetailViewModel @Inject constructor(
         useCase.getCongressElection().collect { result ->
             result
                 .onFailure(::handleError)
-                .onSuccess { state.value = it.election.toContent() }
+                .onSuccess { state.value = Content(it.election) }
         }
     }
 
@@ -97,7 +96,7 @@ class DetailViewModel @Inject constructor(
             useCase.getSenateElection().collect { senateResult ->
                 senateResult
                     .onFailure(::handleError)
-                    .onSuccess { state.value = it.election.toContent() }
+                    .onSuccess { state.value = Content(it.election) }
             }
         }
     }

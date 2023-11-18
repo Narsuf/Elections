@@ -9,9 +9,10 @@ import com.n27.core.presentation.detail.entities.DetailFlags
 import com.n27.core.presentation.detail.entities.DetailInteraction.Refresh
 import com.n27.core.presentation.detail.entities.DetailInteraction.ScreenOpened
 import com.n27.core.presentation.detail.entities.DetailInteraction.Swap
+import com.n27.core.presentation.detail.entities.DetailState.Content
 import com.n27.core.presentation.detail.entities.DetailState.Error
 import com.n27.core.presentation.detail.entities.DetailState.Loading
-import com.n27.core.presentation.detail.mappers.toContent
+import com.n27.test.generators.getDetailContent
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getLiveElection
 import kotlinx.coroutines.Dispatchers
@@ -72,7 +73,7 @@ class DetailViewModelTest {
         )
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getDetailContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -89,7 +90,7 @@ class DetailViewModelTest {
         )
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getDetailContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -106,7 +107,7 @@ class DetailViewModelTest {
         )
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getDetailContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -126,7 +127,7 @@ class DetailViewModelTest {
         )
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getDetailContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -201,7 +202,7 @@ class DetailViewModelTest {
         )
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getDetailContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -219,7 +220,7 @@ class DetailViewModelTest {
         )
         runCurrent()
 
-        assertEquals(getElection(chamberName = KEY_SENATE).toContent(), viewModel.viewState.value)
+        assertEquals(Content(getElection(chamberName = KEY_SENATE)), viewModel.viewState.value)
     }
 
     @Test
@@ -238,7 +239,7 @@ class DetailViewModelTest {
         )
         runCurrent()
 
-        assertEquals(getElection().toContent(), viewModel.viewState.value)
+        assertEquals(getDetailContent(), viewModel.viewState.value)
     }
 
     @Test
@@ -257,7 +258,7 @@ class DetailViewModelTest {
         )
         runCurrent()
 
-        assertEquals(getElection(chamberName = KEY_SENATE).toContent(), viewModel.viewState.value)
+        assertEquals(Content(getElection(chamberName = KEY_SENATE)), viewModel.viewState.value)
     }
 
     @Test
@@ -276,6 +277,6 @@ class DetailViewModelTest {
         )
         runCurrent()
 
-        assertEquals(getElection(chamberName = KEY_SENATE).toContent(), viewModel.viewState.value)
+        assertEquals(Content(getElection(chamberName = KEY_SENATE)), viewModel.viewState.value)
     }
 }

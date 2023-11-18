@@ -8,10 +8,5 @@ sealed class DetailState {
 
     data class Error(val error: String? = null) : DetailState()
 
-    data class Content(
-        val election: Election,
-        val arrayList: ArrayList<Map<String, Any>>,
-        val keys: List<String>,
-        val resources: List<Int>
-    ) : DetailState()
+    data class Content(val election: Election) : DetailState()
 }

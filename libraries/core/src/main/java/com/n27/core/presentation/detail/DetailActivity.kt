@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SimpleAdapter
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_ELECTION_ID
@@ -18,13 +18,14 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.Election
+import com.n27.core.domain.election.Result
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.injection.CoreComponent
 import com.n27.core.injection.CoreComponentProvider
 import com.n27.core.presentation.PresentationUtils
-import com.n27.core.presentation.detail.binders.PartyColorBinder
+import com.n27.core.presentation.detail.adapters.ResultsAdapter
 import com.n27.core.presentation.detail.dialog.DetailDialog
 import com.n27.core.presentation.detail.entities.DetailAction
 import com.n27.core.presentation.detail.entities.DetailAction.Refreshing
@@ -49,6 +50,16 @@ class DetailActivity : AppCompatActivity() {
     internal lateinit var countDownTimer: CountDownTimer
     private lateinit var flags: DetailFlags
     private var senateElection: Election? = null
+    private val recyclerAdapter by lazy { ResultsAdapter(::onItemClicked) }
+
+    private fun onItemClicked(position: Int, result: Result) {
+        binding.pieChartActivityDetail.highlightValue(position.toFloat(), 0)
+        countDownTimer.start()
+        utils.track("detail_activity_party_clicked") {
+            param("party", result.party.name)
+            param("seats", result.elects.toString())
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         coreComponent = (applicationContext as CoreComponentProvider).provideCoreComponent()
@@ -79,6 +90,11 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbarActivityDetail)
         generateToolbarTitle()?.let { toolbarActivityDetail.title = it }
         initializeCountDownTimer()
+
+        listActivityDetail.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = recyclerAdapter
+        }
     }
 
     private fun initObservers() {
@@ -138,28 +154,9 @@ class DetailActivity : AppCompatActivity() {
             scrutinizedActivityDetail.text = getString(R.string.scrutinized, scrutinized.toString())
             scrutinizedBarActivityDetail.progress = scrutinized.toInt()
             pieChartActivityDetail.drawWithResults(results)
-
-            listActivityDetail.apply {
-                adapter = generateResultsAdapter(content).apply { viewBinder = PartyColorBinder() }
-
-                setOnItemClickListener { _, _, position, _ ->
-                    pieChartActivityDetail.highlightValue(position.toFloat(), 0)
-                    countDownTimer.start()
-                    utils.track("detail_activity_party_clicked") {
-                        param("party", results[position].party.name)
-                    }
-                }
-            }
+            recyclerAdapter.updateItems(content.election)
         }
     }
-
-    private fun generateResultsAdapter(content: Content) = SimpleAdapter(
-        this,
-        content.arrayList,
-        R.layout.list_item_activity_detail,
-        content.keys.toTypedArray(),
-        content.resources.toIntArray()
-    )
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)

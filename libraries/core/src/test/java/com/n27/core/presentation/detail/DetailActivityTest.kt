@@ -149,7 +149,7 @@ class DetailActivityTest {
                 val pieChart = binding.pieChartActivityDetail
 
                 // Check highlight function
-                binding.listActivityDetail.onItemClickListener?.onItemClick(null, null, 0, 0)
+                binding.listActivityDetail.getChildAt(0).performClick()
                 assertTrue(pieChart.highlighted.isNotEmpty())
 
                 // Still highlighted
