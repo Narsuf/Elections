@@ -14,6 +14,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/app_name" />
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_activity_detail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_activity_detail">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_activity_detail"
         android:layout_width="0dp"
@@ -22,7 +31,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_activity_detail">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/scrutinized_activity_detail"
@@ -142,6 +151,7 @@
             app:layout_constraintTop_toBottomOf="@id/party_name_activity_detail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loading_animation_activity_detail"
@@ -166,15 +176,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_activity_detail"
         app:lottie_rawRes="@raw/empty_box" />
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progress_bar_activity_detail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

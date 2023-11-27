@@ -44,7 +44,7 @@ class DetailViewModel @Inject constructor(
 
     private fun requestElection(flags: DetailFlags) = with(flags) {
         viewModelScope.launch {
-            if (state.value is Content) action.value = Refreshing
+            loading()
 
             when {
                 liveLocalElectionIds != null -> useCase.getLocalElection(liveLocalElectionIds).handleFlow()
@@ -56,12 +56,14 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private suspend fun Flow<Result<LiveElection>>.handleFlow() {
-        collect { result ->
-            result
-                .onSuccess { state.value = Content(it.election) }
-                .onFailure(::handleError)
-        }
+    private fun loading() {
+        if (state.value is Content) action.value = Refreshing
+    }
+
+    private suspend fun Flow<Result<LiveElection>>.handleFlow() = collect { result ->
+        result
+            .onSuccess { state.value = Content(it.election) }
+            .onFailure(::handleError)
     }
 
     private suspend fun requestGeneralLiveCongressElection() {
@@ -79,7 +81,6 @@ class DetailViewModel @Inject constructor(
             action.value = ShowErrorSnackbar(throwable?.message)
         else
             state.value = Error(throwable?.message)
-
     }
 
     private fun refresh(interaction: Refresh) = with(interaction) {
@@ -91,7 +92,7 @@ class DetailViewModel @Inject constructor(
 
     private fun requestGeneralLiveSenateElection() {
         viewModelScope.launch {
-            if (state.value is Content) action.value = Refreshing
+            loading()
 
             useCase.getSenateElection().collect { senateResult ->
                 senateResult
@@ -101,13 +102,15 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun swap(interaction: Swap): Unit = with(interaction) {
+    private fun swap(interaction: Swap) = with(interaction) {
         when (currentElection?.chamberName) {
             KEY_SENATE -> requestElection(flags)
             KEY_CONGRESS -> if (flags.isLiveGeneralElection)
                 requestGeneralLiveSenateElection()
             else
                 requestElection(flags.copy(election = senateElection))
+
+            else -> handleError()
         }
     }
 }

@@ -73,12 +73,11 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun Bundle.deserialize() {
-        val election = getSerializable(KEY_ELECTION) as? Election
-        currentElection = election
+        currentElection = getSerializable(KEY_ELECTION) as? Election
         senateElection = getSerializable(KEY_SENATE_ELECTION) as? Election
 
         flags = DetailFlags(
-            election,
+            currentElection,
             isLiveGeneralElection = getBoolean(KEY_GENERAL_LIVE_ELECTION),
             liveRegionalElectionId = getString(KEY_ELECTION_ID),
             liveLocalElectionIds = getSerializable(KEY_LOCAL_ELECTION_IDS) as? LocalElectionIds
@@ -90,6 +89,25 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbarActivityDetail)
         generateToolbarTitle()?.let { toolbarActivityDetail.title = it }
         initializeCountDownTimer()
+
+        swipeActivityDetail.apply {
+            if (senateElection != null) isEnabled = false
+
+            setOnRefreshListener {
+                viewModel.handleInteraction(Refresh(currentElection, flags))
+                utils.track("detail_activity_reload")
+            }
+        }
+
+        moreInfoButtonActivityDetail.setOnClickListener {
+            DetailDialog()
+                .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
+                .show(supportFragmentManager, "DetailDialog")
+
+            utils.track("detail_activity_results_info_clicked") {
+                param("election", "${currentElection?.chamberName} (${currentElection?.date})")
+            }
+        }
 
         listActivityDetail.apply {
             layoutManager = LinearLayoutManager(context)
@@ -125,36 +143,30 @@ class DetailActivity : AppCompatActivity() {
         content: Boolean = false
     ) = with(binding) {
         loadingAnimationActivityDetail.isVisible = animation
-        progressBarActivityDetail.isVisible = loading
+        swipeActivityDetail.isRefreshing = loading
         errorAnimationActivityDetail.isVisible = error
         contentActivityDetail.isVisible = content
     }
 
     private fun showElections(content: Content) {
-        setViewsVisibility(content = true)
         currentElection = content.election
         binding.setContent(content)
+        setViewsVisibility(content = true)
         utils.track("detail_activity_content_loaded")
     }
 
     private fun ActivityDetailBinding.setContent(content: Content) {
         with(content.election) {
             toolbarActivityDetail.title = generateToolbarTitle()
-
-            moreInfoButtonActivityDetail.setOnClickListener {
-                DetailDialog()
-                    .also { it.arguments = Bundle().apply { putSerializable(KEY_ELECTION, currentElection) } }
-                    .show(supportFragmentManager, "DetailDialog")
-
-                utils.track("detail_activity_results_info_clicked") {
-                    param("election", "$chamberName ($date)")
-                }
-            }
-
             scrutinizedActivityDetail.text = getString(R.string.scrutinized, scrutinized.toString())
             scrutinizedBarActivityDetail.progress = scrutinized.toInt()
-            pieChartActivityDetail.drawWithResults(results)
             recyclerAdapter.updateItems(content.election)
+
+            // Looks like there is a charting library's bug in this specific case.
+            pieChartActivityDetail.apply {
+                drawWithResults(results)
+                drawWithResults(results)
+            }
         }
     }
 
@@ -186,12 +198,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_activity_detail, menu)
-
-        menu.apply {
-            findItem(R.id.action_swap).isVisible = senateElection != null || flags.isLiveGeneralElection
-            findItem(R.id.action_reload).isVisible = senateElection == null
-        }
-
+        menu.findItem(R.id.action_swap).isVisible = senateElection != null || flags.isLiveGeneralElection
         return true
     }
 
@@ -207,18 +214,7 @@ class DetailActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.action_reload -> {
-                viewModel.handleInteraction(Refresh(currentElection, flags))
-                utils.track("detail_activity_reload")
-                true
-            }
-
             else -> false
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        countDownTimer.cancel()
     }
 }
