@@ -54,7 +54,7 @@ android {
     defaultConfig {
         minSdk minSdkV
         targetSdk sdkV
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.n27.test.TestRunner"
     }
 
     buildTypes {

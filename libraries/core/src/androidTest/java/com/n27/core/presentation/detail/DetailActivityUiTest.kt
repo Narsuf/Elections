@@ -71,11 +71,6 @@ class DetailActivityUiTest {
 
         waitUntil { assertToolbarTitle(" Andalucía (05/23)") }
         checkRegionalContent()
-
-        clickOn(R.id.action_reload)
-
-        assertDisplayed(R.id.progress_bar_activity_detail)
-        checkRegionalContent()
     }
 
     private fun checkRegionalContent() {

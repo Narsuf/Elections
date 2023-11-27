@@ -11,8 +11,6 @@ import com.n27.core.Constants.KEY_SENATE
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.Election
-import com.n27.core.presentation.detail.entities.DetailAction.Refreshing
-import com.n27.core.presentation.detail.entities.DetailAction.ShowErrorSnackbar
 import com.n27.core.presentation.detail.entities.DetailState.Loading
 import com.n27.test.generators.getElection
 import junit.framework.TestCase.*
@@ -54,19 +52,6 @@ class DetailActivityTest {
         }
     }
 
-    @Test
-    fun checkShowProgressBar() {
-        launchActivity(election = null).onActivity { activity ->
-            with(activity) {
-                handleAction(Refreshing)
-                binding.assertVisibilities(loading = true, content = true)
-
-                handleAction(ShowErrorSnackbar(null))
-                binding.assertVisibilities(content = true)
-            }
-        }
-    }
-
     private fun ActivityDetailBinding.assertVisibilities(
         animation: Boolean = false,
         loading: Boolean = false,
@@ -74,7 +59,7 @@ class DetailActivityTest {
         content: Boolean = false
     ) {
         assertEquals(loadingAnimationActivityDetail.isVisible, animation)
-        assertEquals(progressBarActivityDetail.isVisible, loading)
+        assertEquals(swipeActivityDetail.isRefreshing, loading)
         assertEquals(errorAnimationActivityDetail.isVisible, error)
         assertEquals(contentActivityDetail.isVisible, content)
     }
@@ -129,16 +114,16 @@ class DetailActivityTest {
     @Test
     fun checkRefresh() {
         launchActivity(liveElectionId = "01").onActivity { activity ->
-            val refresh = activity.binding.toolbarActivityDetail.menu.getItem(1)
-            assertTrue(refresh.isVisible)
+            val refresh = activity.binding.swipeActivityDetail
+            assertTrue(refresh.isEnabled)
         }
     }
 
     @Test
-    fun refreshNotVisibleWhenSenateElectionsNotNull() {
+    fun `refresh not enabled when senate election not null`() {
         launchActivity(senateElection = getElection()).onActivity { activity ->
-            val refresh = activity.binding.toolbarActivityDetail.menu.getItem(1)
-            assertFalse(refresh.isVisible)
+            val refresh = activity.binding.swipeActivityDetail
+            assertFalse(refresh.isEnabled)
         }
     }
 
@@ -149,7 +134,7 @@ class DetailActivityTest {
                 val pieChart = binding.pieChartActivityDetail
 
                 // Check highlight function
-                binding.listActivityDetail.onItemClickListener?.onItemClick(null, null, 0, 0)
+                binding.listActivityDetail.getChildAt(0).performClick()
                 assertTrue(pieChart.highlighted.isNotEmpty())
 
                 // Still highlighted

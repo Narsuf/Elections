@@ -21,7 +21,6 @@ import com.n27.core.presentation.detail.entities.DetailState
 import com.n27.core.presentation.detail.entities.DetailState.Content
 import com.n27.core.presentation.detail.entities.DetailState.Error
 import com.n27.core.presentation.detail.entities.DetailState.Loading
-import com.n27.core.presentation.detail.mappers.toContent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,31 +44,33 @@ class DetailViewModel @Inject constructor(
 
     private fun requestElection(flags: DetailFlags) = with(flags) {
         viewModelScope.launch {
-            if (state.value is Content) action.value = Refreshing
+            loading()
 
             when {
                 liveLocalElectionIds != null -> useCase.getLocalElection(liveLocalElectionIds).handleFlow()
                 liveRegionalElectionId != null -> useCase.getRegionalElection(liveRegionalElectionId).handleFlow()
                 isLiveGeneralElection -> requestGeneralLiveCongressElection()
-                election != null -> state.value = election.toContent()
+                election != null -> state.value = Content(election)
                 else -> handleError()
             }
         }
     }
 
-    private suspend fun Flow<Result<LiveElection>>.handleFlow() {
-        collect { result ->
-            result
-                .onSuccess { state.value = it.election.toContent() }
-                .onFailure(::handleError)
-        }
+    private fun loading() {
+        if (state.value is Content) action.value = Refreshing
+    }
+
+    private suspend fun Flow<Result<LiveElection>>.handleFlow() = collect { result ->
+        result
+            .onSuccess { state.value = Content(it.election) }
+            .onFailure(::handleError)
     }
 
     private suspend fun requestGeneralLiveCongressElection() {
         useCase.getCongressElection().collect { result ->
             result
                 .onFailure(::handleError)
-                .onSuccess { state.value = it.election.toContent() }
+                .onSuccess { state.value = Content(it.election) }
         }
     }
 
@@ -80,7 +81,6 @@ class DetailViewModel @Inject constructor(
             action.value = ShowErrorSnackbar(throwable?.message)
         else
             state.value = Error(throwable?.message)
-
     }
 
     private fun refresh(interaction: Refresh) = with(interaction) {
@@ -92,23 +92,25 @@ class DetailViewModel @Inject constructor(
 
     private fun requestGeneralLiveSenateElection() {
         viewModelScope.launch {
-            if (state.value is Content) action.value = Refreshing
+            loading()
 
             useCase.getSenateElection().collect { senateResult ->
                 senateResult
                     .onFailure(::handleError)
-                    .onSuccess { state.value = it.election.toContent() }
+                    .onSuccess { state.value = Content(it.election) }
             }
         }
     }
 
-    private fun swap(interaction: Swap): Unit = with(interaction) {
+    private fun swap(interaction: Swap) = with(interaction) {
         when (currentElection?.chamberName) {
             KEY_SENATE -> requestElection(flags)
             KEY_CONGRESS -> if (flags.isLiveGeneralElection)
                 requestGeneralLiveSenateElection()
             else
                 requestElection(flags.copy(election = senateElection))
+
+            else -> handleError()
         }
     }
 }
