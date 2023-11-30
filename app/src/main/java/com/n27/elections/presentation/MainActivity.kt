@@ -116,12 +116,6 @@ class MainActivity : AppCompatActivity() {
         is Error -> showError(state.errorMessage)
     }
 
-    private fun showElections(state: Content) = with(binding) {
-        setViewsVisibility(content = true)
-        recyclerAdapter.updateItems(state.congressElections, state.senateElections)
-        utils.track("main_activity_content_loaded")
-    }
-
     private fun setViewsVisibility(
         animation: Boolean = false,
         loading: Boolean = false,
@@ -140,6 +134,12 @@ class MainActivity : AppCompatActivity() {
         debugValue
     else
         remoteConfig.getBoolean(feature)
+
+    private fun showElections(state: Content) = with(binding) {
+        setViewsVisibility(content = true)
+        recyclerAdapter.updateItems(state.congressElections, state.senateElections)
+        utils.track("main_activity_content_loaded")
+    }
 
     private fun showError(errorMsg: String?) {
         setViewsVisibility(error = true)
