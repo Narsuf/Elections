@@ -51,7 +51,7 @@ class LiveRepositoryImplTest {
 
         `when`(api.getCongressResult()).thenReturn(success(getElDiarioResult(id = "")))
 
-        repository.getCongressElection().collect { assertEquals(expected, it) }
+        assertEquals(expected, repository.getCongressElection())
     }
 
     @Test
@@ -63,7 +63,7 @@ class LiveRepositoryImplTest {
 
         `when`(api.getSenateResult()).thenReturn(success(getElDiarioResult(id = "")))
 
-        repository.getSenateElection().collect { assertEquals(expected, it) }
+        assertEquals(expected,  repository.getSenateElection())
     }
 
     @Test
@@ -101,7 +101,7 @@ class LiveRepositoryImplTest {
 
         `when`(api.getRegionalResult(anyString())).thenReturn(success(getElDiarioResult(id = "01")))
 
-        repository.getRegionalElection("01", getRegions()).collect { assertEquals(expected, it) }
+        assertEquals(expected, repository.getRegionalElection("01", getRegions()))
     }
 
     @Test
@@ -113,6 +113,6 @@ class LiveRepositoryImplTest {
 
         `when`(api.getLocalResult(ids)).thenReturn(success(getElDiarioResult()))
 
-        repository.getLocalElection(ids, "Abla").collect { assertEquals(expected, it) }
+        assertEquals(expected, repository.getLocalElection(ids, "Abla"))
     }
 }

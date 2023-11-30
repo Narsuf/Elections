@@ -16,7 +16,6 @@ import com.n27.test.generators.getRegions
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runCurrent
@@ -75,7 +74,7 @@ class LocalsViewModelTest {
     fun `RequestElection should emit NavigateToDetail onSuccess`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
-        `when`(useCase.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
+        `when`(useCase.getLocalElection(ids)).thenReturn(success(getLiveElection()))
 
         runCurrent()
         eventBus.emit(RequestElection(ids))
@@ -89,7 +88,7 @@ class LocalsViewModelTest {
     fun `RequestElection should emit ShowErrorSnackbar onFailure`() = runTest {
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val ids = LocalElectionIds("", "", "")
-        `when`(useCase.getLocalElection(ids)).thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
+        `when`(useCase.getLocalElection(ids)).thenReturn(failure(Throwable(NO_INTERNET_CONNECTION)))
 
         runCurrent()
         eventBus.emit(RequestElection(ids))

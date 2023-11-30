@@ -17,7 +17,6 @@ import com.n27.test.generators.getElection
 import com.n27.test.generators.getLiveElection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -44,10 +43,10 @@ class DetailViewModelTest {
     @Before
     fun init() = runTest {
         useCase = mock(LiveUseCase::class.java)
-        `when`(useCase.getCongressElection()).thenReturn(flowOf(success(getLiveElection())))
-        `when`(useCase.getRegionalElection("01")).thenReturn(flowOf(success(getLiveElection())))
+        `when`(useCase.getCongressElection()).thenReturn(success(getLiveElection()))
+        `when`(useCase.getRegionalElection("01")).thenReturn(success(getLiveElection()))
         `when`(useCase.getSenateElection()).thenReturn(
-            flowOf(success(getLiveElection(getElection(chamberName = KEY_SENATE))))
+            success(getLiveElection(getElection(chamberName = KEY_SENATE)))
         )
 
         viewModel = DetailViewModel(useCase, null)
@@ -113,7 +112,7 @@ class DetailViewModelTest {
     @Test
     fun `ScreenOpened should emit content when localElectionIds not null`() = runTest {
         val ids = LocalElectionIds("01", "01", "01")
-        `when`(useCase.getLocalElection(ids)).thenReturn(flowOf(success(getLiveElection())))
+        `when`(useCase.getLocalElection(ids)).thenReturn(success(getLiveElection()))
 
         viewModel.handleInteraction(
             ScreenOpened(
@@ -150,7 +149,7 @@ class DetailViewModelTest {
     @Test
     fun `ScreenOpened should emit error onFailure`() = runTest {
         `when`(useCase.getRegionalElection(anyString()))
-            .thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
+            .thenReturn(failure(Throwable(NO_INTERNET_CONNECTION)))
 
         viewModel.handleInteraction(
             ScreenOpened(
@@ -180,7 +179,7 @@ class DetailViewModelTest {
         runCurrent()
 
         `when`(useCase.getRegionalElection(anyString()))
-            .thenReturn(flowOf(failure(Throwable(NO_INTERNET_CONNECTION))))
+            .thenReturn(failure(Throwable(NO_INTERNET_CONNECTION)))
         viewModel.handleInteraction(ScreenOpened(flags))
         runCurrent()
 

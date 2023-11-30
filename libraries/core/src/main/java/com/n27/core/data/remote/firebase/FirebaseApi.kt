@@ -5,8 +5,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.TIMEOUT
 import com.n27.core.data.DataUtils
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -34,5 +36,5 @@ class FirebaseApi @Inject constructor(
                 send(success(it))
             }
         }
-    }
+    }.flowOn(Dispatchers.IO)
 }
