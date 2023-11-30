@@ -95,7 +95,6 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-
     private fun swap(interaction: Swap) = with(interaction) {
         when (currentElection?.chamberName) {
             KEY_SENATE -> requestElection(flags)
