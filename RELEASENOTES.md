@@ -1,6 +1,6 @@
 # Release notes #
 
-### 1.2.0 (2023-12-01) ###
+### 1.2.0 (2024-01-23) ###
 
 * Several performance and visual improvements applied. 
 * One whole API deprecated for simplicity. 
