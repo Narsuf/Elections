@@ -6,8 +6,8 @@ import com.n27.core.data.local.room.mappers.toElections
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
 import com.n27.core.data.remote.firebase.FirebaseApi
 import com.n27.core.data.remote.firebase.mappers.toElections
-import com.n27.core.domain.election.Election
-import com.n27.core.domain.election.Elections
+import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.models.Elections
 import com.n27.elections.domain.repositories.ElectionRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject

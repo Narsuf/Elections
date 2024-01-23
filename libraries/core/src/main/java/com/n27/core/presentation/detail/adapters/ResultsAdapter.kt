@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.n27.core.Constants
 import com.n27.core.R
-import com.n27.core.domain.election.Election
-import com.n27.core.domain.election.Result
+import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.models.Result
 import com.n27.core.extensions.divide
 import java.text.NumberFormat
 

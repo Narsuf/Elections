@@ -17,7 +17,7 @@ import com.n27.core.Constants.KEY_GENERAL_LIVE_ELECTION
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.NO_RESULTS
-import com.n27.core.domain.election.Election
+import com.n27.core.domain.election.models.Election
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.openLink
 import com.n27.core.extensions.playErrorAnimation

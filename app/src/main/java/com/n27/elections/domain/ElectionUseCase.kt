@@ -1,6 +1,6 @@
 package com.n27.elections.domain
 
-import com.n27.core.domain.election.Elections
+import com.n27.core.domain.election.models.Elections
 import com.n27.core.extensions.sortByDateAndFormat
 import com.n27.core.extensions.sortResultsByElectsAndVotes
 import com.n27.elections.domain.mappers.toGeneralElections

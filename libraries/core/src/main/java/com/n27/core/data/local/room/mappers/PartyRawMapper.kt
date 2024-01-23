@@ -1,7 +1,7 @@
 package com.n27.core.data.local.room.mappers
 
 import com.n27.core.data.local.room.models.PartyRaw
-import com.n27.core.domain.election.Party
+import com.n27.core.domain.election.models.Party
 
 fun List<PartyRaw>.toParties() = map { it.toParty() }
 

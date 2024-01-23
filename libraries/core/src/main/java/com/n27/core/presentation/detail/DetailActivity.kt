@@ -17,8 +17,8 @@ import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.databinding.ActivityDetailBinding
-import com.n27.core.domain.election.Election
-import com.n27.core.domain.election.Result
+import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.models.Result
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.drawWithResults
 import com.n27.core.extensions.playErrorAnimation
