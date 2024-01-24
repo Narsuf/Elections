@@ -1,6 +1,10 @@
 package com.n27.core.data.local.room
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import com.n27.core.data.local.room.models.ElectionRaw
 import com.n27.core.data.local.room.models.ElectionWithResultsAndParty
 import com.n27.core.data.local.room.models.PartyRaw

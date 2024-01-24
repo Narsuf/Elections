@@ -10,7 +10,6 @@ import com.n27.test.conditions.instructions.waitUntil
 import com.n27.test.intents.intents
 import com.n27.test.intents.verifyIntent
 import com.n27.test.jsons.ElDiarioApiResponses
-import kotlinx.coroutines.delay
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
