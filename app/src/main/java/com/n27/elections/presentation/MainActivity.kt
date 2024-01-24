@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleAction(action: MainAction) = when (action) {
-        is ShowDisclaimer -> onShowDisclaimer()
+        is ShowDisclaimer -> Unit //onShowDisclaimer()
         is ShowErrorSnackbar -> showSnackbar(action.error)
     }
 
