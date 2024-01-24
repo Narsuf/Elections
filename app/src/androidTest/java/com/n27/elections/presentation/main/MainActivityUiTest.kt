@@ -38,7 +38,7 @@ class MainActivityUiTest {
     fun checkActivity() {
         launchActivity()
 
-        //checkFirstLaunchDialog()
+        checkFirstLaunchDialog()
         checkContent()
         checkNavigation()
     }
