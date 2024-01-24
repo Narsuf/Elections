@@ -14,6 +14,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Test
+import java.lang.Thread.sleep
 
 class RegionalActivityUiTest {
 
@@ -52,6 +53,7 @@ class RegionalActivityUiTest {
         checkDialogContent()
         intents {
             clickOn("SHOW RESULTS")
+            sleep(1000)
             verifyIntent(DetailActivity::class.java.name)
         }
     }
