@@ -10,10 +10,12 @@ import com.n27.test.conditions.instructions.waitUntil
 import com.n27.test.intents.intents
 import com.n27.test.intents.verifyIntent
 import com.n27.test.jsons.ElDiarioApiResponses
+import kotlinx.coroutines.delay
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Test
+import java.lang.Thread.sleep
 
 class RegionalActivityUiTest {
 
@@ -52,6 +54,7 @@ class RegionalActivityUiTest {
         checkDialogContent()
         intents {
             clickOn("SHOW RESULTS")
+            sleep(1000)
             verifyIntent(DetailActivity::class.java.name)
         }
     }
@@ -73,7 +76,6 @@ class RegionalActivityUiTest {
         waitUntil { assertDisplayed(R.id.recycler_fragment_regionals) }
         clickOn(R.id.navigation_locals)
         waitUntil { assertDisplayed(R.id.recycler_fragment_locals) }
-        waitUntil { assertDisplayed("Andalucía") }
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 0, R.id.region_name_card_local_election, "Andalucía")
         assertDisplayedAtPosition(R.id.recycler_fragment_locals, 5, R.id.region_name_card_local_election, "Cantabria")
     }
