@@ -1,6 +1,6 @@
 package com.n27.core.presentation.detail.entities
 
-import com.n27.core.domain.election.Election
+import com.n27.core.domain.election.models.Election
 
 sealed class DetailInteraction {
 

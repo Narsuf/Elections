@@ -1,6 +1,6 @@
 package com.n27.test.generators
 
-import com.n27.core.domain.election.Party
+import com.n27.core.domain.election.models.Party
 
 fun getParties() = listOf(getParty())
 

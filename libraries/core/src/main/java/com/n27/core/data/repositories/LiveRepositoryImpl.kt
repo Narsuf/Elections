@@ -15,7 +15,6 @@ import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.domain.region.models.Regions
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.Result.Companion.failure
@@ -24,75 +23,52 @@ import kotlin.Result.Companion.success
 @Singleton
 class LiveRepositoryImpl @Inject constructor(private val api: ElDiarioApi) : LiveRepository {
 
-    override fun getCongressElection() = flow<Result<LiveElection>> {
-        api.getCongressResult()
-            .onFailure { emit(failure(it)) }
-            .onSuccess { result ->
-                api.getCongressParties().map { parties ->
-                    result.toLiveElection(
-                        name = KEY_GENERALS,
-                        place = KEY_SPAIN,
-                        parties,
-                        chamberName = KEY_CONGRESS
-                    )
-                }.let { emit(it) }
-            }
-    }
-
-    override fun getSenateElection() = flow<Result<LiveElection>> {
-        api.getSenateResult()
-            .onFailure { emit(failure(it)) }
-            .onSuccess { result ->
-                api.getSenateParties().map { parties ->
-                    result.toLiveElection(
-                        name = KEY_GENERALS,
-                        place = KEY_SPAIN,
-                        parties,
-                        chamberName = KEY_SENATE
-                    )
-                }.let { emit(it) }
-            }
-    }
-
-    override suspend fun getRegionalElections(regions: Regions): Result<LiveElections> =
-        api.getRegionalResults()
-            .mapNotNull { it.toLiveElection(regions).getOrNull() }
-            .let {
-                if (it.isNotEmpty())
-                    success(LiveElections(it))
-                else
-                    failure(Throwable(REGIONAL_ELECTION_EMPTY_LIST))
-            }
-
-    override fun getRegionalElection(id: String, regions: Regions) = flow<Result<LiveElection>> {
-        api.getRegionalResult(id)
-            .onSuccess { emit(it.toLiveElection(regions)) }
-            .onFailure { emit(failure(it)) }
-    }
-
-    private suspend fun ElDiarioResult.toLiveElection(regions: Regions): Result<LiveElection> =
-        api.getRegionalParties(id).map { parties ->
-            toLiveElection(
-                name = KEY_REGIONALS,
-                place = regions.regions.first { it.id == id }.name,
-                parties
+    override suspend fun getCongressElection(): Result<LiveElection> = api.getCongressResult()
+        .mapCatching { result ->
+            result.toLiveElection(
+                name = KEY_GENERALS,
+                place = KEY_SPAIN,
+                parties = api.getCongressParties().getOrThrow(),
+                chamberName = KEY_CONGRESS
             )
         }
 
-    override fun getLocalElection(
+    override suspend fun getSenateElection(): Result<LiveElection> = api.getSenateResult()
+        .mapCatching { result ->
+            result.toLiveElection(
+                name = KEY_GENERALS,
+                place = KEY_SPAIN,
+                parties = api.getSenateParties().getOrThrow(),
+                chamberName = KEY_SENATE
+            )
+        }
+
+    override suspend fun getRegionalElections(regions: Regions): Result<LiveElections> = api.getRegionalResults()
+        .map { it.toLiveElection(regions) }
+        .let {
+            if (it.isNotEmpty())
+                success(LiveElections(it))
+            else
+                failure(Throwable(REGIONAL_ELECTION_EMPTY_LIST))
+        }
+
+    override suspend fun getRegionalElection(id: String, regions: Regions): Result<LiveElection> =
+        api.getRegionalResult(id).map { it.toLiveElection(regions) }
+
+    private suspend fun ElDiarioResult.toLiveElection(regions: Regions): LiveElection = toLiveElection(
+        name = KEY_REGIONALS,
+        place = regions.regions.first { it.id == id }.name,
+        parties = api.getRegionalParties(id).getOrThrow()
+    )
+
+    override suspend fun getLocalElection(
         ids: LocalElectionIds,
         municipalityName: String
-    ) = flow<Result<LiveElection>> {
-        api.getLocalResult(ids)
-            .onFailure { emit(failure(it)) }
-            .onSuccess { result ->
-                api.getLocalParties().map {
-                    result.toLiveElection(
-                        name = KEY_LOCALS,
-                        place = municipalityName,
-                        parties = it
-                    )
-                }.let { emit(it) }
-            }
+    ): Result<LiveElection> = api.getLocalResult(ids).mapCatching { result ->
+        result.toLiveElection(
+            name = KEY_LOCALS,
+            place = municipalityName,
+            parties = api.getLocalParties().getOrThrow()
+        )
     }
 }

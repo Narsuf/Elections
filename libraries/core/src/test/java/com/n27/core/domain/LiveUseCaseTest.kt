@@ -10,8 +10,6 @@ import com.n27.test.generators.getProvinces
 import com.n27.test.generators.getRegions
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -40,7 +38,7 @@ class LiveUseCaseTest {
 
     @Test
     fun getCongressElection() = runTest {
-        val expected = flowOf(success(getLiveElection()))
+        val expected = success(getLiveElection())
 
         `when`(liveRepository.getCongressElection()).thenReturn(expected)
 
@@ -49,7 +47,7 @@ class LiveUseCaseTest {
 
     @Test
     fun getSenateElection() = runTest {
-        val expected = flowOf(success(getLiveElection()))
+        val expected = success(getLiveElection())
 
         `when`(liveRepository.getSenateElection()).thenReturn(expected)
 
@@ -58,11 +56,11 @@ class LiveUseCaseTest {
 
     @Test
     fun getRegionalElection() = runTest {
-        val expected = flowOf(success(getLiveElection()))
+        val expected = success(getLiveElection())
 
         `when`(liveRepository.getRegionalElection("01", getRegions())).thenReturn(expected)
 
-        assertEquals(expected.first(), useCase.getRegionalElection("01").first())
+        assertEquals(expected, useCase.getRegionalElection("01"))
     }
 
     @Test
@@ -71,7 +69,7 @@ class LiveUseCaseTest {
 
         `when`(regionRepository.getRegions()).thenReturn(failure(Throwable(expected)))
 
-        useCase.getRegionalElection("01").first().let { result ->
+        useCase.getRegionalElection("01").let { result ->
             result.onFailure { assertEquals(it.message, expected) }
             assertNull(result.getOrNull())
         }
@@ -83,7 +81,7 @@ class LiveUseCaseTest {
 
         `when`(liveRepository.getRegionalElections(getRegions())).thenReturn(expected)
 
-        assertEquals(expected, useCase.getRegionalElections().first())
+        assertEquals(expected, useCase.getRegionalElections())
     }
 
     @Test
@@ -92,7 +90,7 @@ class LiveUseCaseTest {
 
         `when`(regionRepository.getRegions()).thenReturn(failure(Throwable(expected)))
 
-        useCase.getRegionalElections().first().let { result ->
+        useCase.getRegionalElections().let { result ->
             result.onFailure { assertEquals(it.message, expected) }
             assertNull(result.getOrNull())
         }
@@ -100,12 +98,12 @@ class LiveUseCaseTest {
 
     @Test
     fun getLocalElection() = runTest {
-        val expected = flowOf(success(getLiveElection()))
+        val expected = success(getLiveElection())
 
         `when`(regionRepository.getMunicipalityName(getRegions(), ids)).thenReturn("C")
         `when`(liveRepository.getLocalElection(ids, "C")).thenReturn(expected)
 
-        assertEquals(expected.first(), useCase.getLocalElection(ids).first())
+        assertEquals(expected, useCase.getLocalElection(ids))
     }
 
     @Test
@@ -114,7 +112,7 @@ class LiveUseCaseTest {
 
         `when`(regionRepository.getRegions()).thenReturn(failure(Throwable(expected)))
 
-        useCase.getLocalElection(ids).first().let { result ->
+        useCase.getLocalElection(ids).let { result ->
             result.onFailure { assertEquals(it.message, expected) }
             assertNull(result.getOrNull())
         }

@@ -21,5 +21,6 @@ object Constants {
     const val EMPTY_RESPONSE_FROM_FIREBASE = "EMPTY_RESPONSE_FROM_FIREBASE"
     const val BAD_RESPONSE = "BAD_RESPONSE"
     const val REGIONAL_ELECTION_EMPTY_LIST = "REGIONAL_ELECTION_EMPTY_LIST"
+    const val TIMEOUT = "TIMEOUT"
     //endregion
 }

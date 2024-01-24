@@ -1,7 +1,7 @@
 package com.n27.core.presentation.detail.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.n27.core.domain.election.Result
+import com.n27.core.domain.election.models.Result
 
 class ResultsDiff(private val oldList: List<Result>, private val newList: List<Result>) : DiffUtil.Callback() {
 

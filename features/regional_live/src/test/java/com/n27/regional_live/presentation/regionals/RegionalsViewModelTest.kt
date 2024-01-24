@@ -9,7 +9,6 @@ import com.n27.test.generators.getLiveElections
 import com.n27.test.observers.FlowTestObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runCurrent
@@ -36,7 +35,7 @@ class RegionalsViewModelTest {
     @Before
     fun init() = runTest {
         useCase = mock(LiveUseCase::class.java)
-        `when`(useCase.getRegionalElections()).thenReturn(flowOf(success(getLiveElections())))
+        `when`(useCase.getRegionalElections()).thenReturn(success(getLiveElections()))
         viewModel = RegionalsViewModel(useCase, null)
         Dispatchers.setMain(testDispatcher)
     }
@@ -58,7 +57,7 @@ class RegionalsViewModelTest {
 
     @Test
     fun `requestElections should emit error when elections onFailure`() = runTest {
-        `when`(useCase.getRegionalElections()).thenReturn(flowOf(failure(Throwable())))
+        `when`(useCase.getRegionalElections()).thenReturn(failure(Throwable()))
         val expected = Error()
 
         viewModel.requestElections()
@@ -72,7 +71,7 @@ class RegionalsViewModelTest {
         viewModel.requestElections()
         runCurrent()
 
-        `when`(useCase.getRegionalElections()).thenReturn(flowOf(failure(Throwable())))
+        `when`(useCase.getRegionalElections()).thenReturn(failure(Throwable()))
         val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
         val expected = Content(getLiveElections())
         viewModel.requestElections()

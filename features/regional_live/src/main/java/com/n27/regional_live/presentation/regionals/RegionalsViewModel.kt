@@ -31,18 +31,16 @@ class RegionalsViewModel @Inject constructor(
 
     internal fun requestElections() {
         viewModelScope.launch {
-            useCase.getRegionalElections().collect { result ->
-                result
-                    .onSuccess { state.value = Content(it) }
-                    .onFailure {
-                        crashlytics?.recordException(it)
+            useCase.getRegionalElections()
+                .onSuccess { state.value = Content(it) }
+                .onFailure {
+                    crashlytics?.recordException(it)
 
-                        if (state.value is Content)
-                            action.send(ShowErrorSnackbar(it.message))
-                        else
-                            state.value = Error(it.message)
-                    }
-            }
+                    if (state.value is Content)
+                        action.send(ShowErrorSnackbar(it.message))
+                    else
+                        state.value = Error(it.message)
+                }
         }
     }
 }

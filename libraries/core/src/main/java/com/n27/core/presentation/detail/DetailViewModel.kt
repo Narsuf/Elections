@@ -21,7 +21,6 @@ import com.n27.core.presentation.detail.entities.DetailState
 import com.n27.core.presentation.detail.entities.DetailState.Content
 import com.n27.core.presentation.detail.entities.DetailState.Error
 import com.n27.core.presentation.detail.entities.DetailState.Loading
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,8 +46,8 @@ class DetailViewModel @Inject constructor(
             loading()
 
             when {
-                liveLocalElectionIds != null -> useCase.getLocalElection(liveLocalElectionIds).handleFlow()
-                liveRegionalElectionId != null -> useCase.getRegionalElection(liveRegionalElectionId).handleFlow()
+                liveLocalElectionIds != null -> useCase.getLocalElection(liveLocalElectionIds).handleResult()
+                liveRegionalElectionId != null -> useCase.getRegionalElection(liveRegionalElectionId).handleResult()
                 isLiveGeneralElection -> requestGeneralLiveCongressElection()
                 election != null -> state.value = Content(election)
                 else -> handleError()
@@ -60,18 +59,14 @@ class DetailViewModel @Inject constructor(
         if (state.value is Content) action.value = Refreshing
     }
 
-    private suspend fun Flow<Result<LiveElection>>.handleFlow() = collect { result ->
-        result
-            .onSuccess { state.value = Content(it.election) }
-            .onFailure(::handleError)
-    }
+    private fun Result<LiveElection>.handleResult() = onSuccess {
+        state.value = Content(it.election)
+    }.onFailure(::handleError)
 
     private suspend fun requestGeneralLiveCongressElection() {
-        useCase.getCongressElection().collect { result ->
-            result
-                .onFailure(::handleError)
-                .onSuccess { state.value = Content(it.election) }
-        }
+        useCase.getCongressElection()
+            .onFailure(::handleError)
+            .onSuccess { state.value = Content(it.election) }
     }
 
     private fun handleError(throwable: Throwable? = null) {
@@ -94,11 +89,9 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             loading()
 
-            useCase.getSenateElection().collect { senateResult ->
-                senateResult
-                    .onFailure(::handleError)
-                    .onSuccess { state.value = Content(it.election) }
-            }
+            useCase.getSenateElection()
+                .onFailure(::handleError)
+                .onSuccess { state.value = Content(it.election) }
         }
     }
 

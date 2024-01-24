@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.R
 import com.n27.core.databinding.DialogDetailBinding
-import com.n27.core.domain.election.Election
+import com.n27.core.domain.election.models.Election
 import com.n27.core.presentation.PresentationUtils
 import com.n27.core.presentation.detail.DetailActivity
 import com.n27.core.presentation.detail.dialog.adapters.InfoAdapter

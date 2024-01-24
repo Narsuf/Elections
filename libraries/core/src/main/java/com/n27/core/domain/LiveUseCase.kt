@@ -8,36 +8,24 @@ import com.n27.core.domain.region.RegionRepository
 import com.n27.core.domain.region.models.Municipality
 import com.n27.core.domain.region.models.Province
 import com.n27.core.domain.region.models.Regions
-import kotlinx.coroutines.flow.flow
-import kotlin.Result.Companion.failure
 
 class LiveUseCase(private val liveRepository: LiveRepository, private val regionalRepository: RegionRepository) {
 
-    fun getCongressElection() = liveRepository.getCongressElection()
+    suspend fun getCongressElection(): Result<LiveElection> = liveRepository.getCongressElection()
 
-    fun getSenateElection() = liveRepository.getSenateElection()
+    suspend fun getSenateElection(): Result<LiveElection> = liveRepository.getSenateElection()
 
-    fun getRegionalElections() = flow<Result<LiveElections>> {
-        getRegions()
-            .onSuccess { emit(liveRepository.getRegionalElections(it)) }
-            .onFailure { emit(failure(it)) }
+    suspend fun getRegionalElections(): Result<LiveElections> = getRegions().mapCatching {
+        liveRepository.getRegionalElections(it).getOrThrow()
     }
 
-    fun getRegionalElection(id: String) = flow<Result<LiveElection>> {
-        getRegions()
-            .onFailure { emit(failure(it)) }
-            .onSuccess { regions ->
-                liveRepository.getRegionalElection(id, regions).collect { emit(it) }
-            }
+    suspend fun getRegionalElection(id: String): Result<LiveElection> = getRegions().mapCatching {
+        liveRepository.getRegionalElection(id, it).getOrThrow()
     }
 
-    fun getLocalElection(localElectionIds: LocalElectionIds)  = flow<Result<LiveElection>> {
-        getRegions()
-            .onFailure { emit(failure(it)) }
-            .onSuccess { regions ->
-                val municipalityName = regionalRepository.getMunicipalityName(regions, localElectionIds)
-                liveRepository.getLocalElection(localElectionIds, municipalityName).collect { emit(it) }
-            }
+    suspend fun getLocalElection(localElectionIds: LocalElectionIds): Result<LiveElection> = getRegions().mapCatching {
+        val municipalityName = regionalRepository.getMunicipalityName(it, localElectionIds)
+        liveRepository.getLocalElection(localElectionIds, municipalityName).getOrThrow()
     }
 
     suspend fun getRegions(): Result<Regions> = regionalRepository.getRegions()

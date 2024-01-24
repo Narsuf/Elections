@@ -1,7 +1,7 @@
 package com.n27.elections.domain.repositories
 
-import com.n27.core.domain.election.Election
-import com.n27.core.domain.election.Elections
+import com.n27.core.domain.election.models.Election
+import com.n27.core.domain.election.models.Elections
 
 interface ElectionRepository {
 

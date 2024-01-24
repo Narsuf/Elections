@@ -79,10 +79,10 @@ class ElDiarioApi @Inject constructor(
                     response
                         .takeIf { it.isSuccessful }
                         ?.run { body?.string() }
-                        ?.let { success(it) } ?: failure(Throwable(BAD_RESPONSE))
+                        ?.let { success(it) } ?: throw Throwable(BAD_RESPONSE)
                 }
             } else {
-                failure(Throwable(NO_INTERNET_CONNECTION))
+                throw Throwable(NO_INTERNET_CONNECTION)
             }
         }
     }.getOrElse { failure(it) }

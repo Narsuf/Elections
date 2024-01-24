@@ -1,4 +1,13 @@
 -keep class **.models.** {*;}
 -keep class **.mappers.** {*;}
 -keep class com.github.mikephil.charting.** {*;}
--keep class org.simpleframework.xml.** {*;}
+-keep class com.google.firebase.database.** {*;}
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.Conscrypt$Version
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE

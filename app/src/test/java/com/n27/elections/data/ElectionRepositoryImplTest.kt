@@ -1,36 +1,35 @@
 package com.n27.elections.data
 
-import com.google.firebase.database.FirebaseDatabase
-import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.data.DataUtils
 import com.n27.core.data.local.room.ElectionDao
 import com.n27.core.data.local.room.mappers.toElectionsWithResultsAndParty
+import com.n27.core.data.remote.firebase.FirebaseApi
 import com.n27.test.generators.getElectionList
 import com.n27.test.generators.getElections
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
-import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
+import kotlin.Result.Companion.success
 
 @RunWith(RobolectricTestRunner::class)
 class ElectionRepositoryImplTest {
 
     private lateinit var repository: ElectionRepositoryImpl
     private lateinit var dao: ElectionDao
-    private lateinit var firebaseDatabase: FirebaseDatabase
-    private lateinit var utils: DataUtils
+    private lateinit var api: FirebaseApi
+    private val expectedError = "Parameter specified as non-null is null: method com.n27.core.data.remote.firebase." +
+            "mappers.FirebaseMapperKt.toElections, parameter <this>"
 
     @Before
     fun setUp() {
         dao = mock(ElectionDao::class.java)
-        firebaseDatabase = mock(FirebaseDatabase::class.java)
-        utils = mock(DataUtils::class.java)
-        repository = ElectionRepositoryImpl(firebaseDatabase, dao, utils)
+        api = mock(FirebaseApi::class.java)
+        repository = ElectionRepositoryImpl(api, dao)
     }
 
     @Test
@@ -44,22 +43,12 @@ class ElectionRepositoryImplTest {
 
     @Test
     fun loadElectionsRemotely(): Unit = runBlocking {
-        `when`(utils.isConnectedToInternet()).thenReturn(true)
+        `when`(api.get("elections")).thenReturn(flowOf(success(any())))
 
-        runCatching { repository.getElectionsRemotely() }.let { result ->
-            result.onFailure { assertTrue(it is NullPointerException) }
-            assertNull(result.getOrNull())
-        }
-    }
-
-    @Test
-    fun `failure when getElectionsRemotely with no internet`(): Unit = runBlocking {
-        `when`(utils.isConnectedToInternet()).thenReturn(false)
-
-        repository.getElectionsRemotely().let { result ->
-            result.onFailure { assertEquals(NO_INTERNET_CONNECTION, it.message) }
-            assertNull(result.getOrNull())
-        }
+       repository.getElectionsRemotely().let { result ->
+           result.onFailure { assertEquals(expectedError, it.message) }
+           assertNull(result.getOrNull())
+       }
     }
 
     @Test
