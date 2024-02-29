@@ -1,5 +1,6 @@
 package com.n27.elections.presentation.adapters
 
+import DarkMode
 import PieChart
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.n27.core.domain.election.models.Election
 import com.n27.core.extensions.getPieChartData
+import com.n27.core.extensions.isDarkModeEnabled
 import com.n27.elections.R
 
 typealias OnElectionClicked = (congressElection: Election, senateElection: Election) -> Unit
@@ -49,7 +51,10 @@ class ElectionCardAdapter(
         card.findViewById<TextView>(R.id.year_card_general_elections).text = congressElection.date
         card.setOnClickListener { onElectionClicked(congressElection, senateElection) }
         (card.findViewById(R.id.pie_chart_card_general_elections) as ComposeView).setContent {
-            PieChart(congressElection.results.getPieChartData())
+            PieChart(
+                congressElection.results.getPieChartData(),
+                DarkMode(card.context.isDarkModeEnabled(), isLighterShade = true)
+            )
         }
     }
 
