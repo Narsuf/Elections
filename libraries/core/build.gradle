@@ -97,7 +97,7 @@ dependencies {
     api 'androidx.compose.ui:ui-tooling-preview'
     debugApi 'androidx.compose.ui:ui-tooling'
 
-    api 'com.google.android.material:material:1.10.0'
+    api 'com.google.android.material:material:1.11.0'
     api "androidx.fragment:fragment-ktx:$fragmentVersion"
     api 'androidx.multidex:multidex:2.0.1'
 

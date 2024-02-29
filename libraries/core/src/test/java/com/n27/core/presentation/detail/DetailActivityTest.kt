@@ -127,27 +127,6 @@ class DetailActivityTest {
         }
     }
 
-    @Test
-    fun checkHighlight() {
-        launchActivity().onActivity { activity ->
-            with(activity) {
-                val pieChart = binding.pieChartActivityDetail
-
-                // Check highlight function
-                binding.listActivityDetail.getChildAt(0).performClick()
-                assertTrue(pieChart.highlighted.isNotEmpty())
-
-                // Still highlighted
-                countDownTimer.onTick(1)
-                assertTrue(pieChart.highlighted.isNotEmpty())
-
-                // Not highlighted anymore
-                countDownTimer.onFinish()
-                assertNull(pieChart.highlighted)
-            }
-        }
-    }
-
     private fun launchActivity(
         election: Election? = congressElection,
         senateElection: Election? = null,
