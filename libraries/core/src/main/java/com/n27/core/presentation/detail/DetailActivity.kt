@@ -1,5 +1,6 @@
 package com.n27.core.presentation.detail
 
+import PieChart
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.Menu
@@ -18,9 +19,8 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
-import com.n27.core.domain.election.models.Result
 import com.n27.core.domain.live.models.LocalElectionIds
-import com.n27.core.extensions.drawWithResults
+import com.n27.core.extensions.getPieChartData
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.injection.CoreComponent
 import com.n27.core.injection.CoreComponentProvider
@@ -50,16 +50,7 @@ class DetailActivity : AppCompatActivity() {
     internal lateinit var countDownTimer: CountDownTimer
     private lateinit var flags: DetailFlags
     private var senateElection: Election? = null
-    private val recyclerAdapter by lazy { ResultsAdapter(::onItemClicked) }
-
-    private fun onItemClicked(position: Int, result: Result) {
-        binding.pieChartActivityDetail.highlightValue(position.toFloat(), 0)
-        countDownTimer.start()
-        utils.track("detail_activity_party_clicked") {
-            param("party", result.party.name)
-            param("seats", result.elects.toString())
-        }
-    }
+    private val recyclerAdapter by lazy { ResultsAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         coreComponent = (applicationContext as CoreComponentProvider).provideCoreComponent()
@@ -88,7 +79,6 @@ class DetailActivity : AppCompatActivity() {
         setContentView(root)
         setSupportActionBar(toolbarActivityDetail)
         generateToolbarTitle()?.let { toolbarActivityDetail.title = it }
-        initializeCountDownTimer()
 
         swipeActivityDetail.apply {
             if (senateElection != null) isEnabled = false
@@ -122,13 +112,6 @@ class DetailActivity : AppCompatActivity() {
 
     private fun generateToolbarTitle() = currentElection?.let { "${it.chamberName} ${it.place} (${it.date})" }
 
-    private fun initializeCountDownTimer() {
-        countDownTimer = object: CountDownTimer(1000, 1) {
-            override fun onTick(millisUntilFinished: Long) {}
-            override fun onFinish() { binding.pieChartActivityDetail.highlightValue(-1F, -1) }
-        }
-    }
-
     @VisibleForTesting
     internal fun renderState(state: DetailState) = when (state) {
         Loading -> setViewsVisibility(animation = true)
@@ -161,11 +144,8 @@ class DetailActivity : AppCompatActivity() {
             scrutinizedActivityDetail.text = getString(R.string.scrutinized, scrutinized.toString())
             scrutinizedBarActivityDetail.progress = scrutinized.toInt()
             recyclerAdapter.updateItems(content.election)
-
-            // Looks like there is a charting library's bug in this specific case.
-            pieChartActivityDetail.apply {
-                drawWithResults(results)
-                drawWithResults(results)
+            pieChartActivityDetail.setContent {
+                PieChart(content.election.results.getPieChartData())
             }
         }
     }

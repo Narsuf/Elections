@@ -1,15 +1,16 @@
 package com.n27.regional_live.presentation.regionals.adapters
 
+import PieChart
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.compose.ui.platform.ComposeView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mikephil.charting.charts.PieChart
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
-import com.n27.core.extensions.drawWithResults
+import com.n27.core.extensions.getPieChartData
 import com.n27.regional_live.R
 
 typealias OnRegionalElectionClicked = (election: LiveElection) -> Unit
@@ -46,7 +47,9 @@ class RegionalCardAdapter(
 
         card.findViewById<TextView>(R.id.name_card_regional_election).text = election.place
         card.setOnClickListener { onElectionClicked(liveElection) }
-        (card.findViewById(R.id.chart_card_regional_election) as PieChart).drawWithResults(election.results)
+        (card.findViewById(R.id.chart_card_regional_election) as ComposeView).setContent {
+            PieChart(election.results.getPieChartData())
+        }
     }
 
     override fun getItemCount() = elections.items.size
