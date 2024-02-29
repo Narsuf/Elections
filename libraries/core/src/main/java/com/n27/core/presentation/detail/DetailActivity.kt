@@ -2,7 +2,6 @@ package com.n27.core.presentation.detail
 
 import PieChart
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.VisibleForTesting
