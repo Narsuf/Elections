@@ -14,46 +14,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/app_name" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_activity_main"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view_activity_main"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_activity_main">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_activity_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loading_animation_activity_main"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_activity_main"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading_votes" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/error_animation_activity_main"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_activity_main"
-        app:lottie_rawRes="@raw/empty_box" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_activity_main" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/live_elections_button_activity_main"

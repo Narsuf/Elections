@@ -13,12 +13,12 @@ data class PieChartData(val slices: List<PieChartSlice>)
 data class PieChartSlice(val value: Float, val color: String)
 
 @Composable
-fun PieChart(data: PieChartData) {
+fun PieChart(data: PieChartData, modifier: Modifier = Modifier) {
     var totalProportion = 0f
 
     data.slices.forEach { totalProportion += it.value }
 
-    Column(Modifier.fillMaxWidth()) {
+    Column(modifier.fillMaxWidth()) {
         Canvas(
             Modifier
                 .aspectRatio(1f)
