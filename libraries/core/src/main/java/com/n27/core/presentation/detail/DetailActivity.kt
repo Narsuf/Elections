@@ -47,7 +47,6 @@ class DetailActivity : AppCompatActivity() {
     @Inject internal lateinit var viewModel: DetailViewModel
     @Inject internal lateinit var utils: PresentationUtils
     internal lateinit var coreComponent: CoreComponent
-    internal lateinit var countDownTimer: CountDownTimer
     private lateinit var flags: DetailFlags
     private var senateElection: Election? = null
     private val recyclerAdapter by lazy { ResultsAdapter() }
