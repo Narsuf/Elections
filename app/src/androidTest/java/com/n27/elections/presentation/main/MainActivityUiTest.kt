@@ -38,7 +38,7 @@ class MainActivityUiTest {
     fun checkActivity() {
         launchActivity()
 
-        //checkFirstLaunchDialog()
+        checkFirstLaunchDialog()
         checkContent()
         checkNavigation()
     }
@@ -60,7 +60,7 @@ class MainActivityUiTest {
     }
 
     private fun checkContent() {
-        assertToolbarTitle("Elections")
+        waitUntil { assertToolbarTitle("Elections") }
         waitUntil { assertDisplayed(R.id.recycler_activity_main) }
         assertNotDisplayed(R.id.loading_animation_activity_main)
         assertNotDisplayed(R.id.error_animation_activity_main)
