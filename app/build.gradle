@@ -76,7 +76,14 @@ android {
         }
     }
 
-    buildFeatures { viewBinding true }
+    buildFeatures {
+        viewBinding true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "$kotlinCompilerV"
+    }
 
     testOptions {
         unitTests { includeAndroidResources = true }

@@ -2,20 +2,24 @@ project.ext {
     sdkV = 34
     minSdkV = 23
 
+    kotlinCompilerV = '1.4.6'
+
     daggerVersion = '2.45'
     moshiVersion = '1.14.0'
     retrofitVersion = '2.9.0'
     roomVersion = '2.6.0'
     coroutinesVersion = '1.6.4'
-    fragmentVersion = '1.6.1'
+    fragmentVersion = '1.6.2'
     okHttpVersion = '4.10.0'
     navigationVersion = '2.7.4'
 
+    // Test dependencies
     testVersion = '1.5.0'
     archTestVersion = '2.2.0'
     robolectricVersion = '4.11-beta-2'
     mockitoVersion = '5.2.0'
 
+    // Android test dependencies
     junitVersion = '1.1.5'
     baristaVersion = '4.3.0'
 }

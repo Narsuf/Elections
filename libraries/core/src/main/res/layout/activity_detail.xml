@@ -51,11 +51,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/scrutinized_activity_detail" />
 
-        <com.github.mikephil.charting.charts.PieChart
+        <androidx.compose.ui.platform.ComposeView
             android:id="@+id/pie_chart_activity_detail"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/tightest_spacing"
+            android:layout_marginHorizontal="@dimen/default_spacing"
             android:layout_marginTop="@dimen/default_spacing"
             app:layout_constraintBottom_toTopOf="@id/chart_guideline_activity_detail"
             app:layout_constraintEnd_toEndOf="parent"

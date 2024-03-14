@@ -61,7 +61,14 @@ android {
         debug { testCoverageEnabled true }
     }
 
-    buildFeatures { viewBinding true }
+    buildFeatures {
+        viewBinding true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "$kotlinCompilerV"
+    }
 
     testOptions {
         unitTests { includeAndroidResources = true }
@@ -82,7 +89,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly project(":libraries:core")
+    implementation project(":libraries:core")
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"

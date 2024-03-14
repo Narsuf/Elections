@@ -14,10 +14,10 @@ class ResultsListExtensionsTests {
             getResult(elects = 2)
         )
 
-        val elects = results.getElects()
+        val chartData = results.getPieChartData()
 
-        elects.forEachIndexed { index, elect ->
-            assertEquals(results[index].elects, elect)
+        chartData.slices.forEachIndexed { index, slice ->
+            assertEquals(results[index].elects.toFloat(), slice.value)
         }
     }
 
@@ -32,10 +32,10 @@ class ResultsListExtensionsTests {
             )
         )
 
-        val colors = results.getColors()
+        val chartData = results.getPieChartData()
 
-        colors.forEachIndexed { index, color ->
-            assertEquals("#${results[index].party.color}", color)
+        chartData.slices.forEachIndexed { index, slice ->
+            assertEquals("#${results[index].party.color}", slice.color)
         }
     }
 }

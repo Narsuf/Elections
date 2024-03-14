@@ -33,7 +33,7 @@
             android:orientation="horizontal"
             card_view:layout_constraintGuide_percent="0.32" />
 
-        <com.github.mikephil.charting.charts.PieChart
+        <androidx.compose.ui.platform.ComposeView
             android:id="@+id/chart_card_regional_election"
             android:layout_width="0dp"
             android:layout_height="0dp"

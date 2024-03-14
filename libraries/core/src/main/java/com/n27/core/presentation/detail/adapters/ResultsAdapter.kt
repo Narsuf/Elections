@@ -10,15 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.n27.core.Constants
 import com.n27.core.R
 import com.n27.core.domain.election.models.Election
-import com.n27.core.domain.election.models.Result
 import com.n27.core.extensions.divide
 import java.text.NumberFormat
 
-typealias OnResultClicked = (position: Int, result: Result) -> Unit
-
-class ResultsAdapter(
-    internal val onResultClicked: OnResultClicked
-) : RecyclerView.Adapter<ResultsAdapter.MyViewHolder>() {
+class ResultsAdapter : RecyclerView.Adapter<ResultsAdapter.MyViewHolder>() {
 
     internal var election = Election()
 
@@ -55,7 +50,6 @@ class ResultsAdapter(
         layout.findViewById<TextView>(R.id.votes_list_item_activity_detail).text = votes
         layout.findViewById<TextView>(R.id.percentage_list_item_activity_detail).text = percentage
         layout.findViewById<TextView>(R.id.elects_list_item_activity_detail).text = result.elects.toString()
-        layout.setOnClickListener { onResultClicked(position, result) }
     }
 
     override fun getItemCount() = election.results.size
