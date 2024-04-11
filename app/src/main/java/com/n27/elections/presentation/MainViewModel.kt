@@ -34,7 +34,7 @@ class MainViewModel @Inject constructor(
 
     internal fun requestElections() {
         viewModelScope.launch {
-            if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
+            //if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
 
             useCase.getElections().collect { result ->
                 result
