@@ -51,7 +51,7 @@ class MainActivityUiTest {
             val dialogDescription = "This app does not represent any government entity. " +
                     "The data of the results is retrieved from the Spanish newspaper $link."
 
-            waitUntil { onView(withText(dialogDescription)).perform(clickClickableSpan(link)) }
+            waitUntil("CheckDialog") { onView(withText(dialogDescription)).perform(clickClickableSpan(link)) }
 
             verifyBrowserOpened("https://elecciones.eldiario.es/")
         }
@@ -60,8 +60,8 @@ class MainActivityUiTest {
     }
 
     private fun checkContent() {
-        waitUntil { assertToolbarTitle("Elections") }
-        waitUntil { assertDisplayed(R.id.recycler_activity_main) }
+        waitUntil("CheckTitle") { assertToolbarTitle("Elections") }
+        waitUntil("CheckRecycler") { assertDisplayed(R.id.recycler_activity_main) }
         assertNotDisplayed(R.id.loading_animation_activity_main)
         assertNotDisplayed(R.id.error_animation_activity_main)
     }
