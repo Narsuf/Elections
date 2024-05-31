@@ -5,8 +5,11 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.elections.data.AppRepositoryImpl
 import com.n27.elections.domain.ElectionUseCase
 import com.n27.elections.domain.models.GeneralElections
-import com.n27.elections.presentation.entities.MainAction.*
-import com.n27.elections.presentation.entities.MainState.*
+import com.n27.elections.presentation.entities.MainAction.ShowDisclaimer
+import com.n27.elections.presentation.entities.MainAction.ShowErrorSnackbar
+import com.n27.elections.presentation.entities.MainState.Content
+import com.n27.elections.presentation.entities.MainState.Error
+import com.n27.elections.presentation.entities.MainState.Loading
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
 import com.n27.test.observers.FlowTestObserver

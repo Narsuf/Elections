@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       - uses: actions/checkout@v2
@@ -36,9 +36,10 @@ jobs:
         run: echo $DATA > ./local.properties
 
       - name: Test with Android Emulator Runner
-        uses: ReactiveCircus/android-emulator-runner@v2.14.3
+        uses: reactivecircus/android-emulator-runner@v2
         with: 
             api-level: 29
+            disable-animations: true
             script: ./gradlew connectedCheck jacocoTestReport
 
       - name: Generate report

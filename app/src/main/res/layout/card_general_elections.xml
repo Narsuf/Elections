@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/pie_chart_height">
 
-        <com.github.mikephil.charting.charts.PieChart
+        <androidx.compose.ui.platform.ComposeView
             android:id="@+id/pie_chart_card_general_elections"
             android:layout_width="0dp"
             android:layout_height="0dp"

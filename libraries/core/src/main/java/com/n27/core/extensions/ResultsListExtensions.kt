@@ -1,6 +1,9 @@
 package com.n27.core.extensions
 
+import PieChartData
+import PieChartSlice
 import com.n27.core.domain.election.models.Result
 
-fun List<Result>.getElects() = ArrayList<Int>(map { it.elects }).toTypedArray()
-fun List<Result>.getColors() = ArrayList<String>(map { "#${it.party.color}" }).toTypedArray()
+fun List<Result>.getPieChartData() = PieChartData(
+    map { PieChartSlice(it.elects.toFloat(), "#${it.party.color}") }
+)

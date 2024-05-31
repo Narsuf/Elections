@@ -13,7 +13,9 @@ import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
 import com.n27.core.presentation.detail.entities.DetailState.Loading
 import com.n27.test.generators.getElection
-import junit.framework.TestCase.*
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -124,27 +126,6 @@ class DetailActivityTest {
         launchActivity(senateElection = getElection()).onActivity { activity ->
             val refresh = activity.binding.swipeActivityDetail
             assertFalse(refresh.isEnabled)
-        }
-    }
-
-    @Test
-    fun checkHighlight() {
-        launchActivity().onActivity { activity ->
-            with(activity) {
-                val pieChart = binding.pieChartActivityDetail
-
-                // Check highlight function
-                binding.listActivityDetail.getChildAt(0).performClick()
-                assertTrue(pieChart.highlighted.isNotEmpty())
-
-                // Still highlighted
-                countDownTimer.onTick(1)
-                assertTrue(pieChart.highlighted.isNotEmpty())
-
-                // Not highlighted anymore
-                countDownTimer.onFinish()
-                assertNull(pieChart.highlighted)
-            }
         }
     }
 

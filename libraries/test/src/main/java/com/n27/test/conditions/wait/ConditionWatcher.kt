@@ -16,6 +16,7 @@ object ConditionWatcher {
     @Suppress("LongMethod")
     @Throws(IllegalStateException::class)
     fun waitForCondition(
+        tag: String,
         instruction: Instruction,
         timeoutLimitMs: Long = TimeUnit.SECONDS.toMillis(DEFAULT_TIMEOUT_SECONDS)
     ) {
@@ -42,7 +43,7 @@ object ConditionWatcher {
         if (status == CONDITION_TIMED_OUT && error != null) {
             val genericMessage = "${instruction.javaClass.simpleName} took more than ${
                 TimeUnit.MILLISECONDS.toSeconds(timeoutLimitMs)
-            } seconds. Test stopped. See the root cause below."
+            } seconds. Test stopped. See the root cause below. $tag"
 
             throw IllegalStateException(genericMessage, error)
         }
