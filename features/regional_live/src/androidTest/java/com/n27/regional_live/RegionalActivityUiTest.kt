@@ -68,6 +68,7 @@ class RegionalActivityUiTest {
         checkLocalContent()
         checkDialogContent()
         clickOn("SHOW RESULTS")
+        sleep(1000)
         waitUntil { assertDisplayed("Oops! Something went wrong.") }
     }
 
