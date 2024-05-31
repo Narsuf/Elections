@@ -49,6 +49,7 @@ class RegionalActivityUiTest {
         mockWebServer.start(8080)
         launchActivity()
 
+        sleep(1000)
         checkLocalContent()
         checkDialogContent()
         intents {
