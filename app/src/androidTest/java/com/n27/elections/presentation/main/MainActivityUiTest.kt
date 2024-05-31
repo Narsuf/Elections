@@ -50,7 +50,7 @@ class MainActivityUiTest {
 
     private fun checkContent() {
         waitUntil { assertToolbarTitle("Elections") }
-        sleep(4000)
+        sleep(3000)
         waitUntil("CheckRecycler") { assertDisplayed(R.id.recycler_activity_main) }
         assertNotDisplayed(R.id.loading_animation_activity_main)
         assertNotDisplayed(R.id.error_animation_activity_main)
