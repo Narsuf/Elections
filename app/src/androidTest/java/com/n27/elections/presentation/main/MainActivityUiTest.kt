@@ -23,6 +23,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.lang.Thread.sleep
 
 class MainActivityUiTest {
 
@@ -60,7 +61,8 @@ class MainActivityUiTest {
     }
 
     private fun checkContent() {
-        waitUntil("CheckTitle") { assertToolbarTitle("Elections") }
+        waitUntil { assertToolbarTitle("Elections") }
+        sleep(1000)
         waitUntil("CheckRecycler") { assertDisplayed(R.id.recycler_activity_main) }
         assertNotDisplayed(R.id.loading_animation_activity_main)
         assertNotDisplayed(R.id.error_animation_activity_main)
