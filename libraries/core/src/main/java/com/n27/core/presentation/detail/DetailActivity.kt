@@ -1,5 +1,6 @@
 package com.n27.core.presentation.detail
 
+import DarkMode
 import PieChart
 import android.os.Bundle
 import android.view.Menu
@@ -20,6 +21,7 @@ import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.getPieChartData
+import com.n27.core.extensions.isDarkModeEnabled
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.injection.CoreComponent
 import com.n27.core.injection.CoreComponentProvider
@@ -143,7 +145,7 @@ class DetailActivity : AppCompatActivity() {
             scrutinizedBarActivityDetail.progress = scrutinized.toInt()
             recyclerAdapter.updateItems(content.election)
             pieChartActivityDetail.setContent {
-                PieChart(content.election.results.getPieChartData())
+                PieChart(content.election.results.getPieChartData(), DarkMode(isDarkModeEnabled()))
             }
         }
     }

@@ -49,6 +49,7 @@ class RegionalActivityUiTest {
         mockWebServer.start(8080)
         launchActivity()
 
+        sleep(1000)
         checkLocalContent()
         checkDialogContent()
         intents {
@@ -68,6 +69,7 @@ class RegionalActivityUiTest {
         checkLocalContent()
         checkDialogContent()
         clickOn("SHOW RESULTS")
+        sleep(1000)
         waitUntil { assertDisplayed("Oops! Something went wrong.") }
     }
 

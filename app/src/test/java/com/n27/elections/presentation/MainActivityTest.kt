@@ -8,7 +8,9 @@ import com.n27.elections.R
 import com.n27.elections.databinding.ActivityMainBinding
 import com.n27.elections.presentation.adapters.ElectionCardAdapter
 import com.n27.elections.presentation.entities.MainState.Error
-import junit.framework.TestCase.*
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

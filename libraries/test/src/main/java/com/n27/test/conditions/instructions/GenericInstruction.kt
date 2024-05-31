@@ -17,4 +17,4 @@ open class GenericInstruction(private val assertionBlock: () -> Unit) : Instruct
     }
 }
 
-fun waitUntil(block: () -> Unit) { waitForCondition(GenericInstruction(block)) }
+fun waitUntil(tag: String = "", block: () -> Unit) { waitForCondition(tag, GenericInstruction(block)) }

@@ -18,21 +18,10 @@ import com.n27.test.intents.intents
 import com.n27.test.intents.mockIntent
 import com.n27.test.intents.verifyBrowserOpened
 import com.n27.test.intents.verifyIntent
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
+import java.lang.Thread.sleep
 
 class MainActivityUiTest {
-
-    private val mockWebServer = MockWebServer()
-
-    @Before
-    fun setup() {
-        mockWebServer.enqueue(MockResponse().setBody(MainActivityResponses.elections))
-        mockWebServer.start(8080)
-    }
 
     @Test
     fun checkActivity() {
@@ -51,7 +40,7 @@ class MainActivityUiTest {
             val dialogDescription = "This app does not represent any government entity. " +
                     "The data of the results is retrieved from the Spanish newspaper $link."
 
-            waitUntil { onView(withText(dialogDescription)).perform(clickClickableSpan(link)) }
+            waitUntil("CheckDialog") { onView(withText(dialogDescription)).perform(clickClickableSpan(link)) }
 
             verifyBrowserOpened("https://elecciones.eldiario.es/")
         }
@@ -60,8 +49,9 @@ class MainActivityUiTest {
     }
 
     private fun checkContent() {
-        assertToolbarTitle("Elections")
-        waitUntil { assertDisplayed(R.id.recycler_activity_main) }
+        waitUntil { assertToolbarTitle("Elections") }
+        sleep(3000)
+        waitUntil("CheckRecycler") { assertDisplayed(R.id.recycler_activity_main) }
         assertNotDisplayed(R.id.loading_animation_activity_main)
         assertNotDisplayed(R.id.error_animation_activity_main)
     }
@@ -78,7 +68,4 @@ class MainActivityUiTest {
     }
 
     private fun launchActivity() = launch(MainActivity::class.java)
-
-    @After
-    fun teardown() { mockWebServer.shutdown() }
 }
