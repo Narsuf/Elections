@@ -7,13 +7,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import com.n27.core.components.Colors
 
 data class PieChartData(val slices: List<PieChartSlice>)
 
 data class PieChartSlice(val value: Float, val color: String)
 
+data class DarkMode(val isEnabled: Boolean, val isLighterShade: Boolean = false)
+
 @Composable
-fun PieChart(data: PieChartData, modifier: Modifier = Modifier) {
+fun PieChart(data: PieChartData, darkMode: DarkMode, modifier: Modifier = Modifier) {
     var totalProportion = 0f
 
     data.slices.forEach { totalProportion += it.value }
@@ -44,7 +47,12 @@ fun PieChart(data: PieChartData, modifier: Modifier = Modifier) {
             val holeRadius = size.minDimension * 0.3f
 
             drawCircle(
-                color = Color.White,
+                color = darkMode.run {
+                    when {
+                        isEnabled -> if (isLighterShade) Colors.LightJet else Colors.Jet
+                        else -> Color.White
+                    }
+                },
                 radius = holeRadius,
                 center = center
             )

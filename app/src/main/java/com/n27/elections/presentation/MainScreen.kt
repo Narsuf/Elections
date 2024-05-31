@@ -1,5 +1,6 @@
 package com.n27.elections.presentation
 
+import DarkMode
 import PieChart
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,11 +32,11 @@ import com.n27.elections.presentation.entities.MainUiState.HasElections
 
 typealias OnElectionClicked = (congressElection: Election, senateElection: Election) -> Unit
 
-
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
 fun MainScreen(
     state: MainUiState,
+    darkMode: DarkMode,
     onPullToRefresh: () -> Unit,
     onElectionClicked: OnElectionClicked
 ) {
@@ -53,7 +54,7 @@ fun MainScreen(
                 is HasElections -> {
                     //if (state.error != null) showSnackbar(state.error)
 
-                    ElectionList(state, onElectionClicked)
+                    ElectionList(state, darkMode, onElectionClicked)
 
                     /*liveElectionsButtonActivityMain.isVisible =
                         isFeatureEnabled(Constants.REGIONAL_LIVE) || isFeatureEnabled(Constants.CONGRESS_LIVE)*/
@@ -81,7 +82,7 @@ fun MainScreen(
 }
 
 @Composable
-private fun ElectionList(state: HasElections, onElectionClicked: OnElectionClicked) {
+private fun ElectionList(state: HasElections, darkMode: DarkMode, onElectionClicked: OnElectionClicked) {
     LazyColumn {
         itemsIndexed(state.congressElections) { index, election ->
             ElevatedCard(
@@ -94,6 +95,7 @@ private fun ElectionList(state: HasElections, onElectionClicked: OnElectionClick
             ) {
                 PieChart(
                     data = election.results.getPieChartData(),
+                    darkMode,
                     Modifier.padding(
                         start = Dimens.maxSpacing,
                         top = Dimens.loosestSpacing,

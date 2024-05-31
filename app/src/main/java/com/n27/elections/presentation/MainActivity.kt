@@ -1,5 +1,6 @@
 package com.n27.elections.presentation
 
+import DarkMode
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.NO_RESULTS
 import com.n27.core.domain.election.models.Election
+import com.n27.core.extensions.isDarkModeEnabled
 import com.n27.core.extensions.observeOnLifecycle
 import com.n27.core.extensions.openLink
 import com.n27.core.presentation.PresentationUtils
@@ -60,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
             MainScreen(
                 uiState,
+                DarkMode(isDarkModeEnabled()),
                 onPullToRefresh = {
                     viewModel.requestElections()
                     utils.track("main_activity_pulled_to_refresh")
