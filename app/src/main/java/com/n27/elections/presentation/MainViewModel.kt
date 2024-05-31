@@ -9,7 +9,6 @@ import com.google.firebase.ktx.Firebase
 import com.n27.elections.data.AppRepositoryImpl
 import com.n27.elections.domain.ElectionUseCase
 import com.n27.elections.presentation.entities.MainAction
-import com.n27.elections.presentation.entities.MainAction.ShowDisclaimer
 import com.n27.elections.presentation.entities.MainAction.ShowErrorSnackbar
 import com.n27.elections.presentation.entities.MainState
 import com.n27.elections.presentation.entities.MainState.Content

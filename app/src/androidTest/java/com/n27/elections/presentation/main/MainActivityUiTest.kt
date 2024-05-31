@@ -18,10 +18,6 @@ import com.n27.test.intents.intents
 import com.n27.test.intents.mockIntent
 import com.n27.test.intents.verifyBrowserOpened
 import com.n27.test.intents.verifyIntent
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import java.lang.Thread.sleep
 
