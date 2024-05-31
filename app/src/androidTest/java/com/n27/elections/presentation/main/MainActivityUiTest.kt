@@ -27,14 +27,6 @@ import java.lang.Thread.sleep
 
 class MainActivityUiTest {
 
-    private val mockWebServer = MockWebServer()
-
-    @Before
-    fun setup() {
-        mockWebServer.enqueue(MockResponse().setBody(MainActivityResponses.elections))
-        mockWebServer.start(8080)
-    }
-
     @Test
     fun checkActivity() {
         launchActivity()
@@ -80,7 +72,4 @@ class MainActivityUiTest {
     }
 
     private fun launchActivity() = launch(MainActivity::class.java)
-
-    @After
-    fun teardown() { mockWebServer.shutdown() }
 }
