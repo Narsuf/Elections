@@ -53,11 +53,11 @@ class MainViewModel @Inject constructor(
     private val action = Channel<MainAction>(capacity = 1, DROP_OLDEST)
     internal val viewAction = action.receiveAsFlow()
 
-    init { requestElections(initialLoading = true) }
+    init { requestElections() }
 
-    internal fun requestElections(initialLoading: Boolean = false) {
+    internal fun requestElections() {
         viewModelScope.launch {
-            if (!initialLoading) viewModelState.update { it.copy(isLoading = true, error = null) }
+            viewModelState.update { it.copy(isLoading = true, error = null) }
 
             if (appRepository.isFirstLaunch()) action.send(ShowDisclaimer)
 
