@@ -58,7 +58,10 @@ android {
     }
 
     buildTypes {
-        debug { testCoverageEnabled true }
+        debug {
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
+        }
     }
 
     buildFeatures {
