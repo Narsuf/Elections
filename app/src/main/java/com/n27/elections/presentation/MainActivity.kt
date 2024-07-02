@@ -10,14 +10,11 @@ import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.n27.core.BuildConfig
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_GENERAL_LIVE_ELECTION
 import com.n27.core.Constants.KEY_SENATE_ELECTION
-import com.n27.core.Constants.NO_INTERNET_CONNECTION
-import com.n27.core.Constants.NO_RESULTS
 import com.n27.core.domain.election.models.Election
 import com.n27.core.extensions.isDarkModeEnabled
 import com.n27.core.extensions.observeOnLifecycle
@@ -69,17 +66,17 @@ class MainActivity : AppCompatActivity() {
                 },
                 onElectionClicked = { congressElection, senateElection ->
                     navigateToDetail(congressElection, senateElection)
+                },
+                isLiveButtonVisible = isFeatureEnabled(REGIONAL_LIVE) || isFeatureEnabled(CONGRESS_LIVE),
+                onLiveClicked = {
+                    when {
+                        isFeatureEnabled(CONGRESS_LIVE) -> navigateToGeneralsLive()
+                        isFeatureEnabled(REGIONAL_LIVE) -> navigateToRegionalsLive()
+                    }
+
+                    utils.track("main_activity_live_button_clicked")
                 }
             )
-        }
-
-        liveElectionsButtonActivityMain.setOnClickListener {
-            when {
-                isFeatureEnabled(CONGRESS_LIVE, debugValue = false) -> navigateToGeneralsLive()
-                isFeatureEnabled(REGIONAL_LIVE) -> navigateToRegionalsLive()
-            }
-
-            utils.track("main_activity_live_button_clicked")
         }
     }
 
@@ -110,16 +107,6 @@ class MainActivity : AppCompatActivity() {
     else
         remoteConfig.getBoolean(feature)
 
-    private fun showSnackbar(errorMsg: String?) {
-        val error = when (errorMsg) {
-            NO_RESULTS -> R.string.preliminary_results_not_available_yet
-            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
-            else -> R.string.something_wrong
-        }
-
-        Snackbar.make(binding.root, getString(error), Snackbar.LENGTH_LONG).show()
-    }
-
     private fun handleAction(action: MainAction) = when (action) {
         is ShowDisclaimer -> onShowDisclaimer()
     }
@@ -146,6 +133,6 @@ class MainActivity : AppCompatActivity() {
             }
             .show()
 
-        (alertDialog.findViewById(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
+        alertDialog.findViewById<TextView>(android.R.id.message).movementMethod = LinkMovementMethod.getInstance()
     }
 }

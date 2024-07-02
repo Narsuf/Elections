@@ -15,6 +15,8 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -28,10 +30,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.NO_RESULTS
+import com.n27.core.components.Colors
 import com.n27.core.components.Dimens
 import com.n27.core.components.image.Lottie
 import com.n27.core.domain.election.models.Election
@@ -49,7 +53,9 @@ fun MainScreen(
     state: MainUiState,
     darkMode: DarkMode,
     onPullToRefresh: () -> Unit,
-    onElectionClicked: OnElectionClicked
+    onElectionClicked: OnElectionClicked,
+    isLiveButtonVisible: Boolean,
+    onLiveClicked: () -> Unit
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -69,8 +75,8 @@ fun MainScreen(
                 is HasElections -> {
                     ElectionList(state, darkMode, onElectionClicked)
 
-                    /*liveElectionsButtonActivityMain.isVisible =
-                        isFeatureEnabled(Constants.REGIONAL_LIVE) || isFeatureEnabled(Constants.CONGRESS_LIVE)*/
+                    if (isLiveButtonVisible)
+                        LiveFloatingButton(onLiveClicked, Modifier.align(Alignment.BottomEnd))
                 }
 
                 is NoElections -> {
@@ -110,6 +116,13 @@ private fun ErrorSnackbar(errorMsg: String?, snackbarHost: SnackbarHostState) {
 
     LaunchedEffect(scope) {
         snackbarHost.showSnackbar(message = error, duration = SnackbarDuration.Short)
+    }
+}
+
+@Composable
+private fun LiveFloatingButton(onClick: () -> Unit, modifier: Modifier) {
+    FloatingActionButton(onClick, modifier.padding(Dimens.defaultSpacing), containerColor = Colors.Teal500, contentColor = Color.White) {
+        Icon(painterResource(R.drawable.ic_live), "")
     }
 }
 
