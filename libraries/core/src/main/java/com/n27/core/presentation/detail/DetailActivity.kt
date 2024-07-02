@@ -21,7 +21,6 @@ import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.live.models.LocalElectionIds
 import com.n27.core.extensions.getPieChartData
-import com.n27.core.extensions.isDarkModeEnabled
 import com.n27.core.extensions.playErrorAnimation
 import com.n27.core.injection.CoreComponent
 import com.n27.core.injection.CoreComponentProvider

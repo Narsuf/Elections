@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
 import com.n27.core.extensions.getPieChartData
-import com.n27.core.extensions.isDarkModeEnabled
 import com.n27.regional_live.R
 
 typealias OnRegionalElectionClicked = (election: LiveElection) -> Unit

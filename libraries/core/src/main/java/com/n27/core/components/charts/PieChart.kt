@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import com.n27.core.components.Colors
 
 data class PieChartData(val slices: List<PieChartSlice>)
 
