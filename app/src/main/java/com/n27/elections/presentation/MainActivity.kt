@@ -1,6 +1,5 @@
 package com.n27.elections.presentation
 
-import DarkMode
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -15,6 +14,7 @@ import com.n27.core.BuildConfig
 import com.n27.core.Constants.KEY_ELECTION
 import com.n27.core.Constants.KEY_GENERAL_LIVE_ELECTION
 import com.n27.core.Constants.KEY_SENATE_ELECTION
+import com.n27.core.components.Theme
 import com.n27.core.domain.election.models.Election
 import com.n27.core.extensions.isDarkModeEnabled
 import com.n27.core.extensions.observeOnLifecycle
@@ -57,26 +57,29 @@ class MainActivity : AppCompatActivity() {
         composeViewActivityMain.setContent {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-            MainScreen(
-                uiState,
-                DarkMode(isDarkModeEnabled()),
-                onPullToRefresh = {
-                    viewModel.requestElections()
-                    utils.track("main_activity_pulled_to_refresh")
-                },
-                onElectionClicked = { congressElection, senateElection ->
-                    navigateToDetail(congressElection, senateElection)
-                },
-                isLiveButtonVisible = isFeatureEnabled(REGIONAL_LIVE) || isFeatureEnabled(CONGRESS_LIVE),
-                onLiveClicked = {
-                    when {
-                        isFeatureEnabled(CONGRESS_LIVE) -> navigateToGeneralsLive()
-                        isFeatureEnabled(REGIONAL_LIVE) -> navigateToRegionalsLive()
-                    }
+            Theme {
+                MainScreen(
+                    uiState,
+                    onPullToRefresh = {
+                        viewModel.requestElections()
+                        utils.track("main_activity_pulled_to_refresh")
+                    },
+                    onElectionClicked = { congressElection, senateElection ->
+                        navigateToDetail(congressElection, senateElection)
+                    },
+                    isLiveButtonVisible = isFeatureEnabled(REGIONAL_LIVE) || isFeatureEnabled(
+                        CONGRESS_LIVE
+                    ),
+                    onLiveClicked = {
+                        when {
+                            isFeatureEnabled(CONGRESS_LIVE) -> navigateToGeneralsLive()
+                            isFeatureEnabled(REGIONAL_LIVE) -> navigateToRegionalsLive()
+                        }
 
-                    utils.track("main_activity_live_button_clicked")
-                }
-            )
+                        utils.track("main_activity_live_button_clicked")
+                    }
+                )
+            }
         }
     }
 

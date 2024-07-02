@@ -1,7 +1,7 @@
 package com.n27.elections.presentation
 
-import DarkMode
 import PieChart
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -51,7 +51,6 @@ typealias OnElectionClicked = (congressElection: Election, senateElection: Elect
 @OptIn(ExperimentalMaterialApi::class)
 fun MainScreen(
     state: MainUiState,
-    darkMode: DarkMode,
     onPullToRefresh: () -> Unit,
     onElectionClicked: OnElectionClicked,
     isLiveButtonVisible: Boolean,
@@ -73,7 +72,7 @@ fun MainScreen(
 
             when (state) {
                 is HasElections -> {
-                    ElectionList(state, darkMode, onElectionClicked)
+                    ElectionList(state, onElectionClicked)
 
                     if (isLiveButtonVisible)
                         LiveFloatingButton(onLiveClicked, Modifier.align(Alignment.BottomEnd))
@@ -127,8 +126,8 @@ private fun LiveFloatingButton(onClick: () -> Unit, modifier: Modifier) {
 }
 
 @Composable
-private fun ElectionList(state: HasElections, darkMode: DarkMode, onElectionClicked: OnElectionClicked) {
-    LazyColumn {
+private fun ElectionList(state: HasElections, onElectionClicked: OnElectionClicked) {
+    LazyColumn(Modifier.background(MaterialTheme.colorScheme.background)) {
         itemsIndexed(state.congressElections) { index, election ->
             ElevatedCard(
                 onClick = { onElectionClicked(election, state.senateElections[index]) },
@@ -136,11 +135,10 @@ private fun ElectionList(state: HasElections, darkMode: DarkMode, onElectionClic
                     horizontal = Dimens.defaultSpacing,
                     vertical = Dimens.tightSpacing
                 ),
-                colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
+                colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
             ) {
                 PieChart(
                     data = election.results.getPieChartData(),
-                    darkMode,
                     Modifier.padding(
                         start = Dimens.maxSpacing,
                         top = Dimens.loosestSpacing,
@@ -152,7 +150,7 @@ private fun ElectionList(state: HasElections, darkMode: DarkMode, onElectionClic
                     Modifier
                         .align(alignment = Alignment.CenterHorizontally)
                         .padding(bottom = Dimens.loosestSpacing),
-                    Color.Gray,
+                    MaterialTheme.colorScheme.onBackground,
                     fontSize = Dimens.cardTextSizeYearGeneralElections,
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                 )

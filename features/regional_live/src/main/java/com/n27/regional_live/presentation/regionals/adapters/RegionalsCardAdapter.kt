@@ -1,6 +1,5 @@
 package com.n27.regional_live.presentation.regionals.adapters
 
-import DarkMode
 import PieChart
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -49,11 +48,8 @@ class RegionalCardAdapter(
 
         card.findViewById<TextView>(R.id.name_card_regional_election).text = election.place
         card.setOnClickListener { onElectionClicked(liveElection) }
-        (card.findViewById(R.id.chart_card_regional_election) as ComposeView).setContent {
-            PieChart(
-                election.results.getPieChartData(),
-                DarkMode(card.context.isDarkModeEnabled())
-            )
+        (card.findViewById<ComposeView>(R.id.chart_card_regional_election)).setContent {
+            PieChart(election.results.getPieChartData())
         }
     }
 

@@ -1,6 +1,5 @@
 package com.n27.core.presentation.detail
 
-import DarkMode
 import PieChart
 import android.os.Bundle
 import android.view.Menu
@@ -145,7 +144,7 @@ class DetailActivity : AppCompatActivity() {
             scrutinizedBarActivityDetail.progress = scrutinized.toInt()
             recyclerAdapter.updateItems(content.election)
             pieChartActivityDetail.setContent {
-                PieChart(content.election.results.getPieChartData(), DarkMode(isDarkModeEnabled()))
+                PieChart(content.election.results.getPieChartData())
             }
         }
     }
