@@ -10,18 +10,27 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.n27.core.Constants.NO_INTERNET_CONNECTION
+import com.n27.core.Constants.NO_RESULTS
 import com.n27.core.components.Dimens
 import com.n27.core.components.image.Lottie
 import com.n27.core.domain.election.models.Election
@@ -42,6 +51,7 @@ fun MainScreen(
     onElectionClicked: OnElectionClicked
 ) {
 
+    val scaffoldState = rememberScaffoldState()
     val pullRefreshState = rememberPullRefreshState(shouldShowRefreshing(state) && state.isLoading, { onPullToRefresh() })
 
     var boxModifier = Modifier
@@ -50,12 +60,12 @@ fun MainScreen(
 
     if (state is NoElections) boxModifier = boxModifier.verticalScroll(rememberScrollState())
 
-    Box(boxModifier) {
+    Scaffold(Modifier, scaffoldState) { padding ->
+        Box(boxModifier.padding(padding)) {
+            if (state.error != null) ErrorSnackbar(state.error, scaffoldState)
 
             when (state) {
                 is HasElections -> {
-                    //if (state.error != null) showSnackbar(state.error)
-
                     ElectionList(state, darkMode, onElectionClicked)
 
                     /*liveElectionsButtonActivityMain.isVisible =
@@ -71,20 +81,36 @@ fun MainScreen(
                             isError = true
                         )
                     }
-
+                }
             }
-        }
 
-        PullRefreshIndicator(
-            refreshing = state.isLoading,
-            state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
+            PullRefreshIndicator(
+                refreshing = state.isLoading,
+                state = pullRefreshState,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
     }
 }
 
 private fun shouldShowRefreshing(state: MainUiState) = (state is NoElections && state.error != null) || state is HasElections
 
+@Composable
+private fun ErrorSnackbar(errorMsg: String?, scaffoldState: ScaffoldState) {
+    val scope = rememberCoroutineScope()
+
+    val error = stringResource(
+        when (errorMsg) {
+            NO_RESULTS -> R.string.preliminary_results_not_available_yet
+            NO_INTERNET_CONNECTION -> R.string.no_internet_connection
+            else -> R.string.something_wrong
+        }
+    )
+
+    LaunchedEffect(scope) {
+        scaffoldState.snackbarHostState.showSnackbar(message = error, duration = SnackbarDuration.Short)
+    }
+}
 
 @Composable
 private fun ElectionList(state: HasElections, darkMode: DarkMode, onElectionClicked: OnElectionClicked) {
