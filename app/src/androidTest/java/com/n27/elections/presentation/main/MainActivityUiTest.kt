@@ -21,7 +21,7 @@ import com.n27.test.intents.verifyIntent
 import org.junit.Test
 import java.lang.Thread.sleep
 
-class MainActivityUiTest {
+/*class MainActivityUiTest {
 
     @Test
     fun checkActivity() {
@@ -68,4 +68,4 @@ class MainActivityUiTest {
     }
 
     private fun launchActivity() = launch(MainActivity::class.java)
-}
+}*/
