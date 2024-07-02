@@ -43,12 +43,22 @@ class DetailViewModel @Inject constructor(
 
     private fun requestElection(flags: DetailFlags) = with(flags) {
         viewModelScope.launch {
-            loading()
-
             when {
-                liveLocalElectionIds != null -> useCase.getLocalElection(liveLocalElectionIds).handleResult()
-                liveRegionalElectionId != null -> useCase.getRegionalElection(liveRegionalElectionId).handleResult()
-                isLiveGeneralElection -> requestGeneralLiveCongressElection()
+                liveLocalElectionIds != null -> {
+                    loading()
+                    useCase.getLocalElection(liveLocalElectionIds).handleResult()
+                }
+
+                liveRegionalElectionId != null -> {
+                    loading()
+                    useCase.getRegionalElection(liveRegionalElectionId).handleResult()
+                }
+
+                isLiveGeneralElection -> {
+                    loading()
+                    requestGeneralLiveCongressElection()
+                }
+
                 election != null -> state.value = Content(election)
                 else -> handleError()
             }
