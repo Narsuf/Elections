@@ -16,6 +16,7 @@ fun Lottie(@RawRes res: Int, modifier: Modifier = Modifier, isError: Boolean = f
         factory = { context ->
             LottieAnimationView(context).apply {
                 setAnimation(res)
+
                 if (isError) {
                     playErrorAnimation()
                 } else {

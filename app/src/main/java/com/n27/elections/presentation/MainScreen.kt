@@ -52,10 +52,10 @@ typealias OnElectionClicked = (congressElection: Election, senateElection: Elect
 @OptIn(ExperimentalMaterialApi::class)
 fun MainScreen(
     state: MainUiState,
-    onPullToRefresh: () -> Unit,
-    onElectionClicked: OnElectionClicked,
     isLiveButtonVisible: Boolean,
-    onLiveClicked: () -> Unit
+    onPullToRefresh: () -> Unit,
+    onLiveClicked: () -> Unit,
+    onElectionClicked: OnElectionClicked
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -81,9 +81,13 @@ fun MainScreen(
 
                 is NoElections -> {
                     when {
-                        state.isLoading -> Lottie(R.raw.loading_votes, Modifier.align(Alignment.Center))
+                        state.isLoading -> Lottie(
+                            res = R.raw.loading_votes,
+                            Modifier.align(Alignment.Center)
+                        )
+
                         state.error != null -> Lottie(
-                            R.raw.empty_box,
+                            res = R.raw.empty_box,
                             Modifier.align(Alignment.Center),
                             isError = true
                         )
@@ -122,7 +126,7 @@ private fun ErrorSnackbar(errorMsg: String?, snackbarHost: SnackbarHostState) {
 @Composable
 private fun LiveFloatingButton(onClick: () -> Unit, modifier: Modifier) {
     FloatingActionButton(onClick, modifier.padding(Dimens.defaultSpacing), containerColor = Colors.Teal500, contentColor = Color.White) {
-        Icon(painterResource(R.drawable.ic_live), "")
+        Icon(painterResource(R.drawable.ic_live), stringResource(R.string.live_elections))
     }
 }
 

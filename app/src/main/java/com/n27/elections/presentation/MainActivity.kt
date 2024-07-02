@@ -59,16 +59,12 @@ class MainActivity : AppCompatActivity() {
             Theme {
                 MainScreen(
                     uiState,
+                    isLiveButtonVisible = isFeatureEnabled(REGIONAL_LIVE) ||
+                            isFeatureEnabled(CONGRESS_LIVE),
                     onPullToRefresh = {
                         viewModel.requestElections()
                         utils.track("main_activity_pulled_to_refresh")
                     },
-                    onElectionClicked = { congressElection, senateElection ->
-                        navigateToDetail(congressElection, senateElection)
-                    },
-                    isLiveButtonVisible = isFeatureEnabled(REGIONAL_LIVE) || isFeatureEnabled(
-                        CONGRESS_LIVE
-                    ),
                     onLiveClicked = {
                         when {
                             isFeatureEnabled(CONGRESS_LIVE) -> navigateToGeneralsLive()
@@ -76,7 +72,10 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         utils.track("main_activity_live_button_clicked")
-                    }
+                    },
+                    onElectionClicked = { congressElection, senateElection ->
+                        navigateToDetail(congressElection, senateElection)
+                    },
                 )
             }
         }

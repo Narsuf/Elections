@@ -129,4 +129,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$junitVersion"
     androidTestImplementation "com.adevinta.android:barista:$baristaVersion"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$composeTestVersion"
+
+    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeTestVersion")
 }
