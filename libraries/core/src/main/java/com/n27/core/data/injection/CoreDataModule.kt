@@ -31,7 +31,7 @@ class CoreDataModule {
 
     @Provides
     @Singleton
-    fun providesBaseUrl() = "https://elecciones.eldiario.es/api/data"
+    fun providesBaseUrl() = "https://elecciones-api.eldiario.es/data"
 
     @Provides
     @Singleton
