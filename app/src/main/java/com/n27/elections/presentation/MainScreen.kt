@@ -29,6 +29,7 @@ import com.n27.core.extensions.getPieChartData
 import com.n27.elections.R
 import com.n27.elections.presentation.entities.MainUiState
 import com.n27.elections.presentation.entities.MainUiState.HasElections
+import com.n27.elections.presentation.entities.MainUiState.NoElections
 
 typealias OnElectionClicked = (congressElection: Election, senateElection: Election) -> Unit
 
@@ -40,13 +41,14 @@ fun MainScreen(
     onPullToRefresh: () -> Unit,
     onElectionClicked: OnElectionClicked
 ) {
-    val pullRefreshState = rememberPullRefreshState(state.isLoading, { onPullToRefresh() })
+
+    val pullRefreshState = rememberPullRefreshState(shouldShowRefreshing(state) && state.isLoading, { onPullToRefresh() })
 
     var boxModifier = Modifier
         .fillMaxSize()
         .pullRefresh(pullRefreshState)
 
-    if (state is MainUiState.NoElections) boxModifier = boxModifier.verticalScroll(rememberScrollState())
+    if (state is NoElections) boxModifier = boxModifier.verticalScroll(rememberScrollState())
 
     Box(boxModifier) {
 
@@ -60,7 +62,7 @@ fun MainScreen(
                         isFeatureEnabled(Constants.REGIONAL_LIVE) || isFeatureEnabled(Constants.CONGRESS_LIVE)*/
                 }
 
-                is MainUiState.NoElections -> {
+                is NoElections -> {
                     when {
                         state.isLoading -> Lottie(R.raw.loading_votes, Modifier.align(Alignment.Center))
                         state.error != null -> Lottie(
@@ -80,6 +82,9 @@ fun MainScreen(
         )
     }
 }
+
+private fun shouldShowRefreshing(state: MainUiState) = (state is NoElections && state.error != null) || state is HasElections
+
 
 @Composable
 private fun ElectionList(state: HasElections, darkMode: DarkMode, onElectionClicked: OnElectionClicked) {

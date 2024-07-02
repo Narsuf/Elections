@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.n27.core.extensions.playErrorAnimation
 
 @Composable
@@ -15,7 +16,12 @@ fun Lottie(@RawRes res: Int, modifier: Modifier = Modifier, isError: Boolean = f
         factory = { context ->
             LottieAnimationView(context).apply {
                 setAnimation(res)
-                if (isError) playErrorAnimation() else playAnimation()
+                if (isError) {
+                    playErrorAnimation()
+                } else {
+                    repeatCount = LottieDrawable.INFINITE
+                    playAnimation()
+                }
             }
         }
     )
