@@ -81,8 +81,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @VisibleForTesting
-    internal fun navigateToDetail(congressElection: Election, senateElection: Election) {
+    private fun navigateToDetail(congressElection: Election, senateElection: Election) {
         utils.track("main_activity_election_clicked") { param("election", congressElection.date) }
 
         val myIntent = Intent(this, DetailActivity::class.java)
@@ -90,8 +89,7 @@ class MainActivity : AppCompatActivity() {
         myIntent.putExtra(KEY_SENATE_ELECTION, senateElection)
         startActivity(myIntent)
     }
-
-
+    
     private fun navigateToGeneralsLive() {
         val myIntent = Intent(this, DetailActivity::class.java)
         myIntent.putExtra(KEY_GENERAL_LIVE_ELECTION, true)

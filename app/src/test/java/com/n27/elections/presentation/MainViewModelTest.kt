@@ -60,13 +60,11 @@ class MainViewModelTest {
 
     @Test
     fun `requestElections should emit content HasElections`() = runTest {
-        val expected = getHasElections()
-
         val totalExecutionTime = measureTimeMillis {
             viewModel.requestElections()
             runCurrent()
 
-            assertEquals(expected, viewModel.uiState.value)
+            assertEquals(getHasElections(), viewModel.uiState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")

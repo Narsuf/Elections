@@ -47,7 +47,7 @@ class RegionalCardAdapter(
 
         card.findViewById<TextView>(R.id.name_card_regional_election).text = election.place
         card.setOnClickListener { onElectionClicked(liveElection) }
-        (card.findViewById<ComposeView>(R.id.chart_card_regional_election)).setContent {
+        card.findViewById<ComposeView>(R.id.chart_card_regional_election).setContent {
             PieChart(election.results.getPieChartData())
         }
     }
