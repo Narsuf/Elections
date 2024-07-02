@@ -15,13 +15,16 @@ data class PieChartData(val slices: List<PieChartSlice>)
 data class PieChartSlice(val value: Float, val color: String)
 
 @Composable
-fun PieChart(data: PieChartData, modifier: Modifier = Modifier) {
+fun PieChart(data: PieChartData, modifier: Modifier = Modifier, isMainActivity: Boolean = false) {
     var totalProportion = 0f
 
     data.slices.forEach { totalProportion += it.value }
 
     Column(modifier.fillMaxWidth()) {
-        val holeColor = MaterialTheme.colorScheme.primaryContainer
+        val holeColor = if (isMainActivity)
+            MaterialTheme.colorScheme.primaryContainer
+        else
+            MaterialTheme.colorScheme.background
 
         Canvas(
             Modifier

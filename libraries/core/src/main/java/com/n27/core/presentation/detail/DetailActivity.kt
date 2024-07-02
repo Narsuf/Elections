@@ -16,6 +16,7 @@ import com.n27.core.Constants.KEY_LOCAL_ELECTION_IDS
 import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
+import com.n27.core.components.Theme
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.live.models.LocalElectionIds
@@ -144,7 +145,9 @@ class DetailActivity : AppCompatActivity() {
             scrutinizedBarActivityDetail.progress = scrutinized.toInt()
             recyclerAdapter.updateItems(content.election)
             pieChartActivityDetail.setContent {
-                PieChart(content.election.results.getPieChartData())
+                Theme {
+                    PieChart(content.election.results.getPieChartData())
+                }
             }
         }
     }

@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.NO_RESULTS
 import com.n27.core.components.Colors
@@ -136,6 +137,7 @@ private fun ElectionList(state: HasElections, onElectionClicked: OnElectionClick
                     vertical = Dimens.tightSpacing
                 ),
                 colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                elevation = CardDefaults.elevatedCardElevation(2.dp)
             ) {
                 PieChart(
                     data = election.results.getPieChartData(),
@@ -143,7 +145,8 @@ private fun ElectionList(state: HasElections, onElectionClicked: OnElectionClick
                         start = Dimens.maxSpacing,
                         top = Dimens.loosestSpacing,
                         end = Dimens.maxSpacing
-                    )
+                    ),
+                    isMainActivity = true
                 )
                 Text(
                     election.date,
