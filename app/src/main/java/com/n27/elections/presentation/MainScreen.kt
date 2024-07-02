@@ -10,19 +10,20 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,7 +52,7 @@ fun MainScreen(
     onElectionClicked: OnElectionClicked
 ) {
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState = rememberPullRefreshState(shouldShowRefreshing(state) && state.isLoading, { onPullToRefresh() })
 
     var boxModifier = Modifier
@@ -60,9 +61,9 @@ fun MainScreen(
 
     if (state is NoElections) boxModifier = boxModifier.verticalScroll(rememberScrollState())
 
-    Scaffold(Modifier, scaffoldState) { padding ->
+    Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
         Box(boxModifier.padding(padding)) {
-            if (state.error != null) ErrorSnackbar(state.error, scaffoldState)
+            if (state.error != null) ErrorSnackbar(state.error, snackbarHostState)
 
             when (state) {
                 is HasElections -> {
@@ -96,7 +97,7 @@ fun MainScreen(
 private fun shouldShowRefreshing(state: MainUiState) = (state is NoElections && state.error != null) || state is HasElections
 
 @Composable
-private fun ErrorSnackbar(errorMsg: String?, scaffoldState: ScaffoldState) {
+private fun ErrorSnackbar(errorMsg: String?, snackbarHost: SnackbarHostState) {
     val scope = rememberCoroutineScope()
 
     val error = stringResource(
@@ -108,7 +109,7 @@ private fun ErrorSnackbar(errorMsg: String?, scaffoldState: ScaffoldState) {
     )
 
     LaunchedEffect(scope) {
-        scaffoldState.snackbarHostState.showSnackbar(message = error, duration = SnackbarDuration.Short)
+        snackbarHost.showSnackbar(message = error, duration = SnackbarDuration.Short)
     }
 }
 
