@@ -2,26 +2,29 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import com.n27.core.components.Colors
 
 data class PieChartData(val slices: List<PieChartSlice>)
 
 data class PieChartSlice(val value: Float, val color: String)
 
-data class DarkMode(val isEnabled: Boolean, val isLighterShade: Boolean = false)
-
 @Composable
-fun PieChart(data: PieChartData, darkMode: DarkMode) {
+fun PieChart(data: PieChartData, modifier: Modifier = Modifier, isMainActivity: Boolean = false) {
     var totalProportion = 0f
 
     data.slices.forEach { totalProportion += it.value }
 
-    Column(Modifier.fillMaxWidth()) {
+    Column(modifier.fillMaxWidth()) {
+        val holeColor = if (isMainActivity)
+            MaterialTheme.colorScheme.primaryContainer
+        else
+            MaterialTheme.colorScheme.background
+
         Canvas(
             Modifier
                 .aspectRatio(1f)
@@ -46,16 +49,7 @@ fun PieChart(data: PieChartData, darkMode: DarkMode) {
 
             val holeRadius = size.minDimension * 0.3f
 
-            drawCircle(
-                color = darkMode.run {
-                    when {
-                        isEnabled -> if (isLighterShade) Colors.LightJet else Colors.Jet
-                        else -> Color.White
-                    }
-                },
-                radius = holeRadius,
-                center = center
-            )
+            drawCircle(holeColor, holeRadius, center)
         }
     }
 }

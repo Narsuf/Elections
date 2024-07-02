@@ -58,7 +58,10 @@ android {
     }
 
     buildTypes {
-        debug { testCoverageEnabled true }
+        debug {
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
+        }
     }
 
     buildFeatures {
@@ -94,6 +97,7 @@ dependencies {
     def composeBom = platform('androidx.compose:compose-bom:2024.02.01')
     api composeBom
     api 'androidx.compose.material3:material3'
+    api 'androidx.compose.material:material'
     api 'androidx.compose.ui:ui-tooling-preview'
     debugApi 'androidx.compose.ui:ui-tooling'
 

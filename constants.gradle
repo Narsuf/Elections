@@ -22,4 +22,5 @@ project.ext {
     // Android test dependencies
     junitVersion = '1.1.5'
     baristaVersion = '4.3.0'
+    composeTestVersion = '1.6.8'
 }

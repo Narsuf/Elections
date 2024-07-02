@@ -1,6 +1,5 @@
 package com.n27.regional_live.presentation.regionals.adapters
 
-import DarkMode
 import PieChart
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
 import com.n27.core.extensions.getPieChartData
-import com.n27.core.extensions.isDarkModeEnabled
 import com.n27.regional_live.R
 
 typealias OnRegionalElectionClicked = (election: LiveElection) -> Unit
@@ -49,11 +47,8 @@ class RegionalCardAdapter(
 
         card.findViewById<TextView>(R.id.name_card_regional_election).text = election.place
         card.setOnClickListener { onElectionClicked(liveElection) }
-        (card.findViewById(R.id.chart_card_regional_election) as ComposeView).setContent {
-            PieChart(
-                election.results.getPieChartData(),
-                DarkMode(card.context.isDarkModeEnabled())
-            )
+        card.findViewById<ComposeView>(R.id.chart_card_regional_election).setContent {
+            PieChart(election.results.getPieChartData())
         }
     }
 

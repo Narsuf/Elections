@@ -27,7 +27,7 @@ class FirebaseApi @Inject constructor(
             send(failure(Throwable(NO_INTERNET_CONNECTION)))
         } else {
             val timeoutJob = launch {
-                delay(3000)
+                delay(10000)
                 send(failure(Throwable(TIMEOUT)))
             }
 

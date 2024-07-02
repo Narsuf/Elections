@@ -6,10 +6,6 @@ import com.n27.elections.data.AppRepositoryImpl
 import com.n27.elections.domain.ElectionUseCase
 import com.n27.elections.domain.models.GeneralElections
 import com.n27.elections.presentation.entities.MainAction.ShowDisclaimer
-import com.n27.elections.presentation.entities.MainAction.ShowErrorSnackbar
-import com.n27.elections.presentation.entities.MainState.Content
-import com.n27.elections.presentation.entities.MainState.Error
-import com.n27.elections.presentation.entities.MainState.Loading
 import com.n27.test.generators.getElection
 import com.n27.test.generators.getElectionList
 import com.n27.test.observers.FlowTestObserver
@@ -58,35 +54,30 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `view model initialized should emit loading`() = runTest {
-        assertEquals(Loading, viewModel.viewState.value)
+    fun `view model initialized should emit HasElections`() = runTest {
+        assertEquals(getHasElections(), viewModel.uiState.value)
     }
 
     @Test
-    fun `requestElections should emit content onSuccess`() = runTest {
-        val expected = Content(
-            getElectionList(),
-            listOf(getElection(chamberName = KEY_SENATE))
-        )
-
+    fun `requestElections should emit content HasElections`() = runTest {
         val totalExecutionTime = measureTimeMillis {
             viewModel.requestElections()
             runCurrent()
 
-            assertEquals(expected, viewModel.viewState.value)
+            assertEquals(getHasElections(), viewModel.uiState.value)
         }
 
         println("Total Execution Time: $totalExecutionTime ms")
     }
 
     @Test
-    fun `requestElections should emit error onFailure`() = runTest {
+    fun `requestElections should emit HasElections with error`() = runTest {
         `when`(useCase.getElections()).thenReturn(flowOf(failure(Throwable((NO_INTERNET_CONNECTION)))))
 
         viewModel.requestElections()
         runCurrent()
 
-        assertEquals(Error(NO_INTERNET_CONNECTION), viewModel.viewState.value)
+        assertEquals(getHasElections(error = NO_INTERNET_CONNECTION), viewModel.uiState.value)
     }
 
     @Test
@@ -110,26 +101,5 @@ class MainViewModelTest {
 
         observer.assertValues()
         observer.close()
-    }
-
-    @Test
-    fun `onFailure should ShowErrorSnackbar and Content when lastState is content`() = runTest {
-        val expected = Content(
-            getElectionList(),
-            listOf(getElection(chamberName = KEY_SENATE))
-        )
-
-        viewModel.requestElections()
-        runCurrent()
-
-        val observer = FlowTestObserver(this + testDispatcher, viewModel.viewAction)
-
-        `when`(useCase.getElections()).thenReturn(flowOf(failure(Throwable((NO_INTERNET_CONNECTION)))))
-        viewModel.requestElections()
-        runCurrent()
-
-        observer.assertValue(ShowErrorSnackbar(NO_INTERNET_CONNECTION))
-        observer.close()
-        assertEquals(expected, viewModel.viewState.value)
     }
 }
