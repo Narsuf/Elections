@@ -1,6 +1,5 @@
 package com.n27.elections.presentation
 
-import PieChart
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +37,7 @@ import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.Constants.NO_RESULTS
 import com.n27.core.components.Colors
 import com.n27.core.components.Dimens
+import com.n27.core.components.charts.PieChart
 import com.n27.core.components.image.Lottie
 import com.n27.core.domain.election.models.Election
 import com.n27.core.extensions.getPieChartData

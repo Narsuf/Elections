@@ -1,6 +1,5 @@
 package com.n27.core.presentation.detail
 
-import PieChart
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,6 +16,7 @@ import com.n27.core.Constants.KEY_SENATE_ELECTION
 import com.n27.core.Constants.NO_INTERNET_CONNECTION
 import com.n27.core.R
 import com.n27.core.components.Theme
+import com.n27.core.components.charts.PieChart
 import com.n27.core.databinding.ActivityDetailBinding
 import com.n27.core.domain.election.models.Election
 import com.n27.core.domain.live.models.LocalElectionIds
