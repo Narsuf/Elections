@@ -1,6 +1,5 @@
 package com.n27.regional_live.presentation.regionals.adapters
 
-import PieChart
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -8,6 +7,7 @@ import androidx.cardview.widget.CardView
 import androidx.compose.ui.platform.ComposeView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.n27.core.components.charts.PieChart
 import com.n27.core.domain.live.models.LiveElection
 import com.n27.core.domain.live.models.LiveElections
 import com.n27.core.extensions.getPieChartData

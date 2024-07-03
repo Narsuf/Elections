@@ -1,3 +1,5 @@
+package com.n27.core.components.charts
+
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
