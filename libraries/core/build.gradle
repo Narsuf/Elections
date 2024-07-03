@@ -1,4 +1,5 @@
 plugins {
+    id 'com.google.devtools.ksp'
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
@@ -94,14 +95,14 @@ repositories {
 }
 
 dependencies {
-    def composeBom = platform('androidx.compose:compose-bom:2024.02.01')
+    def composeBom = platform('androidx.compose:compose-bom:2024.06.00')
     api composeBom
     api 'androidx.compose.material3:material3'
     api 'androidx.compose.material:material'
     api 'androidx.compose.ui:ui-tooling-preview'
     debugApi 'androidx.compose.ui:ui-tooling'
 
-    api 'com.google.android.material:material:1.11.0'
+    api 'com.google.android.material:material:1.12.0'
     api "androidx.fragment:fragment-ktx:$fragmentVersion"
     api 'androidx.multidex:multidex:2.0.1'
 
@@ -118,7 +119,7 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
     // Firebase
-    api platform('com.google.firebase:firebase-bom:31.2.3')
+    api platform('com.google.firebase:firebase-bom:32.3.1')
     api 'com.google.firebase:firebase-config-ktx'
     api 'com.google.firebase:firebase-analytics-ktx'
     api 'com.google.firebase:firebase-crashlytics-ktx'
@@ -133,10 +134,10 @@ dependencies {
         // Room
         api "androidx.room:room-runtime:$roomVersion"
         api "androidx.room:room-ktx:$roomVersion"
-        kapt "androidx.room:room-compiler:$roomVersion"
+        ksp "androidx.room:room-compiler:$roomVersion"
 
         // Lifecycle
-        api "androidx.lifecycle:lifecycle-runtime-compose:2.7.0"
+        api "androidx.lifecycle:lifecycle-runtime-compose:2.8.3"
 
     testImplementation project(':libraries:test')
     testImplementation "androidx.test:core:$testVersion"
